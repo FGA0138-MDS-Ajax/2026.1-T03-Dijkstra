@@ -1,0 +1,10 @@
+# Um arquivo usado pelo Git para saber quais arquivos 
+# e pastas não devem ser enviados para o repositório
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+.env
+.git/

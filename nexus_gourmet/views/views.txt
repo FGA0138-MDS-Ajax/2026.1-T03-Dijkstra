@@ -1,0 +1,9 @@
+São os arquivos .tpl (HTML do Bottle) 
+responsáveis pelo visual do site que o usuário acessa.
+
+layout.tpl: O "molde" principal do site. 
+Nele estão o Cabeçalho, a barra de pesquisa e o Rodapé. 
+Todas as outras páginas são injetadas no meio desse arquivo.
+
+index.tpl: É a página Inicial ("Home") do NextBook, 
+onde apresenta o sistema e mostra os livros em destaque.
