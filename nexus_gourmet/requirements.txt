@@ -1,7 +1,6 @@
 # Lista os pacotes e bibliotecas que o Python 
-# precisa baixar para rodar o seu código (como bottle, pylint, werkzeug, beaker).
+# precisa baixar para rodar o seu código (como pylint, werkzeug, beaker).
 
-# bottle
 # pylint
 # werkzeug
 # beaker
