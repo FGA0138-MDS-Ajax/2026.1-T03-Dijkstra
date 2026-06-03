@@ -24,28 +24,27 @@ Histórico de Revisões
 ---
 ## Sumário
 
-- 1 Introdução..............................................................................................................................
-   - 1.1 Propósito.........................................................................................................................
-   - 1.2 Escopo............................................................................................................................
-- 2 Representação Arquitetural.................................................................................................
-   - 2.1 Definições.......................................................................................................................
-   - 2.2 Justifique sua escolha.....................................................................................................
-   - 2.3 Detalhamento.................................................................................................................
-      - Tabela 2 - Responsabilidades por camada......................................................................
-   - 2.4 Metas e restrições arquiteturais......................................................................................
-   - 2.5 Visões...........................................................................................................................
-      - 2.5.1 Visão de uso (o escopo do sistema).....................................................................
-      - Fonte: Elaborado pelos autores (2026).........................................................................
-      - 2.5.2 Visão de organização lógica................................................................................
-      - 2.5.3 Visão estrutural....................................................................................................
-   - 2.6 Visão de Implantação...................................................................................................
-   - 2.7 Restrições adicionais....................................................................................................
-- 3 Bibliografia..........................................................................................................................
+- 1 Introdução
+   - 1.1 Propósito
+   - 1.2 Escopo
+- 2 Representação Arquitetural
+   - 2.1 Definições
+   - 2.2 Justifique sua escolha
+   - 2.3 Detalhamento
+      - Tabela 2 - Responsabilidades por camada
+   - 2.4 Metas e restrições arquiteturais
+   - 2.5 Visões
+      - 2.5.1 Visão de uso (o escopo do sistema)
+      - 2.5.2 Visão de organização lógica
+      - 2.5.3 Visão estrutural
+   - 2.6 Visão de Implantação
+   - 2.7 Restrições adicionais
+- 3 Bibliografia
 
 
-## 1 Introdução..............................................................................................................................
+## 1 Introdução
 
-### 1.1 Propósito.........................................................................................................................
+### 1.1 Propósito
 
 Este documento descreve a arquitetura do sistema sendo desenvolvido pelo grupo Dijkstra, na
 disciplina de MDS – Métodos de Desenvolvimento de Software – edição do primeiro
@@ -53,32 +52,35 @@ semestre de 2026, para o sistema Nexus Gourmet, a fim de fornecer uma visão abr
 sistema para desenvolvedores, testadores e demais interessados em aspectos relacionados às
 tecnologias a serem usadas no desenvolvimento.
 
-### 1.2 Escopo............................................................................................................................
+### 1.2 Escopo
 
 O detalhamento do escopo se encontra no documento de arquitetura, este, juntamente
 com o documento de Visão do produto e do projeto. Porém, em linhas gerais o escopo do
 produto compreende o desenvolvimento de um software capaz de registrar e organizar
 pedidos em restaurantes, como apresentado mais detalhadamente na seguinte tabela:
 Tabela 1 - Funcionalidades presentes e não presentes
-O que ele faz o que ele não faz
-Abrir pedido para mesa Compra e venda de produtos
-Adicionar item ao pedido Adicionar conta de consumidor
-Remover item do pedido Permitir acesso direto de consumidores
-Enviar pedido para a cozinha
-Visualizar pedidos na cozinha
-Visualizar tempo de espera
-Atualizar status do pedido
-Fechar conta
-Calcular total do pedido
-Visualizar mesas
-Cadastrar produtos
-Editar produto
+
+| O que ele faz | O que ele não faz |
+| --- | --- |
+| Abrir pedido para mesa | Compra e venda de produtos |
+| Adicionar item ao pedido | Adicionar conta de consumidor |
+| Remover item do pedido | Permitir acesso direto de consumidores | 
+| Enviar pedido para a cozinha |  |
+| Visualizar pedidos na cozinha | | 
+| Visualizar tempo de espera | |
+| Atualizar status do pedido | |
+| Fechar conta | |
+| Calcular total do pedido | |
+| Visualizar mesas | |
+| Cadastrar produtos | |
+| Editar produto | |
+
 Fonte: elaborado pelo autor (2026)
 
 
-## 2 Representação Arquitetural.................................................................................................
+## 2 Representação Arquitetural
 
-### 2.1 Definições.......................................................................................................................
+### 2.1 Definições
 
 O sistema Nexus Gourmet seguirá uma arquitetura Cliente-Servidor Web, organizada
 internamente segundo o padrão MVC em camadas, com apoio de comunicação assíncrona
@@ -98,7 +100,7 @@ especialmente no envio e acompanhamento dos pedidos, a arquitetura prevê o uso 
 comunicação assíncrona, como WebSocket ou mecanismo equivalente, para notificar
 alterações de status sem depender exclusivamente de carregamento manual das páginas.
 
-### 2.2 Justifique sua escolha.....................................................................................................
+### 2.2 Justifique sua escolha
 
 A escolha da arquitetura Cliente-Servidor Web com organização interna MVC é
 adequada ao Nexus Gourmet porque o produto proposto não é um sistema isolado em uma
@@ -150,7 +152,7 @@ Assim, a combinação entre Cliente-Servidor, MVC e comunicação assíncrona of
 uma solução adequada às necessidades funcionais e estruturais do Nexus Gourmet,
 equilibrando organização, modularidade, manutenção, escalabilidade e eficiência operacional.
 
-### 2.3 Detalhamento.................................................................................................................
+### 2.3 Detalhamento
 
 A arquitetura proposta pode ser representada em quatro partes principais:
 **● Clientes Web - Representam os dispositivos usados pelos perfis do sistema**
@@ -241,9 +243,9 @@ mãos.
 ● Métrica de Qualidade de Código: O sistema tem como meta técnica manter uma
 densidade de erros de programa máxima de 0.5.%
 ```
-### 2.5 Visões...........................................................................................................................
+### 2.5 Visões
 
-#### 2.5.1 Visão de uso (o escopo do sistema).....................................................................
+#### 2.5.1 Visão de uso (o escopo do sistema)
 
 O escopo do sistema Nexus Gourmet abrange o desenvolvimento de uma aplicação
 distribuída, com interfaces web e mobile, destinada à centralização e otimização do registro e
@@ -268,9 +270,9 @@ sem a necessidade de recarregamento manual.
 Figura 2 - Diagrama de Casos de Uso
 
 
-#### Fonte: Elaborado pelos autores (2026).........................................................................
+#### Fonte: Elaborado pelos autores (2026)
 
-#### 2.5.2 Visão de organização lógica................................................................................
+#### 2.5.2 Visão de organização lógica
 
 O sistema é subdividido nos seguintes módulos.
 **● Módulo de Apresentação (View):**
@@ -305,7 +307,7 @@ consultam as informações diretamente no banco de dados MySQL.
 Figura 3 - Diagrama de Pacotes
 Fonte: Elaborado pelos autores (2026)
 
-#### 2.5.3 Visão estrutural....................................................................................................
+#### 2.5.3 Visão estrutural
 
 ```
 Figura 4 - Diagrama de Classes
@@ -338,7 +340,7 @@ para a construção das interfaces no frontend. Cada caso de uso representado fo
 para atender aos requisitos funcionais e garantir que a arquitetura lógica suporte a carga de
 trabalho simultânea de múltiplos atores.
 
-### 2.6 Visão de Implantação...................................................................................................
+### 2.6 Visão de Implantação
 
 Descreve como o sistema será distribuído fisicamente, focando no modelo Cliente-Servidor
 para garantir a sincronização em tempo real entre salão e cozinha.
@@ -366,7 +368,7 @@ pedidos.
 Figura 5 - Diagrama de Implantação
 Fonte: Elaborado pelos autores (2026)
 ```
-### 2.7 Restrições adicionais....................................................................................................
+### 2.7 Restrições adicionais
 
 Esta seção detalha limitações e requisitos de qualidade que o sistema deve seguir.
 **● Aspectos negociais:**
@@ -383,7 +385,7 @@ deve perder dados de pedidos.
 com apenas uma mão, no caso dos garçons, facilitando o trabalho deles.
 
 
-## 3 Bibliografia..........................................................................................................................
+## 3 Bibliografia
 
 IBM. **Modelo cliente/servidor**. IBM Documentation, [s. d.]. Disponível em:
 https://www.ibm.com/docs/pt-br/cics-ts/5.6.0?topic=programs-clientserver-model. Acesso
