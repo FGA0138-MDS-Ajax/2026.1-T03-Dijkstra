@@ -1,6 +1,7 @@
-from models import db, Usuario, Mesa, Produto, Pedido, ItemPedido
+from models import db, Pedido, ItemPedido
 from enums import PerfilUsuario, StatusMesa, StatusPedido
-from werkzeug.security import generate_password_hash, check_password_hash
+import MesaService
+
 
 FLUXO = {
     StatusPedido.PENDENTE:   [StatusPedido.EM_PREPARO, StatusPedido.CANCELADO],
@@ -17,28 +18,13 @@ PERMISSOES = {
     StatusPedido.CANCELADO:  [PerfilUsuario.ADMINISTRADOR, PerfilUsuario.GARCOM],
 }
 
-def autenticar(login, senha):
-    u = Usuario.query.filter_by(login=login).first()
-    if u and check_password_hash(u.senha, senha):
-        return u
-    return None
-
-def criar_usuario(nome, login, senha, perfil=PerfilUsuario.GARCOM):
-    if Usuario.query.filter_by(login=login).first():
-        return None, "Login já em uso."
-    u = Usuario(nome=nome, login=login, senha=generate_password_hash(senha), perfil=perfil)
-    db.session.add(u)
-    db.session.commit()
-    return u, "Usuário criado."
 
 def criar_pedido(mesa_id, garcom):
     if garcom.perfil not in [PerfilUsuario.GARCOM, PerfilUsuario.ADMINISTRADOR]:
         return None, "Sem permissão."
-    mesa = Mesa.query.get(mesa_id)
-    if not mesa or mesa.status != StatusMesa.LIVRE:
-        return None, "Mesa indisponível."
-
-    mesa.status = StatusMesa.OCUPADA
+    sucesso, msg = MesaService.ocupar(mesa_id)
+    if not sucesso:
+        return None, msg
     pedido = Pedido(mesa_id=mesa_id, usuario_id=garcom.id)
     db.session.add(pedido)
     db.session.commit()
@@ -50,7 +36,6 @@ def adicionar_item(pedido_id, produto_id, quantidade, observacao, garcom):
         return None, "Pedido inválido ou já enviado."
     if garcom.perfil not in [PerfilUsuario.GARCOM, PerfilUsuario.ADMINISTRADOR]:
         return None, "Sem permissão."
-
     item = ItemPedido(pedido_id=pedido_id, produto_id=produto_id,
                       quantidade=quantidade, observacao=observacao)
     db.session.add(item)
@@ -65,11 +50,9 @@ def atualizar_status(pedido_id, novo_status, usuario):
         return False, "Transição de status inválida."
     if usuario.perfil not in PERMISSOES[novo_status]:
         return False, "Sem permissão para este status."
-
     pedido.status_pedido = novo_status
     if novo_status in [StatusPedido.ENTREGUE, StatusPedido.CANCELADO]:
-        pedido.mesa.status = StatusMesa.LIVRE
-
+        MesaService.liberar(pedido.mesa_id)
     db.session.commit()
     return True, f"Status: {novo_status.value}."
 
