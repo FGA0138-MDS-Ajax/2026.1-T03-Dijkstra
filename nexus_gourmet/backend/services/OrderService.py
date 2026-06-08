@@ -1,5 +1,4 @@
-from models import db, Pedido, ItemPedido
-from enums import PerfilUsuario, StatusMesa, StatusPedido
+from enums import PerfilUsuario, StatusPedido
 import MesaService
 
 
@@ -19,51 +18,34 @@ PERMISSOES = {
 }
 
 
-def criar_pedido(mesa_id, garcom):
+def criar_pedido(pedido, mesa, garcom):
     if garcom.perfil not in [PerfilUsuario.GARCOM, PerfilUsuario.ADMINISTRADOR]:
         return None, "Sem permissão."
-    sucesso, msg = MesaService.ocupar(mesa_id)
+    sucesso, msg = MesaService.ocupar(mesa)
     if not sucesso:
         return None, msg
-    pedido = Pedido(mesa_id=mesa_id, usuario_id=garcom.id)
-    db.session.add(pedido)
-    db.session.commit()
     return pedido, "Pedido aberto."
 
-def adicionar_item(pedido_id, produto_id, quantidade, observacao, garcom):
-    pedido = Pedido.query.get(pedido_id)
-    if not pedido or pedido.status_pedido != StatusPedido.PENDENTE:
-        return None, "Pedido inválido ou já enviado."
+def adicionar_item(pedido, item, garcom):
     if garcom.perfil not in [PerfilUsuario.GARCOM, PerfilUsuario.ADMINISTRADOR]:
         return None, "Sem permissão."
-    item = ItemPedido(pedido_id=pedido_id, produto_id=produto_id,
-                      quantidade=quantidade, observacao=observacao)
-    db.session.add(item)
-    db.session.commit()
+    if pedido.status_pedido != StatusPedido.PENDENTE:
+        return None, "Pedido já enviado à cozinha."
     return item, "Item adicionado."
 
-def atualizar_status(pedido_id, novo_status, usuario):
-    pedido = Pedido.query.get(pedido_id)
-    if not pedido:
-        return False, "Pedido não encontrado."
+def atualizar_status(pedido, novo_status, usuario):
     if novo_status not in FLUXO[pedido.status_pedido]:
         return False, "Transição de status inválida."
     if usuario.perfil not in PERMISSOES[novo_status]:
         return False, "Sem permissão para este status."
     pedido.status_pedido = novo_status
     if novo_status in [StatusPedido.ENTREGUE, StatusPedido.CANCELADO]:
-        MesaService.liberar(pedido.mesa_id)
-    db.session.commit()
+        MesaService.liberar(pedido.mesa)
     return True, f"Status: {novo_status.value}."
 
-def get_fila_cozinha():
-    return (Pedido.query
-            .filter(Pedido.status_pedido.in_([StatusPedido.PENDENTE, StatusPedido.EM_PREPARO]))
-            .order_by(Pedido.data_hora_abertura)
-            .all())
+def get_fila_cozinha(todos_pedidos):
+    return [p for p in todos_pedidos
+            if p.status_pedido in (StatusPedido.PENDENTE, StatusPedido.EM_PREPARO)]
 
-def calcular_total(pedido_id):
-    pedido = Pedido.query.get(pedido_id)
-    if not pedido:
-        return None
+def calcular_total(pedido):
     return float(sum(i.produto.preco * i.quantidade for i in pedido.itens))
