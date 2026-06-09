@@ -2,15 +2,19 @@ from flask import request, redirect, session
 from .base_controller import BaseController
 from models import Usuario, Product
 from enums import PerfilUsuario
+from services.product_service import ProductService
+from services.user_service import UserService
 
 class ProductController(BaseController):
-    def __init__(self, app, product_service):
+    def __init__(self, app, user_service, product_service):
         super().__init__(app)
+        self.user_service = user_service
         self.product_service = product_service
         self.setup_routes()
 
     def setup_routes(self):
         self.app.add_url_rule('/produtos', view_func=self.listar_produtos, methods=['GET'])
+        self.app.add_url_rule('/produtos/categoria/<categoria>', view_func=self.listar_produtos_por_categoria, methods=['GET'])
         self.app.add_url_rule('/produtos/cadastrar', view_func=self.cadastrar_produto, methods=['POST'])
         self.app.add_url_rule('/produtos/editar/<int:produto_id>', view_func=self.editar_produto, methods=['POST'])
         self.app.add_url_rule('/produtos/deletar/<int:produto_id>', view_func=self.deletar_produto, methods=['POST'])
@@ -31,9 +35,24 @@ class ProductController(BaseController):
         
         produtos = self.product_service.listar_produtos()
         return self.render('produtos.html', produtos=produtos)
+    
+    def listar_produtos_por_categoria(self, categoria):
+        usuario = self._get_usuario_logado()
+        if not usuario:
+            return redirect('/login')
+        
+        if usuario.perfil != PerfilUsuario.ADMINISTRADOR:
+            return "Acesso negado", 403
+        
+        produtos = self.product_service.listar_produtos_por_categoria(categoria)
+        return self.render('produtos.html', produtos=produtos, categoria=categoria)
 
     def cadastrar_produto(self):
-        if session.get('user_perfil') != PerfilUsuario.ADMINISTRADOR.name:
+        usuario = self._get_usuario_logado()
+        if not usuario:
+            return redirect('/login')
+
+        if usuario.perfil != PerfilUsuario.ADMINISTRADOR:
             return "Acesso negado", 403
         
         id = request.form.get('id')
@@ -48,7 +67,11 @@ class ProductController(BaseController):
         return redirect('/produtos')
 
     def editar_produto(self):
-        if session.get('user_perfil') != PerfilUsuario.ADMINISTRADOR.name:
+        usuario = self._get_usuario_logado()
+        if not usuario:
+            return redirect('/login')
+
+        if usuario.perfil != PerfilUsuario.ADMINISTRADOR:
             return "Acesso negado", 403
         
         id = request.form.get('id')
@@ -63,7 +86,11 @@ class ProductController(BaseController):
         return redirect('/produtos')
 
     def deletar_produto(self, produto_id):
-        if session.get('user_perfil') != PerfilUsuario.ADMINISTRADOR.name:
+        usuario = self._get_usuario_logado()
+        if not usuario:
+            return redirect('/login')
+
+        if usuario.perfil != PerfilUsuario.ADMINISTRADOR:
             return "Acesso negado", 403
         
         success, message = self.product_service.deletar_produto(produto_id)

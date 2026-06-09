@@ -53,14 +53,14 @@ class UserController(BaseController):
         if session.get('user_perfil') != PerfilUsuario.ADMINISTRADOR.name:
             return "Acesso negado", 403
 
+        id = request.form.get('id')
         nome = request.form.get('nome')
-        login = request.form.get('login')
         senha = request.form.get('senha')
-        perfil_str = request.form.get('perfil') # Tipo do usuário (GARCOM, COZINHEIRO ou ADMINISTRADOR)
+        cargo = request.form.get('perfil') # Tipo do usuário (GARCOM, COZINHEIRO ou ADMINISTRADOR)
         
         try:
-            perfil_enum = PerfilUsuario[perfil_str]
-            usuario, message = self.user_service.criar_usuario(nome, login, senha, perfil_enum)
+            perfil_enum = PerfilUsuario[cargo]
+            usuario, message = self.user_service.criar_usuario(id, nome, senha, perfil_enum)
             if not usuario:
                 return self.render('usuarios.html', error=message)
             return redirect('/usuarios')
