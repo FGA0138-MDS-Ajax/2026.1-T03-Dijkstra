@@ -1,57 +1,57 @@
-from models import db, Produto
-from enums import CategoriaProduto
+from models import db, Product
+from enums import ProductCategory
  
  
 class ProdutoService:
  
-    def get_produto_by_id(self, produto_id):
-        return Produto.query.get(produto_id)
+    def get_produto_by_id(self, product_id):
+        return Product.query.get(product_id)
  
     def listar_produtos(self):
-        return Produto.query.all()
+        return Product.query.all()
  
-    def listar_por_categoria(self, categoria_str):
+    def listar_por_categoria(self, categoria):
         try:
-            categoria = CategoriaProduto(categoria_str)
+            categoria = ProductCategory(categoria)
         except ValueError:
             return []
-        return Produto.query.filter_by(categoria=categoria).all()
+        return Product.query.filter_by(categoria=categoria).all()
  
-    def cadastrar_produto(self, nome, categoria_str, preco_str):
+    def cadastrar_produto(self, nome, categoria, preco):
         if not nome or not nome.strip():
             return False, "Nome do produto é obrigatório."
         try:
-            preco = float(preco_str)
+            preco = float(preco)
         except (TypeError, ValueError):
             return False, "Preço inválido."
         if preco <= 0:
             return False, "Preço deve ser maior que zero."
         try:
-            categoria = CategoriaProduto(categoria_str)
+            categoria = ProductCategory(categoria)
         except ValueError:
-            return False, f"Categoria inválida: {categoria_str}."
+            return False, f"Categoria inválida: {categoria}."
  
-        produto = Produto(nome=nome.strip(), categoria=categoria, preco=preco)
+        produto = Product(nome=nome.strip(), categoria=categoria, preco=preco)
         db.session.add(produto)
         db.session.commit()
         return True, "Produto cadastrado com sucesso."
  
-    def editar_produto(self, produto_id, nome, categoria_str, preco_str):
-        produto = self.get_produto_by_id(produto_id)
+    def editar_produto(self, product_id, nome, categoria, preco):
+        produto = self.get_produto_by_id(product_id)
         if not produto:
             return False, "Produto não encontrado."
         if not nome or not nome.strip():
             return False, "Nome do produto é obrigatório."
         try:
-            preco = float(preco_str)
+            preco = float(preco)
         except (TypeError, ValueError):
             return False, "Preço inválido."
         if preco <= 0:
             return False, "Preço deve ser maior que zero."
         try:
-            categoria = CategoriaProduto(categoria_str)
+            categoria = ProductCategory(categoria)
         except ValueError:
-            return False, f"Categoria inválida: {categoria_str}."
+            return False, f"Categoria inválida: {categoria}."
  
         produto.nome = nome.strip()
         produto.categoria = categoria
@@ -59,8 +59,8 @@ class ProdutoService:
         db.session.commit()
         return True, "Produto atualizado com sucesso."
  
-    def deletar_produto(self, produto_id):
-        produto = self.get_produto_by_id(produto_id)
+    def deletar_produto(self, product_id):
+        produto = self.get_produto_by_id(product_id)
         if not produto:
             return False, "Produto não encontrado."
         db.session.delete(produto)

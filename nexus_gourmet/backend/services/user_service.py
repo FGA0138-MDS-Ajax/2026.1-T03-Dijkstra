@@ -1,68 +1,65 @@
-from models import db, Usuario
-from enums import PerfilUsuario
+from models import db, User
+from enums import Role
 from werkzeug.security import generate_password_hash, check_password_hash
  
  
 class UsuarioService:
  
-    def get_usuario_by_id(self, usuario_id):
-        return Usuario.query.get(usuario_id)
- 
-    def get_usuario_by_login(self, login):
-        return Usuario.query.filter_by(login=login).first()
+    def get_usuario_by_id(self, id):
+        return User.query.get(id)
  
     def listar_usuarios(self):
-        return Usuario.query.all()
+        return User.query.all()
  
-    def autenticar(self, login, senha):
-        usuario = self.get_usuario_by_login(login)
+    def autenticar(self, id, senha):
+        usuario = self.get_usuario_by_id(id)
         if not usuario or not check_password_hash(usuario.senha, senha):
             return None, "Login ou senha incorretos."
         return usuario, "Login realizado com sucesso."
  
-    def cadastrar_usuario(self, nome, login, senha, perfil_str):
-        if self.get_usuario_by_login(login):
+    def cadastrar_usuario(self, nome, id, senha, cargo):
+        if self.get_usuario_by_id(id):
             return False, "Login já está em uso."
         try:
-            perfil = PerfilUsuario(perfil_str)
+            cargo = Role(cargo)
         except ValueError:
-            return False, f"Perfil inválido: {perfil_str}."
+            return False, f"Cargo inválido: {cargo}."
  
-        usuario = Usuario(
+        usuario = User(
             nome=nome,
-            login=login,
+            id=id,
             senha=generate_password_hash(senha),
-            perfil=perfil
+            cargo=cargo
         )
         db.session.add(usuario)
         db.session.commit()
         return True, "Usuário cadastrado com sucesso."
  
-    def editar_usuario(self, usuario_id, nome, login, perfil_str):
-        usuario = self.get_usuario_by_id(usuario_id)
+    def editar_usuario(self, nome, id, cargo):
+        usuario = self.get_usuario_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
         try:
-            perfil = PerfilUsuario(perfil_str)
+            cargo = Role(cargo)
         except ValueError:
-            return False, f"Perfil inválido: {perfil_str}."
+            return False, f"Cargo inválido: {cargo}."
  
         usuario.nome = nome
-        usuario.login = login
-        usuario.perfil = perfil
+        usuario.id = id
+        usuario.cargo = cargo
         db.session.commit()
         return True, "Usuário atualizado com sucesso."
  
-    def deletar_usuario(self, usuario_id):
-        usuario = self.get_usuario_by_id(usuario_id)
+    def deletar_usuario(self, id):
+        usuario = self.get_usuario_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
         db.session.delete(usuario)
         db.session.commit()
         return True, "Usuário excluído com sucesso."
  
-    def alterar_senha(self, usuario_id, senha_atual, nova_senha):
-        usuario = self.get_usuario_by_id(usuario_id)
+    def alterar_senha(self, id, senha_atual, nova_senha):
+        usuario = self.get_usuario_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
         if not check_password_hash(usuario.senha, senha_atual):

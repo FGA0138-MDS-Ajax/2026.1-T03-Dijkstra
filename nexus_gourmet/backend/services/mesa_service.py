@@ -1,20 +1,20 @@
-from models import db, Mesa
-from enums import StatusMesa, StatusPedido
+from models import db, Table
+from enums import TableStatus, OrderStatus
  
  
 class MesaService:
  
     def get_mesa_by_id(self, mesa_id):
-        return Mesa.query.get(mesa_id)
+        return Table.query.get(mesa_id)
  
     def get_mesa_by_numero(self, numero):
-        return Mesa.query.filter_by(numero=numero).first()
+        return Table.query.filter_by(numero=numero).first()
  
     def listar_mesas(self):
-        return Mesa.query.all()
+        return Table.query.all()
  
     def listar_mesas_livres(self):
-        return Mesa.query.filter_by(status=StatusMesa.LIVRE).all()
+        return Table.query.filter_by(status=TableStatus.LIVRE).all()
  
     def liberar_mesa(self, mesa_id):
         mesa = self.get_mesa_by_id(mesa_id)
@@ -22,11 +22,11 @@ class MesaService:
             return False, "Mesa não encontrada."
         pedidos_em_aberto = [
             p for p in mesa.pedidos
-            if p.status_pedido not in (StatusPedido.ENTREGUE, StatusPedido.CANCELADO)
+            if p.status_pedido not in (OrderStatus.ENTREGUE, OrderStatus.CANCELADO)
         ]
         if pedidos_em_aberto:
             return False, f"Mesa {mesa.numero} ainda tem pedidos em aberto."
-        mesa.status = StatusMesa.LIVRE
+        mesa.status = TableStatus.LIVRE
         db.session.commit()
         return True, f"Mesa {mesa.numero} liberada."
  
@@ -37,7 +37,7 @@ class MesaService:
  
         pedidos_entregues = [
             p for p in mesa.pedidos
-            if p.status_pedido == StatusPedido.ENTREGUE
+            if p.status_pedido == OrderStatus.ENTREGUE
         ]
         if not pedidos_entregues:
             return None, "Nenhum pedido entregue nesta mesa."
