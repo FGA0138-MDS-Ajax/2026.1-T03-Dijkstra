@@ -1,22 +1,22 @@
 # enums.py
 from enum import Enum
 
-class Cargo(Enum):
+class Role(Enum):
     ADMINISTRADOR = 'Administrador'
     GARCOM = 'Garçom'
     COZINHEIRO = 'Cozinheiro'
 
-class StatusMesa(Enum):
+class TableStatus(Enum):
     LIVRE = 'Livre'
     OCUPADA = 'Ocupada'
     RESERVADA = 'Reservada'
 
-class CategoriaProduto(Enum):
+class ProductCategory(Enum):
     BEBIDA = 'Bebida'
     PRATO = 'Prato'
     SOBREMESA = 'Sobremesa'
 
-class StatusComanda(Enum):
+class OrderStatus(Enum):
     PENDENTE = 'Pendente'
     EM_PREPARO = 'Em Preparo'
     PRONTO = 'Pronto'
