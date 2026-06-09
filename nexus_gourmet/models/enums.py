@@ -1,7 +1,7 @@
 # enums.py
 from enum import Enum
 
-class PerfilUsuario(Enum):
+class Cargo(Enum):
     ADMINISTRADOR = 'Administrador'
     GARCOM = 'Garçom'
     COZINHEIRO = 'Cozinheiro'
@@ -16,7 +16,7 @@ class CategoriaProduto(Enum):
     PRATO = 'Prato'
     SOBREMESA = 'Sobremesa'
 
-class StatusPedido(Enum):
+class StatusComanda(Enum):
     PENDENTE = 'Pendente'
     EM_PREPARO = 'Em Preparo'
     PRONTO = 'Pronto'
