@@ -58,11 +58,11 @@ class UsuarioService:
         db.session.commit()
         return True, "Usuário excluído com sucesso."
  
-    def alterar_senha(self, id, senha_atual, nova_senha):
+    def alterar_senha(self, id, senha, nova_senha):
         usuario = self.get_usuario_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
-        if not check_password_hash(usuario.senha, senha_atual):
+        if not check_password_hash(usuario.senha, senha):
             return False, "Senha atual incorreta."
         usuario.senha = generate_password_hash(nova_senha)
         db.session.commit()

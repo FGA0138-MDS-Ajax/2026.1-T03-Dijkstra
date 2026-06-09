@@ -86,18 +86,18 @@ class PedidoService:
         db.session.commit()
         return True, "Item removido."
 
-    def atualizar_status(self, order_id, novo_status_str, usuario):
+    def atualizar_status(self, order_id, status, user):
         comanda = self.get_pedido_by_id(order_id)
         if not comanda:
             return False, "Pedido não encontrado."
         try:
-            novo_status = OrderStatus(novo_status_str)
+            novo_status = OrderStatus(status)
         except ValueError:
-            return False, f"Status inválido: {novo_status_str}."
+            return False, f"Status inválido: {status}."
         if novo_status not in FLUXO[comanda.status_comanda]:
             return False, f"Transição inválida: {comanda.status.value} → {novo_status.value}."
-        if usuario.cargo not in PERMISSOES[novo_status]:
-            return False, f"Perfil '{usuario.cargo.value}' não pode definir status '{novo_status.value}'."
+        if user.cargo not in PERMISSOES[novo_status]:
+            return False, f"Perfil '{user.cargo.value}' não pode definir status '{novo_status.value}'."
         if comanda.status == OrderStatus.PENDENTE and not comanda.itens:
             return False, "Não é possível enviar um pedido sem itens."
 
