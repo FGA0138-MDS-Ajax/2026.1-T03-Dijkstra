@@ -18,11 +18,13 @@ class OrderController(BaseController):
         #Rota para a fila de pedidos na cozinha
         self.app.add_url_rule('/cozinha/fila',view_func=self.listar_todas_comandas, methods=['GET'])
 
-        #Rota para gerenciamento dos pedidos
+        #Rota para visualizar mesas e comandas
         self.app.add_url_rule('/mesas', view_func=self.listar_mesas, methods=['GET'])
         self.app.add_url_rule('/mesas/<int:mesa_id>/comandas', view_func=self.listar_comandas_mesa, methods=['GET'])
         self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/abrir_comanda', view_func=self.abrir_comanda, methods=['POST'])
         self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/<int:comanda_id>/', view_func=self.visualizar_comanda, methods=['GET'])
+
+        #Rota para gerenciamento de comandas de uma mesa específica
         self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/<int:comanda_id>/adicionar_item', view_func=self.adicionar_item, methods=['POST'])
         self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/<int:comanda_id>/editar', view_func=self.editar_comanda, methods=['POST'])
         self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/<int:comanda_id>/enviar', view_func=self.enviar_comanda, methods=['POST'])
@@ -40,7 +42,7 @@ class OrderController(BaseController):
         if not usuario:
             return redirect('/login')
         
-        pedidos = self.order_service.get_fila_cozinha(usuario.id)
+        pedidos = self.order_service.listar_todas_comandas()
         return self.render('pedidos.html', pedidos=pedidos)
     
     def listar_mesas(self):
@@ -62,7 +64,7 @@ class OrderController(BaseController):
         if usuario.perfil != PerfilUsuario.GARCOM:
             return "Acesso negado", 403
         
-        comandas = self.order_service.listar_comandas_mesa(mesa_id)
+        comandas = self.table_service.listar_comandas_mesa(mesa_id)
         return self.render('comandas.html', comandas=comandas, mesa_id=mesa_id)
 
     def abrir_comanda(self):
@@ -74,7 +76,7 @@ class OrderController(BaseController):
             return "Acesso negado", 403
         
         mesa_id = request.form.get('mesa_id')
-        success, message = self.order_service.abrir_comanda(mesa_id, usuario.id)
+        success, message = self.order_service.abrir_comanda(mesa_id, user.cargo)
         if not success:
             return self.render('mesas.html', error=message)
         return redirect(f'/mesas/{mesa_id}/comandas/<int:comanda_id>/adicionar_item')
@@ -105,7 +107,7 @@ class OrderController(BaseController):
         quantidade = request.form.get('quantidade')
         observacao = request.form.get('observacao')
 
-        success, message = self.order_service.adicionar_item(comanda_id, item_id, quantidade, observacao)
+        success, message = self.order_service.adicionar_item(comanda_id, item_id, quantidade, observacao, usuario)
         if not success:
             return self.render('comanda.html', error=message)
         return redirect(f'/mesas/{mesa_id}/comandas/{comanda_id}/')
@@ -123,7 +125,7 @@ class OrderController(BaseController):
         if not nova_quantidade or int(nova_quantidade) <= 0:
             success, message = self.order_service.remover_item(comanda_id, item_id)
         else:
-            success, message = self.order_service.editar_comanda(comanda_id, item_id, nova_quantidade)
+            success, message = self.order_service.editar_comanda(comanda_id, item_id, nova_quantidade, usuario)
         if not success:
             return self.render('comanda.html', error=message)
         return redirect(f'/mesas/{mesa_id}/comandas/{comanda_id}/')
@@ -146,14 +148,10 @@ class OrderController(BaseController):
         if not usuario:
             return redirect('/login')
         
-        try:
-            novo_status_enum = StatusPedido[status.upper()]
-            success, message = self.order_service.alterar_status(comanda_id, novo_status_enum)
-            if not success:
-                return self.render('pedidos.html', error=message)
-            return redirect('/cozinha/fila')
-        except KeyError:
-            return "Status inválido", 400
+        success, message = self.order_service.alterar_status(comanda_id, status, usuario)        
+        if not success:
+            return self.render('pedidos.html', error=message)
+        return redirect('/cozinha/fila')
         
     def fechar_comanda(self, mesa_id, comanda_id):
         usuario = self._get_usuario_logado()

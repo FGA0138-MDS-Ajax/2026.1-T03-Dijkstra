@@ -59,8 +59,8 @@ class UserController(BaseController):
         cargo = request.form.get('perfil') # Tipo do usuário (GARCOM, COZINHEIRO ou ADMINISTRADOR)
         
         try:
-            perfil_enum = PerfilUsuario[cargo]
-            usuario, message = self.user_service.criar_usuario(id, nome, senha, perfil_enum)
+            cargo = PerfilUsuario[cargo]
+            usuario, message = self.user_service.cadastrar_usuario(id, nome, senha, cargo)
             if not usuario:
                 return self.render('usuarios.html', error=message)
             return redirect('/usuarios')

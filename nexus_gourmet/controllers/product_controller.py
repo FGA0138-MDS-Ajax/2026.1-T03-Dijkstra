@@ -14,7 +14,7 @@ class ProductController(BaseController):
 
     def setup_routes(self):
         self.app.add_url_rule('/produtos', view_func=self.listar_produtos, methods=['GET'])
-        self.app.add_url_rule('/produtos/categoria/<categoria>', view_func=self.listar_produtos_por_categoria, methods=['GET'])
+        self.app.add_url_rule('/produtos/categoria/<categoria>', view_func=self.listar_por_categoria, methods=['GET'])
         self.app.add_url_rule('/produtos/cadastrar', view_func=self.cadastrar_produto, methods=['POST'])
         self.app.add_url_rule('/produtos/editar/<int:produto_id>', view_func=self.editar_produto, methods=['POST'])
         self.app.add_url_rule('/produtos/deletar/<int:produto_id>', view_func=self.deletar_produto, methods=['POST'])
@@ -36,7 +36,7 @@ class ProductController(BaseController):
         produtos = self.product_service.listar_produtos()
         return self.render('produtos.html', produtos=produtos)
     
-    def listar_produtos_por_categoria(self, categoria):
+    def listar_por_categoria(self, categoria):
         usuario = self._get_usuario_logado()
         if not usuario:
             return redirect('/login')
@@ -44,7 +44,7 @@ class ProductController(BaseController):
         if usuario.perfil != PerfilUsuario.ADMINISTRADOR:
             return "Acesso negado", 403
         
-        produtos = self.product_service.listar_produtos_por_categoria(categoria)
+        produtos = self.product_service.listar_por_categoria(categoria)
         return self.render('produtos.html', produtos=produtos, categoria=categoria)
 
     def cadastrar_produto(self):
