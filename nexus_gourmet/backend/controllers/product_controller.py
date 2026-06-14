@@ -1,9 +1,6 @@
 from flask import request, redirect, session
 from .base_controller import BaseController
-from models import Usuario, Product
-from enums import PerfilUsuario
-from services.product_service import ProductService
-from services.user_service import UserService
+from models.enums import Role
 
 class ProductController(BaseController):
     def __init__(self, app, user_service, product_service):
@@ -30,7 +27,7 @@ class ProductController(BaseController):
         if not usuario:
             return redirect('/login')
         
-        if usuario.perfil != PerfilUsuario.ADMINISTRADOR:
+        if usuario.cargo != Role.ADMINISTRADOR:
             return "Acesso negado", 403
         
         produtos = self.product_service.listar_produtos()
@@ -41,7 +38,7 @@ class ProductController(BaseController):
         if not usuario:
             return redirect('/login')
         
-        if usuario.perfil != PerfilUsuario.ADMINISTRADOR:
+        if usuario.cargo != Role.ADMINISTRADOR:
             return "Acesso negado", 403
         
         produtos = self.product_service.listar_por_categoria(categoria)
@@ -52,7 +49,7 @@ class ProductController(BaseController):
         if not usuario:
             return redirect('/login')
 
-        if usuario.perfil != PerfilUsuario.ADMINISTRADOR:
+        if usuario.cargo != Role.ADMINISTRADOR:
             return "Acesso negado", 403
         
         id = request.form.get('id')
@@ -66,34 +63,34 @@ class ProductController(BaseController):
         
         return redirect('/produtos')
 
-    def editar_produto(self):
+    def editar_produto(self, product_id):
         usuario = self._get_usuario_logado()
         if not usuario:
             return redirect('/login')
 
-        if usuario.perfil != PerfilUsuario.ADMINISTRADOR:
+        if usuario.cargo != Role.ADMINISTRADOR:
             return "Acesso negado", 403
         
-        id = request.form.get('id')
+        product_id = request.form.get('product_id')
         nome = request.form.get('nome')
         categoria = request.form.get('categoria')
         preco = request.form.get('preco')
 
-        success, message = self.product_service.editar_produto(id, nome, categoria, preco)
+        success, message = self.product_service.editar_produto(product_id, nome, categoria, preco)
         if not success:
             return self.render('produtos.html', error=message)
         
         return redirect('/produtos')
 
-    def deletar_produto(self, produto_id):
+    def deletar_produto(self, product_id):
         usuario = self._get_usuario_logado()
         if not usuario:
             return redirect('/login')
 
-        if usuario.perfil != PerfilUsuario.ADMINISTRADOR:
+        if usuario.cargo != Role.ADMINISTRADOR:
             return "Acesso negado", 403
         
-        success, message = self.product_service.deletar_produto(produto_id)
+        success, message = self.product_service.deletar_produto(product_id)
         if not success:
             return self.render('produtos.html', error=message)
         

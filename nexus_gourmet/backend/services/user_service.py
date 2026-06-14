@@ -1,21 +1,19 @@
-from models import db, User
-from enums import Role
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
+from models import db, User
+from models.enums import Role
+from werkzeug.security import generate_password_hash, check_password_hash
  
- 
-class UsuarioService:
-
-    def login(self, id, senha):
-        usuario = self.get_by_user_id(id)
+class UserService:
+    def autenticar(self, id, senha):
+        usuario = self.get_user_by_id(id)
         if not usuario:
-            return False, "Usuário não encontrado."
+            return False, "Usuário não encontrado.", None
         if not check_password_hash(usuario.senha, senha):
-            return False, "Senha incorreta."
+            return False, "Senha incorreta.", None
         return True, "Login bem-sucedido.", usuario
     
     def logout(self, id):
-        usuario = self.get_by_user_id(id)
+        usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
         return True, "Logout bem-sucedido."
@@ -24,7 +22,7 @@ class UsuarioService:
         return User.query.all()
     
     def cadastrar_usuario(self, id, nome, senha, cargo):
-        if self.get_by_user_id(id):
+        if self.get_user_by_id(id):
             return False, "ID de usuário já existe."
         try:
             cargo = Role(cargo)
@@ -34,16 +32,16 @@ class UsuarioService:
         novo_usuario = User(id=id, nome=nome, senha=senha_hash, cargo=cargo)
         db.session.add(novo_usuario)
         db.session.commit()
-        return True, "Usuário cadastrado com sucesso."
+        return novo_usuario, "Usuário cadastrado com sucesso."
     
     def visualizar_usuario(self, id):
-        usuario = self.get_by_user_id(id)
+        usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
         return True, usuario
  
     def editar_usuario(self, id, nome=None, cargo=None):
-        usuario = self.get_by_user_id(id)
+        usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
         if nome:
@@ -58,7 +56,7 @@ class UsuarioService:
         return True, "Usuário editado com sucesso."    
         
     def deletar_usuario(self, id):
-        usuario = self.get_by_user_id(id)
+        usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
         db.session.delete(usuario)
@@ -66,7 +64,7 @@ class UsuarioService:
         return True, "Usuário excluído com sucesso."
  
     def alterar_senha(self, id, senha, nova_senha):
-        usuario = self.get_by_user_id(id)
+        usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
         if not check_password_hash(usuario.senha, senha):
@@ -76,7 +74,7 @@ class UsuarioService:
         return True, "Senha alterada com sucesso."
     
     def mudar_cargo(self, id, cargo):
-        usuario = self.get_by_user_id(id)
+        usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
         try:
@@ -88,8 +86,8 @@ class UsuarioService:
         return True, "Cargo alterado com sucesso."
     
     def transferir_posse(self, id_atual, id_novo):
-        usuario_atual = self.get_by_user_id(id_atual)
-        usuario_novo = self.get_by_user_id(id_novo)
+        usuario_atual = self.get_user_by_id(id_atual)
+        usuario_novo = self.get_user_by_id(id_novo)
         if not usuario_atual or not usuario_novo:
             return False, "Usuário não encontrado."
         if usuario_atual.cargo != Role.ADMINISTRADOR:
@@ -99,5 +97,5 @@ class UsuarioService:
         db.session.commit()
         return True, "Posse transferida com sucesso."
     
-    def get_by_user_id(self, id):
+    def get_user_by_id(self, id):
         return User.query.get(id)

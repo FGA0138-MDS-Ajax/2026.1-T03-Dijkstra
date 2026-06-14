@@ -1,9 +1,7 @@
 from models import db, Product
-from enums import ProductCategory
- 
- 
-class ProdutoService:
-     
+from models.enums import ProductCategory
+  
+class ProductService:     
     def listar_produtos(self):
         return Product.query.all()  
  
@@ -15,7 +13,7 @@ class ProdutoService:
         return Product.query.filter_by(categoria=categoria).all()
  
     def cadastrar_produto(self, id, nome, categoria, preco):
-        if self.get_by_product_id(id):
+        if self.get_product_by_id(id):
             return False, "ID do produto já existe."
         if not nome or not nome.strip():
             return False, "Nome do produto é obrigatório."
@@ -36,7 +34,7 @@ class ProdutoService:
         return True, "Produto cadastrado com sucesso."
  
     def editar_produto(self, product_id, nome, categoria, preco):
-        produto = self.get_by_product_id(product_id)
+        produto = self.get_product_by_id(product_id)
         if not produto:
             return False, "Produto não encontrado."
         if not nome or not nome.strip():
@@ -59,12 +57,12 @@ class ProdutoService:
         return True, "Produto atualizado com sucesso."
  
     def deletar_produto(self, product_id):
-        produto = self.get_by_product_id(product_id)
+        produto = self.get_product_by_id(product_id)
         if not produto:
             return False, "Produto não encontrado."
         db.session.delete(produto)
         db.session.commit()
         return True, "Produto excluído com sucesso."
 
-    def get_by_product_id(self, product_id):
+    def get_product_by_id(self, product_id):
         return Product.query.get(product_id)
