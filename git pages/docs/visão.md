@@ -4,7 +4,7 @@
 
 <p>Versão 1.1</p>
 
-<h2 id="integrantes-do-grupo">Integrantes do Grupo</h2>
+## Integrantes do Grupo
 
 <table style="border-collapse: collapse; width: 100%; font-size: 0.95em;">
   <thead>
@@ -29,7 +29,7 @@
   </tbody>
 </table>
 
-<h2 id="historico-de-revisoes">Histórico de Revisões</h2>
+## Histórico de Revisões
 
 <table style="border-collapse: collapse; width: 100%;">
   <thead>
@@ -48,7 +48,7 @@
 
 <hr />
 
-## SUMÁRIO
+## Sumário
 
 <ul>
   <li><a href="#1-visao-geral-do-produto">1 VISÃO GERAL DO PRODUTO</a>
@@ -99,7 +99,7 @@
 
 <hr />
 
-<h1 id="1-visao-geral-do-produto">1 VISÃO GERAL DO PRODUTO</h1>
+## 1. VISÃO GERAL DO PRODUTO
 
 <h2 id="11-problema">1.1 Problema</h2>
 
@@ -171,7 +171,7 @@ Figura 1 - Ineficiência no registro e acompanhamento de pedidos
 
 <hr />
 
-<h1 id="2-visao-geral-do-projeto">2 VISÃO GERAL DO PROJETO</h1>
+## 2. VISÃO GERAL DO PROJETO
 
 <h2 id="21-ciclo-de-vida-do-projeto">2.1 Ciclo de vida do projeto de desenvolvimento de software</h2>
 
@@ -339,7 +339,7 @@ Figura 1 - Ineficiência no registro e acompanhamento de pedidos
 
 <hr />
 
-<h1 id="3-processo-de-desenvolvimento-de-software">3 PROCESSO DE DESENVOLVIMENTO DE SOFTWARE</h1>
+## 3. PROCESSO DE DESENVOLVIMENTO DE SOFTWARE
 
 <p>Conforme apresentado na Seção 2.1, o desenvolvimento do sistema Nexus Gourmet será conduzido com base na metodologia ágil, por meio da abordagem híbrida Scrumban, complementada por práticas de engenharia de software oriundas do Extreme Programming (XP). Essa combinação visa proporcionar flexibilidade, organização e melhoria contínua ao longo de todo o ciclo de vida do projeto.</p>
 
@@ -399,7 +399,7 @@ Figura 2 – Ciclo de vida adotado no Nexus Gourmet
 
 <hr />
 
-<h1 id="4-declaracao-de-escopo-do-projeto">4 DECLARAÇÃO DE ESCOPO DO PROJETO</h1>
+## 4. DECLARAÇÃO DE ESCOPO DO PROJETO
 
 <h2 id="41-backlog-do-produto">4.1 Backlog do produto</h2>
 
@@ -510,7 +510,7 @@ Figura 2 – Ciclo de vida adotado no Nexus Gourmet
 
 <hr />
 
-<h1 id="5-metricas-e-medicoes">5 MÉTRICAS E MEDIÇÕES</h1>
+## 5 MÉTRICAS E MEDIÇÕES
 
 <h2 id="51-gqm-de-medicoes">5.1 GQM de medições</h2>
 
@@ -553,7 +553,7 @@ Figura 2 – Ciclo de vida adotado no Nexus Gourmet
 
 <hr />
 
-<h1 id="6-testes-de-software">6 TESTES DE SOFTWARE</h1>
+## 6. TESTES DE SOFTWARE
 
 <h2 id="61-estrategia-de-testes-contendo">6.1 Estratégia de testes contendo:</h2>
 
@@ -672,7 +672,7 @@ Figura 2 – Ciclo de vida adotado no Nexus Gourmet
 
 <hr />
 
-<h1 id="7-referencias-bibliograficas">7. REFERÊNCIAS BIBLIOGRÁFICAS</h1>
+## 7. REFERÊNCIAS BIBLIOGRÁFICAS
 
 <p>ABRASEL. <strong>Solução KDS: ferramenta inovadora para auxiliar restaurantes</strong>. Disponível em: <a href="https://abrasel.com.br/noticias/noticias/solucao-kds-ferramenta-inovadora-para-auxiliar-restaurantes/">https://abrasel.com.br/noticias/noticias/solucao-kds-ferramenta-inovadora-para-auxiliar-restaurantes/</a>.</p>
 
