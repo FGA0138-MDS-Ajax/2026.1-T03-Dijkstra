@@ -34,3 +34,7 @@ def table_service():
 @pytest.fixture
 def order_service(table_service):
     return OrderService(table_service)
+
+@pytest.fixture
+def product_service():
+    return ProductService()

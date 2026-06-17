@@ -79,4 +79,4 @@ class TableService:
         return True, f"Mesa {mesa.numero} liberada."
 
     def get_table_by_number(self, numero):
-        return Table.query.filter_by(numero=numero).first()
+        return db.session.get(Table, numero)

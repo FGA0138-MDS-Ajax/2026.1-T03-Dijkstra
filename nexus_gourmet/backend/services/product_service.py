@@ -65,4 +65,4 @@ class ProductService:
         return True, "Produto excluído com sucesso."
 
     def get_product_by_id(self, product_id):
-        return Product.query.get(product_id)
+        return db.session.get(Product, product_id)
