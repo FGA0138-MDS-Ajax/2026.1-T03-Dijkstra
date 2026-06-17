@@ -1,5 +1,5 @@
 from flask import session
-from models import db, User
+from models.models import db, User
 from models.enums import Role
 from werkzeug.security import generate_password_hash, check_password_hash
  

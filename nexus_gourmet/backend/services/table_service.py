@@ -1,4 +1,4 @@
-from models import db, Table
+from models.models import db, Table
 from models.enums import TableStatus, OrderStatus
  
 class TableService:

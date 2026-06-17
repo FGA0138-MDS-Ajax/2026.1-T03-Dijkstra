@@ -1,4 +1,4 @@
-from models import db, Product
+from models.models import db, Product
 from models.enums import ProductCategory
   
 class ProductService:     
