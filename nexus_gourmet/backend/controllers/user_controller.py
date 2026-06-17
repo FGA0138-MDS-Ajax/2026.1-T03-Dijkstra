@@ -1,7 +1,7 @@
 from flask import request, redirect, session
 from .base_controller import BaseController
-from models.enums import Role
-from services.user_service import UserService
+from backend.models.enums import Role
+from backend.services.user_service import UserService
 
 class UserController(BaseController):
     def __init__(self, app, user_service: UserService):

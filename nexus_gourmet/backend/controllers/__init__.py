@@ -2,6 +2,7 @@ from .user_controller import UserController
 from .order_controller import OrderController
 from .product_controller import ProductController
 from .table_controller import TableController
+from backend.services import user_service, table_service, product_service, order_service
 
 def init_controllers(app, user_service, order_service, table_service, product_service):
     # Instancia todos os controladores exigidos pela especificação arquitetural,

@@ -1,6 +1,6 @@
 from flask import request, redirect, session
 from .base_controller import BaseController
-from models.enums import OrderStatus, Role
+from backend.models.enums import OrderStatus, Role
 
 class OrderController(BaseController):
     def __init__(self, app, user_service, order_service, table_service):
@@ -15,7 +15,7 @@ class OrderController(BaseController):
         self.app.add_url_rule('/cozinha/fila',view_func=self.listar_todas_comandas, methods=['GET'])
 
         #Rota para visualizar mesas e comandas
-        self.app.add_url_rule('/salão', view_func=self.listar_mesas, methods=['GET'])
+        #self.app.add_url_rule('/salão', view_func=self.listar_mesas, methods=['GET'])
         self.app.add_url_rule('/salão/<int:numero_mesa>/comandas', view_func=self.listar_comandas_mesa, methods=['GET'])
         self.app.add_url_rule('/salão/<int:numero_mesa>/comandas/abrir_comanda', view_func=self.abrir_comanda, methods=['POST'])
         self.app.add_url_rule('/salão/<int:numero_mesa>/comandas/<int:comanda_id>', view_func=self.visualizar_comanda, methods=['GET'])
@@ -41,16 +41,16 @@ class OrderController(BaseController):
         pedidos = self.order_service.listar_todas_comandas()
         return self.render('pedidos.html', pedidos=pedidos)
     
-    def listar_mesas(self):
-        usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
-        
-        if usuario.cargo != Role.GARCOM:
-            return "Acesso negado", 403
-        
-        mesas = self.table_service.listar_mesas()
-        return self.render('mesas.html', mesas=mesas)
+    #def listar_mesas(self):
+     #   usuario = self._get_usuario_logado()
+      ##  if not usuario:
+       #     return redirect('/login')
+       # 
+       # if usuario.cargo != Role.GARCOM:
+       #     return "Acesso negado", 403
+       # 
+       # mesas = self.table_service.listar_mesas()
+       # return self.render('mesas.html', mesas=mesas)
     
     def listar_comandas_mesa(self, numero_mesa):
         usuario = self._get_usuario_logado()
