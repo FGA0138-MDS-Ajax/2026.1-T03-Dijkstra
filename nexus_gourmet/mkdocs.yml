@@ -1,5 +1,0 @@
-site_name: Nexus Gourmet
-
-nav:
-  - Home: index.md
-  - Documento de Arquitetura: doc_arquitetura.md
