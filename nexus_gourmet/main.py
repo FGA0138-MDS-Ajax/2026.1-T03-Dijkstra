@@ -12,7 +12,7 @@
 #     app = create_app()
 
 #     if os.environ.get('BOTTLE_CHILD') != 'true':
-#         print(f"✅ Servidor da Biblioteca iniciado!")
+#         print(f"✅ Servidor do Nexus Gourmet iniciado!")
 #         print(f"➡️  Acesse http://{Config.HOST}:{Config.PORT} para ver o projeto.")
 #         print("🔄 Pressione Ctrl+C para parar o servidor.")
 
