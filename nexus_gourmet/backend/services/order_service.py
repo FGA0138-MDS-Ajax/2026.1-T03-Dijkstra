@@ -44,7 +44,7 @@ class OrderService:
         ]
     
     def abrir_comanda(self, numero_mesa, user_id):
-        user = User.query.get(user_id)
+        user = db.session.get(User, user_id)
         if not user or user.cargo != Role.GARCOM:
             return None, "Sem permissão para abrir comanda."
             
@@ -230,7 +230,7 @@ class OrderService:
         return True, {"mensagem": "Comanda fechada e mesa liberada.", "conta": conta}
     
     def get_order_by_id(self, order_id):
-        return Order.query.get(order_id)
+        return db.session.get(Order, order_id)
 
     def open_order_counter(self, numero_mesa=None):
         query = Order.query
