@@ -1,5 +1,5 @@
-from backend.models.models import db, Table
-from backend.models.enums import TableStatus, OrderStatus
+from models.models import db, Table
+from models.enums import TableStatus, OrderStatus
  
 class TableService:
     def criar_mesa(self, numero, capacidade):

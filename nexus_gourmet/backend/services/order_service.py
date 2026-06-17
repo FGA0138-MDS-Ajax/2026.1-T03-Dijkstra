@@ -1,5 +1,5 @@
-from backend.models.models import db, Order, ProductOrdered, User, Table
-from backend.models.enums import Role, OrderStatus, TableStatus
+from models.models import db, Order, ProductOrdered, User, Table
+from models.enums import Role, OrderStatus, TableStatus
 
 FLUXO = {
     OrderStatus.PENDENTE:   [OrderStatus.EM_PREPARO, OrderStatus.CANCELADO],

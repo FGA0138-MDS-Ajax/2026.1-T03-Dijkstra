@@ -1,8 +1,7 @@
-# models.py
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-from backend.models.enums import Role, TableStatus, ProductCategory, OrderStatus
+from models.enums import Role, TableStatus, ProductCategory, OrderStatus
 
 db = SQLAlchemy()
 
