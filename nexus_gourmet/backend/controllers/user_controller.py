@@ -53,14 +53,13 @@ class UserController(BaseController):
         if session.get('user_cargo') != Role.ADMINISTRADOR.name:
             return "Acesso negado", 403
 
-        id = request.form.get('id')
         nome = request.form.get('nome')
         senha = request.form.get('senha')
         cargo = request.form.get('cargo') # Tipo do usuário (GARCOM, COZINHEIRO ou ADMINISTRADOR)
         
         try:
             cargo = Role[cargo]
-            usuario, message = self.user_service.cadastrar_usuario(id, nome, senha, cargo)
+            usuario, message = self.user_service.cadastrar_usuario(nome, senha, cargo)
             if not usuario:
                 return self.render('usuarios.html', error=message)
             return redirect('/usuarios')

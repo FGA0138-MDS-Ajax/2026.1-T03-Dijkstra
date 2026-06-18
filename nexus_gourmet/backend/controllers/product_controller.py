@@ -52,12 +52,11 @@ class ProductController(BaseController):
         if usuario.cargo != Role.ADMINISTRADOR:
             return "Acesso negado", 403
         
-        id = request.form.get('id')
         nome = request.form.get('nome')
         categoria = request.form.get('categoria')
         preco = request.form.get('preco')
         
-        success, message = self.product_service.cadastrar_produto(id, nome, categoria, preco)
+        success, message = self.product_service.cadastrar_produto(nome, categoria, preco)
         if not success:
             return self.render('produtos.html', error=message)
         

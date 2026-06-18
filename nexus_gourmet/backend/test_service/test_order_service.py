@@ -28,17 +28,6 @@ def test_abrir_comanda_com_sucesso(app, order_service):
     mesa = Table.query.filter_by(numero=5).first()
     assert mesa.status == TableStatus.OCUPADA
 
-def test_abrir_multiplas_comandas_mesma_mesa(app, order_service):
-    garcom, _, _, _ = criar_dados_iniciais()
-    
-    comanda1_id, mensagem1 = order_service.abrir_comanda(numero_mesa=5, user_id=garcom.id)
-    assert comanda1_id is not None
-    assert mensagem1 == "Comanda aberta com sucesso."
-    
-    comanda2_id, mensagem2 = order_service.abrir_comanda(numero_mesa=5, user_id=garcom.id)
-    assert comanda2_id is None
-    assert "não está livre" in mensagem2
-    
 def test_abrir_comanda_falha_mesa_nao_livre(app, order_service):
     garcom, _, mesa, _ = criar_dados_iniciais()
     mesa.status = TableStatus.OCUPADA # Forçamos a mesa a estar ocupada

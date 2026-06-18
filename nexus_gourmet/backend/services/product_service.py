@@ -1,5 +1,6 @@
-from models.models import db, Product
-from models.enums import ProductCategory
+import random
+from backend.models.models import db, Product
+from backend.models.enums import ProductCategory
   
 class ProductService:     
     def listar_produtos(self):
@@ -12,11 +13,15 @@ class ProductService:
             return []
         return Product.query.filter_by(categoria=categoria).all()
  
-    def cadastrar_produto(self, id, nome, categoria, preco):
-        if self.get_product_by_id(id):
-            return False, "ID do produto já existe."
+    def cadastrar_produto(self, nome, categoria, preco):
+        while True:
+            novo_id = random.randint(1000, 9999)
+            if self.get_product_by_id(novo_id) is None:
+                break
+
         if not nome or not nome.strip():
             return False, "Nome do produto é obrigatório."
+        
         try:
             preco = float(preco)
         except (TypeError, ValueError):
@@ -28,7 +33,7 @@ class ProductService:
         except ValueError:
             return False, f"Categoria inválida: {categoria}."
  
-        produto = Product(id=id, nome=nome.strip(), categoria=categoria, preco=preco)
+        produto = Product(id=novo_id, nome=nome.strip(), categoria=categoria, preco=preco)
         db.session.add(produto)
         db.session.commit()
         return True, "Produto cadastrado com sucesso."

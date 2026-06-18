@@ -21,19 +21,22 @@ class UserService:
     def listar_usuarios(self):
         return User.query.all()
     
-    def cadastrar_usuario(self, usuario_logado, id, nome, senha, cargo):
-        if usuario_logado.cargo != Role.ADMINISTRADOR:
-            return False, "Apenas administradores podem cadastrar usuários."
+    def cadastrar_usuario(self, nome, senha, cargo):
         
-        if self.get_user_by_id(id):
+        novo_id = 1
+        while self.get_user_by_id(novo_id) is not None:
+            novo_id += 1
+
+        if self.get_user_by_id(novo_id):
             return False, "ID de usuário já existe."
+        
         try:
             cargo = Role(cargo)
         except ValueError:
             return False, f"Cargo inválido: {cargo}."
         
         senha_hash = generate_password_hash(senha)
-        novo_usuario = User(id=id, nome=nome, senha=senha_hash, cargo=cargo)
+        novo_usuario = User(id=novo_id, nome=nome, senha=senha_hash, cargo=cargo)
         db.session.add(novo_usuario)
         db.session.commit()
         return novo_usuario, "Usuário cadastrado com sucesso."
