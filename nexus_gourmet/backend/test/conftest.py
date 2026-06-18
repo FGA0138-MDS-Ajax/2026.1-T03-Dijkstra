@@ -38,3 +38,16 @@ def order_service(table_service):
 @pytest.fixture
 def product_service():
     return ProductService()
+
+# No test/conftest.py
+@pytest.fixture
+def dados_iniciais():
+    from models.models import User, Table, Product, db
+    from models.enums import Role, TableStatus, ProductCategory
+    
+    garcom = User(nome="João Garçom", senha="123", cargo=Role.GARCOM)
+    mesa = Table(numero=5, capacidade=4, status=TableStatus.LIVRE)
+    produto = Product(nome="Hambúrguer", preco=20.50, categoria=ProductCategory.PRATO)
+    db.session.add_all([garcom, mesa, produto])
+    db.session.commit()
+    return garcom, mesa, produto

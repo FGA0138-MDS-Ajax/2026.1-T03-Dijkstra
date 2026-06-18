@@ -1,6 +1,6 @@
 import random
-from backend.models.models import db, Product
-from backend.models.enums import ProductCategory
+from models.models import db, Product
+from models.enums import ProductCategory
   
 class ProductService:     
     def listar_produtos(self):

@@ -15,14 +15,27 @@ class TableService:
         db.session.commit()
         return True, "Mesa criada com sucesso."
     
-    def editar_mesa(self, numero_mesa, capacidade=None):
+    def editar_mesa(self, numero_mesa, numero=None, capacidade=None):
         mesa = self.get_table_by_number(numero_mesa)
         if not mesa:
             return False, "Mesa não encontrada."
+        
+        # Se o utilizador quer mudar o número:
+        if numero and numero != numero_mesa:
+            # Verifica se JÁ existe uma mesa com esse novo número
+            if self.get_table_by_number(numero):
+                return False, "Número de mesa já existe."
+            mesa.numero = numero
+            
         if capacidade is not None:
             mesa.capacidade = capacidade
-        db.session.commit()
-        return True, "Mesa editada com sucesso."
+            
+        try:
+            db.session.commit()
+            return True, "Mesa editada com sucesso."
+        except Exception as e:
+            db.session.rollback() # Limpa a transação caso falhe
+            return False, "Erro ao atualizar mesa."
     
     def deletar_mesa(self, numero_mesa):
         mesa = self.get_table_by_number(numero_mesa)

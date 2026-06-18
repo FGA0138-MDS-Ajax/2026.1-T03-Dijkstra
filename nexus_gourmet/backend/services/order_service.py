@@ -10,7 +10,7 @@ FLUXO = {
 }
 
 PERMISSOES = {
-    OrderStatus.EM_PREPARO: [Role.COZINHEIRO],
+    OrderStatus.EM_PREPARO: [Role.COZINHEIRO, Role.GARCOM],
     OrderStatus.PRONTO:     [Role.COZINHEIRO],
     OrderStatus.ENTREGUE:   [Role.GARCOM],
     OrderStatus.CANCELADO:  [Role.ADMINISTRADOR, Role.GARCOM],
@@ -51,11 +51,17 @@ class OrderService:
         mesa = self.table_service.get_table_by_number(numero_mesa)
         if not mesa:
             return None, "Mesa não encontrada."
-        
+
+        if mesa.status == TableStatus.LIVRE:
+            mesa.status = TableStatus.OCUPADA
+            db.session.commit()        
+
+
         nova_comanda = Order(numero_mesa=numero_mesa, user_id=user_id, status=OrderStatus.PENDENTE)
         db.session.add(nova_comanda)
         mesa.status = TableStatus.OCUPADA
         db.session.commit()
+
         return nova_comanda.id, "Comanda aberta com sucesso."
     
     def visualizar_comanda(self, order_id):
@@ -153,8 +159,10 @@ class OrderService:
         status_atual = comanda.status
         if novo_status not in FLUXO.get(status_atual, []):
             return False, f"Transição inválida: {status_atual.value} → {novo_status.value}."
+        
         if user.cargo not in PERMISSOES[novo_status]:
             return False, f"Perfil '{user.cargo.value}' não pode definir status '{novo_status.value}'."
+        
         if status_atual == OrderStatus.PENDENTE and not comanda.itens:
             return False, "Não é possível enviar um pedido sem itens."
 

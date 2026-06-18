@@ -22,6 +22,11 @@ class UserService:
         return User.query.all()
     
     def cadastrar_usuario(self, nome, senha, cargo):
+        if not nome or not nome.strip():
+            return False, "Nome do usuário é obrigatório."
+        
+        if not senha:
+            return False, "Senha do usuário é obrigatória."
         
         novo_id = 1
         while self.get_user_by_id(novo_id) is not None:
@@ -50,6 +55,7 @@ class UserService:
     def editar_usuario(self, usuario_logado, id, nome=None, cargo=None):
         if usuario_logado.cargo != Role.ADMINISTRADOR:
             return False, "Apenas administradores podem editar usuários."
+        
         usuario = self.get_user_by_id(id)
 
         if not usuario:
@@ -59,13 +65,17 @@ class UserService:
             return False, "Nenhum campo fornecido para edição."
         
         if nome:
+            if not nome or not nome.strip():
+                return False, "Nome do usuário é obrigatório."
             usuario.nome = nome
+
         if cargo:
             try:
-                cargo = Role(cargo)
+                cargo_role = Role(cargo)
             except ValueError:
                 return False, f"Cargo inválido: {cargo}."
-            usuario.cargo = cargo
+            usuario.cargo = cargo_role
+            
         db.session.commit()
         return True, "Usuário editado com sucesso."    
         
@@ -92,22 +102,6 @@ class UserService:
         usuario.senha = generate_password_hash(nova_senha)
         db.session.commit()
         return True, "Senha alterada com sucesso."
-    
-    def mudar_cargo(self, usuario_logado, id, cargo):
-        if usuario_logado.cargo != Role.ADMINISTRADOR:
-            return False, "Apenas administradores podem alterar cargos."
-        
-        usuario = self.get_user_by_id(id)
-
-        if not usuario:
-            return False, "Usuário não encontrado."
-        try:
-            cargo = Role(cargo)
-        except ValueError:
-            return False, f"Cargo inválido: {cargo}."
-        usuario.cargo = cargo
-        db.session.commit()
-        return True, "Cargo alterado com sucesso."
     
     def get_user_by_id(self, id):
         return db.session.get(User, id)
