@@ -1,15 +1,26 @@
-from app import create_app
+# É o ponto principal de entrada da aplicação. 
+# Ele é o arquivo que você executa (python main.py) para iniciar o servidor web 
+# e mostrar o projeto no navegador.
 
-# Cria a instância da aplicação configurada no app.py
-app = create_app()
 
-if __name__ == '__main__':
-    print("\n" + "="*50)
-    print("✅ Servidor do Nexus Gourmet iniciado com sucesso!")
-    print("➡️  Acesse: http://127.0.0.1:5000")
-    print("🔄 Pressione Ctrl+C para parar o servidor.")
-    print("="*50 + "\n")
-    
-    # Roda a aplicação Flask
-    # debug=True permite que o servidor reinicie sozinho ao salvar arquivos
-    app.run(host='127.0.0.1', port=5000, debug=True)
+# import os
+# from bottle import run
+# from app import create_app
+# from config import Config
+
+# if __name__ == '__main__':
+#     app = create_app()
+
+#     if os.environ.get('BOTTLE_CHILD') != 'true':
+#         print(f"✅ Servidor do Nexus Gourmet iniciado!")
+#         print(f"➡️  Acesse http://{Config.HOST}:{Config.PORT} para ver o projeto.")
+#         print("🔄 Pressione Ctrl+C para parar o servidor.")
+
+#     run(
+#         app=app,
+#         host=Config.HOST,
+#         port=Config.PORT,
+#         debug=Config.DEBUG,
+#         reloader=Config.RELOADER,
+#         quiet=True
+#     )

@@ -2,7 +2,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-from backend.models.enums import Role, TableStatus, ProductCategory, OrderStatus
+from nexus_gourmet.backend.models.enums import Role, TableStatus, ProductCategory, OrderStatus
 
 db = SQLAlchemy()
 
@@ -14,13 +14,14 @@ class User(db.Model):
     senha = db.Column(db.String(255), nullable=False)
     cargo = db.Column(db.Enum(Role), nullable=False, default=Role.GARCOM)
 
-    comanda = db.relationship('Order', backref='user', lazy=True)
+    comandas = db.relationship('Order', backref='user', lazy=True)
 
 
 class Table(db.Model):
     __tablename__ = 'tables'
 
-    numero = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    numero = db.Column(db.Integer, unique=True, nullable=False)
     capacidade = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Enum(TableStatus), nullable=False, default=TableStatus.LIVRE)
 
@@ -40,16 +41,16 @@ class Order(db.Model):
     __tablename__ = 'orders'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    data_abertura = db.Column(db.DateTime, default=datetime.utcnow)
+    data_hora_abertura = db.Column(db.DateTime, default=datetime.utcnow)
     status = db.Column(db.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDENTE)
 
-    numero_mesa = db.Column(db.Integer, db.ForeignKey('tables.numero'), nullable=False)
+    mesa_id = db.Column(db.Integer, db.ForeignKey('tables.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    itens = db.relationship('ProductOrdered', backref='order', lazy=True, cascade="all, delete-orphan")
+    itens = db.relationship('ItemOrdered', backref='order', lazy=True, cascade="all, delete-orphan")
 
 
-class ProductOrdered(db.Model):
+class ItemOrdered(db.Model):
     __tablename__ = 'itens_ordered'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

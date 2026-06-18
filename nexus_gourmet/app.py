@@ -1,49 +1,38 @@
-import os
-from flask import Flask, redirect, render_template
-from backend.models.models import db
-from backend.services.user_service import UserService
-from backend.services.product_service import ProductService
-from backend.services.order_service import OrderService
-from backend.services.table_service import TableService
-from backend.controllers import init_controllers
+# É responsável por criar e configurar a aplicação. 
+# Ele inicia os middlewares de sessão 
+# (para manter o usuário logado usando a biblioteca Beaker), 
+# configura as rotas iniciais e inicia os controladores.
 
-def create_app():
-    """Cria e configura a instância da aplicação Flask."""
+
+# from bottle import Bottle, template, request, redirect
+# from beaker.middleware import SessionMiddleware
+# from config import Config
+# from controllers import init_controllers
+# from controllers.base_controller import BaseController
+# from services.livro_service import LivroService
+
+# session_opts = {
+#     'session.type': 'file',
+#     'session.cookie_expires': 3600,
+#     'session.data_dir': './.sessions',
+#     'session.auto': True,
+#     'session.secret': Config.SECRET_KEY
+# }
+
+# def create_app():
+#     """Cria e configura a instância da aplicação Bottle."""
+#     base_app = Bottle()
+
+#     @base_app.route('/')
+#     def home_page():
+#         livro_service = LivroService()
+#         livros_em_destaque = livro_service.get_all()[:3]        
+#         session = request.environ.get('beaker.session')
+#         return template('index', livros=livros_em_destaque, session=session)
+
+#     init_controllers(base_app)
+#     base_controller = BaseController(base_app)
+#     base_controller.setup_routes()
     
-    # Define os caminhos absolutos para o front-end
-    base_dir = os.path.abspath(os.path.dirname(__file__))
-    template_dir = os.path.join(base_dir, 'frontend', 'views')
-    static_dir = os.path.join(base_dir, 'frontend', 'static')
-
-    # Inicializa o Flask apontando para as pastas do Front-end
-    app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
-
-    # Configurações do Banco de Dados e Sessão
-    db_path = os.path.join(base_dir, 'backend', 'instance', 'nexus.db')
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = 'nexus_super_secret_key_flask'
-
-    # Vincula o SQLAlchemy ao app
-    db.init_app(app)
-
-    # Cria as tabelas do banco de dados (caso não existam)
-    with app.app_context():
-        db.create_all()
-
-    # Instanciando os Serviços (Regras de negócio)
-    user_service = UserService()
-    product_service = ProductService()
-    table_service = TableService()
-    # OrderService depende do TableService, conforme definido no seu __init__
-    order_service = OrderService(table_service) 
-
-    # Inicializando os Controladores (Rotas)
-    init_controllers(app, user_service, order_service, table_service, product_service)
-
-    # Rota raiz: Redireciona o usuário direto para a página de Login do front-end
-    @app.route('/')
-    def index():
-        return redirect('/login')
-
-    return app
+#     app_with_session = SessionMiddleware(base_app, session_opts)    
+#     return app_with_session

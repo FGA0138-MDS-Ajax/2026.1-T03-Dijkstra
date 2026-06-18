@@ -1,8 +1,9 @@
-import random
-from backend.models.models import db, Product
-from backend.models.enums import ProductCategory
-  
-class ProductService:     
+from models import db, Product
+from enums import ProductCategory
+ 
+ 
+class ProdutoService:
+     
     def listar_produtos(self):
         return Product.query.all()  
  
@@ -13,15 +14,11 @@ class ProductService:
             return []
         return Product.query.filter_by(categoria=categoria).all()
  
-    def cadastrar_produto(self, nome, categoria, preco):
-        while True:
-            novo_id = random.randint(1000, 9999)
-            if self.get_product_by_id(novo_id) is None:
-                break
-
+    def cadastrar_produto(self, id, nome, categoria, preco):
+        if self.get_by_product_id(id):
+            return False, "ID do produto já existe."
         if not nome or not nome.strip():
             return False, "Nome do produto é obrigatório."
-        
         try:
             preco = float(preco)
         except (TypeError, ValueError):
@@ -33,13 +30,13 @@ class ProductService:
         except ValueError:
             return False, f"Categoria inválida: {categoria}."
  
-        produto = Product(id=novo_id, nome=nome.strip(), categoria=categoria, preco=preco)
+        produto = Product(id=id, nome=nome.strip(), categoria=categoria, preco=preco)
         db.session.add(produto)
         db.session.commit()
         return True, "Produto cadastrado com sucesso."
  
     def editar_produto(self, product_id, nome, categoria, preco):
-        produto = self.get_product_by_id(product_id)
+        produto = self.get_by_product_id(product_id)
         if not produto:
             return False, "Produto não encontrado."
         if not nome or not nome.strip():
@@ -62,12 +59,12 @@ class ProductService:
         return True, "Produto atualizado com sucesso."
  
     def deletar_produto(self, product_id):
-        produto = self.get_product_by_id(product_id)
+        produto = self.get_by_product_id(product_id)
         if not produto:
             return False, "Produto não encontrado."
         db.session.delete(produto)
         db.session.commit()
         return True, "Produto excluído com sucesso."
 
-    def get_product_by_id(self, product_id):
+    def get_by_product_id(self, product_id):
         return Product.query.get(product_id)
