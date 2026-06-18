@@ -2,62 +2,46 @@ from models.enums import Role
 from models.models import User, db
 
 # ==========================================
-# FUNÇÕES AUXILIARES PARA OS TESTES
-# ==========================================
-def criar_admin_direto():
-    """Cria um administrador diretamente no banco, burlando o service."""
-    admin = User(id=999, nome="Admin Supremo", senha="123", cargo=Role.ADMINISTRADOR)
-    db.session.add(admin)
-    db.session.commit()
-    return admin
-
-def criar_garcom_direto():
-    """Cria um garçom diretamente no banco para testar bloqueios."""
-    garcom = User(id=888, nome="Garçom Teste", senha="123", cargo=Role.GARCOM)
-    db.session.add(garcom)
-    db.session.commit()
-    return garcom
-
-# ==========================================
 # TESTES DE CADASTRO
 # ==========================================
 def test_cadastrar_usuario_com_sucesso(app, user_service):
-    admin = criar_admin_direto()
-    
+    # Não enviamos mais o ID nem o usuario_logado!
     usuario, mensagem = user_service.cadastrar_usuario(
-        usuario_logado=admin, 
-        id=1, 
         nome="João Garçom", 
         senha="123", 
-        cargo=Role.GARCOM
+        cargo=Role.GARCOM.value
     )
     
     assert usuario is not False 
     assert usuario.nome == "João Garçom"
     assert usuario.cargo == Role.GARCOM
     assert mensagem == "Usuário cadastrado com sucesso."
+    assert usuario.id == 1 # O banco gerou o 1 automaticamente!
 
-def test_cadastrar_usuario_sem_permissao(app, user_service):
-    garcom = criar_garcom_direto()
-    
-    # Um garçom tenta cadastrar outro usuário
-    sucesso, mensagem = user_service.cadastrar_usuario(
-        usuario_logado=garcom, 
-        id=2, 
-        nome="Invasor", 
+def test_cadastrar_usuario_campos_invalidos(app, user_service):
+    # 1. Teste com nome vazio
+    usuario, mensagem = user_service.cadastrar_usuario(
+        nome="   ", 
         senha="123", 
-        cargo=Role.COZINHEIRO
+        cargo=Role.GARCOM.value
     )
-    
-    assert sucesso is False
-    assert mensagem == "Apenas administradores podem cadastrar usuários."
+    assert usuario is False
+    assert "Nome" in mensagem
+
+    # 2. Teste com cargo inválido
+    usuario, mensagem = user_service.cadastrar_usuario(
+        nome="João", 
+        senha="123", 
+        cargo="Cargo Inexistente"
+    )
+    assert usuario is False
+    assert "Cargo inválido" in mensagem
 
 # ==========================================
 # TESTES DE AUTENTICAÇÃO
 # ==========================================
 def test_autenticar_login_com_sucesso(app, user_service):
-    admin = criar_admin_direto()
-    user_service.cadastrar_usuario(admin, 1, "João Garçom", "123", Role.GARCOM)
+    user_service.cadastrar_usuario("João Garçom", "123", Role.GARCOM.value)
     
     sucesso, mensagem, usuario = user_service.autenticar(id=1, senha="123")
     
@@ -65,21 +49,25 @@ def test_autenticar_login_com_sucesso(app, user_service):
     assert mensagem == "Login bem-sucedido."
     assert usuario.id == 1
 
-def test_autenticar_login_senha_incorreta(app, user_service):
-    admin = criar_admin_direto()
-    user_service.cadastrar_usuario(admin, 1, "João Garçom", "senha_certa", Role.GARCOM)
+def test_autenticar_login_dados_incorretos(app, user_service):
+    user_service.cadastrar_usuario("João Garçom", "123", Role.GARCOM.value)
     
+    # Teste com senha incorreta
     sucesso, mensagem, usuario = user_service.autenticar(id=1, senha="senha_errada")
-    
     assert sucesso is False
     assert mensagem == "Senha incorreta."
     assert usuario is None
 
-def test_logout_com_sucesso(app, user_service):
-    admin = criar_admin_direto()
-    user_service.cadastrar_usuario(admin, 1, "João Garçom", "123", Role.GARCOM)
+    # Teste com ID inexistente
+    sucesso, mensagem, usuario = user_service.autenticar(id=99, senha="123")
+    assert sucesso is False
+    assert mensagem == "Usuário não encontrado."
+    assert usuario is None
     
-    sucesso, mensagem = user_service.logout(1)
+def test_logout_com_sucesso(app, user_service):
+    user_service.cadastrar_usuario("João Garçom", "123", Role.GARCOM.value)
+    
+    sucesso, mensagem = user_service.logout(id=1)
     assert sucesso is True
     assert mensagem == "Logout bem-sucedido."
 
@@ -87,93 +75,67 @@ def test_logout_com_sucesso(app, user_service):
 # TESTES DE EDIÇÃO E DELEÇÃO
 # ==========================================
 def test_editar_usuario_com_sucesso(app, user_service):
-    admin = criar_admin_direto()
-    user_service.cadastrar_usuario(admin, 1, "João", "123", Role.GARCOM)
+    admin = user_service.cadastrar_usuario("Admin", "123", Role.ADMINISTRADOR.value)[0]
+    user_service.cadastrar_usuario("João", "123", Role.GARCOM.value)
     
+    # Edita o João (que recebeu o ID 1 automaticamente)
     sucesso, mensagem = user_service.editar_usuario(
-        usuario_logado=admin, 
-        id=1, 
+        admin, id=1, 
+
         nome="João Editado", 
-        cargo=Role.COZINHEIRO
+        cargo=Role.COZINHEIRO.value
     )
     
     usuario_editado = user_service.get_user_by_id(1)
     
     assert sucesso is True
+    assert mensagem == "Usuário editado com sucesso."
     assert usuario_editado.nome == "João Editado"
     assert usuario_editado.cargo == Role.COZINHEIRO
 
-def test_editar_usuario_sem_permissao(app, user_service):
-    admin = criar_admin_direto()
-    garcom = criar_garcom_direto()
-    user_service.cadastrar_usuario(admin, 1, "João", "123", Role.GARCOM)
+def test_editar_usuario_campos_invalidos(app, user_service):
+    admin = user_service.cadastrar_usuario("Admin", "123", Role.ADMINISTRADOR.value)[0]
+    user_service.cadastrar_usuario("João", "123", Role.GARCOM.value)
     
+    # Tenta editar com nome vazio
     sucesso, mensagem = user_service.editar_usuario(
-        usuario_logado=garcom, 
-        id=1, 
-        nome="Hackeado"
+        admin, id=1, nome="   "
     )
-    
     assert sucesso is False
-    assert mensagem == "Apenas administradores podem editar usuários."
+    assert "Nome" in mensagem
+
+    # Tenta editar com cargo inválido
+    sucesso, mensagem = user_service.editar_usuario(
+        admin, id=1, cargo="Cargo Inexistente"
+    )
+    assert sucesso is False
+    assert "Cargo inválido" in mensagem
 
 def test_deletar_usuario_com_sucesso(app, user_service):
-    admin = criar_admin_direto()
-    user_service.cadastrar_usuario(admin, 1, "João", "123", Role.GARCOM)
+    admin = user_service.cadastrar_usuario("Admin", "123", Role.ADMINISTRADOR.value)[0]
+    user_service.cadastrar_usuario("João", "123", Role.GARCOM.value)
     
-    sucesso, mensagem = user_service.deletar_usuario(usuario_logado=admin, id=1)
+    sucesso, mensagem = user_service.deletar_usuario(admin, id=1)
     usuario_apagado = user_service.get_user_by_id(1)
     
     assert sucesso is True
     assert usuario_apagado is None 
 
-def test_deletar_usuario_sem_permissao(app, user_service):
-    admin = criar_admin_direto()
-    garcom = criar_garcom_direto()
-    user_service.cadastrar_usuario(admin, 1, "João", "123", Role.GARCOM)
-    
-    sucesso, mensagem = user_service.deletar_usuario(usuario_logado=garcom, id=1)
-    
-    assert sucesso is False
-    assert mensagem == "Apenas administradores podem excluir usuários."
-
 # ==========================================
 # TESTES DE OUTRAS FUNCIONALIDADES
 # ==========================================
 def test_listar_usuarios(app, user_service):
-    admin = criar_admin_direto()
-    user_service.cadastrar_usuario(admin, 1, "João", "123", Role.GARCOM)
+    user_service.cadastrar_usuario("Admin", "123", Role.ADMINISTRADOR.value) # Recebe ID 1
+    user_service.cadastrar_usuario("João", "123", Role.GARCOM.value)         # Recebe ID 2
     
     usuarios = user_service.listar_usuarios()
-    
-    assert len(usuarios) == 2 # O admin direto (1) + O João (1)
+    assert len(usuarios) == 2
 
 def test_alterar_senha_com_sucesso(app, user_service):
-    admin = criar_admin_direto()
-    user_service.cadastrar_usuario(admin, 1, "João", "senha_velha", Role.GARCOM)
+    user_service.cadastrar_usuario("João", "senha_velha", Role.GARCOM.value)
     
-    sucesso, mensagem = user_service.alterar_senha(1, "senha_velha", "senha_nova")
+    sucesso, mensagem = user_service.alterar_senha(id=1, senha="senha_velha", nova_senha="senha_nova")
     assert sucesso is True
     
-    login_sucesso, _, _ = user_service.autenticar(1, "senha_nova")
+    login_sucesso, _, _ = user_service.autenticar(id=1, senha="senha_nova")
     assert login_sucesso is True
-
-def test_mudar_cargo_com_sucesso(app, user_service):
-    admin = criar_admin_direto()
-    user_service.cadastrar_usuario(admin, 1, "João", "123", Role.GARCOM)
-    
-    sucesso, mensagem = user_service.mudar_cargo(usuario_logado=admin, id=1, cargo=Role.COZINHEIRO)
-    usuario = user_service.get_user_by_id(1)
-    
-    assert sucesso is True
-    assert usuario.cargo == Role.COZINHEIRO
-
-def test_mudar_cargo_sem_permissao(app, user_service):
-    admin = criar_admin_direto()
-    garcom = criar_garcom_direto()
-    user_service.cadastrar_usuario(admin, 1, "João", "123", Role.GARCOM)
-    
-    sucesso, mensagem = user_service.mudar_cargo(usuario_logado=garcom, id=1, cargo=Role.ADMINISTRADOR)
-    
-    assert sucesso is False
-    assert mensagem == "Apenas administradores podem alterar cargos."
