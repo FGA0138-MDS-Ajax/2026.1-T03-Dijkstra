@@ -17,13 +17,13 @@ class UserController(BaseController):
         #Rotas de gerenciamento de usuários (para administradores)
         self.app.add_url_rule('/usuarios',   view_func=self.listar_usuarios, methods=['GET'])
         self.app.add_url_rule('/usuarios/cadastrar', view_func=self.cadastrar_usuario, methods=['POST'])
-        self.app.add_url_rule('/usuarios/visualizar_cargo/<int:user_id>',  view_func=self.visualizar_cargo, methods=['GET'])
-        self.app.add_url_rule('/usuarios/deletar_cargo/<int:user_id>', view_func=self.deletar_usuario, methods=['POST'])
-        self.app.add_url_rule('/usuarios/mudar_cargo/<int:user_id>',       view_func=self.mudar_cargo,  methods=['POST'])
+        self.app.add_url_rule('/usuarios/editar_usuario/<int:user_id>', view_func=self.editar_usuario, methods=['POST'])
+        self.app.add_url_rule('/usuarios/deletar_usuario/<int:user_id>', view_func=self.deletar_usuario, methods=['POST'])
+        self.app.add_url_rule('/usuarios/visualizar_perfil/<int:user_id>',  view_func=self.visualizar_perfil, methods=['GET'])
         self.app.add_url_rule('/usuarios/transferir_posse',    view_func=self.transferir_posse,methods=['POST'])
 
         #Rota para o cargo do usuário logado
-        self.app.add_url_rule('/meu_cargo', view_func=self.meu_cargo,  methods=['GET', 'POST'])
+        self.app.add_url_rule('/meu_perfil', view_func=self.meu_cargo,  methods=['GET', 'POST'])
 
     def login(self):
         if request.method == 'POST':
@@ -73,14 +73,14 @@ class UserController(BaseController):
         usuarios = self.user_service.listar_usuarios()
         return self.render('usuarios.html', usuarios=usuarios)
     
-    def visualizar_cargo(self, user_id):
+    def visualizar_perfil(self, user_id):
         if session.get('user_cargo') != Role.ADMINISTRADOR.name:
             return "Acesso negado", 403
 
         usuario = self.user_service.get_user_by_id(user_id)
         if not usuario:
             return "Usuário não encontrado", 404
-        return self.render('cargo_usuario.html', usuario=usuario)
+        return self.render('perfil_usuario.html', usuario=usuario)
     
     def deletar_usuario(self, user_id):
         if session.get('user_cargo') != Role.ADMINISTRADOR.name:
@@ -91,15 +91,17 @@ class UserController(BaseController):
             return self.render('usuarios.html', error=message)
         return redirect('/usuarios')
     
-    def mudar_cargo(self, user_id):
+    def editar_usuario(self, user_id):
         if session.get('user_cargo') != Role.ADMINISTRADOR.name:
             return "Acesso negado", 403
-        
-        novo_cargo_str = request.form.get('novo_cargo')
-        try: 
-            novo_cargo_enum = Role[novo_cargo_str]
-            success, message = self.user_service.mudar_cargo(user_id, novo_cargo_enum)
-            
+
+        nome = request.form.get('nome')
+        senha = request.form.get('senha')
+        cargo = request.form.get('cargo')
+
+        try:
+            cargo = Role[cargo]
+            success, message = self.user_service.editar_usuario(user_id, nome, senha, cargo)
             if not success:
                 return self.render('usuarios.html', error=message)
             return redirect('/usuarios')

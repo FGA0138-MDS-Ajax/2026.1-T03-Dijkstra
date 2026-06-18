@@ -70,7 +70,6 @@ class ProductController(BaseController):
         if usuario.cargo != Role.ADMINISTRADOR:
             return "Acesso negado", 403
         
-        product_id = request.form.get('product_id')
         nome = request.form.get('nome')
         categoria = request.form.get('categoria')
         preco = request.form.get('preco')

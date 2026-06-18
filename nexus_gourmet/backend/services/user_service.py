@@ -8,14 +8,17 @@ class UserService:
         usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado.", None
+        
         if not check_password_hash(usuario.senha, senha):
             return False, "Senha incorreta.", None
+        
         return True, "Login bem-sucedido.", usuario
     
     def logout(self, id):
         usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
+        
         return True, "Logout bem-sucedido."
     
     def listar_usuarios(self):
@@ -47,12 +50,17 @@ class UserService:
             return False, "Usuário não encontrado."
         return True, usuario
  
-    def editar_usuario(self, id, nome=None, cargo=None):
+    def editar_usuario(self, usuario_logado, id, nome=None, cargo=None):
+        if usuario_logado != Role.ADMINISTRADOR:
+            return False, "Acesso negado. Apenas administradores podem editar usuários."
+        
         usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
+        
         if nome:
             usuario.nome = nome
+
         if cargo:
             try:
                 cargo = Role(cargo)
