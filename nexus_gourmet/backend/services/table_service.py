@@ -2,10 +2,15 @@ from backend.models.models import db, Table
 from backend.models.enums import TableStatus, OrderStatus
  
 class TableService:
-    def criar_mesa(self, numero, capacidade):
-        if self.get_table_by_number(numero):
+    def criar_mesa(self, capacidade):
+        novo_numero = 1
+        while self.get_table_by_number(novo_numero) is not None:
+            novo_numero += 1
+
+        if self.get_table_by_number(novo_numero):
             return False, "Número de mesa já existe."
-        nova_mesa = Table(numero=numero, status=TableStatus.LIVRE, capacidade=capacidade)
+        
+        nova_mesa = Table(numero=novo_numero, status=TableStatus.LIVRE, capacidade=capacidade)
         db.session.add(nova_mesa)
         db.session.commit()
         return True, "Mesa criada com sucesso."
@@ -14,14 +19,24 @@ class TableService:
         mesa = self.get_table_by_number(numero_mesa)
         if not mesa:
             return False, "Mesa não encontrada."
-        if numero:
+        
+        # Validação de conflito de números
+        if numero and numero != numero_mesa:
             if self.get_table_by_number(numero):
                 return False, "Número de mesa já existe."
             mesa.numero = numero
+            
         if capacidade is not None:
             mesa.capacidade = capacidade
-        db.session.commit()
-        return True, "Mesa editada com sucesso."
+            
+        try:
+            db.session.commit()
+            return True, "Mesa editada com sucesso."
+        
+        except Exception as e:
+            db.session.rollback()
+        
+            return False, "Erro ao atualizar mesa."
     
     def deletar_mesa(self, numero_mesa):
         mesa = self.get_table_by_number(numero_mesa)

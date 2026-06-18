@@ -8,28 +8,38 @@ class UserService:
         usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado.", None
+        
         if not check_password_hash(usuario.senha, senha):
             return False, "Senha incorreta.", None
+        
         return True, "Login bem-sucedido.", usuario
     
     def logout(self, id):
         usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
+        
         return True, "Logout bem-sucedido."
     
     def listar_usuarios(self):
         return User.query.all()
     
-    def cadastrar_usuario(self, id, nome, senha, cargo):
-        if self.get_user_by_id(id):
+    def cadastrar_usuario(self, nome, senha, cargo):
+        
+        novo_id = 1
+        while self.get_user_by_id(novo_id) is not None:
+            novo_id += 1
+
+        if self.get_user_by_id(novo_id):
             return False, "ID de usuário já existe."
+        
         try:
             cargo = Role(cargo)
         except ValueError:
             return False, f"Cargo inválido: {cargo}."
+        
         senha_hash = generate_password_hash(senha)
-        novo_usuario = User(id=id, nome=nome, senha=senha_hash, cargo=cargo)
+        novo_usuario = User(id=novo_id, nome=nome, senha=senha_hash, cargo=cargo)
         db.session.add(novo_usuario)
         db.session.commit()
         return novo_usuario, "Usuário cadastrado com sucesso."
@@ -40,12 +50,17 @@ class UserService:
             return False, "Usuário não encontrado."
         return True, usuario
  
-    def editar_usuario(self, id, nome=None, cargo=None):
+    def editar_usuario(self, usuario_logado, id, nome=None, cargo=None):
+        if usuario_logado != Role.ADMINISTRADOR:
+            return False, "Acesso negado. Apenas administradores podem editar usuários."
+        
         usuario = self.get_user_by_id(id)
         if not usuario:
             return False, "Usuário não encontrado."
+        
         if nome:
             usuario.nome = nome
+
         if cargo:
             try:
                 cargo = Role(cargo)

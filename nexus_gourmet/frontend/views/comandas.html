@@ -1,0 +1,55 @@
+{% extends "base_salao.html" %}
+{% block content %}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 class="page-title" style="margin-bottom: 0; border: none;">Comanda - Mesa {{ mesa.numero }}</h2>
+    <a href="/salão"><button class="danger">Voltar às Mesas</button></a>
+</div>
+
+<div class="card">
+    <h3>Adicionar Produto</h3>
+    <form action="/salão/comanda/{{ mesa.numero }}/adicionar" method="POST" class="form-row" style="margin-top: 15px;">
+        <select name="produto_id" style="flex: 1; min-width: 200px;" required>
+            <option value="" disabled selected>Selecione um produto...</option>
+            {% for produto in produtos_disponiveis %}
+                <option value="{{ produto.id }}">{{ produto.nome }} - R$ {{ "%.2f"|format(produto.preco) }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="quantidade" value="1" min="1" style="width: 80px;" required>
+        <button type="submit">+ Adicionar</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Itens na Comanda</h3>
+    <table style="margin-top: 15px;">
+        <thead>
+            <tr>
+                <th>Qtd</th>
+                <th>Produto</th>
+                <th>Status</th>
+                <th style="text-align: right;">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itens_comanda %}
+            <tr>
+                <td>{{ item.quantidade }}x</td>
+                <td>{{ item.produto.nome }}</td>
+                <td style="color: var(--text-muted);">{{ item.status }}</td>
+                <td class="price-cell" style="text-align: right;">R$ {{ "%.2f"|format(item.subtotal) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #3a0000; padding-top: 15px;">
+        <h3 style="color: var(--primary-red);">Total: R$ {{ "%.2f"|format(total_comanda) }}</h3>
+        
+        <form action="/salão/comanda/{{ mesa.numero }}/enviar_cozinha" method="POST">
+            <button type="submit">Enviar Pedido para Cozinha</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Gourmet - Cozinha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo" style="display: flex; align-items: center;">
+    <img src="{{ url_for('static', filename='img/logosite2.png') }}" alt="Nexus Gourmet" style="height: 45px; width: auto; object-fit: contain;">
+</div>
+        <div class="navbar-links">
+            {% if session.get('user_cargo') == 'ADMINISTRADOR' %}
+                <a href="/produtos">Admin</a>
+                <a href="/salão">Salão</a>
+                <a href="/cozinha/fila" style="background: rgba(0,0,0,0.2); color: #fff;">Cozinha</a>
+            {% elif session.get('user_cargo') == 'GARCOM' %}
+                <a href="/salão">Salão</a>
+            {% elif session.get('user_cargo') == 'COZINHEIRO' %}
+                <a href="/cozinha/fila" style="background: rgba(0,0,0,0.2); color: #fff;">Cozinha</a>
+            {% endif %}
+            <a href="/logout" class="logout">Sair</a>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <h2 class="page-title">Fila de Preparo</h2>
+
+        <div class="grid-cards">
+            {% for pedido in pedidos_cozinha %}
+            <div class="card" style="border-left: 4px solid var(--primary-red);">
+                <h3>Mesa {{ pedido.mesa_numero }}</h3>
+                <span class="status-badge" style="background: #331a00; color: #ff9900;">A Preparar</span>
+                
+                <ul style="font-family:'Rubik',sans-serif; font-size:13px; color: var(--text-dim); margin: 10px 0 15px 20px;">
+                    {% for item in pedido.itens %}
+                        <li>{{ item.quantidade }}x - {{ item.nome_produto }}</li>
+                    {% endfor %}
+                </ul>
+
+                <form action="/cozinha/concluir/{{ pedido.id }}" method="POST">
+                    <button type="submit" style="width: 100%; background: linear-gradient(90deg, #004a00, #008b00);">Marcar como Pronto</button>
+                </form>
+            </div>
+            {% endfor %}
+            
+            {% if not pedidos_cozinha %}
+            <p style="color: var(--text-muted); font-style: italic;">Nenhum pedido pendente no momento.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>

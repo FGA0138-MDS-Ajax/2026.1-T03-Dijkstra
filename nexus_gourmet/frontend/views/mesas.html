@@ -1,0 +1,33 @@
+{% extends "base_salao.html" %}
+{% block content %}
+
+<h2 class="page-title">Mesas do Salão</h2>
+
+<div class="card">
+    <form action="/salão/criar" method="POST" class="form-row">
+        <input type="number" name="capacidade" placeholder="Capacidade" required style="width: 140px;">
+        <button type="submit">+ Criar Mesa</button>
+    </form>
+</div>
+
+<div class="grid-cards">
+    {% for mesa in mesas %}
+    <div class="card">
+        <h3>Mesa {{ mesa.numero }}</h3>
+        <span class="status-badge">{{ mesa.status }}</span>
+        <p>Capacidade: {{ mesa.capacidade }} pessoas</p>
+        
+        <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <a href="/salão/{{ mesa.numero }}/comandas" style="text-decoration: none;">
+               <button type="button" style="width: 100%;">Ver Comandas</button>
+            </a>
+            
+            <form action="/salão/deletar/{{ mesa.numero }}" method="POST">
+                <button type="submit" class="danger" style="width: 100%;">Excluir Mesa</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

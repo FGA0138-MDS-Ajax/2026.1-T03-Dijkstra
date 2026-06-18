@@ -13,8 +13,8 @@ class ProductController(BaseController):
         self.app.add_url_rule('/produtos', view_func=self.listar_produtos, methods=['GET'])
         self.app.add_url_rule('/produtos/categoria/<categoria>', view_func=self.listar_por_categoria, methods=['GET'])
         self.app.add_url_rule('/produtos/cadastrar', view_func=self.cadastrar_produto, methods=['POST'])
-        self.app.add_url_rule('/produtos/editar/<int:produto_id>', view_func=self.editar_produto, methods=['POST'])
-        self.app.add_url_rule('/produtos/deletar/<int:produto_id>', view_func=self.deletar_produto, methods=['POST'])
+        self.app.add_url_rule('/produtos/editar/<int:product_id>', view_func=self.editar_produto, methods=['POST'])
+        self.app.add_url_rule('/produtos/deletar/<int:product_id>', view_func=self.deletar_produto, methods=['POST'])
 
     def _get_usuario_logado(self):
         user_id = session.get('user_id')
@@ -52,12 +52,11 @@ class ProductController(BaseController):
         if usuario.cargo != Role.ADMINISTRADOR:
             return "Acesso negado", 403
         
-        id = request.form.get('id')
         nome = request.form.get('nome')
         categoria = request.form.get('categoria')
         preco = request.form.get('preco')
         
-        success, message = self.product_service.cadastrar_produto(id, nome, categoria, preco)
+        success, message = self.product_service.cadastrar_produto(nome, categoria, preco)
         if not success:
             return self.render('produtos.html', error=message)
         
@@ -71,7 +70,6 @@ class ProductController(BaseController):
         if usuario.cargo != Role.ADMINISTRADOR:
             return "Acesso negado", 403
         
-        product_id = request.form.get('product_id')
         nome = request.form.get('nome')
         categoria = request.form.get('categoria')
         preco = request.form.get('preco')

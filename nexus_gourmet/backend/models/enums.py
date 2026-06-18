@@ -8,7 +8,6 @@ class Role(Enum):
 class TableStatus(Enum):
     LIVRE = 'Livre'
     OCUPADA = 'Ocupada'
-    RESERVADA = 'Reservada'
 
 class ProductCategory(Enum):
     BEBIDA = 'Bebida'

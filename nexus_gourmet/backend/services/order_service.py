@@ -1,3 +1,4 @@
+from datetime import datetime
 from backend.models.models import db, Order, ProductOrdered, User, Table
 from backend.models.enums import Role, OrderStatus, TableStatus
 
@@ -51,8 +52,6 @@ class OrderService:
         mesa = self.table_service.get_table_by_number(numero_mesa)
         if not mesa:
             return None, "Mesa não encontrada."
-        if mesa.status != TableStatus.LIVRE:
-            return None, f"Mesa {mesa.numero} não está livre."
         
         nova_comanda = Order(numero_mesa=numero_mesa, user_id=user_id, status=OrderStatus.PENDENTE)
         db.session.add(nova_comanda)
@@ -91,13 +90,21 @@ class OrderService:
         db.session.commit()
         return True, "Item adicionado."
     
-    def editar_comanda(self, order_id, itens, user):
+    def editar_comanda(self, order_id, itens, user, cancelar=False):
         if user.cargo not in [Role.GARCOM, Role.ADMINISTRADOR]:
             return False, "Sem permissão para editar a comanda."
         
         pedido = self.get_order_by_id(order_id)
         if not pedido:
             return False, "Pedido não encontrado."
+        
+        if cancelar:
+            if pedido.status not in [OrderStatus.PENDENTE, OrderStatus.EM_PREPARO]:
+                return False, "Só é possível cancelar comandas com status Pendente ou Em preparo."
+            pedido.status = OrderStatus.CANCELADO
+            db.session.commit()
+            return True, "Comanda cancelada com sucesso."
+        
         if pedido.status != OrderStatus.PENDENTE:
             return False, "Só é possível editar itens em pedidos com status Pendente."
         
@@ -225,9 +232,41 @@ class OrderService:
         mesa = self.table_service.get_table_by_number(comanda.numero_mesa)
         
         if mesa:
-            mesa.status = TableStatus.LIVRE
+            comandas_ativas = Order.query.filter(
+                Order.numero_mesa == mesa.numero,
+                Order.id != order_id, #Ignorar a comanda que está sendo fechanda agora
+                Order.status.in_([
+                    OrderStatus.PENDENTE, 
+                    OrderStatus.EM_PREPARO, 
+                    OrderStatus.PRONTO, 
+                    OrderStatus.ENTREGUE
+                ])
+            ).count()
+            if comandas_ativas == 0:
+                mesa.status = TableStatus.LIVRE
+        
         db.session.commit()
-        return True, {"mensagem": "Comanda fechada e mesa liberada.", "conta": conta}
+        return True, {"mensagem": "Comanda fechada com sucesso.", "conta": conta}
+        
+    def daily_statistics(self):
+        hoje = datetime.now().date()
+        comandas = Order.query.filter(db.func.date(Order.data_abertura) == hoje).all()
+        
+        comandas_canceladas = [c for c in comandas if c.status == OrderStatus.CANCELADO]
+        total_comandas = len(comandas)
+        total_itens = sum(len(c.itens) for c in comandas)
+        
+        total_faturamento = round(
+            float(sum(i.product.preco * i.quantidade for c in comandas for i in c.itens)), 
+            2
+        )
+        
+        return {
+            "total_comandas": total_comandas,
+            "total_comandas_canceladas": len(comandas_canceladas),
+            "total_itens": total_itens,
+            "total_faturamento": total_faturamento
+        }
     
     def get_order_by_id(self, order_id):
         return Order.query.get(order_id)
