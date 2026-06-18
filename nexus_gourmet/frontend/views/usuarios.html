@@ -21,7 +21,7 @@
     <div class="card">
         <h3>{{ usuario.nome }}</h3>
         <span class="status-badge">{{ usuario.cargo.value }}</span>
-        <p style="font-family:'Rubik',sans-serif; font-size:11px; color: #555;">@{{ usuario.id }}</p>
+        <p style="font-family:'Rubik',sans-serif; font-size:11px; color: #555;">#{{ "{:03d}".format(usuario.id) }}</p>
         <form action="/usuarios/deletar_usuario/{{ usuario.id }}" method="POST" style="margin-top: 14px;">
     <button type="submit" class="danger" style="width: 100%;">Excluir</button>
 </form>
