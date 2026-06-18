@@ -4,43 +4,43 @@
 
 ## Integrantes do Grupo
 
-<table style="border-collapse: collapse; width: 100%; font-size: 0.95em;">
+<table class="doc-table doc-table--md">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Matrícula</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Nome</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Função (responsabilidade)</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Pontos de participação</th>
+    <tr>
+      <th>Matrícula</th>
+      <th>Nome</th>
+      <th>Função (responsabilidade)</th>
+      <th>Pontos de participação</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242004457</td><td style="border: 1px solid #ddd; padding: 8px;">Alexandre Henrique Almeida Valadares Sousa</td><td style="border: 1px solid #ddd; padding: 8px;">Banco de dados</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242028655</td><td style="border: 1px solid #ddd; padding: 8px;">Davi Kenichi Watanabe Sakai</td><td style="border: 1px solid #ddd; padding: 8px;">Frontend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">241025953</td><td style="border: 1px solid #ddd; padding: 8px;">Igor Lima Carneiro</td><td style="border: 1px solid #ddd; padding: 8px;">Backend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242005329</td><td style="border: 1px solid #ddd; padding: 8px;">Jhonatan William Araújo de Almeida</td><td style="border: 1px solid #ddd; padding: 8px;">Banco de dados</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242015432</td><td style="border: 1px solid #ddd; padding: 8px;">João Gabriel Rolim Veiga</td><td style="border: 1px solid #ddd; padding: 8px;">Backend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">241039322</td><td style="border: 1px solid #ddd; padding: 8px;">João Paulo Jacomini Batista</td><td style="border: 1px solid #ddd; padding: 8px;">Frontend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">241039304</td><td style="border: 1px solid #ddd; padding: 8px;">João Victor Amorim Kurihara</td><td style="border: 1px solid #ddd; padding: 8px;">Frontend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242024253</td><td style="border: 1px solid #ddd; padding: 8px;">Lucas Ferreira Santana</td><td style="border: 1px solid #ddd; padding: 8px;">Backend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242024271</td><td style="border: 1px solid #ddd; padding: 8px;">Lucas Peixoto Rodrigues</td><td style="border: 1px solid #ddd; padding: 8px;">Backend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242005006</td><td style="border: 1px solid #ddd; padding: 8px;">Rafael de Aquino Marinho</td><td style="border: 1px solid #ddd; padding: 8px;">Frontend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
+    <tr><td>242004457</td><td>Alexandre Henrique Almeida Valadares Sousa</td><td>Banco de dados</td><td>10</td></tr>
+    <tr><td>242028655</td><td>Davi Kenichi Watanabe Sakai</td><td>Frontend</td><td>10</td></tr>
+    <tr><td>241025953</td><td>Igor Lima Carneiro</td><td>Backend</td><td>10</td></tr>
+    <tr><td>242005329</td><td>Jhonatan William Araújo de Almeida</td><td>Banco de dados</td><td>10</td></tr>
+    <tr><td>242015432</td><td>João Gabriel Rolim Veiga</td><td>Backend</td><td>10</td></tr>
+    <tr><td>241039322</td><td>João Paulo Jacomini Batista</td><td>Frontend</td><td>10</td></tr>
+    <tr><td>241039304</td><td>João Victor Amorim Kurihara</td><td>Frontend</td><td>10</td></tr>
+    <tr><td>242024253</td><td>Lucas Ferreira Santana</td><td>Backend</td><td>10</td></tr>
+    <tr><td>242024271</td><td>Lucas Peixoto Rodrigues</td><td>Backend</td><td>10</td></tr>
+    <tr><td>242005006</td><td>Rafael de Aquino Marinho</td><td>Frontend</td><td>10</td></tr>
   </tbody>
 </table>
 
 ## Histórico de Revisões
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Data</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Versão</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Descrição</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Autor(es)</th>
+    <tr>
+      <th>Data</th>
+      <th>Versão</th>
+      <th>Descrição</th>
+      <th>Autor(es)</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">14/05/2026</td><td style="border: 1px solid #ddd; padding: 8px;">1.0</td><td style="border: 1px solid #ddd; padding: 8px;">Primeira versão do documento que define a arquitetura usada no produto</td><td style="border: 1px solid #ddd; padding: 8px;">Grupo Dijkstra</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">02/06/2026</td><td style="border: 1px solid #ddd; padding: 8px;">1.1</td><td style="border: 1px solid #ddd; padding: 8px;">Adicionado menções diretas no corpo do documento às fontes bibliográficas usadas</td><td style="border: 1px solid #ddd; padding: 8px;">Grupo Dijkstra</td></tr>
+    <tr><td>14/05/2026</td><td>1.0</td><td>Primeira versão do documento que define a arquitetura usada no produto</td><td>Grupo Dijkstra</td></tr>
+    <tr><td>02/06/2026</td><td>1.1</td><td>Adicionado menções diretas no corpo do documento às fontes bibliográficas usadas</td><td>Grupo Dijkstra</td></tr>
   </tbody>
 </table>
 
@@ -89,26 +89,26 @@
 
 <p><strong>Tabela 1 - Funcionalidades presentes e não presentes</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">O que ele faz</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">O que ele não faz</th>
+    <tr>
+      <th>O que ele faz</th>
+      <th>O que ele não faz</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Abrir pedido para mesa</td><td style="border: 1px solid #ddd; padding: 8px;">Compra e venda de produtos</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Adicionar item ao pedido</td><td style="border: 1px solid #ddd; padding: 8px;">Adicionar conta de consumidor</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Remover item do pedido</td><td style="border: 1px solid #ddd; padding: 8px;">Permitir acesso direto de consumidores</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Enviar pedido para a cozinha</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Visualizar pedidos na cozinha</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Visualizar tempo de espera</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Atualizar status do pedido</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Fechar conta</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Calcular total do pedido</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Visualizar mesas</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Cadastrar produtos</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Editar produto</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
+    <tr><td>Abrir pedido para mesa</td><td>Compra e venda de produtos</td></tr>
+    <tr><td>Adicionar item ao pedido</td><td>Adicionar conta de consumidor</td></tr>
+    <tr><td>Remover item do pedido</td><td>Permitir acesso direto de consumidores</td></tr>
+    <tr><td>Enviar pedido para a cozinha</td><td></td></tr>
+    <tr><td>Visualizar pedidos na cozinha</td><td></td></tr>
+    <tr><td>Visualizar tempo de espera</td><td></td></tr>
+    <tr><td>Atualizar status do pedido</td><td></td></tr>
+    <tr><td>Fechar conta</td><td></td></tr>
+    <tr><td>Calcular total do pedido</td><td></td></tr>
+    <tr><td>Visualizar mesas</td><td></td></tr>
+    <tr><td>Cadastrar produtos</td><td></td></tr>
+    <tr><td>Editar produto</td><td></td></tr>
   </tbody>
 </table>
 
@@ -192,22 +192,22 @@ Figura 1 - estilo arquitectural
 
 <p><strong>Tabela 2 - Responsabilidades por camada</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Elemento</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Responsabilidade no Nexus Gourmet</th>
+    <tr>
+      <th>Elemento</th>
+      <th>Responsabilidade no Nexus Gourmet</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Cliente Web/Mobile</td><td style="border: 1px solid #ddd; padding: 8px;">Permitir interação dos usuários com o sistema em diferentes dispositivos</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">View</td><td style="border: 1px solid #ddd; padding: 8px;">Exibir telas, formulários, botões, listas de pedidos, mesas e produtos</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Controller</td><td style="border: 1px solid #ddd; padding: 8px;">Receber requisições, coordenar o fluxo e encaminhar ações aos serviços</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Service</td><td style="border: 1px solid #ddd; padding: 8px;">Aplicar regras de negócio, validações e cálculos</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Model</td><td style="border: 1px solid #ddd; padding: 8px;">Representar as entidades principais do domínio</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Repository</td><td style="border: 1px solid #ddd; padding: 8px;">Isolar o acesso ao banco de dados</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Banco de Dados</td><td style="border: 1px solid #ddd; padding: 8px;">Persistir pedidos, produtos, mesas, usuários e histórico de status</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Comunicação assíncrona</td><td style="border: 1px solid #ddd; padding: 8px;">Atualizar cozinha e salão quando houver mudança relevante no pedido</td></tr>
+    <tr><td>Cliente Web/Mobile</td><td>Permitir interação dos usuários com o sistema em diferentes dispositivos</td></tr>
+    <tr><td>View</td><td>Exibir telas, formulários, botões, listas de pedidos, mesas e produtos</td></tr>
+    <tr><td>Controller</td><td>Receber requisições, coordenar o fluxo e encaminhar ações aos serviços</td></tr>
+    <tr><td>Service</td><td>Aplicar regras de negócio, validações e cálculos</td></tr>
+    <tr><td>Model</td><td>Representar as entidades principais do domínio</td></tr>
+    <tr><td>Repository</td><td>Isolar o acesso ao banco de dados</td></tr>
+    <tr><td>Banco de Dados</td><td>Persistir pedidos, produtos, mesas, usuários e histórico de status</td></tr>
+    <tr><td>Comunicação assíncrona</td><td>Atualizar cozinha e salão quando houver mudança relevante no pedido</td></tr>
   </tbody>
 </table>
 

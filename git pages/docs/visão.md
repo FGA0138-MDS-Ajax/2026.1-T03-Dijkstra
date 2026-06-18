@@ -6,43 +6,43 @@
 
 ## Integrantes do Grupo
 
-<table style="border-collapse: collapse; width: 100%; font-size: 0.95em;">
+<table class="doc-table doc-table--md">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Matrícula</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Nome</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Função (responsabilidade)</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Pontos de participação</th>
+    <tr>
+      <th>Matrícula</th>
+      <th>Nome</th>
+      <th>Função (responsabilidade)</th>
+      <th>Pontos de participação</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242004457</td><td style="border: 1px solid #ddd; padding: 8px;">Alexandre Henrique Almeida Valadares Sousa</td><td style="border: 1px solid #ddd; padding: 8px;">Banco de dados</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242028655</td><td style="border: 1px solid #ddd; padding: 8px;">Davi Kenichi Watanabe Sakai</td><td style="border: 1px solid #ddd; padding: 8px;">Frontend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">241025953</td><td style="border: 1px solid #ddd; padding: 8px;">Igor Lima Carneiro</td><td style="border: 1px solid #ddd; padding: 8px;">Backend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242005329</td><td style="border: 1px solid #ddd; padding: 8px;">Jhonatan William Araújo de Almeida</td><td style="border: 1px solid #ddd; padding: 8px;">Banco de dados</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242015432</td><td style="border: 1px solid #ddd; padding: 8px;">João Gabriel Rolim Veiga</td><td style="border: 1px solid #ddd; padding: 8px;">Backend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">241039322</td><td style="border: 1px solid #ddd; padding: 8px;">João Paulo Jacomini Batista</td><td style="border: 1px solid #ddd; padding: 8px;">Frontend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">241039304</td><td style="border: 1px solid #ddd; padding: 8px;">João Victor Amorim Kurihara</td><td style="border: 1px solid #ddd; padding: 8px;">Frontend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242024253</td><td style="border: 1px solid #ddd; padding: 8px;">Lucas Ferreira Santana</td><td style="border: 1px solid #ddd; padding: 8px;">Backend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242024271</td><td style="border: 1px solid #ddd; padding: 8px;">Lucas Peixoto Rodrigues</td><td style="border: 1px solid #ddd; padding: 8px;">Backend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">242005006</td><td style="border: 1px solid #ddd; padding: 8px;">Rafael de Aquino Marinho</td><td style="border: 1px solid #ddd; padding: 8px;">Frontend</td><td style="border: 1px solid #ddd; padding: 8px;">10</td></tr>
+    <tr><td>242004457</td><td>Alexandre Henrique Almeida Valadares Sousa</td><td>Banco de dados</td><td>10</td></tr>
+    <tr><td>242028655</td><td>Davi Kenichi Watanabe Sakai</td><td>Frontend</td><td>10</td></tr>
+    <tr><td>241025953</td><td>Igor Lima Carneiro</td><td>Backend</td><td>10</td></tr>
+    <tr><td>242005329</td><td>Jhonatan William Araújo de Almeida</td><td>Banco de dados</td><td>10</td></tr>
+    <tr><td>242015432</td><td>João Gabriel Rolim Veiga</td><td>Backend</td><td>10</td></tr>
+    <tr><td>241039322</td><td>João Paulo Jacomini Batista</td><td>Frontend</td><td>10</td></tr>
+    <tr><td>241039304</td><td>João Victor Amorim Kurihara</td><td>Frontend</td><td>10</td></tr>
+    <tr><td>242024253</td><td>Lucas Ferreira Santana</td><td>Backend</td><td>10</td></tr>
+    <tr><td>242024271</td><td>Lucas Peixoto Rodrigues</td><td>Backend</td><td>10</td></tr>
+    <tr><td>242005006</td><td>Rafael de Aquino Marinho</td><td>Frontend</td><td>10</td></tr>
   </tbody>
 </table>
 
 ## Histórico de Revisões
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Data</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Versão</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Descrição</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Autor</th>
+    <tr>
+      <th>Data</th>
+      <th>Versão</th>
+      <th>Descrição</th>
+      <th>Autor</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">30/04/2026</td><td style="border: 1px solid #ddd; padding: 8px;">1.0</td><td style="border: 1px solid #ddd; padding: 8px;">Criação da primeira versão do documento</td><td style="border: 1px solid #ddd; padding: 8px;">Grupo Dijkstra</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">02/06/2026</td><td style="border: 1px solid #ddd; padding: 8px;">1.1</td><td style="border: 1px solid #ddd; padding: 8px;">Adicionado menções diretas às fontes bibliográficas usadas no corpo do documento e atualização dos sprints</td><td style="border: 1px solid #ddd; padding: 8px;">Grupo Dijkstra</td></tr>
+    <tr><td>30/04/2026</td><td>1.0</td><td>Criação da primeira versão do documento</td><td>Grupo Dijkstra</td></tr>
+    <tr><td>02/06/2026</td><td>1.1</td><td>Adicionado menções diretas às fontes bibliográficas usadas no corpo do documento e atualização dos sprints</td><td>Grupo Dijkstra</td></tr>
   </tbody>
 </table>
 
@@ -123,20 +123,20 @@ Figura 1 - Ineficiência no registro e acompanhamento de pedidos
 
 <p><strong>Tabela 1 - Posicionamento estratégico do produto</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px; width: 20%;">Item</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Descrição</th>
+    <tr>
+      <th class="col-narrow">Item</th>
+      <th>Descrição</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>Para</strong></td><td style="border: 1px solid #ddd; padding: 8px;">Proprietários e funcionários de restaurantes de qualquer porte</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>Necessidade</strong></td><td style="border: 1px solid #ddd; padding: 8px;">Registrar, acompanhar e gerenciar pedidos de forma centralizada, ágil e sem erros</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>O Nexus Gourmet</strong></td><td style="border: 1px solid #ddd; padding: 8px;">É uma aplicação WEB - mobile denominada Nexus Gourmet</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>Que</strong></td><td style="border: 1px solid #ddd; padding: 8px;">Permite o registro digital de pedidos por mesa, o acompanhamento do status em tempo real pela cozinha e o fechamento de conta pelos garçons</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>Ao contrário</strong></td><td style="border: 1px solid #ddd; padding: 8px;">Do registro manual em papel e da comunicação verbal entre garçons e cozinha, que estão sujeitos a erros, perdas de informação e ausência de rastreabilidade</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>Nosso produto</strong></td><td style="border: 1px solid #ddd; padding: 8px;">Integra o fluxo completo do pedido — do salão à cozinha — com atualização em tempo real, dispensando qualquer infraestrutura adicional além de um navegador web</td></tr>
+    <tr><td><strong>Para</strong></td><td>Proprietários e funcionários de restaurantes de qualquer porte</td></tr>
+    <tr><td><strong>Necessidade</strong></td><td>Registrar, acompanhar e gerenciar pedidos de forma centralizada, ágil e sem erros</td></tr>
+    <tr><td><strong>O Nexus Gourmet</strong></td><td>É uma aplicação WEB - mobile denominada Nexus Gourmet</td></tr>
+    <tr><td><strong>Que</strong></td><td>Permite o registro digital de pedidos por mesa, o acompanhamento do status em tempo real pela cozinha e o fechamento de conta pelos garçons</td></tr>
+    <tr><td><strong>Ao contrário</strong></td><td>Do registro manual em papel e da comunicação verbal entre garçons e cozinha, que estão sujeitos a erros, perdas de informação e ausência de rastreabilidade</td></tr>
+    <tr><td><strong>Nosso produto</strong></td><td>Integra o fluxo completo do pedido — do salão à cozinha — com atualização em tempo real, dispensando qualquer infraestrutura adicional além de um navegador web</td></tr>
   </tbody>
 </table>
 
@@ -213,20 +213,20 @@ Figura 1 - Ineficiência no registro e acompanhamento de pedidos
 
 <p><strong>Tabela 2 - Divisão de funções</strong></p>
 
-<table style="border-collapse: collapse; width: 100%; font-size: 0.95em;">
+<table class="doc-table doc-table--md">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Papel</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Atribuições</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Responsável</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Participantes</th>
+    <tr>
+      <th>Papel</th>
+      <th>Atribuições</th>
+      <th>Responsável</th>
+      <th>Participantes</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Desenvolvedor</td><td style="border: 1px solid #ddd; padding: 8px;">Esses membros ficam responsáveis por fazer com que o projeto funcione através das iterações de código e banco de dados</td><td style="border: 1px solid #ddd; padding: 8px;">Igor, Davi Sakai, João Gabriel, Jhonatan William</td><td style="border: 1px solid #ddd; padding: 8px;">Igor, Davi Sakai, João Gabriel, João Amorim, Jhonatan William</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Dono do Produto</td><td style="border: 1px solid #ddd; padding: 8px;">Esse membro(s) fica responsável por validar os requisitos e backlog do produto seria como um representante do cliente na equipe</td><td style="border: 1px solid #ddd; padding: 8px;">Rafael de Aquino</td><td style="border: 1px solid #ddd; padding: 8px;">Rafael de Aquino</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Analista de Qualidade</td><td style="border: 1px solid #ddd; padding: 8px;">Esses membros ficam responsáveis por avaliar a qualidade do produto e decidir se a iteração está pronta para implementação, de acordo com conceito de pronto do time.</td><td style="border: 1px solid #ddd; padding: 8px;">Lucas Peixoto, Alexandre, Lucas Ferreira</td><td style="border: 1px solid #ddd; padding: 8px;">Lucas Peixoto, Alexandre, Lucas Ferreira</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Cliente (monitor)</td><td style="border: 1px solid #ddd; padding: 8px;">Avaliar se o projeto está de acordo com os requisitos e proposta inicial</td><td style="border: 1px solid #ddd; padding: 8px;">Lucas Ferreira</td><td style="border: 1px solid #ddd; padding: 8px;">Lucas Ferreira</td></tr>
+    <tr><td>Desenvolvedor</td><td>Esses membros ficam responsáveis por fazer com que o projeto funcione através das iterações de código e banco de dados</td><td>Igor, Davi Sakai, João Gabriel, Jhonatan William</td><td>Igor, Davi Sakai, João Gabriel, João Amorim, Jhonatan William</td></tr>
+    <tr><td>Dono do Produto</td><td>Esse membro(s) fica responsável por validar os requisitos e backlog do produto seria como um representante do cliente na equipe</td><td>Rafael de Aquino</td><td>Rafael de Aquino</td></tr>
+    <tr><td>Analista de Qualidade</td><td>Esses membros ficam responsáveis por avaliar a qualidade do produto e decidir se a iteração está pronta para implementação, de acordo com conceito de pronto do time.</td><td>Lucas Peixoto, Alexandre, Lucas Ferreira</td><td>Lucas Peixoto, Alexandre, Lucas Ferreira</td></tr>
+    <tr><td>Cliente (monitor)</td><td>Avaliar se o projeto está de acordo com os requisitos e proposta inicial</td><td>Lucas Ferreira</td><td>Lucas Ferreira</td></tr>
   </tbody>
 </table>
 
@@ -238,27 +238,27 @@ Figura 1 - Ineficiência no registro e acompanhamento de pedidos
 
 <p><strong>Tabela 3 - Planejamento das fases</strong></p>
 
-<table style="border-collapse: collapse; width: 100%; font-size: 0.9em;">
+<table class="doc-table doc-table--sm">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Sprint</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Produto (Entrega)</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Data Início</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Data Fim</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Entregável(eis)</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Responsáveis</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">% conclusão</th>
+    <tr>
+      <th>Sprint</th>
+      <th>Produto (Entrega)</th>
+      <th>Data Início</th>
+      <th>Data Fim</th>
+      <th>Entregável(eis)</th>
+      <th>Responsáveis</th>
+      <th>% conclusão</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Sprint 1</td><td style="border: 1px solid #ddd; padding: 8px;">Definição geral do produto</td><td style="border: 1px solid #ddd; padding: 8px;">09/04/2026</td><td style="border: 1px solid #ddd; padding: 8px;">16/04/2026</td><td style="border: 1px solid #ddd; padding: 8px;">-</td><td style="border: 1px solid #ddd; padding: 8px;">Todos</td><td style="border: 1px solid #ddd; padding: 8px;">2%</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Sprint 2</td><td style="border: 1px solid #ddd; padding: 8px;">Planejamento do projeto e DV</td><td style="border: 1px solid #ddd; padding: 8px;">23/04/2026</td><td style="border: 1px solid #ddd; padding: 8px;">30/04/2026</td><td style="border: 1px solid #ddd; padding: 8px;">1ª versão do Documento de Visão</td><td style="border: 1px solid #ddd; padding: 8px;">Todos</td><td style="border: 1px solid #ddd; padding: 8px;">7%</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Sprint 3</td><td style="border: 1px solid #ddd; padding: 8px;">Documento de arquitetura</td><td style="border: 1px solid #ddd; padding: 8px;">30/04/2026</td><td style="border: 1px solid #ddd; padding: 8px;">14/05/2026</td><td style="border: 1px solid #ddd; padding: 8px;">1ª versão do Documento de arquitetura</td><td style="border: 1px solid #ddd; padding: 8px;">Todos</td><td style="border: 1px solid #ddd; padding: 8px;">13%</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Sprint 4</td><td style="border: 1px solid #ddd; padding: 8px;">Preparação do Github</td><td style="border: 1px solid #ddd; padding: 8px;">20/05/2026</td><td style="border: 1px solid #ddd; padding: 8px;">28/05/2026</td><td style="border: 1px solid #ddd; padding: 8px;">Pastas e documentos no git</td><td style="border: 1px solid #ddd; padding: 8px;">Todos</td><td style="border: 1px solid #ddd; padding: 8px;">18%</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Sprint 5</td><td style="border: 1px solid #ddd; padding: 8px;">Início do Desenvolvimento</td><td style="border: 1px solid #ddd; padding: 8px;">28/05/2026</td><td style="border: 1px solid #ddd; padding: 8px;">04/06/2026</td><td style="border: 1px solid #ddd; padding: 8px;">Models, Controllers e Services; atualização dos documentos</td><td style="border: 1px solid #ddd; padding: 8px;">Igor Lima, João Gabriel, Lucas Ferreira, Lucas Peixoto</td><td style="border: 1px solid #ddd; padding: 8px;">20%</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Sprint 6</td><td style="border: 1px solid #ddd; padding: 8px;">Integração dos models, services e controllers; desenvolvimento do banco de dados</td><td style="border: 1px solid #ddd; padding: 8px;">04/06/2026</td><td style="border: 1px solid #ddd; padding: 8px;">11/06/2026</td><td style="border: 1px solid #ddd; padding: 8px;">Banco de dados + atualizações do backend</td><td style="border: 1px solid #ddd; padding: 8px;">Alexandre, Igor Lima, Jhonatan, João Gabriel, Lucas Ferreira, Lucas Peixoto</td><td style="border: 1px solid #ddd; padding: 8px;">45%</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Sprint 7</td><td style="border: 1px solid #ddd; padding: 8px;">Integração das camadas e desenvolvimento Frontend</td><td style="border: 1px solid #ddd; padding: 8px;">11/05/2026</td><td style="border: 1px solid #ddd; padding: 8px;">18/06/2026</td><td style="border: 1px solid #ddd; padding: 8px;">Entrega da view de login e do administrador</td><td style="border: 1px solid #ddd; padding: 8px;">Davi, João Paulo, João Victor, Rafael</td><td style="border: 1px solid #ddd; padding: 8px;">65%</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Sprint 8</td><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px;">?</td></tr>
+    <tr><td>Sprint 1</td><td>Definição geral do produto</td><td>09/04/2026</td><td>16/04/2026</td><td>-</td><td>Todos</td><td>2%</td></tr>
+    <tr><td>Sprint 2</td><td>Planejamento do projeto e DV</td><td>23/04/2026</td><td>30/04/2026</td><td>1ª versão do Documento de Visão</td><td>Todos</td><td>7%</td></tr>
+    <tr><td>Sprint 3</td><td>Documento de arquitetura</td><td>30/04/2026</td><td>14/05/2026</td><td>1ª versão do Documento de arquitetura</td><td>Todos</td><td>13%</td></tr>
+    <tr><td>Sprint 4</td><td>Preparação do Github</td><td>20/05/2026</td><td>28/05/2026</td><td>Pastas e documentos no git</td><td>Todos</td><td>18%</td></tr>
+    <tr><td>Sprint 5</td><td>Início do Desenvolvimento</td><td>28/05/2026</td><td>04/06/2026</td><td>Models, Controllers e Services; atualização dos documentos</td><td>Igor Lima, João Gabriel, Lucas Ferreira, Lucas Peixoto</td><td>20%</td></tr>
+    <tr><td>Sprint 6</td><td>Integração dos models, services e controllers; desenvolvimento do banco de dados</td><td>04/06/2026</td><td>11/06/2026</td><td>Banco de dados + atualizações do backend</td><td>Alexandre, Igor Lima, Jhonatan, João Gabriel, Lucas Ferreira, Lucas Peixoto</td><td>45%</td></tr>
+    <tr><td>Sprint 7</td><td>Integração das camadas e desenvolvimento Frontend</td><td>11/05/2026</td><td>18/06/2026</td><td>Entrega da view de login e do administrador</td><td>Davi, João Paulo, João Victor, Rafael</td><td>65%</td></tr>
+    <tr><td>Sprint 8</td><td></td><td></td><td></td><td></td><td></td><td>?</td></tr>
   </tbody>
 </table>
 
@@ -270,19 +270,19 @@ Figura 1 - Ineficiência no registro e acompanhamento de pedidos
 
 <p><strong>Tabela 4 - Matriz de comunicação</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Descrição</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Área/Envolvidos</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Periodicidade</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Produtos Gerados</th>
+    <tr>
+      <th>Descrição</th>
+      <th>Área/Envolvidos</th>
+      <th>Periodicidade</th>
+      <th>Produtos Gerados</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Acompanhamento das atividades em andamento via Teams, WhatsApp e Acompanhamento dos riscos, compromissos, ações pendentes via github</td><td style="border: 1px solid #ddd; padding: 8px;">Equipe do Projeto</td><td style="border: 1px solid #ddd; padding: 8px;">Semanal</td><td style="border: 1px solid #ddd; padding: 8px;">Ata de reunião, Relatório de situação do projeto</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Acompanhamento dos riscos, compromissos, ações pendentes via github</td><td style="border: 1px solid #ddd; padding: 8px;">Equipe do Projeto</td><td style="border: 1px solid #ddd; padding: 8px;">Quinzenal</td><td style="border: 1px solid #ddd; padding: 8px;">Ata de reunião, Relatório de situação do projeto</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Comunicar a situação do projeto</td><td style="border: 1px solid #ddd; padding: 8px;">Equipe do Projeto + monitor</td><td style="border: 1px solid #ddd; padding: 8px;">Semanal</td><td style="border: 1px solid #ddd; padding: 8px;">Ata de reunião, e Relatório de situação do projeto</td></tr>
+    <tr><td>Acompanhamento das atividades em andamento via Teams, WhatsApp e Acompanhamento dos riscos, compromissos, ações pendentes via github</td><td>Equipe do Projeto</td><td>Semanal</td><td>Ata de reunião, Relatório de situação do projeto</td></tr>
+    <tr><td>Acompanhamento dos riscos, compromissos, ações pendentes via github</td><td>Equipe do Projeto</td><td>Quinzenal</td><td>Ata de reunião, Relatório de situação do projeto</td></tr>
+    <tr><td>Comunicar a situação do projeto</td><td>Equipe do Projeto + monitor</td><td>Semanal</td><td>Ata de reunião, e Relatório de situação do projeto</td></tr>
   </tbody>
 </table>
 
@@ -296,19 +296,19 @@ Figura 1 - Ineficiência no registro e acompanhamento de pedidos
 
 <p><strong>Tabela 5 - Gerenciamento de riscos</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Risco</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Grão de exposição</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Mitigação</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Plano de contingência</th>
+    <tr>
+      <th>Risco</th>
+      <th>Grão de exposição</th>
+      <th>Mitigação</th>
+      <th>Plano de contingência</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Alteração de requisitos do backlog do produto após o início da sprint</td><td style="border: 1px solid #ddd; padding: 8px;">Alto</td><td style="border: 1px solid #ddd; padding: 8px;">Aumentando o período de refinamento do backlog do produto</td><td style="border: 1px solid #ddd; padding: 8px;">Reunir os requisitos que já estão acordados e aumentar o grau de prioridade</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Falta de comunicação entre as interfaces do sistema</td><td style="border: 1px solid #ddd; padding: 8px;">Alto</td><td style="border: 1px solid #ddd; padding: 8px;">Implementação de Testes de Software para garantir a redução de atrasos</td><td style="border: 1px solid #ddd; padding: 8px;">Revisão completa de todos as unidades do código em larga escala para solução do problema</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Dificuldades com as tecnologias usadas no projeto (SQL, Flask, etc.)</td><td style="border: 1px solid #ddd; padding: 8px;">Médio</td><td style="border: 1px solid #ddd; padding: 8px;">Preparação rápida para a implementação básica dessas tecnologias</td><td style="border: 1px solid #ddd; padding: 8px;">Solicitar ajuda externa para o auxílio das atividades (monitores, professores, tutores etc.)</td></tr>
+    <tr><td>Alteração de requisitos do backlog do produto após o início da sprint</td><td>Alto</td><td>Aumentando o período de refinamento do backlog do produto</td><td>Reunir os requisitos que já estão acordados e aumentar o grau de prioridade</td></tr>
+    <tr><td>Falta de comunicação entre as interfaces do sistema</td><td>Alto</td><td>Implementação de Testes de Software para garantir a redução de atrasos</td><td>Revisão completa de todos as unidades do código em larga escala para solução do problema</td></tr>
+    <tr><td>Dificuldades com as tecnologias usadas no projeto (SQL, Flask, etc.)</td><td>Médio</td><td>Preparação rápida para a implementação básica dessas tecnologias</td><td>Solicitar ajuda externa para o auxílio das atividades (monitores, professores, tutores etc.)</td></tr>
   </tbody>
 </table>
 
@@ -320,18 +320,18 @@ Figura 1 - Ineficiência no registro e acompanhamento de pedidos
 
 <p><strong>Tabela 6 - Critérios de replanejamento</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Risco</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Critério de Replanejamento</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Ação de Replanejamento</th>
+    <tr>
+      <th>Risco</th>
+      <th>Critério de Replanejamento</th>
+      <th>Ação de Replanejamento</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Atraso na entrega de funcionalidades</td><td style="border: 1px solid #ddd; padding: 8px;">Atraso, igual ou superior a 1 sprint, na entrega de uma funcionalidade em relação ao cronograma</td><td style="border: 1px solid #ddd; padding: 8px;">Alterar as prioridades de entrega e ajustar o backlog</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Necessidade de alterar o escopo</td><td style="border: 1px solid #ddd; padding: 8px;">Funcionalidades Must não estão sendo realizadas de acordo com o cronograma planejado</td><td style="border: 1px solid #ddd; padding: 8px;">Replanejar as funcionalidades que seriam trabalhadas em sprints futuras</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Falta de comunicação entre os membros do projeto</td><td style="border: 1px solid #ddd; padding: 8px;">Dificuldade de comunicação com um membro por 3 dias</td><td style="border: 1px solid #ddd; padding: 8px;">Ajustes na divisão e nas responsabilidades atribuídas aos membros</td></tr>
+    <tr><td>Atraso na entrega de funcionalidades</td><td>Atraso, igual ou superior a 1 sprint, na entrega de uma funcionalidade em relação ao cronograma</td><td>Alterar as prioridades de entrega e ajustar o backlog</td></tr>
+    <tr><td>Necessidade de alterar o escopo</td><td>Funcionalidades Must não estão sendo realizadas de acordo com o cronograma planejado</td><td>Replanejar as funcionalidades que seriam trabalhadas em sprints futuras</td></tr>
+    <tr><td>Falta de comunicação entre os membros do projeto</td><td>Dificuldade de comunicação com um membro por 3 dias</td><td>Ajustes na divisão e nas responsabilidades atribuídas aos membros</td></tr>
   </tbody>
 </table>
 
@@ -374,19 +374,19 @@ Figura 1 - Ineficiência no registro e acompanhamento de pedidos
 
 <p><strong>Tabela 7 - Papéis</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Papel</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Responsabilidades</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Integrantes</th>
+    <tr>
+      <th>Papel</th>
+      <th>Responsabilidades</th>
+      <th>Integrantes</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Dono do produto</td><td style="border: 1px solid #ddd; padding: 8px;">Responsável por validar os requisitos e o backlog do produto, atuando como representante do cliente na equipe</td><td style="border: 1px solid #ddd; padding: 8px;">Rafael de Aquino</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Desenvolvedores</td><td style="border: 1px solid #ddd; padding: 8px;">Responsáveis pela implementação técnica do sistema, incluindo código, banco de dados e iterações de desenvolvimento</td><td style="border: 1px solid #ddd; padding: 8px;">Davi Sakai, Igor Lima, Jhonatan William, João Gabriel, João Amorim e João Paulo</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Analistas de Qualidade</td><td style="border: 1px solid #ddd; padding: 8px;">Responsáveis por avaliar a qualidade do produto e validar se as iterações estão prontas para implementação conforme o conceito de "pronto" do time</td><td style="border: 1px solid #ddd; padding: 8px;">Alexandre Sousa, Lucas Peixoto e Lucas Ferreira</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Cliente</td><td style="border: 1px solid #ddd; padding: 8px;">Responsável por avaliar se o projeto está de acordo com os requisitos e a proposta inicial do Nexus Gourmet</td><td style="border: 1px solid #ddd; padding: 8px;">Lucas Ferreira</td></tr>
+    <tr><td>Dono do produto</td><td>Responsável por validar os requisitos e o backlog do produto, atuando como representante do cliente na equipe</td><td>Rafael de Aquino</td></tr>
+    <tr><td>Desenvolvedores</td><td>Responsáveis pela implementação técnica do sistema, incluindo código, banco de dados e iterações de desenvolvimento</td><td>Davi Sakai, Igor Lima, Jhonatan William, João Gabriel, João Amorim e João Paulo</td></tr>
+    <tr><td>Analistas de Qualidade</td><td>Responsáveis por avaliar a qualidade do produto e validar se as iterações estão prontas para implementação conforme o conceito de "pronto" do time</td><td>Alexandre Sousa, Lucas Peixoto e Lucas Ferreira</td></tr>
+    <tr><td>Cliente</td><td>Responsável por avaliar se o projeto está de acordo com os requisitos e a proposta inicial do Nexus Gourmet</td><td>Lucas Ferreira</td></tr>
   </tbody>
 </table>
 
@@ -407,32 +407,32 @@ Figura 2 – Ciclo de vida adotado no Nexus Gourmet
 
 <p><strong>Tabela 8 - Backlog</strong></p>
 
-<table style="border-collapse: collapse; width: 100%; font-size: 0.9em;">
+<table class="doc-table doc-table--sm">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">ID</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Funcionalidade</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Descrição</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Prioridade</th>
+    <tr>
+      <th>ID</th>
+      <th>Funcionalidade</th>
+      <th>Descrição</th>
+      <th>Prioridade</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F01</td><td style="border: 1px solid #ddd; padding: 8px;">Abrir pedido</td><td style="border: 1px solid #ddd; padding: 8px;">O garçom deve poder abrir um pedido vinculado a uma mesa</td><td style="border: 1px solid #ddd; padding: 8px;">Alta</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F02</td><td style="border: 1px solid #ddd; padding: 8px;">Adicionar item ao pedido</td><td style="border: 1px solid #ddd; padding: 8px;">O garçom deve poder adicionar itens do cardápio a um pedido em aberto</td><td style="border: 1px solid #ddd; padding: 8px;">Alta</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F03</td><td style="border: 1px solid #ddd; padding: 8px;">Remover item do pedido</td><td style="border: 1px solid #ddd; padding: 8px;">O garçom deve poder remover itens de um pedido em aberto</td><td style="border: 1px solid #ddd; padding: 8px;">Alta</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F04</td><td style="border: 1px solid #ddd; padding: 8px;">Enviar pedido para a cozinha</td><td style="border: 1px solid #ddd; padding: 8px;">O garçom deve poder enviar o pedido, alterando seu status para "em preparo"</td><td style="border: 1px solid #ddd; padding: 8px;">Alta</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F05</td><td style="border: 1px solid #ddd; padding: 8px;">Visualizar pedidos na cozinha</td><td style="border: 1px solid #ddd; padding: 8px;">O cozinheiro deve poder visualizar todos os pedidos ativos organizados por status</td><td style="border: 1px solid #ddd; padding: 8px;">Alta</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F06</td><td style="border: 1px solid #ddd; padding: 8px;">Visualizar tempo de espera</td><td style="border: 1px solid #ddd; padding: 8px;">O cozinheiro deve poder visualizar o tempo decorrido desde a abertura de cada pedido</td><td style="border: 1px solid #ddd; padding: 8px;">Alta</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F07</td><td style="border: 1px solid #ddd; padding: 8px;">Atualizar status do pedido</td><td style="border: 1px solid #ddd; padding: 8px;">O cozinheiro deve poder marcar um pedido como "em preparo" ou "pronto"</td><td style="border: 1px solid #ddd; padding: 8px;">Alta</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F08</td><td style="border: 1px solid #ddd; padding: 8px;">Fechar conta</td><td style="border: 1px solid #ddd; padding: 8px;">O garçom deve poder fechar a conta de uma mesa, gerando o total e liberando a mesa</td><td style="border: 1px solid #ddd; padding: 8px;">Alta</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F09</td><td style="border: 1px solid #ddd; padding: 8px;">Calcular total do pedido</td><td style="border: 1px solid #ddd; padding: 8px;">O sistema deve calcular automaticamente o valor total do pedido com base nos itens e quantidades</td><td style="border: 1px solid #ddd; padding: 8px;">Média</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F10</td><td style="border: 1px solid #ddd; padding: 8px;">Visualizar mesas</td><td style="border: 1px solid #ddd; padding: 8px;">O sistema deve exibir todas as mesas do restaurante com seus respectivos status</td><td style="border: 1px solid #ddd; padding: 8px;">Média</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F11</td><td style="border: 1px solid #ddd; padding: 8px;">Cadastrar produtos</td><td style="border: 1px solid #ddd; padding: 8px;">O administrador deve poder cadastrar novos produtos no cardápio, informando nome, categoria e preço</td><td style="border: 1px solid #ddd; padding: 8px;">Alta</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F12</td><td style="border: 1px solid #ddd; padding: 8px;">Editar produto</td><td style="border: 1px solid #ddd; padding: 8px;">O administrador deve poder editar as informações de um produto já cadastrado</td><td style="border: 1px solid #ddd; padding: 8px;">Média</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F13</td><td style="border: 1px solid #ddd; padding: 8px;">Remover produto</td><td style="border: 1px solid #ddd; padding: 8px;">O administrador deve poder remover um produto do cardápio</td><td style="border: 1px solid #ddd; padding: 8px;">Média</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F14</td><td style="border: 1px solid #ddd; padding: 8px;">Cadastrar mesa</td><td style="border: 1px solid #ddd; padding: 8px;">O administrador deve poder cadastrar novas mesas, informando número e capacidade</td><td style="border: 1px solid #ddd; padding: 8px;">Alta</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F15</td><td style="border: 1px solid #ddd; padding: 8px;">Editar mesa</td><td style="border: 1px solid #ddd; padding: 8px;">O administrador deve poder editar as informações de uma mesa já cadastrado</td><td style="border: 1px solid #ddd; padding: 8px;">Média</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">F16</td><td style="border: 1px solid #ddd; padding: 8px;">Remover mesa</td><td style="border: 1px solid #ddd; padding: 8px;">O administrador deve poder remover uma mesa do sistema</td><td style="border: 1px solid #ddd; padding: 8px;">Média</td></tr>
+    <tr><td>F01</td><td>Abrir pedido</td><td>O garçom deve poder abrir um pedido vinculado a uma mesa</td><td>Alta</td></tr>
+    <tr><td>F02</td><td>Adicionar item ao pedido</td><td>O garçom deve poder adicionar itens do cardápio a um pedido em aberto</td><td>Alta</td></tr>
+    <tr><td>F03</td><td>Remover item do pedido</td><td>O garçom deve poder remover itens de um pedido em aberto</td><td>Alta</td></tr>
+    <tr><td>F04</td><td>Enviar pedido para a cozinha</td><td>O garçom deve poder enviar o pedido, alterando seu status para "em preparo"</td><td>Alta</td></tr>
+    <tr><td>F05</td><td>Visualizar pedidos na cozinha</td><td>O cozinheiro deve poder visualizar todos os pedidos ativos organizados por status</td><td>Alta</td></tr>
+    <tr><td>F06</td><td>Visualizar tempo de espera</td><td>O cozinheiro deve poder visualizar o tempo decorrido desde a abertura de cada pedido</td><td>Alta</td></tr>
+    <tr><td>F07</td><td>Atualizar status do pedido</td><td>O cozinheiro deve poder marcar um pedido como "em preparo" ou "pronto"</td><td>Alta</td></tr>
+    <tr><td>F08</td><td>Fechar conta</td><td>O garçom deve poder fechar a conta de uma mesa, gerando o total e liberando a mesa</td><td>Alta</td></tr>
+    <tr><td>F09</td><td>Calcular total do pedido</td><td>O sistema deve calcular automaticamente o valor total do pedido com base nos itens e quantidades</td><td>Média</td></tr>
+    <tr><td>F10</td><td>Visualizar mesas</td><td>O sistema deve exibir todas as mesas do restaurante com seus respectivos status</td><td>Média</td></tr>
+    <tr><td>F11</td><td>Cadastrar produtos</td><td>O administrador deve poder cadastrar novos produtos no cardápio, informando nome, categoria e preço</td><td>Alta</td></tr>
+    <tr><td>F12</td><td>Editar produto</td><td>O administrador deve poder editar as informações de um produto já cadastrado</td><td>Média</td></tr>
+    <tr><td>F13</td><td>Remover produto</td><td>O administrador deve poder remover um produto do cardápio</td><td>Média</td></tr>
+    <tr><td>F14</td><td>Cadastrar mesa</td><td>O administrador deve poder cadastrar novas mesas, informando número e capacidade</td><td>Alta</td></tr>
+    <tr><td>F15</td><td>Editar mesa</td><td>O administrador deve poder editar as informações de uma mesa já cadastrado</td><td>Média</td></tr>
+    <tr><td>F16</td><td>Remover mesa</td><td>O administrador deve poder remover uma mesa do sistema</td><td>Média</td></tr>
   </tbody>
 </table>
 
@@ -444,19 +444,19 @@ Figura 2 – Ciclo de vida adotado no Nexus Gourmet
 
 <p><strong>Tabela 9: Perfis de acesso</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">#</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Nome do perfil</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Características do perfil</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Permissões de acesso</th>
+    <tr>
+      <th>#</th>
+      <th>Nome do perfil</th>
+      <th>Características do perfil</th>
+      <th>Permissões de acesso</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">P01</td><td style="border: 1px solid #ddd; padding: 8px;">Administrador</td><td style="border: 1px solid #ddd; padding: 8px;">Responsável pela gestão operacional do sistema</td><td style="border: 1px solid #ddd; padding: 8px;">Cadastrar, editar e remover produtos do cardápio e mesas do restaurante</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">P02</td><td style="border: 1px solid #ddd; padding: 8px;">Garçom</td><td style="border: 1px solid #ddd; padding: 8px;">Funcionário responsável pelo atendimento no salão</td><td style="border: 1px solid #ddd; padding: 8px;">Abrir pedidos, registrar itens, enviar pedidos para a cozinha e fechar contas</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">P03</td><td style="border: 1px solid #ddd; padding: 8px;">Cozinheiro</td><td style="border: 1px solid #ddd; padding: 8px;">Funcionário responsável pelo preparo dos pedidos</td><td style="border: 1px solid #ddd; padding: 8px;">Visualizar pedidos ativos, acompanhar tempo de espera e atualizar status dos pedidos</td></tr>
+    <tr><td>P01</td><td>Administrador</td><td>Responsável pela gestão operacional do sistema</td><td>Cadastrar, editar e remover produtos do cardápio e mesas do restaurante</td></tr>
+    <tr><td>P02</td><td>Garçom</td><td>Funcionário responsável pelo atendimento no salão</td><td>Abrir pedidos, registrar itens, enviar pedidos para a cozinha e fechar contas</td></tr>
+    <tr><td>P03</td><td>Cozinheiro</td><td>Funcionário responsável pelo preparo dos pedidos</td><td>Visualizar pedidos ativos, acompanhar tempo de espera e atualizar status dos pedidos</td></tr>
   </tbody>
 </table>
 
@@ -468,20 +468,20 @@ Figura 2 – Ciclo de vida adotado no Nexus Gourmet
 
 <p><strong>Tabela 10: Cenários funcionais</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">#</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Ator</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Contexto</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Passos</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Sprints</th>
+    <tr>
+      <th>#</th>
+      <th>Ator</th>
+      <th>Contexto</th>
+      <th>Passos</th>
+      <th>Sprints</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">1</td><td style="border: 1px solid #ddd; padding: 8px;">Administrador</td><td style="border: 1px solid #ddd; padding: 8px;">Deseja registrar uma nova mesa</td><td style="border: 1px solid #ddd; padding: 8px;">Acessar "Cadastro de Mesas", preencher número, capacidade e salvar.</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">2</td><td style="border: 1px solid #ddd; padding: 8px;">Garçom</td><td style="border: 1px solid #ddd; padding: 8px;">Deseja receber o pedido de uma mesa</td><td style="border: 1px solid #ddd; padding: 8px;">Selecionar a mesa desejada, clicar em "abrir pedido" e selecionar os itens desejados</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">3</td><td style="border: 1px solid #ddd; padding: 8px;">Cozinha</td><td style="border: 1px solid #ddd; padding: 8px;">Deseja despachar um pedido finalizado</td><td style="border: 1px solid #ddd; padding: 8px;">Selecionar o pedido e clicar em "pronto", para que o garçom venha retirar</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
+    <tr><td>1</td><td>Administrador</td><td>Deseja registrar uma nova mesa</td><td>Acessar "Cadastro de Mesas", preencher número, capacidade e salvar.</td><td></td></tr>
+    <tr><td>2</td><td>Garçom</td><td>Deseja receber o pedido de uma mesa</td><td>Selecionar a mesa desejada, clicar em "abrir pedido" e selecionar os itens desejados</td><td></td></tr>
+    <tr><td>3</td><td>Cozinha</td><td>Deseja despachar um pedido finalizado</td><td>Selecionar o pedido e clicar em "pronto", para que o garçom venha retirar</td><td></td></tr>
   </tbody>
 </table>
 
@@ -491,20 +491,20 @@ Figura 2 – Ciclo de vida adotado no Nexus Gourmet
 
 <p><strong>Tabela 11: Backlog do produto</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Numeração (Cenário / requisito)</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Sprint</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Nome do requisito</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Tipo de requisito (Funcional / não funcional)</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Priorização do requisito Must, Should, Could</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Descrição sucinta do requisito</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">User histories (U.S.) associadas</th>
+    <tr>
+      <th>Numeração (Cenário / requisito)</th>
+      <th>Sprint</th>
+      <th>Nome do requisito</th>
+      <th>Tipo de requisito (Funcional / não funcional)</th>
+      <th>Priorização do requisito Must, Should, Could</th>
+      <th>Descrição sucinta do requisito</th>
+      <th>User histories (U.S.) associadas</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
   </tbody>
 </table>
 
@@ -525,27 +525,27 @@ Figura 2 – Ciclo de vida adotado no Nexus Gourmet
 
 <p><strong>Tabela 12 - GQM do produto</strong></p>
 
-<table style="border-collapse: collapse; width: 100%; font-size: 0.85em;">
+<table class="doc-table doc-table--xs">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Objetivo</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Pergunta</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Métrica</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Cálculo</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Escala</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Valor esperado</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Forma de análise</th>
+    <tr>
+      <th>Objetivo</th>
+      <th>Pergunta</th>
+      <th>Métrica</th>
+      <th>Cálculo</th>
+      <th>Escala</th>
+      <th>Valor esperado</th>
+      <th>Forma de análise</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Validar qualidade de implementação</td><td style="border: 1px solid #ddd; padding: 8px;">O software está bem implementado?</td><td style="border: 1px solid #ddd; padding: 8px;">Densidade de erros de programa</td><td style="border: 1px solid #ddd; padding: 8px;">(Linhas com erro)/(total de linhas) x 100%</td><td style="border: 1px solid #ddd; padding: 8px;">%</td><td style="border: 1px solid #ddd; padding: 8px;">≤ 0.5%</td><td style="border: 1px solid #ddd; padding: 8px;">Implementação de Testes de Software e Refatoração</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Eficácia dos alertas visuais</td><td style="border: 1px solid #ddd; padding: 8px;">Os alertas estão funcionando corretamente?</td><td style="border: 1px solid #ddd; padding: 8px;">Quantidade de falsos positivos</td><td style="border: 1px solid #ddd; padding: 8px;">(Alertas falsos)/(Total de alertas) x 100%</td><td style="border: 1px solid #ddd; padding: 8px;">%</td><td style="border: 1px solid #ddd; padding: 8px;">≤ 0.2%</td><td style="border: 1px solid #ddd; padding: 8px;">Por testes de software, registrando a média de alertas falsos</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Obediência ao período dos sprints</td><td style="border: 1px solid #ddd; padding: 8px;">Os sprints estão entregando todos os musts?</td><td style="border: 1px solid #ddd; padding: 8px;">Densidade de prorrogações de musts</td><td style="border: 1px solid #ddd; padding: 8px;">(Quantidade de musts prorrogados)/(Total de Musts do Sprint) x 100%</td><td style="border: 1px solid #ddd; padding: 8px;">%</td><td style="border: 1px solid #ddd; padding: 8px;">100%</td><td style="border: 1px solid #ddd; padding: 8px;">Implementação de Sprint Reviews e Sprint Meetings</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Usabilidade da Interface de usuário</td><td style="border: 1px solid #ddd; padding: 8px;">A interface é intuitiva e perfeitamente utilizável?</td><td style="border: 1px solid #ddd; padding: 8px;">Densidade de feedback negativo</td><td style="border: 1px solid #ddd; padding: 8px;">(Reports negativos)/(Total de Reports) x 100%</td><td style="border: 1px solid #ddd; padding: 8px;">%</td><td style="border: 1px solid #ddd; padding: 8px;">≤ 2%</td><td style="border: 1px solid #ddd; padding: 8px;">Reuniões de alinhamento de requisitos e contato com o usuário</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Verificar quantidade de pedido por garçom</td><td style="border: 1px solid #ddd; padding: 8px;">Qual garçom faz mais pedidos?</td><td style="border: 1px solid #ddd; padding: 8px;">Densidade de pedidos por garçom</td><td style="border: 1px solid #ddd; padding: 8px;">(Pedidos realizados para cada um)/(Pedidos totais)x100%</td><td style="border: 1px solid #ddd; padding: 8px;">%</td><td style="border: 1px solid #ddd; padding: 8px;">≥(Quantidade de pedidos particulares)/(Pedidos totais)</td><td style="border: 1px solid #ddd; padding: 8px;">A quantidade de contas abertas por garçom</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Verificar tempo médio de preparo por produto</td><td style="border: 1px solid #ddd; padding: 8px;">Qual o tempo médio que um produto é entregue?</td><td style="border: 1px solid #ddd; padding: 8px;">Tempo de entrega</td><td style="border: 1px solid #ddd; padding: 8px;">(Horário que foi entregue)-(Horário que foi pedido)</td><td style="border: 1px solid #ddd; padding: 8px;">min</td><td style="border: 1px solid #ddd; padding: 8px;">≤(Média de entrega do produto)</td><td style="border: 1px solid #ddd; padding: 8px;">O tempo gasto entre a abertura da conta e a entrega desde na mesa</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Verificar saída de produto</td><td style="border: 1px solid #ddd; padding: 8px;">Qual a porcentagem de saída de cada produto?</td><td style="border: 1px solid #ddd; padding: 8px;">Densidade de pedidos do produto</td><td style="border: 1px solid #ddd; padding: 8px;">(Pedido do produto)/(Pedidos totais)x100%</td><td style="border: 1px solid #ddd; padding: 8px;">%</td><td style="border: 1px solid #ddd; padding: 8px;">(Pedidos totais)/(Quantidade de produtos)</td><td style="border: 1px solid #ddd; padding: 8px;">Quantidade de vezes que o pedido foi feito</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Verificar a quantidade de comandas</td><td style="border: 1px solid #ddd; padding: 8px;">Quantas comandas foram abertas?</td><td style="border: 1px solid #ddd; padding: 8px;">Quantidade de comandas abertas</td><td style="border: 1px solid #ddd; padding: 8px;">-</td><td style="border: 1px solid #ddd; padding: 8px;">-</td><td style="border: 1px solid #ddd; padding: 8px;">-</td><td style="border: 1px solid #ddd; padding: 8px;">-</td></tr>
+    <tr><td>Validar qualidade de implementação</td><td>O software está bem implementado?</td><td>Densidade de erros de programa</td><td>(Linhas com erro)/(total de linhas) x 100%</td><td>%</td><td>≤ 0.5%</td><td>Implementação de Testes de Software e Refatoração</td></tr>
+    <tr><td>Eficácia dos alertas visuais</td><td>Os alertas estão funcionando corretamente?</td><td>Quantidade de falsos positivos</td><td>(Alertas falsos)/(Total de alertas) x 100%</td><td>%</td><td>≤ 0.2%</td><td>Por testes de software, registrando a média de alertas falsos</td></tr>
+    <tr><td>Obediência ao período dos sprints</td><td>Os sprints estão entregando todos os musts?</td><td>Densidade de prorrogações de musts</td><td>(Quantidade de musts prorrogados)/(Total de Musts do Sprint) x 100%</td><td>%</td><td>100%</td><td>Implementação de Sprint Reviews e Sprint Meetings</td></tr>
+    <tr><td>Usabilidade da Interface de usuário</td><td>A interface é intuitiva e perfeitamente utilizável?</td><td>Densidade de feedback negativo</td><td>(Reports negativos)/(Total de Reports) x 100%</td><td>%</td><td>≤ 2%</td><td>Reuniões de alinhamento de requisitos e contato com o usuário</td></tr>
+    <tr><td>Verificar quantidade de pedido por garçom</td><td>Qual garçom faz mais pedidos?</td><td>Densidade de pedidos por garçom</td><td>(Pedidos realizados para cada um)/(Pedidos totais)x100%</td><td>%</td><td>≥(Quantidade de pedidos particulares)/(Pedidos totais)</td><td>A quantidade de contas abertas por garçom</td></tr>
+    <tr><td>Verificar tempo médio de preparo por produto</td><td>Qual o tempo médio que um produto é entregue?</td><td>Tempo de entrega</td><td>(Horário que foi entregue)-(Horário que foi pedido)</td><td>min</td><td>≤(Média de entrega do produto)</td><td>O tempo gasto entre a abertura da conta e a entrega desde na mesa</td></tr>
+    <tr><td>Verificar saída de produto</td><td>Qual a porcentagem de saída de cada produto?</td><td>Densidade de pedidos do produto</td><td>(Pedido do produto)/(Pedidos totais)x100%</td><td>%</td><td>(Pedidos totais)/(Quantidade de produtos)</td><td>Quantidade de vezes que o pedido foi feito</td></tr>
+    <tr><td>Verificar a quantidade de comandas</td><td>Quantas comandas foram abertas?</td><td>Quantidade de comandas abertas</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
   </tbody>
 </table>
 
@@ -622,24 +622,24 @@ Figura 2 – Ciclo de vida adotado no Nexus Gourmet
 
 <p><strong>Tabela 13 - Teste Unitário 1</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Campo</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Conteúdo</th>
+    <tr>
+      <th>Campo</th>
+      <th>Conteúdo</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Código</td><td style="border: 1px solid #ddd; padding: 8px;">TU01</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Nome</td><td style="border: 1px solid #ddd; padding: 8px;">Login com credenciais</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Objetivo</td><td style="border: 1px solid #ddd; padding: 8px;">Verificar se a função de autenticação retorna sucesso com credenciais válidas</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Nível</td><td style="border: 1px solid #ddd; padding: 8px;">Unitário</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Tipo</td><td style="border: 1px solid #ddd; padding: 8px;">Funcional</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Precondições</td><td style="border: 1px solid #ddd; padding: 8px;">Método de login implementado e usuário válido cadastrado</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Estado</td><td style="border: 1px solid #ddd; padding: 8px;">n/a</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Resultados</td><td style="border: 1px solid #ddd; padding: 8px;">Previsto: autenticação bem-sucedida / Realizado: n/a</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Reparos</td><td style="border: 1px solid #ddd; padding: 8px;">n/a</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Ciclos</td><td style="border: 1px solid #ddd; padding: 8px;">n/a</td></tr>
+    <tr><td>Código</td><td>TU01</td></tr>
+    <tr><td>Nome</td><td>Login com credenciais</td></tr>
+    <tr><td>Objetivo</td><td>Verificar se a função de autenticação retorna sucesso com credenciais válidas</td></tr>
+    <tr><td>Nível</td><td>Unitário</td></tr>
+    <tr><td>Tipo</td><td>Funcional</td></tr>
+    <tr><td>Precondições</td><td>Método de login implementado e usuário válido cadastrado</td></tr>
+    <tr><td>Estado</td><td>n/a</td></tr>
+    <tr><td>Resultados</td><td>Previsto: autenticação bem-sucedida / Realizado: n/a</td></tr>
+    <tr><td>Reparos</td><td>n/a</td></tr>
+    <tr><td>Ciclos</td><td>n/a</td></tr>
   </tbody>
 </table>
 
@@ -647,24 +647,24 @@ Figura 2 – Ciclo de vida adotado no Nexus Gourmet
 
 <p><strong>Tabela 14 - Teste Integrado 1</strong></p>
 
-<table style="border-collapse: collapse; width: 100%;">
+<table class="doc-table">
   <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Campo</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Conteúdo</th>
+    <tr>
+      <th>Campo</th>
+      <th>Conteúdo</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Código</td><td style="border: 1px solid #ddd; padding: 8px;">TI01</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Nome</td><td style="border: 1px solid #ddd; padding: 8px;">Integração entre backend e banco de dados</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Objetivo</td><td style="border: 1px solid #ddd; padding: 8px;">Verificar se o sistema armazena corretamente dados do banco</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Nível</td><td style="border: 1px solid #ddd; padding: 8px;">Integração</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Tipo</td><td style="border: 1px solid #ddd; padding: 8px;">Funcional</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Precondições</td><td style="border: 1px solid #ddd; padding: 8px;">Banco de dados ativo e conexão configurada</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Estado</td><td style="border: 1px solid #ddd; padding: 8px;">n/a</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Resultados</td><td style="border: 1px solid #ddd; padding: 8px;">Previsto: autenticação bem-sucedida / Realizado: n/a</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Reparos</td><td style="border: 1px solid #ddd; padding: 8px;">n/a</td></tr>
-    <tr><td style="border: 1px solid #ddd; padding: 8px;">Ciclos</td><td style="border: 1px solid #ddd; padding: 8px;">n/a</td></tr>
+    <tr><td>Código</td><td>TI01</td></tr>
+    <tr><td>Nome</td><td>Integração entre backend e banco de dados</td></tr>
+    <tr><td>Objetivo</td><td>Verificar se o sistema armazena corretamente dados do banco</td></tr>
+    <tr><td>Nível</td><td>Integração</td></tr>
+    <tr><td>Tipo</td><td>Funcional</td></tr>
+    <tr><td>Precondições</td><td>Banco de dados ativo e conexão configurada</td></tr>
+    <tr><td>Estado</td><td>n/a</td></tr>
+    <tr><td>Resultados</td><td>Previsto: autenticação bem-sucedida / Realizado: n/a</td></tr>
+    <tr><td>Reparos</td><td>n/a</td></tr>
+    <tr><td>Ciclos</td><td>n/a</td></tr>
   </tbody>
 </table>
 
