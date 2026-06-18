@@ -39,7 +39,7 @@ class Order(db.Model):
     __tablename__ = 'orders'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    data_hora_abertura = db.Column(db.DateTime, default=datetime.utcnow)
+    data_abertura = db.Column(db.DateTime, default=datetime.utcnow)
     status = db.Column(db.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDENTE)
 
     numero_mesa = db.Column(db.Integer, db.ForeignKey('tables.numero'), nullable=False)
