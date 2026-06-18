@@ -274,13 +274,13 @@ Figura 1 - estilo arquitectural
 
 <p>Internamente, o Controller utiliza a camada de Service (regras de negócio) para se comunicar de maneira contínua com o Model e os Repositories, que por sua vez persistem e consultam as informações diretamente no banco de dados MySQL.</p>
 
-</p>Figura 3 - Figura 3 - Diagrama de Pacotes
+</p>Figura 3 - Diagrama de Pacotes
 ![Figura 3 - Diagrama de Pacotes](img/diagrama de pacotes.png)
 <p><em>Fonte: Elaborado pelos autores (2026)</em></p>
 
 #### 2.5.3 Visão estrutural
 
-</p>Figura 4 - Figura 4 - Diagrama de Classes
+</p>Figura 4 - Diagrama de Classes
 ![Figura 4 - Diagrama de Classes](img/diagrama de classes.png)
 
 <p>A Figura 4 ilustra o Diagrama de Classes, delimitando o escopo do produto e as interações entre os atores externos e as funcionalidades do sistema.</p>
@@ -303,8 +303,6 @@ Figura 1 - estilo arquitectural
 ### 2.6 Visão de Implantação
 
 <p>Descreve como o sistema será distribuído fisicamente, focando no modelo Cliente-Servidor para garantir a sincronização em tempo real entre salão e cozinha.</p>
-
-<p><strong>Dispositivos Clientes:</strong></p>
 
 <ul>
 <li><strong>Dispositivos Clientes:</strong>
