@@ -3,12 +3,14 @@
 
 <h2 class="page-title">Mesas do Salão</h2>
 
+{% if session.get('user_cargo') == 'ADMINISTRADOR' %}
 <div class="card">
     <form action="/salão/criar" method="POST" class="form-row">
         <input type="number" name="capacidade" placeholder="Capacidade" required style="width: 140px;">
         <button type="submit">+ Criar Mesa</button>
     </form>
 </div>
+{% endif %}
 
 <div class="grid-cards">
     {% for mesa in mesas %}
@@ -22,9 +24,11 @@
                <button type="button" style="width: 100%;">Ver Comandas</button>
             </a>
             
+            {% if session.get('user_cargo') == 'ADMINISTRADOR' %}
             <form action="/salão/deletar/{{ mesa.numero }}" method="POST">
                 <button type="submit" class="danger" style="width: 100%;">Excluir Mesa</button>
             </form>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

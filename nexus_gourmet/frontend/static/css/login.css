@@ -112,8 +112,13 @@ a{
     width: 100%;
     gap: 10px;
     margin-top: 30px;
+    transition: border-color 0.3s ease;
     
-    
+}
+
+.input-field:focus {
+    outline: none; /* Remove o contorno padrão feio do navegador */
+    border-bottom: 2px solid #ad1d1d; /* Muda a linha inferior para o vermelho da sua paleta */
 }
 
 .login-button{
