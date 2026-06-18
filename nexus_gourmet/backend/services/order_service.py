@@ -250,7 +250,7 @@ class OrderService:
         
     def daily_statistics(self):
         hoje = datetime.now().date()
-        comandas = Order.query.filter(db.func.date(Order.data_criacao) == hoje).all()
+        comandas = Order.query.filter(db.func.date(Order.data_abertura) == hoje).all()
         
         comandas_canceladas = [c for c in comandas if c.status == OrderStatus.CANCELADO]
         total_comandas = len(comandas)
