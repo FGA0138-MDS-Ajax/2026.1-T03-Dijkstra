@@ -40,9 +40,8 @@ class TableController(BaseController):
         if usuario.cargo != Role.ADMINISTRADOR:
             return "Acesso negado", 403
 
-        numero = request.form.get('numero')
         capacidade = request.form.get('capacidade')
-        success, message = self.table_service.criar_mesa(numero, capacidade)
+        success, message = self.table_service.criar_mesa(capacidade)
         if not success:
             return self.render('mesas.html', error=message)
 
@@ -56,9 +55,8 @@ class TableController(BaseController):
         if usuario.cargo != Role.ADMINISTRADOR:
             return "Acesso negado", 403
 
-        numero = request.form.get('numero')
         capacidade = request.form.get('capacidade')
-        success, message = self.table_service.editar_mesa(numero_mesa, numero, capacidade)
+        success, message = self.table_service.editar_mesa(numero_mesa, capacidade)
         if not success:
             return self.render('mesas.html', error=message)
         return redirect(f'/salão/{numero_mesa}')

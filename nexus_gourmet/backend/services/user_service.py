@@ -24,12 +24,18 @@ class UserService:
     def cadastrar_usuario(self, id, nome, senha, cargo):
         if self.get_user_by_id(id):
             return False, "ID de usuário já existe."
+        
+        novo_id = 1
+        while self.get_user_by_id(novo_id) is not None:
+            novo_id += 1
+
         try:
             cargo = Role(cargo)
         except ValueError:
             return False, f"Cargo inválido: {cargo}."
+        
         senha_hash = generate_password_hash(senha)
-        novo_usuario = User(id=id, nome=nome, senha=senha_hash, cargo=cargo)
+        novo_usuario = User(id=novo_id, nome=nome, senha=senha_hash, cargo=cargo)
         db.session.add(novo_usuario)
         db.session.commit()
         return novo_usuario, "Usuário cadastrado com sucesso."

@@ -3,9 +3,14 @@ from backend.models.enums import TableStatus, OrderStatus
  
 class TableService:
     def criar_mesa(self, numero, capacidade):
-        if self.get_table_by_number(numero):
+        novo_numero = 1
+        while self.get_table_by_number(novo_numero) is not None:
+            novo_numero += 1
+
+        if self.get_table_by_number(novo_numero):
             return False, "Número de mesa já existe."
-        nova_mesa = Table(numero=numero, status=TableStatus.LIVRE, capacidade=capacidade)
+        
+        nova_mesa = Table(numero=novo_numero, status=TableStatus.LIVRE, capacidade=capacidade)
         db.session.add(nova_mesa)
         db.session.commit()
         return True, "Mesa criada com sucesso."
