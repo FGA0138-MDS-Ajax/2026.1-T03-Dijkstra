@@ -51,8 +51,6 @@ class OrderService:
         mesa = self.table_service.get_table_by_number(numero_mesa)
         if not mesa:
             return None, "Mesa não encontrada."
-        if mesa.status != TableStatus.LIVRE:
-            return None, f"Mesa {mesa.numero} não está livre."
         
         nova_comanda = Order(numero_mesa=numero_mesa, user_id=user_id, status=OrderStatus.PENDENTE)
         db.session.add(nova_comanda)
@@ -225,9 +223,21 @@ class OrderService:
         mesa = self.table_service.get_table_by_number(comanda.numero_mesa)
         
         if mesa:
-            mesa.status = TableStatus.LIVRE
+            comandas_ativas = Order.query.filter(
+                Order.numero_mesa == mesa.numero,
+                Order.id != order_id, #Ignorar a comanda que está sendo fechanda agora
+                Order.status.in_([
+                    OrderStatus.PENDENTE, 
+                    OrderStatus.EM_PREPARO, 
+                    OrderStatus.PRONTO, 
+                    OrderStatus.ENTREGUE
+                ])
+            ).count()
+            if comandas_ativas == 0:
+                mesa.status = TableStatus.LIVRE
+        
         db.session.commit()
-        return True, {"mensagem": "Comanda fechada e mesa liberada.", "conta": conta}
+        return True, {"mensagem": "Comanda fechada com sucesso.", "conta": conta}
     
     def get_order_by_id(self, order_id):
         return Order.query.get(order_id)

@@ -13,7 +13,7 @@ class ProductService:
             return []
         return Product.query.filter_by(categoria=categoria).all()
  
-    def cadastrar_produto(self, id, nome, categoria, preco):
+    def cadastrar_produto(self, nome, categoria, preco):
         while True:
             novo_id = random.randint(1000, 9999)
             if self.get_product_by_id(novo_id) is None:
