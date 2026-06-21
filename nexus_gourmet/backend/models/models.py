@@ -1,7 +1,5 @@
-# models.py
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-
 from backend.models.enums import Role, TableStatus, ProductCategory, OrderStatus
 
 db = SQLAlchemy()
@@ -16,6 +14,12 @@ class User(db.Model):
 
     comanda = db.relationship('Order', backref='user', lazy=True)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nome": self.nome,
+            "cargo": self.cargo.name
+        }
 
 class Table(db.Model):
     __tablename__ = 'tables'
@@ -26,6 +30,12 @@ class Table(db.Model):
 
     comandas = db.relationship('Order', backref='table', lazy=True)
 
+    def to_dict(self):
+        return {
+            "numero": self.numero,
+            "capacidade": self.capacidade,
+            "status": self.status.value
+        }
 
 class Product(db.Model):
     __tablename__ = 'products'
@@ -35,6 +45,13 @@ class Product(db.Model):
     categoria = db.Column(db.Enum(ProductCategory), nullable=False)
     preco = db.Column(db.Numeric(10, 2), nullable=False)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nome": self.nome,
+            "categoria": self.categoria.value,
+            "preco": float(self.preco)
+        }
 
 class Order(db.Model):
     __tablename__ = 'orders'
@@ -48,6 +65,15 @@ class Order(db.Model):
 
     itens = db.relationship('ProductOrdered', backref='order', lazy=True, cascade="all, delete-orphan")
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "data_abertura": self.data_abertura.isoformat() if self.data_abertura else None,
+            "status": self.status.value,
+            "numero_mesa": self.numero_mesa,
+            "user_id": self.user_id,
+            "itens": [item.to_dict() for item in self.itens]
+        }
 
 class ProductOrdered(db.Model):
     __tablename__ = 'itens_ordered'
@@ -60,3 +86,12 @@ class ProductOrdered(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     
     product = db.relationship('Product')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "quantidade": self.quantidade,
+            "observacao": self.observacao,
+            "product_id": self.product_id,
+            "produto": self.product.to_dict() if self.product else None
+        }

@@ -4,16 +4,18 @@ from backend.models.enums import Role, OrderStatus, TableStatus
 
 FLUXO = {
     OrderStatus.PENDENTE:   [OrderStatus.EM_PREPARO, OrderStatus.CANCELADO],
-    OrderStatus.EM_PREPARO: [OrderStatus.PRONTO,     OrderStatus.CANCELADO],
-    OrderStatus.PRONTO:     [OrderStatus.ENTREGUE],
-    OrderStatus.ENTREGUE:   [],
+    # Modificado para permitir enviar novos itens a qualquer momento:
+    OrderStatus.EM_PREPARO: [OrderStatus.PRONTO,     OrderStatus.CANCELADO, OrderStatus.EM_PREPARO], 
+    OrderStatus.PRONTO:     [OrderStatus.ENTREGUE,   OrderStatus.EM_PREPARO],
+    OrderStatus.ENTREGUE:   [OrderStatus.EM_PREPARO],
     OrderStatus.CANCELADO:  [],
 }
 
 PERMISSOES = {
-    OrderStatus.EM_PREPARO: [Role.COZINHEIRO],
+    OrderStatus.EM_PREPARO: [Role.GARCOM, Role.ADMINISTRADOR], 
     OrderStatus.PRONTO:     [Role.COZINHEIRO],
-    OrderStatus.ENTREGUE:   [Role.GARCOM],
+    # Adicione o Role.ADMINISTRADOR nesta linha abaixo:
+    OrderStatus.ENTREGUE:   [Role.GARCOM, Role.ADMINISTRADOR], 
     OrderStatus.CANCELADO:  [Role.ADMINISTRADOR, Role.GARCOM],
 }
 
@@ -71,8 +73,8 @@ class OrderService:
         pedido = self.get_order_by_id(order_id)
         if not pedido:
             return False, "Pedido não encontrado."
-        if pedido.status != OrderStatus.PENDENTE:
-            return False, "Só é possível adicionar itens em pedidos com status Pendente."
+        if pedido.status == OrderStatus.CANCELADO:
+            return False, "Não é possível adicionar itens em uma comanda cancelada."
         try:
             quantidade = int(quantidade)
         except (TypeError, ValueError):

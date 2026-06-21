@@ -1,4 +1,4 @@
-from flask import request, redirect, session
+from flask import request, session
 from .base_controller import BaseController
 from backend.models.enums import Role
 from backend.services.user_service import UserService
@@ -10,124 +10,96 @@ class UserController(BaseController):
         self.setup_routes()
 
     def setup_routes(self):
-        #Rotas de autenticação
-        self.app.add_url_rule('/login', view_func=self.login, methods=['GET', 'POST'])
-        self.app.add_url_rule('/logout', view_func=self.logout, methods=['GET'])
-
-        #Rotas de gerenciamento de usuários (para administradores)
-        self.app.add_url_rule('/usuarios',   view_func=self.listar_usuarios, methods=['GET'])
-        self.app.add_url_rule('/usuarios/cadastrar', view_func=self.cadastrar_usuario, methods=['POST'])
-        self.app.add_url_rule('/usuarios/editar_usuario/<int:user_id>', view_func=self.editar_usuario, methods=['POST'])
-        self.app.add_url_rule('/usuarios/deletar_usuario/<int:user_id>', view_func=self.deletar_usuario, methods=['POST'])
-        self.app.add_url_rule('/usuarios/visualizar_perfil/<int:user_id>',  view_func=self.visualizar_perfil, methods=['GET'])
-        self.app.add_url_rule('/usuarios/transferir_posse',    view_func=self.transferir_posse,methods=['POST'])
-
-        #Rota para o cargo do usuário logado
-        self.app.add_url_rule('/meu_perfil', view_func=self.meu_cargo,  methods=['GET', 'POST'])
+        self.app.add_url_rule('/api/login', view_func=self.login, methods=['POST'])
+        self.app.add_url_rule('/api/logout', view_func=self.logout, methods=['POST'])
+        self.app.add_url_rule('/api/usuarios', view_func=self.listar_usuarios, methods=['GET'])
+        self.app.add_url_rule('/api/usuarios/cadastrar', view_func=self.cadastrar_usuario, methods=['POST'])
+        self.app.add_url_rule('/api/usuarios/editar_usuario/<int:user_id>', view_func=self.editar_usuario, methods=['PUT'])
+        self.app.add_url_rule('/api/usuarios/deletar_usuario/<int:user_id>', view_func=self.deletar_usuario, methods=['DELETE'])
+        self.app.add_url_rule('/api/usuarios/visualizar_perfil/<int:user_id>', view_func=self.visualizar_perfil, methods=['GET'])
+        self.app.add_url_rule('/api/usuarios/transferir_posse', view_func=self.transferir_posse, methods=['POST'])
+        self.app.add_url_rule('/api/meu_perfil', view_func=self.meu_cargo, methods=['GET'])
 
     def login(self):
-        if request.method == 'POST':
-            login_input = request.form.get('login')
-            senha_input = request.form.get('senha')
-            
-            sucess, message, usuario = self.user_service.autenticar(login_input, senha_input)
-            if sucess:
-                session['user_id'] = usuario.id
-                session['user_nome'] = usuario.nome
-                session['user_cargo'] = usuario.cargo.name
-
-                if usuario.cargo == Role.ADMINISTRADOR:
-                    return redirect('/usuarios')
-                elif usuario.cargo == Role.COZINHEIRO:
-                    return redirect('/cozinha/fila')
-                
-                return redirect('/salão')
-            else:
-                return self.render('login.html', error=message)
-        return self.render('login.html')
+        dados = request.json or {}
+        login_input = dados.get('login')
+        senha_input = dados.get('senha')
+        
+        sucess, message, usuario = self.user_service.autenticar(login_input, senha_input)
+        if sucess:
+            session['user_id'] = usuario.id
+            session['user_nome'] = usuario.nome
+            session['user_cargo'] = usuario.cargo.name
+            return self.json_response(success=True, data=usuario.to_dict())
+        return self.json_response(success=False, message=message, status=401)
         
     def logout(self):
         session.clear()
-        return redirect('/login')
+        return self.json_response(success=True, message="Deslogado com sucesso")
 
     def cadastrar_usuario(self):
         if session.get('user_cargo') != Role.ADMINISTRADOR.name:
-            return "Acesso negado", 403
+            return self.json_response(False, "Acesso negado", status=403)
 
-        nome = request.form.get('nome')
-        senha = request.form.get('senha')
-        cargo = request.form.get('cargo') # Tipo do usuário (GARCOM, COZINHEIRO ou ADMINISTRADOR)
-        
+        dados = request.json or {}
         try:
-            cargo = Role[cargo]
-            usuario, message = self.user_service.cadastrar_usuario(nome, senha, cargo)
+            cargo = Role[dados.get('cargo')]
+            usuario, message = self.user_service.cadastrar_usuario(dados.get('nome'), dados.get('senha'), cargo)
             if not usuario:
-                return self.render('usuarios.html', error=message)
-            return redirect('/usuarios')
+                return self.json_response(False, message, status=400)
+            return self.json_response(True, message)
         except KeyError:
-            return "cargo do usuário inválido", 400
+            return self.json_response(False, "Cargo inválido", status=400)
         
     def listar_usuarios(self):
         if session.get('user_cargo') != Role.ADMINISTRADOR.name:
-            return "Acesso negado", 403
+            return self.json_response(False, "Acesso negado", status=403)
 
         usuarios = self.user_service.listar_usuarios()
-        return self.render('usuarios.html', usuarios=usuarios)
+        return self.json_response(True, data=[u.to_dict() for u in usuarios])
     
     def visualizar_perfil(self, user_id):
         if session.get('user_cargo') != Role.ADMINISTRADOR.name:
-            return "Acesso negado", 403
+            return self.json_response(False, "Acesso negado", status=403)
 
         usuario = self.user_service.get_user_by_id(user_id)
         if not usuario:
-            return "Usuário não encontrado", 404
-        return self.render('perfil_usuario.html', usuario=usuario)
+            return self.json_response(False, "Usuário não encontrado", status=404)
+        return self.json_response(True, data=usuario.to_dict())
     
     def deletar_usuario(self, user_id):
         if session.get('user_cargo') != Role.ADMINISTRADOR.name:
-            return "Acesso negado", 403
+            return self.json_response(False, "Acesso negado", status=403)
 
         success, message = self.user_service.deletar_usuario(user_id)
-        if not success:
-            return self.render('usuarios.html', error=message)
-        return redirect('/usuarios')
+        return self.json_response(success, message, status=200 if success else 400)
     
     def editar_usuario(self, user_id):
         if session.get('user_cargo') != Role.ADMINISTRADOR.name:
-            return "Acesso negado", 403
+            return self.json_response(False, "Acesso negado", status=403)
 
-        nome = request.form.get('nome')
-        senha = request.form.get('senha')
-        cargo = request.form.get('cargo')
-
+        dados = request.json or {}
         try:
-            cargo = Role[cargo]
-            success, message = self.user_service.editar_usuario(user_id, nome, senha, cargo)
-            if not success:
-                return self.render('usuarios.html', error=message)
-            return redirect('/usuarios')
+            cargo = Role[dados.get('cargo')] if dados.get('cargo') else None
+            success, message = self.user_service.editar_usuario(Role[session.get('user_cargo')], user_id, dados.get('nome'), cargo)
+            return self.json_response(success, message, status=200 if success else 400)
         except KeyError:
-            return "Cargo inválido", 400
+            return self.json_response(False, "Cargo inválido", status=400)
 
     def transferir_posse(self):
         if session.get('user_cargo') != Role.ADMINISTRADOR.name:
-            return "Acesso negado", 403
+            return self.json_response(False, "Acesso negado", status=403)
 
-        id_atual = request.form.get('id_atual')
-        id_novo = request.form.get('id_novo')
-        success, message = self.user_service.transferir_posse(id_atual, id_novo)
-        if not success:
-            return self.render('usuarios.html', error=message)
-        return redirect('/usuarios')
+        dados = request.json or {}
+        success, message = self.user_service.transferir_posse(dados.get('id_atual'), dados.get('id_novo'))
+        return self.json_response(success, message, status=200 if success else 400)
     
     def meu_cargo(self):
         user_id = session.get('user_id')
         if not user_id:
-            return redirect('/login')
+            return self.json_response(False, "Não autorizado", status=401)
 
         usuario = self.user_service.get_user_by_id(user_id)
-
         if not usuario:
-            return "Usuário não encontrado", 404
-        return self.render('cargo_usuario.html', usuario=usuario)
-    
+            return self.json_response(False, "Usuário não encontrado", status=404)
+        return self.json_response(True, data=usuario.to_dict())
