@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import AdminLayout from '../components/AdminLayout';
+import ConfirmDialog from '../components/ConfirmDialog';
 
 export default function Produtos() {
     const [produtos, setProdutos] = useState([]);
@@ -12,6 +13,10 @@ export default function Produtos() {
     const [categoria, setCategoria] = useState('Bebida');
     const [preparationTime, setPreparationTime] = useState(15);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Estados do Modal de Confirmação
+    const [produtoParaDeletar, setProdutoParaDeletar] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const fetchProdutos = async () => {
         try {
@@ -48,17 +53,22 @@ export default function Produtos() {
         }
     };
 
-    const deletarProduto = async (id) => {
+    const confirmarExclusao = async () => {
+        if (!produtoParaDeletar) return;
+        setIsDeleting(true);
         try {
-            const response = await axios.delete(`http://localhost:5000/api/produtos/deletar/${id}`, { withCredentials: true });
+            const response = await axios.delete(`http://localhost:5000/api/produtos/deletar/${produtoParaDeletar.id}`, { withCredentials: true });
             if (response.data.success) {
                 toast.success('🗑️ Produto removido com sucesso.');
                 fetchProdutos();
+                setProdutoParaDeletar(null);
             } else {
                 toast.error(response.data.message || 'Erro ao deletar produto.');
             }
         } catch (err) {
             toast.error('Erro ao excluir o produto.');
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -139,7 +149,7 @@ export default function Produtos() {
                                             <motion.button 
                                                 whileHover={{ scale: 1.05 }} 
                                                 whileTap={{ scale: 0.95 }}
-                                                onClick={() => deletarProduto(produto.id)} 
+                                                onClick={() => setProdutoParaDeletar(produto)} 
                                                 className="danger"
                                             >
                                                 Excluir
@@ -152,6 +162,18 @@ export default function Produtos() {
                     </tbody>
                 </table>
             </div>
+
+            <ConfirmDialog 
+                isOpen={!!produtoParaDeletar}
+                title="Excluir produto?"
+                description={`Esta ação removerá o produto "${produtoParaDeletar?.nome}" do cardápio. Deseja continuar?`}
+                confirmLabel="Excluir produto"
+                cancelLabel="Cancelar"
+                variant="danger"
+                isLoading={isDeleting}
+                onConfirm={confirmarExclusao}
+                onCancel={() => setProdutoParaDeletar(null)}
+            />
         </AdminLayout>
     );
 }

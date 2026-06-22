@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import SalaoLayout from '../components/SalaoLayout';
+import ConfirmDialog from '../components/ConfirmDialog';
 
 export default function Mesas() {
     const [mesas, setMesas] = useState([]);
@@ -27,6 +28,13 @@ export default function Mesas() {
 
     // Carrinho local por Comanda
     const [cart, setCart] = useState({});
+
+    // Estados dos Modais de Confirmação (Prevenção de Erros)
+    const [mesaParaDeletar, setMesaParaDeletar] = useState(null);
+    const [itemParaRemover, setItemParaRemover] = useState(null); // { comandaId, product_id, nome, quantidade }
+    const [comandaParaEnviar, setComandaParaEnviar] = useState(null); // { numero_mesa, comandaId }
+    const [contaParaFechar, setContaParaFechar] = useState(null);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const fetchData = async () => {
         try {
@@ -86,17 +94,27 @@ export default function Mesas() {
         } catch (err) { toast.error("Erro ao criar mesa."); }
     };
 
-    const handleDeletarMesa = async (e, numero_mesa) => {
+    const handleDeletarMesa = (e, numero_mesa) => {
         e.stopPropagation();
-        if (!window.confirm(`Deseja realmente excluir a Mesa ${numero_mesa}?`)) return;
+        setMesaParaDeletar(numero_mesa);
+    };
+
+    const confirmarDelecaoMesa = async () => {
+        if (!mesaParaDeletar) return;
+        setIsProcessing(true);
         try {
-            const res = await axios.delete(`http://localhost:5000/api/salao/deletar/${numero_mesa}`, { withCredentials: true });
+            const res = await axios.delete(`http://localhost:5000/api/salao/deletar/${mesaParaDeletar}`, { withCredentials: true });
             if (res.data.success) {
                 toast.success("Mesa excluída!");
-                if (expandedMesa === numero_mesa) setExpandedMesa(null);
+                if (expandedMesa === mesaParaDeletar) setExpandedMesa(null);
                 fetchData();
+                setMesaParaDeletar(null);
             } else { toast.error(res.data.message); }
-        } catch (err) { toast.error("Erro: Não é possível deletar uma mesa com comandas associadas."); }
+        } catch (err) { 
+            toast.error("Erro: Não é possível deletar uma mesa com comandas associadas."); 
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     const abrirEdicaoMesa = (e, mesa) => {
@@ -150,16 +168,33 @@ export default function Mesas() {
         });
     };
 
-    const removerDoCarrinho = (comandaId, productId) => {
-        setCart(prev => {
-            const comandaCart = prev[comandaId] || [];
-            return { ...prev, [comandaId]: comandaCart.filter(i => i.product_id !== productId) };
-        });
+    const prepararRemocaoItem = (comandaId, item) => {
+        setItemParaRemover({ comandaId, ...item });
     };
 
-    const confirmarPedido = async (numero_mesa, comandaId) => {
+    const confirmarRemocaoItem = () => {
+        if (!itemParaRemover) return;
+        setCart(prev => {
+            const comandaCart = prev[itemParaRemover.comandaId] || [];
+            return { ...prev, [itemParaRemover.comandaId]: comandaCart.filter(i => i.product_id !== itemParaRemover.product_id) };
+        });
+        toast.success(`🗑️ Item removido da comanda.`);
+        setItemParaRemover(null);
+    };
+
+    const prepararEnvioComanda = (numero_mesa, comandaId) => {
+        const itens = cart[comandaId] || [];
+        if (itens.length === 0) {
+            return toast.warning("Adicione pelo menos um item antes de enviar a comanda para a cozinha.");
+        }
+        setComandaParaEnviar({ numero_mesa, comandaId });
+    };
+
+    const confirmarEnvioComanda = async () => {
+        if (!comandaParaEnviar) return;
+        setIsProcessing(true);
+        const { numero_mesa, comandaId } = comandaParaEnviar;
         const itens = cart[comandaId];
-        if (!itens || itens.length === 0) return;
         try {
             const promessas = itens.map(item => 
                 axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comandaId}/adicionar_item`, {
@@ -171,7 +206,12 @@ export default function Mesas() {
             setCart(prev => ({ ...prev, [comandaId]: [] }));
             await carregarComandas(numero_mesa);
             toast.success(`🍽️ Pedido enviado à cozinha com sucesso!`);
-        } catch (error) { toast.error("Erro ao confirmar o pedido."); }
+            setComandaParaEnviar(null);
+        } catch (error) { 
+            toast.error("Erro ao confirmar o pedido."); 
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     const calcularTotalLocal = (comandaId) => {
@@ -205,20 +245,29 @@ export default function Mesas() {
         }, 0);
     };
 
-    const confirmarPagamento = async () => {
+    const prepararFechamentoConta = () => {
+        setContaParaFechar(modalConta);
+    };
+
+    const confirmarFechamentoConta = async () => {
+        if (!contaParaFechar) return;
+        setIsProcessing(true);
         try {
-            const res = await axios.post(`http://localhost:5000/api/salao/${expandedMesa}/comandas/${modalConta.id}/fechar`, {}, { withCredentials: true });
+            const res = await axios.post(`http://localhost:5000/api/salao/${expandedMesa}/comandas/${contaParaFechar.id}/fechar`, {}, { withCredentials: true });
             if (res.data.success) {
                 toast.success(`✅ Pagamento via ${metodoPagamento} processado! Conta fechada.`);
                 setModalConta(null);
+                setContaParaFechar(null);
                 await carregarComandas(expandedMesa);
-                if (selectedComanda === modalConta.id) setSelectedComanda(null);
+                if (selectedComanda === contaParaFechar.id) setSelectedComanda(null);
                 fetchData();
             } else {
                 toast.error("Erro: " + res.data.message);
             }
         } catch(e) {
             toast.error("AVISO: Todos os pedidos dessa comanda devem constar como 'Entregue' para fechar a conta.");
+        } finally {
+            setIsProcessing(false);
         }
     };
 
@@ -333,7 +382,7 @@ export default function Mesas() {
                                                                                 <span>{item.quantidade}x {item.nome}</span>
                                                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                                                     <span style={{ color: '#ff6666' }}>R$ {(item.preco * item.quantidade).toFixed(2)}</span>
-                                                                                    <button onClick={() => removerDoCarrinho(comanda.id, item.product_id)} style={{ background:'none', border:'none', color:'#888', marginLeft:'10px', cursor:'pointer' }}>✕</button>
+                                                                                    <button onClick={() => prepararRemocaoItem(comanda.id, item)} style={{ background:'none', border:'none', color:'#888', marginLeft:'10px', cursor:'pointer' }}>✕</button>
                                                                                 </div>
                                                                             </div>
                                                                         ))}
@@ -341,7 +390,7 @@ export default function Mesas() {
                                                                             <span>Total:</span>
                                                                             <span style={{ color: 'var(--primary-red)' }}>R$ {totalStr}</span>
                                                                         </div>
-                                                                        <button onClick={() => confirmarPedido(mesa.numero, comanda.id)} style={{ width: '100%', marginTop: '10px', fontSize: '10px' }}>✔ Enviar Novo Pedido</button>
+                                                                        <button onClick={() => prepararEnvioComanda(mesa.numero, comanda.id)} style={{ width: '100%', marginTop: '10px', fontSize: '10px' }}>✔ Enviar Novo Pedido</button>
                                                                     </>
                                                                 ) : (
                                                                     <p style={{ textAlign: 'center', color: '#555', fontStyle: 'italic', fontSize: '11px', margin: '10px 0' }}>Selecione produtos ao lado</p>
@@ -460,11 +509,76 @@ export default function Mesas() {
 
                         <div style={{ display: 'flex', gap: '10px' }}>
                             <button onClick={() => setModalConta(null)} style={{ flex: 1, background: '#333', color: '#ccc' }}>Cancelar</button>
-                            <button onClick={confirmarPagamento} style={{ flex: 1, background: 'linear-gradient(90deg, #004a00, #008b00)' }}>✔ Confirmar Pagamento</button>
+                            <button onClick={prepararFechamentoConta} style={{ flex: 1, background: 'linear-gradient(90deg, #004a00, #008b00)' }}>✔ Confirmar Pagamento</button>
                         </div>
                     </div>
                 </div>
             )}
+
+            {/* Modais de Confirmação Inteligentes */}
+            <ConfirmDialog 
+                isOpen={!!mesaParaDeletar}
+                title="Excluir Mesa?"
+                description={`Esta ação removerá a Mesa ${mesaParaDeletar} do salão. Você tem certeza?`}
+                confirmLabel="Excluir mesa"
+                cancelLabel="Cancelar"
+                variant="danger"
+                isLoading={isProcessing}
+                onConfirm={confirmarDelecaoMesa}
+                onCancel={() => setMesaParaDeletar(null)}
+            />
+
+            <ConfirmDialog 
+                isOpen={!!itemParaRemover}
+                title="Remover item da comanda?"
+                description={`Você está prestes a remover: ${itemParaRemover?.quantidade}x ${itemParaRemover?.nome}`}
+                confirmLabel="Remover item"
+                cancelLabel="Manter item"
+                variant="warning"
+                isLoading={isProcessing}
+                onConfirm={confirmarRemocaoItem}
+                onCancel={() => setItemParaRemover(null)}
+            />
+
+            <ConfirmDialog 
+                isOpen={!!comandaParaEnviar}
+                title="Enviar comanda para cozinha?"
+                description={`Após enviar, a cozinha receberá o pedido imediatamente. Confirma o envio de ${comandaParaEnviar ? cart[comandaParaEnviar.comandaId]?.length : 0} item(s)?`}
+                confirmLabel="Enviar para cozinha"
+                cancelLabel="Revisar pedido"
+                variant="primary"
+                isLoading={isProcessing}
+                onConfirm={confirmarEnvioComanda}
+                onCancel={() => setComandaParaEnviar(null)}
+            >
+                {comandaParaEnviar && cart[comandaParaEnviar.comandaId] && (
+                    <div style={{ maxHeight: '150px', overflowY: 'auto', fontSize: '13px' }}>
+                        <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#ccc' }}>Mesa {comandaParaEnviar.numero_mesa}</div>
+                        {cart[comandaParaEnviar.comandaId].map((it, idx) => (
+                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', padding: '4px 0' }}>
+                                <span style={{ color: '#aaa' }}>{it.quantidade}x {it.nome}</span>
+                                <span style={{ color: '#fff' }}>R$ {(it.preco * it.quantidade).toFixed(2)}</span>
+                            </div>
+                        ))}
+                        <div style={{ textAlign: 'right', marginTop: '8px', fontWeight: 'bold', color: 'var(--primary-red)' }}>
+                            Total Parcial: R$ {calcularTotalLocal(comandaParaEnviar.comandaId).toFixed(2)}
+                        </div>
+                    </div>
+                )}
+            </ConfirmDialog>
+
+            <ConfirmDialog 
+                isOpen={!!contaParaFechar}
+                title="Fechar conta da mesa?"
+                description="Confirme se o pagamento já foi efetuado pelo cliente. Após fechar a conta, a comanda será finalizada."
+                confirmLabel="Fechar conta e liberar comanda"
+                cancelLabel="Cancelar"
+                variant="success"
+                isLoading={isProcessing}
+                onConfirm={confirmarFechamentoConta}
+                onCancel={() => setContaParaFechar(null)}
+            />
+
         </SalaoLayout>
     );
 }

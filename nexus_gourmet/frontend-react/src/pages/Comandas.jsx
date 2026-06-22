@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import SalaoLayout from '../components/SalaoLayout';
+import ConfirmDialog from '../components/ConfirmDialog';
 
 export default function Comandas() {
     const { numero_mesa, comanda_id } = useParams();
@@ -15,6 +16,11 @@ export default function Comandas() {
     const [quantidade, setQuantidade] = useState(1);
 
     const [isLoading, setIsLoading] = useState(true);
+
+    // Estados dos Modais de Confirmação
+    const [comandaParaEnviar, setComandaParaEnviar] = useState(false);
+    const [contaParaFechar, setContaParaFechar] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const fetchData = async () => {
         try {
@@ -46,19 +52,31 @@ export default function Comandas() {
     };
 
     const enviarParaCozinha = async () => {
+        setIsProcessing(true);
         try {
             await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/enviar_comanda`, {}, { withCredentials: true });
             toast.success('🍽️ Pedido enviado para a cozinha.');
+            setComandaParaEnviar(false);
             navigate('/salao');
-        } catch (err) { toast.error('Erro ao enviar pedido.'); }
+        } catch (err) { 
+            toast.error('Erro ao enviar pedido.'); 
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     const fecharConta = async () => {
+        setIsProcessing(true);
         try {
             await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/fechar`, {}, { withCredentials: true });
             toast.success('✅ Conta fechada com sucesso.');
+            setContaParaFechar(false);
             navigate('/salao');
-        } catch (err) { toast.error("AVISO: Todos os pedidos dessa comanda devem constar como 'Entregue' para poder fechar a conta."); }
+        } catch (err) { 
+            toast.error("AVISO: Todos os pedidos dessa comanda devem constar como 'Entregue' para poder fechar a conta."); 
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     const totalComanda = comanda?.itens?.reduce((acc, item) => acc + (item.quantidade * (item.produto?.preco || 0)), 0) || 0;
@@ -127,12 +145,37 @@ export default function Comandas() {
                     <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #3a0000', paddingTop: '15px' }}>
                         <h3 style={{ color: 'var(--primary-red)' }}>Total: R$ {totalComanda.toFixed(2)}</h3>
                         <div>
-                            {comanda.status === 'Entregue' && <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={fecharConta} className="danger" style={{ marginRight: '10px' }}>Fechar Conta</motion.button>}
-                            <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={enviarParaCozinha}>Enviar Pedido para Cozinha</motion.button>
+                            {comanda.status === 'Entregue' && <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setContaParaFechar(true)} className="danger" style={{ marginRight: '10px' }}>Fechar Conta</motion.button>}
+                            <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => setComandaParaEnviar(true)}>Enviar Pedido para Cozinha</motion.button>
                         </div>
                     </div>
                 </div>
             )}
+
+            <ConfirmDialog 
+                isOpen={comandaParaEnviar}
+                title="Enviar comanda para cozinha?"
+                description={`Após enviar, a cozinha iniciará o preparo imediatamente.`}
+                confirmLabel="Enviar para cozinha"
+                cancelLabel="Revisar pedido"
+                variant="primary"
+                isLoading={isProcessing}
+                onConfirm={enviarParaCozinha}
+                onCancel={() => setComandaParaEnviar(false)}
+            />
+
+            <ConfirmDialog 
+                isOpen={contaParaFechar}
+                title="Fechar conta da mesa?"
+                description="Confirme se o pagamento já foi efetuado pelo cliente. Após fechar a conta, a comanda será finalizada."
+                confirmLabel="Fechar conta"
+                cancelLabel="Cancelar"
+                variant="success"
+                isLoading={isProcessing}
+                onConfirm={fecharConta}
+                onCancel={() => setContaParaFechar(false)}
+            />
+
         </SalaoLayout>
     );
 }

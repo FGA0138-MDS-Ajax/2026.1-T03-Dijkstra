@@ -3,11 +3,15 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { AnimatePresence } from 'framer-motion';
 import KitchenOrderCard from './KitchenOrderCard';
+import ConfirmDialog from './ConfirmDialog';
 import '../assets/css/kitchen-timer.css';
 
 export default function KitchenOrdersPanel({ onConcluirPedido }) {
     const [pedidos, setPedidos] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const [pedidoParaConcluir, setPedidoParaConcluir] = useState(null);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const fetchPedidos = async () => {
         try {
@@ -31,15 +35,22 @@ export default function KitchenOrdersPanel({ onConcluirPedido }) {
         return () => clearInterval(interval);
     }, []);
 
-    const handleConcluir = async (numero_mesa, comanda_id) => {
-        if (onConcluirPedido) {
-            try {
-                await onConcluirPedido(numero_mesa, comanda_id);
-                toast.success('🍽️ Pedido marcado como Pronto!');
-                fetchPedidos();
-            } catch (err) {
-                toast.error('❌ Não foi possível concluir a ação.');
-            }
+    const prepararConclusao = (numero_mesa, comanda_id) => {
+        setPedidoParaConcluir({ numero_mesa, comanda_id });
+    };
+
+    const confirmarConclusao = async () => {
+        if (!pedidoParaConcluir || !onConcluirPedido) return;
+        setIsProcessing(true);
+        try {
+            await onConcluirPedido(pedidoParaConcluir.numero_mesa, pedidoParaConcluir.comanda_id);
+            toast.success('🍽️ Pedido marcado como Pronto!');
+            fetchPedidos();
+            setPedidoParaConcluir(null);
+        } catch (err) {
+            toast.error('❌ Não foi possível concluir a ação.');
+        } finally {
+            setIsProcessing(false);
         }
     };
 
@@ -59,11 +70,11 @@ export default function KitchenOrdersPanel({ onConcluirPedido }) {
                 ) : (
                     <AnimatePresence>
                         {pedidos.map(pedido => (
-                            <KitchenOrderCard 
-                                key={pedido.id} 
-                                order={pedido} 
-                                onConcluir={handleConcluir} 
-                            />
+                                <KitchenOrderCard 
+                                    key={pedido.id} 
+                                    order={pedido} 
+                                    onConcluir={prepararConclusao} 
+                                />
                         ))}
                     </AnimatePresence>
                 )}
@@ -73,6 +84,19 @@ export default function KitchenOrdersPanel({ onConcluirPedido }) {
                     </p>
                 )}
             </div>
+
+            <ConfirmDialog 
+                isOpen={!!pedidoParaConcluir}
+                title="Marcar pedido como pronto?"
+                description={`Mesa ${pedidoParaConcluir?.numero_mesa} - Comanda #${pedidoParaConcluir?.comanda_id}. Confirme se todos os itens foram preparados corretamente.`}
+                confirmLabel="Marcar como pronto"
+                cancelLabel="Cancelar"
+                variant="success"
+                isLoading={isProcessing}
+                onConfirm={confirmarConclusao}
+                onCancel={() => setPedidoParaConcluir(null)}
+            />
+
         </div>
     );
 }
