@@ -7,6 +7,7 @@ export default function Produtos() {
     const [nome, setNome] = useState('');
     const [preco, setPreco] = useState('');
     const [categoria, setCategoria] = useState('Bebida');
+    const [preparationTime, setPreparationTime] = useState(15);
 
     const fetchProdutos = async () => {
         try {
@@ -19,8 +20,8 @@ export default function Produtos() {
 
     const cadastrarProduto = async (e) => {
         e.preventDefault();
-        await axios.post('http://localhost:5000/api/produtos/cadastrar', { nome, preco, categoria }, { withCredentials: true });
-        setNome(''); setPreco(''); setCategoria('Bebida');
+        await axios.post('http://localhost:5000/api/produtos/cadastrar', { nome, preco, categoria, preparation_time_minutes: preparationTime }, { withCredentials: true });
+        setNome(''); setPreco(''); setCategoria('Bebida'); setPreparationTime(15);
         fetchProdutos();
     };
 
@@ -42,6 +43,7 @@ export default function Produtos() {
                         <option value="Prato">Prato</option>
                         <option value="Sobremesa">Sobremesa</option>
                     </select>
+                    <input type="number" placeholder="Tempo (min)" value={preparationTime} onChange={e => setPreparationTime(e.target.value)} required min="1" style={{ width: '100px' }} title="Tempo médio de preparo em minutos" />
                     <button type="submit">+ Cadastrar</button>
                 </form>
             </div>
@@ -54,6 +56,7 @@ export default function Produtos() {
                             <th>Produto</th>
                             <th>Categoria</th>
                             <th>Preço</th>
+                            <th>Tempo</th>
                             <th style={{ textAlign: 'right' }}>Ação</th>
                         </tr>
                     </thead>
@@ -64,6 +67,7 @@ export default function Produtos() {
                                 <td>{produto.nome}</td>
                                 <td style={{ color: 'var(--text-muted)' }}>{produto.categoria}</td>
                                 <td className="price-cell">R$ {parseFloat(produto.preco).toFixed(2)}</td>
+                                <td>{produto.preparation_time_minutes} min</td>
                                 <td style={{ textAlign: 'right' }}>
                                     <button onClick={() => deletarProduto(produto.id)} className="danger">Excluir</button>
                                 </td>

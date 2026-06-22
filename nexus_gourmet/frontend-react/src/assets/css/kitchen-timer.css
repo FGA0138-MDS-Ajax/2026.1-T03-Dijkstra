@@ -1,0 +1,133 @@
+/* kitchen-timer.css */
+
+.kitchen-orders-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.kitchen-order-card {
+  background: #111;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  border-left: 4px solid #333;
+}
+
+/* Status variants */
+.kitchen-order-card--on-time {
+  border-left-color: #00cc66;
+  background: linear-gradient(to right, rgba(0, 204, 102, 0.05), #111);
+}
+
+.kitchen-order-card--warning {
+  border-left-color: #ffaa00;
+  background: linear-gradient(to right, rgba(255, 170, 0, 0.05), #111);
+}
+
+.kitchen-order-card--late {
+  border-left-color: #cc0000;
+  background: linear-gradient(to right, rgba(204, 0, 0, 0.05), #111);
+}
+
+.kitchen-order-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  padding-bottom: 8px;
+}
+
+.kitchen-order-card__title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #eee;
+  margin: 0;
+}
+
+.kitchen-order-card__meta {
+  font-size: 12px;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+}
+
+.kitchen-order-card__items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: 'Rubik', sans-serif;
+  font-size: 13px;
+  color: #bbb;
+  flex: 1;
+}
+
+.kitchen-order-card__items li {
+  padding: 4px 0;
+  border-bottom: 1px dashed #333;
+}
+.kitchen-order-card__items li:last-child {
+  border-bottom: none;
+}
+
+.kitchen-order-card__obs {
+  font-style: italic;
+  color: #ffaa00;
+  font-size: 11px;
+  display: block;
+  margin-top: 2px;
+}
+
+/* Badge styles */
+.kitchen-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.kitchen-badge--on-time {
+  background: rgba(0, 204, 102, 0.15);
+  color: #00cc66;
+}
+
+.kitchen-badge--warning {
+  background: rgba(255, 170, 0, 0.15);
+  color: #ffaa00;
+}
+
+.kitchen-badge--late {
+  background: rgba(204, 0, 0, 0.15);
+  color: #ff5555;
+}
+
+/* Timer text */
+.kitchen-timer-text {
+  font-family: monospace;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.kitchen-timer-text--on-time { color: #00cc66; }
+.kitchen-timer-text--warning { color: #ffaa00; }
+.kitchen-timer-text--late { color: #ff5555; }
+
+/* Status "Pronto" */
+.kitchen-order-card--ready {
+    border-left-color: #555;
+    background: #1a1a1a;
+    opacity: 0.8;
+}
+.kitchen-badge--ready {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+}
+.kitchen-timer-text--ready {
+    color: #888;
+}

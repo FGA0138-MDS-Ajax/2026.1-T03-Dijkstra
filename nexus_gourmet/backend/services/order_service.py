@@ -13,7 +13,7 @@ FLUXO = {
 
 PERMISSOES = {
     OrderStatus.EM_PREPARO: [Role.GARCOM, Role.ADMINISTRADOR], 
-    OrderStatus.PRONTO:     [Role.COZINHEIRO],
+    OrderStatus.PRONTO:     [Role.COZINHEIRO, Role.ADMINISTRADOR],
     # Adicione o Role.ADMINISTRADOR nesta linha abaixo:
     OrderStatus.ENTREGUE:   [Role.GARCOM, Role.ADMINISTRADOR], 
     OrderStatus.CANCELADO:  [Role.ADMINISTRADOR, Role.GARCOM],
@@ -29,6 +29,8 @@ class OrderService:
             {
                 'id': comanda.id,
                 'status': comanda.status.value if comanda.status else None,
+                'sent_to_kitchen_at': comanda.sent_to_kitchen_at.isoformat() if comanda.sent_to_kitchen_at else None,
+                'estimated_preparation_minutes': max([item.product.preparation_time_minutes for item in comanda.itens if item.product and item.cozinha_status == 'PREPARANDO'] + [15]),
                 'mesa': {
                     'numero': comanda.table.numero if comanda.table else None,
                     'status': comanda.table.status.value if comanda.table and comanda.table.status else None,
@@ -39,11 +41,12 @@ class OrderService:
                         'produto': item.product.nome if item.product else None,
                         'quantidade': item.quantidade,
                         'observacao': item.observacao,
+                        'preparation_time_minutes': item.product.preparation_time_minutes if item.product else 15,
                     }
-                    for item in comanda.itens
+                    for item in comanda.itens if item.cozinha_status == 'PREPARANDO'
                 ],
             }
-            for comanda in comandas
+            for comanda in comandas if any(item.cozinha_status == 'PREPARANDO' for item in comanda.itens)
         ]
     
     def abrir_comanda(self, numero_mesa, user_id):
@@ -169,6 +172,18 @@ class OrderService:
         if status_atual == OrderStatus.PENDENTE and not comanda.itens:
             return False, "Não é possível enviar um pedido sem itens."
 
+        if novo_status == OrderStatus.EM_PREPARO:
+            # Atualiza o timer para o novo lote de itens enviados
+            comanda.sent_to_kitchen_at = datetime.utcnow()
+            for item in comanda.itens:
+                if item.cozinha_status == 'PENDENTE':
+                    item.cozinha_status = 'PREPARANDO'
+
+        if novo_status == OrderStatus.PRONTO:
+            for item in comanda.itens:
+                if item.cozinha_status == 'PREPARANDO':
+                    item.cozinha_status = 'PRONTO'
+
         comanda.status = novo_status
         db.session.commit()
         return True, f"Status atualizado para {novo_status.value}."
@@ -247,6 +262,7 @@ class OrderService:
             if comandas_ativas == 0:
                 mesa.status = TableStatus.LIVRE
         
+        db.session.delete(comanda)
         db.session.commit()
         return True, {"mensagem": "Comanda fechada com sucesso.", "conta": conta}
         

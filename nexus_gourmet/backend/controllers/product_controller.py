@@ -44,7 +44,8 @@ class ProductController(BaseController):
         
         dados = request.json or {}
         success, message = self.product_service.cadastrar_produto(
-            dados.get('nome'), dados.get('categoria'), dados.get('preco')
+            dados.get('nome'), dados.get('categoria'), dados.get('preco'),
+            dados.get('preparation_time_minutes', 15)
         )
         return self.json_response(success, message, status=200 if success else 400)
 
@@ -55,7 +56,8 @@ class ProductController(BaseController):
         
         dados = request.json or {}
         success, message = self.product_service.editar_produto(
-            product_id, dados.get('nome'), dados.get('categoria'), dados.get('preco')
+            product_id, dados.get('nome'), dados.get('categoria'), dados.get('preco'),
+            dados.get('preparation_time_minutes', 15)
         )
         return self.json_response(success, message, status=200 if success else 400)
 

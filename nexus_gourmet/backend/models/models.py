@@ -44,13 +44,15 @@ class Product(db.Model):
     nome = db.Column(db.String(100), nullable=False)
     categoria = db.Column(db.Enum(ProductCategory), nullable=False)
     preco = db.Column(db.Numeric(10, 2), nullable=False)
+    preparation_time_minutes = db.Column(db.Integer, nullable=False, default=15)
 
     def to_dict(self):
         return {
             "id": self.id,
             "nome": self.nome,
             "categoria": self.categoria.value,
-            "preco": float(self.preco)
+            "preco": float(self.preco),
+            "preparation_time_minutes": self.preparation_time_minutes
         }
 
 class Order(db.Model):
@@ -58,6 +60,7 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     data_abertura = db.Column(db.DateTime, default=datetime.utcnow)
+    sent_to_kitchen_at = db.Column(db.DateTime, nullable=True)
     status = db.Column(db.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDENTE)
 
     numero_mesa = db.Column(db.Integer, db.ForeignKey('tables.numero'), nullable=False)
@@ -69,6 +72,7 @@ class Order(db.Model):
         return {
             "id": self.id,
             "data_abertura": self.data_abertura.isoformat() if self.data_abertura else None,
+            "sent_to_kitchen_at": self.sent_to_kitchen_at.isoformat() if self.sent_to_kitchen_at else None,
             "status": self.status.value,
             "numero_mesa": self.numero_mesa,
             "user_id": self.user_id,
@@ -81,6 +85,7 @@ class ProductOrdered(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     quantidade = db.Column(db.Integer, nullable=False, default=1)
     observacao = db.Column(db.String(255), nullable=True)
+    cozinha_status = db.Column(db.String(20), default='PENDENTE')
 
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
@@ -92,6 +97,7 @@ class ProductOrdered(db.Model):
             "id": self.id,
             "quantidade": self.quantidade,
             "observacao": self.observacao,
+            "cozinha_status": self.cozinha_status,
             "product_id": self.product_id,
             "produto": self.product.to_dict() if self.product else None
         }
