@@ -142,3 +142,109 @@ code {
 .skeleton-row td {
   padding: 12px;
 }
+
+/* ==========================================
+   UI Components (Search, Pills, Empty State)
+========================================== */
+
+/* Search Input */
+.search-container {
+  display: flex;
+  align-items: center;
+  background: #000000;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-container:focus-within {
+  border-color: #ff3b30; 
+  box-shadow: none;
+}
+.search-icon {
+  font-size: 14px;
+  color: #ffffff;
+  margin-right: 8px;
+  opacity: 0.8;
+}
+input[type="text"].search-input {
+  flex: 1;
+  background: transparent !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  padding: 0 !important;
+}
+input[type="text"].search-input::placeholder {
+  color: #999999 !important;
+  opacity: 1;
+}
+
+/* Category Pills */
+.category-pills {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none; /* Firefox */
+}
+.category-pills::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+.category-pill {
+  background: var(--code-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.category-pill:hover {
+  background: #333;
+  color: var(--text-h);
+}
+.category-pill.active {
+  background: var(--primary-red, #cc0000);
+  color: #fff;
+  border-color: var(--primary-red, #cc0000);
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  margin: 16px 0;
+}
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+.empty-state-title {
+  color: var(--text-h);
+  font-size: 16px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.empty-state-desc {
+  color: var(--text);
+  font-size: 13px;
+  max-width: 250px;
+  line-height: 1.4;
+}

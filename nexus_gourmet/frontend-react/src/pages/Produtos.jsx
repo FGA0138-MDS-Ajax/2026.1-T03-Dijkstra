@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import AdminLayout from '../components/AdminLayout';
 import ConfirmDialog from '../components/ConfirmDialog';
+import EmptyState from '../components/EmptyState';
 
 export default function Produtos() {
     const [produtos, setProdutos] = useState([]);
@@ -13,6 +14,10 @@ export default function Produtos() {
     const [categoria, setCategoria] = useState('Bebida');
     const [preparationTime, setPreparationTime] = useState(15);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Estados de Filtro e Busca
+    const [searchTerm, setSearchTerm] = useState('');
+    const [activeFilter, setActiveFilter] = useState('Todos');
 
     // Estados do Modal de Confirmação
     const [produtoParaDeletar, setProdutoParaDeletar] = useState(null);
@@ -72,6 +77,12 @@ export default function Produtos() {
         }
     };
 
+    const filteredProdutos = produtos.filter(p => {
+        const matchesSearch = p.nome.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategory = activeFilter === 'Todos' || p.categoria === activeFilter;
+        return matchesSearch && matchesCategory;
+    });
+
     return (
         <AdminLayout>
             <h2 className="page-title">Gerenciar Produtos</h2>
@@ -98,7 +109,32 @@ export default function Produtos() {
                 </form>
             </div>
 
-            <div className="card">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
+                <div className="search-container" style={{ marginBottom: 0 }}>
+                    <span className="search-icon">🔍</span>
+                    <input 
+                        type="text" 
+                        className="search-input" 
+                        placeholder="Buscar produto..." 
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                <div className="category-pills" style={{ marginBottom: '16px' }}>
+                    {['Todos', 'Bebida', 'Prato', 'Sobremesa'].map(cat => (
+                        <button 
+                            key={cat} 
+                            className={`category-pill ${activeFilter === cat ? 'active' : ''}`}
+                            onClick={() => setActiveFilter(cat)}
+                            type="button"
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <div className="card" style={{ marginTop: 0 }}>
                 <table>
                     <thead>
                         <tr>
@@ -126,13 +162,19 @@ export default function Produtos() {
                             ))
                         ) : produtos.length === 0 ? (
                             <tr>
-                                <td colSpan="6" style={{ textAlign: 'center', padding: '20px', color: '#888', fontStyle: 'italic' }}>
-                                    Nenhum produto cadastrado ainda.
+                                <td colSpan="6" style={{ padding: 0, borderBottom: 'none' }}>
+                                    <EmptyState icon="📦" title="Nenhum produto cadastrado" description="Comece cadastrando novos produtos acima." />
+                                </td>
+                            </tr>
+                        ) : filteredProdutos.length === 0 ? (
+                            <tr>
+                                <td colSpan="6" style={{ padding: 0, borderBottom: 'none' }}>
+                                    <EmptyState icon="🔍" title="Nenhum produto encontrado" description="Tente buscar por outro termo ou categoria." />
                                 </td>
                             </tr>
                         ) : (
                             <AnimatePresence>
-                                {produtos.map((produto, idx) => (
+                                {filteredProdutos.map((produto, idx) => (
                                     <motion.tr 
                                         key={produto.id}
                                         initial={{ opacity: 0, y: 10 }}
@@ -142,7 +184,11 @@ export default function Produtos() {
                                     >
                                         <td style={{ fontFamily: "'Rubik',sans-serif", fontSize: '11px', color: '#555' }}>#{produto.id}</td>
                                         <td>{produto.nome}</td>
-                                        <td style={{ color: 'var(--text-muted)' }}>{produto.categoria}</td>
+                                        <td>
+                                            <span className={`category-pill category-pill--${produto.categoria.toLowerCase()}`} style={{ fontSize: '10px', padding: '2px 8px', pointerEvents: 'none' }}>
+                                                {produto.categoria}
+                                            </span>
+                                        </td>
                                         <td className="price-cell">R$ {parseFloat(produto.preco).toFixed(2)}</td>
                                         <td>{produto.preparation_time_minutes} min</td>
                                         <td style={{ textAlign: 'right' }}>

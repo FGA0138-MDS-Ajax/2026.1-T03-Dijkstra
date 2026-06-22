@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import SalaoLayout from '../components/SalaoLayout';
 import ConfirmDialog from '../components/ConfirmDialog';
+import EmptyState from '../components/EmptyState';
 
 export default function Mesas() {
     const [mesas, setMesas] = useState([]);
@@ -15,7 +16,11 @@ export default function Mesas() {
     const [expandedMesa, setExpandedMesa] = useState(null);
     const [comandasMesa, setComandasMesa] = useState([]);
     const [selectedComanda, setSelectedComanda] = useState(null);
-    const [activeTab, setActiveTab] = useState('Prato');
+    const [activeTab, setActiveTab] = useState('Todos');
+
+    // Estados de Busca
+    const [searchMesa, setSearchMesa] = useState('');
+    const [searchProduto, setSearchProduto] = useState('');
     
     // Estados do CRUD de Mesas (Admin)
     const [novaCapacidade, setNovaCapacidade] = useState('');
@@ -272,12 +277,38 @@ export default function Mesas() {
     };
 
 
+    const filteredMesas = mesas.filter(m => m.numero.toString().includes(searchMesa) || (m.identificacao && m.identificacao.toLowerCase().includes(searchMesa.toLowerCase())));
+
+    const getFilteredProdutos = () => {
+        let allProds = [];
+        if (activeTab === 'Todos') {
+            allProds = [...produtos.Bebida, ...produtos.Prato, ...produtos.Sobremesa];
+        } else {
+            allProds = produtos[activeTab] || [];
+        }
+        return allProds.filter(p => p.nome.toLowerCase().includes(searchProduto.toLowerCase()));
+    };
+    const filteredProdutosParaComanda = getFilteredProdutos();
+
     return (
         <SalaoLayout>
             <div className="pdv-container">
                 <nav className="left-sidebar">
                     <div className="left-sidebar-header">Mesas</div>
                     
+                    <div style={{ padding: '10px', borderBottom: '1px solid var(--border)' }}>
+                        <div className="search-container" style={{ marginBottom: 0, padding: '6px 10px' }}>
+                            <span className="search-icon">🔍</span>
+                            <input 
+                                type="text" 
+                                className="search-input" 
+                                placeholder="Buscar mesa..." 
+                                value={searchMesa}
+                                onChange={e => setSearchMesa(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
                     {cargo === 'ADMINISTRADOR' && (
                         <form onSubmit={handleCriarMesa} style={{ padding: '12px', borderBottom: '2px solid var(--border-color)', display: 'flex', gap: '8px' }}>
                             <div className="custom-number-input" style={{ flex: 1 }}>
@@ -301,8 +332,12 @@ export default function Mesas() {
                             Array.from({ length: 4 }).map((_, idx) => (
                                 <li className="mesa-item skeleton" key={idx} style={{ height: '40px', marginBottom: '8px' }}></li>
                             ))
+                        ) : filteredMesas.length === 0 ? (
+                            <div style={{ padding: '10px' }}>
+                                <EmptyState icon="🍽️" title="Nenhuma mesa" />
+                            </div>
                         ) : (
-                            mesas.map(mesa => {
+                            filteredMesas.map(mesa => {
                                 const isExpanded = expandedMesa === mesa.numero;
                                 const isEditing = editingMesaNum === mesa.numero;
 
@@ -436,29 +471,52 @@ export default function Mesas() {
                                 Adicionando itens na <strong>Comanda #{selectedComanda} (Mesa {expandedMesa})</strong>
                             </div>
                             
-                            <nav className="menu-header-nav">
-                                {Object.keys(produtos).map(cat => (
-                                    <button key={cat} className={`menu-tab ${activeTab === cat ? 'active' : ''}`} onClick={() => setActiveTab(cat)}>
-                                        {cat}s
+                            <div className="category-pills" style={{ padding: '0 10px', marginTop: '10px', marginBottom: '10px' }}>
+                                {['Todos', 'Bebida', 'Prato', 'Sobremesa'].map(cat => (
+                                    <button 
+                                        key={cat} 
+                                        className={`category-pill ${activeTab === cat ? 'active' : ''}`} 
+                                        onClick={() => setActiveTab(cat)}
+                                    >
+                                        {cat}
                                     </button>
                                 ))}
-                            </nav>
-
-                            <div className="products-grid">
-                                {produtos[activeTab].map(prod => (
-                                    <motion.div 
-                                        className="product-card" 
-                                        key={prod.id} 
-                                        onClick={() => adicionarAoCarrinho(prod)}
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                    >
-                                        <div style={{ fontSize: '40px', color: '#ccc', marginBottom: '10px' }}>📦</div>
-                                        <div className="product-name">{prod.nome}</div>
-                                        <div className="product-price">R$ {parseFloat(prod.preco).toFixed(2)}</div>
-                                    </motion.div>
-                                ))}
                             </div>
+                            
+                            <div style={{ padding: '0 10px', marginBottom: '10px' }}>
+                                <div className="search-container" style={{ marginBottom: 0, padding: '6px 10px' }}>
+                                    <span className="search-icon">🔍</span>
+                                    <input 
+                                        type="text" 
+                                        className="search-input" 
+                                        placeholder="Buscar produto para adicionar..." 
+                                        value={searchProduto}
+                                        onChange={e => setSearchProduto(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+
+                            {filteredProdutosParaComanda.length === 0 ? (
+                                <div style={{ padding: '20px' }}>
+                                    <EmptyState icon="📦" title="Nenhum produto encontrado" description="Tente alterar a categoria ou o termo da busca." />
+                                </div>
+                            ) : (
+                                <div className="products-grid">
+                                    {filteredProdutosParaComanda.map(prod => (
+                                        <motion.div 
+                                            className="product-card" 
+                                            key={prod.id} 
+                                            onClick={() => adicionarAoCarrinho(prod)}
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            <div style={{ fontSize: '40px', color: '#ccc', marginBottom: '10px' }}>📦</div>
+                                            <div className="product-name">{prod.nome}</div>
+                                            <div className="product-price">R$ {parseFloat(prod.preco).toFixed(2)}</div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            )}
                         </>
                     )}
                 </div>

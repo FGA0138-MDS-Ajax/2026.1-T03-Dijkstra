@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { AnimatePresence } from 'framer-motion';
 import KitchenOrderCard from './KitchenOrderCard';
 import ConfirmDialog from './ConfirmDialog';
+import EmptyState from './EmptyState';
 import '../assets/css/kitchen-timer.css';
 
 export default function KitchenOrdersPanel({ onConcluirPedido }) {
@@ -79,9 +80,13 @@ export default function KitchenOrdersPanel({ onConcluirPedido }) {
                     </AnimatePresence>
                 )}
                 {!isLoading && pedidos.length === 0 && (
-                    <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', gridColumn: '1 / -1' }}>
-                        Nenhum pedido pendente no momento.
-                    </p>
+                    <div style={{ gridColumn: '1 / -1' }}>
+                        <EmptyState 
+                            icon="👨‍🍳" 
+                            title="Nenhum pedido pendente" 
+                            description="Assim que o salão enviar uma comanda, ela aparecerá aqui." 
+                        />
+                    </div>
                 )}
             </div>
 
