@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast } from 'sonner';
+import { AnimatePresence } from 'framer-motion';
 import KitchenOrderCard from './KitchenOrderCard';
 import '../assets/css/kitchen-timer.css';
 
 export default function KitchenOrdersPanel({ onConcluirPedido }) {
     const [pedidos, setPedidos] = useState([]);
-    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchPedidos = async () => {
         try {
@@ -14,11 +16,12 @@ export default function KitchenOrdersPanel({ onConcluirPedido }) {
                 // Filtra pedidos relevantes para a cozinha
                 const emPreparo = response.data.data.filter(p => p.status === 'Em Preparo');
                 setPedidos(emPreparo);
-                setError(null);
             }
         } catch (err) {
             console.error('Erro ao buscar pedidos da cozinha', err);
-            setError('Erro de conexão ao buscar fila de preparo.');
+            toast.error('Erro de conexão ao buscar fila de preparo.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -30,23 +33,41 @@ export default function KitchenOrdersPanel({ onConcluirPedido }) {
 
     const handleConcluir = async (numero_mesa, comanda_id) => {
         if (onConcluirPedido) {
-            await onConcluirPedido(numero_mesa, comanda_id);
-            fetchPedidos();
+            try {
+                await onConcluirPedido(numero_mesa, comanda_id);
+                toast.success('🍽️ Pedido marcado como Pronto!');
+                fetchPedidos();
+            } catch (err) {
+                toast.error('❌ Não foi possível concluir a ação.');
+            }
         }
     };
 
     return (
         <div className="kitchen-orders-panel-container">
-            {error && <div style={{ color: '#ff5555', marginBottom: '10px' }}>{error}</div>}
             <div className="kitchen-orders-panel">
-                {pedidos.map(pedido => (
-                    <KitchenOrderCard 
-                        key={pedido.id} 
-                        order={pedido} 
-                        onConcluir={handleConcluir} 
-                    />
-                ))}
-                {pedidos.length === 0 && (
+                {isLoading ? (
+                    Array.from({ length: 4 }).map((_, idx) => (
+                        <div key={`skeleton-${idx}`} className="kitchen-order-card skeleton" style={{ height: '200px' }}>
+                            <div className="skeleton-text" style={{ width: '40%', marginBottom: '10px' }}></div>
+                            <div className="skeleton-text" style={{ width: '80%', marginBottom: '20px' }}></div>
+                            <div className="skeleton-text" style={{ width: '60%', marginBottom: '10px' }}></div>
+                            <div className="skeleton-text" style={{ width: '60%', marginBottom: 'auto' }}></div>
+                            <div className="skeleton-btn" style={{ width: '100%', marginTop: '10px' }}></div>
+                        </div>
+                    ))
+                ) : (
+                    <AnimatePresence>
+                        {pedidos.map(pedido => (
+                            <KitchenOrderCard 
+                                key={pedido.id} 
+                                order={pedido} 
+                                onConcluir={handleConcluir} 
+                            />
+                        ))}
+                    </AnimatePresence>
+                )}
+                {!isLoading && pedidos.length === 0 && (
                     <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', gridColumn: '1 / -1' }}>
                         Nenhum pedido pendente no momento.
                     </p>

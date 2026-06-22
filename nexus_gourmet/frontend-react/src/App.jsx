@@ -6,10 +6,13 @@ import Comandas from './pages/Comandas';
 import Pedidos from './pages/Pedidos';
 import Produtos from './pages/Produtos';
 import Usuarios from './pages/Usuarios';
+import { Toaster } from 'sonner';
 
 function App() {
   return (
-    <Router>
+    <>
+      <Toaster richColors position="top-right" />
+      <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
@@ -20,6 +23,7 @@ function App() {
         <Route path="/usuarios" element={<Usuarios />} />
       </Routes>
     </Router>
+    </>
   );
 }
 

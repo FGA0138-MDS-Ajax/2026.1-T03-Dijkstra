@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
 import SalaoLayout from '../components/SalaoLayout';
 
 export default function Mesas() {
     const [mesas, setMesas] = useState([]);
     const [produtos, setProdutos] = useState({ Bebida: [], Prato: [], Sobremesa: [] });
+    const [isLoading, setIsLoading] = useState(true);
     const cargo = localStorage.getItem('userCargo');
     
     // Estados da Interface de Comandas
@@ -36,7 +39,12 @@ export default function Mesas() {
                 resProd.data.data.forEach(p => { if (grouped[p.categoria]) grouped[p.categoria].push(p); });
                 setProdutos(grouped);
             }
-        } catch (error) { console.error("Erro ao carregar dados", error); }
+        } catch (error) { 
+            console.error("Erro ao carregar dados", error);
+            toast.error('Erro ao carregar mesas e produtos.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     useEffect(() => { fetchData(); }, []);
@@ -67,15 +75,15 @@ export default function Mesas() {
     // ==========================================
     const handleCriarMesa = async (e) => {
         e.preventDefault();
-        if (!novaCapacidade || novaCapacidade <= 0) return alert("Insira uma capacidade válida.");
+        if (!novaCapacidade || novaCapacidade <= 0) return toast.warning("Insira uma capacidade válida.");
         try {
             const res = await axios.post('http://localhost:5000/api/salao/criar', { capacidade: parseInt(novaCapacidade) }, { withCredentials: true });
             if (res.data.success) {
-                alert("Mesa criada com sucesso!");
+                toast.success("Mesa criada com sucesso!");
                 setNovaCapacidade('');
                 fetchData();
-            } else { alert(res.data.message); }
-        } catch (err) { alert("Erro ao criar mesa."); }
+            } else { toast.error(res.data.message); }
+        } catch (err) { toast.error("Erro ao criar mesa."); }
     };
 
     const handleDeletarMesa = async (e, numero_mesa) => {
@@ -84,11 +92,11 @@ export default function Mesas() {
         try {
             const res = await axios.delete(`http://localhost:5000/api/salao/deletar/${numero_mesa}`, { withCredentials: true });
             if (res.data.success) {
-                alert("Mesa excluída!");
+                toast.success("Mesa excluída!");
                 if (expandedMesa === numero_mesa) setExpandedMesa(null);
                 fetchData();
-            } else { alert(res.data.message); }
-        } catch (err) { alert("Erro: Não é possível deletar uma mesa com comandas associadas."); }
+            } else { toast.error(res.data.message); }
+        } catch (err) { toast.error("Erro: Não é possível deletar uma mesa com comandas associadas."); }
     };
 
     const abrirEdicaoMesa = (e, mesa) => {
@@ -103,11 +111,11 @@ export default function Mesas() {
         try {
             const res = await axios.put(`http://localhost:5000/api/salao/editar/${numero_mesa}`, { capacidade: parseInt(editCapacidade) }, { withCredentials: true });
             if (res.data.success) {
-                alert("Capacidade da mesa atualizada!");
+                toast.success("Capacidade da mesa atualizada!");
                 setEditingMesaNum(null);
                 fetchData();
-            } else { alert(res.data.message); }
-        } catch (err) { alert("Erro ao editar mesa."); }
+            } else { toast.error(res.data.message); }
+        } catch (err) { toast.error("Erro ao editar mesa."); }
     };
 
     // ==========================================
@@ -117,15 +125,16 @@ export default function Mesas() {
         try {
             const res = await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/abrir_comanda`, {}, { withCredentials: true });
             if (res.data.success) {
+                toast.success(`Comanda #${res.data.data.comanda_id} criada com sucesso!`);
                 await carregarComandas(numero_mesa);
                 setSelectedComanda(res.data.data.comanda_id);
                 fetchData();
             }
-        } catch (e) { alert("Erro ao criar nova comanda."); }
+        } catch (e) { toast.error("Erro ao criar nova comanda."); }
     };
 
     const adicionarAoCarrinho = (produto) => {
-        if (!selectedComanda) return alert("Selecione uma comanda na barra lateral primeiro!");
+        if (!selectedComanda) return toast.warning("Selecione uma comanda na barra lateral primeiro!");
         setCart(prev => {
             const comandaCart = prev[selectedComanda] || [];
             const itemIndex = comandaCart.findIndex(i => i.product_id === produto.id);
@@ -136,6 +145,7 @@ export default function Mesas() {
             } else {
                 novoCart = [...comandaCart, { product_id: produto.id, nome: produto.nome, preco: produto.preco, quantidade: 1 }];
             }
+            toast.success(`➕ ${produto.nome} adicionado.`);
             return { ...prev, [selectedComanda]: novoCart };
         });
     };
@@ -160,8 +170,8 @@ export default function Mesas() {
             await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comandaId}/enviar_comanda`, {}, { withCredentials: true });
             setCart(prev => ({ ...prev, [comandaId]: [] }));
             await carregarComandas(numero_mesa);
-            alert(`Pedido enviado à cozinha com sucesso!`);
-        } catch (error) { alert("Erro ao confirmar o pedido."); }
+            toast.success(`🍽️ Pedido enviado à cozinha com sucesso!`);
+        } catch (error) { toast.error("Erro ao confirmar o pedido."); }
     };
 
     const calcularTotalLocal = (comandaId) => {
@@ -174,12 +184,13 @@ export default function Mesas() {
             const res = await axios.put(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comandaId}/alterar_status`, 
                 { status: 'Entregue' }, { withCredentials: true });
             if (res.data.success) {
+                toast.success('Pedido marcado como Entregue.');
                 await carregarComandas(numero_mesa);
                 fetchData();
             } else {
-                alert("Erro: " + res.data.message);
+                toast.error("Erro: " + res.data.message);
             }
-        } catch (err) { alert("Erro ao marcar comanda como entregue."); }
+        } catch (err) { toast.error("Erro ao marcar comanda como entregue."); }
     };
 
     // ==========================================
@@ -198,16 +209,16 @@ export default function Mesas() {
         try {
             const res = await axios.post(`http://localhost:5000/api/salao/${expandedMesa}/comandas/${modalConta.id}/fechar`, {}, { withCredentials: true });
             if (res.data.success) {
-                alert(`Pagamento via ${metodoPagamento} processado! Conta fechada com sucesso.`);
+                toast.success(`✅ Pagamento via ${metodoPagamento} processado! Conta fechada.`);
                 setModalConta(null);
                 await carregarComandas(expandedMesa);
                 if (selectedComanda === modalConta.id) setSelectedComanda(null);
                 fetchData();
             } else {
-                alert("Erro: " + res.data.message);
+                toast.error("Erro: " + res.data.message);
             }
         } catch(e) {
-            alert("AVISO: Todos os pedidos dessa comanda devem constar como 'Entregue' para poder fechar a conta.");
+            toast.error("AVISO: Todos os pedidos dessa comanda devem constar como 'Entregue' para fechar a conta.");
         }
     };
 
@@ -237,12 +248,23 @@ export default function Mesas() {
                     )}
 
                     <ul className="mesas-list">
-                        {mesas.map(mesa => {
-                            const isExpanded = expandedMesa === mesa.numero;
-                            const isEditing = editingMesaNum === mesa.numero;
+                        {isLoading ? (
+                            Array.from({ length: 4 }).map((_, idx) => (
+                                <li className="mesa-item skeleton" key={idx} style={{ height: '40px', marginBottom: '8px' }}></li>
+                            ))
+                        ) : (
+                            mesas.map(mesa => {
+                                const isExpanded = expandedMesa === mesa.numero;
+                                const isEditing = editingMesaNum === mesa.numero;
 
-                            return (
-                                <li className="mesa-item" key={mesa.numero}>
+                                return (
+                                    <motion.li 
+                                        className="mesa-item" 
+                                        key={mesa.numero}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                    >
                                     
                                     <div style={{ display: 'flex', alignItems: 'center', background: isExpanded ? '#2a0000' : 'transparent' }}>
                                         <button 
@@ -346,9 +368,10 @@ export default function Mesas() {
                                             </button>
                                         </div>
                                     </div>
-                                </li>
-                            );
-                        })}
+                                    </motion.li>
+                                );
+                            })
+                        )}
                     </ul>
                 </nav>
 
@@ -374,11 +397,17 @@ export default function Mesas() {
 
                             <div className="products-grid">
                                 {produtos[activeTab].map(prod => (
-                                    <div className="product-card" key={prod.id} onClick={() => adicionarAoCarrinho(prod)}>
+                                    <motion.div 
+                                        className="product-card" 
+                                        key={prod.id} 
+                                        onClick={() => adicionarAoCarrinho(prod)}
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
                                         <div style={{ fontSize: '40px', color: '#ccc', marginBottom: '10px' }}>📦</div>
                                         <div className="product-name">{prod.nome}</div>
                                         <div className="product-price">R$ {parseFloat(prod.preco).toFixed(2)}</div>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         </>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
 import SalaoLayout from '../components/SalaoLayout';
 
 export default function Comandas() {
@@ -12,6 +14,8 @@ export default function Comandas() {
     const [produtoId, setProdutoId] = useState('');
     const [quantidade, setQuantidade] = useState(1);
 
+    const [isLoading, setIsLoading] = useState(true);
+
     const fetchData = async () => {
         try {
             const [resComanda, resProdutos] = await Promise.all([
@@ -22,6 +26,9 @@ export default function Comandas() {
             if (resProdutos.data.success) setProdutosDisponiveis(resProdutos.data.data);
         } catch (err) {
             console.error(err);
+            toast.error('Erro ao carregar os dados da comanda.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -29,20 +36,29 @@ export default function Comandas() {
 
     const adicionarProduto = async (e) => {
         e.preventDefault();
-        await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/adicionar_item`, 
-            { product_id: produtoId, quantidade, observacao: '' }, { withCredentials: true });
-        setProdutoId(''); setQuantidade(1);
-        fetchData();
+        try {
+            await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/adicionar_item`, 
+                { product_id: produtoId, quantidade, observacao: '' }, { withCredentials: true });
+            toast.success('➕ Produto adicionado à comanda.');
+            setProdutoId(''); setQuantidade(1);
+            fetchData();
+        } catch (err) { toast.error('Erro ao adicionar produto.'); }
     };
 
     const enviarParaCozinha = async () => {
-        await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/enviar_comanda`, {}, { withCredentials: true });
-        navigate('/salao');
+        try {
+            await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/enviar_comanda`, {}, { withCredentials: true });
+            toast.success('🍽️ Pedido enviado para a cozinha.');
+            navigate('/salao');
+        } catch (err) { toast.error('Erro ao enviar pedido.'); }
     };
 
     const fecharConta = async () => {
-        await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/fechar`, {}, { withCredentials: true });
-        navigate('/salao');
+        try {
+            await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/fechar`, {}, { withCredentials: true });
+            toast.success('✅ Conta fechada com sucesso.');
+            navigate('/salao');
+        } catch (err) { toast.error("AVISO: Todos os pedidos dessa comanda devem constar como 'Entregue' para poder fechar a conta."); }
     };
 
     const totalComanda = comanda?.itens?.reduce((acc, item) => acc + (item.quantidade * (item.produto?.preco || 0)), 0) || 0;
@@ -64,7 +80,7 @@ export default function Comandas() {
                         ))}
                     </select>
                     <input type="number" value={quantidade} onChange={e => setQuantidade(e.target.value)} min="1" style={{ width: '80px' }} required />
-                    <button type="submit">+ Adicionar</button>
+                    <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} type="submit">+ Adicionar</motion.button>
                 </form>
             </div>
 
@@ -80,23 +96,39 @@ export default function Comandas() {
                             </tr>
                         </thead>
                         <tbody>
-                            {comanda.itens.map(item => (
-                                <tr key={item.id}>
-                                    <td>{item.quantidade}x</td>
-                                    <td>{item.produto?.nome}</td>
-                                    <td className="price-cell" style={{ textAlign: 'right' }}>
-                                        R$ {(item.quantidade * (item.produto?.preco || 0)).toFixed(2)}
-                                    </td>
-                                </tr>
-                            ))}
+                            {isLoading ? (
+                                Array.from({ length: 3 }).map((_, idx) => (
+                                    <tr key={`skel-${idx}`} className="skeleton-row">
+                                        <td><div className="skeleton skeleton-text" style={{ width: '30px' }}></div></td>
+                                        <td><div className="skeleton skeleton-text"></div></td>
+                                        <td style={{ textAlign: 'right' }}><div className="skeleton skeleton-text" style={{ width: '50px', marginLeft: 'auto' }}></div></td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <AnimatePresence>
+                                    {comanda.itens.map(item => (
+                                        <motion.tr 
+                                            key={item.id}
+                                            initial={{ opacity: 0, y: 5 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                        >
+                                            <td>{item.quantidade}x</td>
+                                            <td>{item.produto?.nome}</td>
+                                            <td className="price-cell" style={{ textAlign: 'right' }}>
+                                                R$ {(item.quantidade * (item.produto?.preco || 0)).toFixed(2)}
+                                            </td>
+                                        </motion.tr>
+                                    ))}
+                                </AnimatePresence>
+                            )}
                         </tbody>
                     </table>
                     
                     <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #3a0000', paddingTop: '15px' }}>
                         <h3 style={{ color: 'var(--primary-red)' }}>Total: R$ {totalComanda.toFixed(2)}</h3>
                         <div>
-                            {comanda.status === 'Entregue' && <button onClick={fecharConta} className="danger" style={{ marginRight: '10px' }}>Fechar Conta</button>}
-                            <button onClick={enviarParaCozinha}>Enviar Pedido para Cozinha</button>
+                            {comanda.status === 'Entregue' && <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={fecharConta} className="danger" style={{ marginRight: '10px' }}>Fechar Conta</motion.button>}
+                            <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={enviarParaCozinha}>Enviar Pedido para Cozinha</motion.button>
                         </div>
                     </div>
                 </div>

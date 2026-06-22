@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import KitchenOrderTimer from './KitchenOrderTimer';
 import KitchenTimeBadge from './KitchenTimeBadge';
 import '../assets/css/kitchen-timer.css';
@@ -24,7 +25,14 @@ export default function KitchenOrderCard({ order, onConcluir }) {
     }
 
     return (
-        <div className={`kitchen-order-card ${cardClass}`}>
+        <motion.div 
+            layout
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+            transition={{ duration: 0.3 }}
+            className={`kitchen-order-card ${cardClass}`}
+        >
             <div className="kitchen-order-card__header">
                 <h3 className="kitchen-order-card__title">
                     Mesa {order.mesa?.numero} <span style={{ fontSize: '12px', color: '#888' }}>#{order.id}</span>
@@ -59,7 +67,9 @@ export default function KitchenOrderCard({ order, onConcluir }) {
             </ul>
 
             {!isReady && (
-                <button 
+                <motion.button 
+                    whileHover={{ scale: 1.02 }} 
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => onConcluir(order.mesa?.numero, order.id)} 
                     style={{ 
                         width: '100%', 
@@ -75,8 +85,8 @@ export default function KitchenOrderCard({ order, onConcluir }) {
                     }}
                 >
                     Marcar como Pronto
-                </button>
+                </motion.button>
             )}
-        </div>
+        </motion.div>
     );
 }

@@ -109,3 +109,36 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* Skeleton Loaders */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.skeleton {
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background-color: #333;
+  border-radius: 4px;
+}
+
+.skeleton-text {
+  height: 16px;
+  width: 100%;
+}
+
+.skeleton-btn {
+  height: 32px;
+  width: 80px;
+}
+
+.skeleton-row td {
+  padding: 12px;
+}
