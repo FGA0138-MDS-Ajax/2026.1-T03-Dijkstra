@@ -66,6 +66,7 @@ DROP TABLE IF EXISTS `nexus_db`.`orders` ;
 
 CREATE TABLE IF NOT EXISTS `nexus_db`.`orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `numero_diario` INT NOT NULL,
   `data_abertura` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `envio_cozinha` DATETIME NULL,
   `status` ENUM('Pendente', 'Em Preparo', 'Pronto', 'Entregue', 'Cancelado') NOT NULL DEFAULT 'Pendente',
