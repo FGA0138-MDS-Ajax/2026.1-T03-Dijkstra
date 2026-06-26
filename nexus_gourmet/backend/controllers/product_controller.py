@@ -17,9 +17,9 @@ class ProductController(BaseController):
         self.app.add_url_rule('/api/produtos/deletar/<int:product_id>', view_func=self.deletar_produto, methods=['DELETE'])
 
     def _get_usuario_logado(self):
-        user_id = session.get('user_id')
-        if not user_id: return None
-        return self.user_service.get_user_by_id(user_id)
+        user_cpf = session.get('user_cpf')
+        if not user_cpf: return None
+        return self.user_service.get_user_by_cpf(user_cpf)
 
     def listar_produtos(self):
         usuario = self._get_usuario_logado()

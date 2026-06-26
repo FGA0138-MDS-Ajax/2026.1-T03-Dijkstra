@@ -11,21 +11,36 @@ class OrderController(BaseController):
         self.setup_routes()
 
     def setup_routes(self):
+        #Rota para visualizar todas as comandas (cozinha)
         self.app.add_url_rule('/api/cozinha/fila',view_func=self.listar_todas_comandas, methods=['GET'])
+        self.app.add_url_rule('/api/cozinha/<int:comanda_id>/alterar_status', view_func=self.alterar_status, methods=['PUT']) 
+
+        #Rotas para gerenciamento de comandas (garçom)
         self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas', view_func=self.listar_comandas_mesa, methods=['GET'])
         self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/abrir_comanda', view_func=self.abrir_comanda, methods=['POST'])
         self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>', view_func=self.visualizar_comanda, methods=['GET'])
         self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/adicionar_item', view_func=self.adicionar_item, methods=['POST'])
         self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/editar_comanda', view_func=self.editar_comanda, methods=['PUT'])
         self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/enviar_comanda', view_func=self.enviar_comanda, methods=['POST'])
-        self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/alterar_status', view_func=self.alterar_status, methods=['PUT']) 
-        self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/fechar', view_func=self.fechar_comanda, methods=['POST'])
+        self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/fechar_comanda', view_func=self.fechar_comanda, methods=['POST'])
 
     def _get_usuario_logado(self):
-        user_id = session.get('user_id')
-        if not user_id: return None
-        return self.user_service.get_user_by_id(user_id)
+        user_cpf = session.get('user_cpf')
+        if not user_cpf: return None
+        return self.user_service.get_user_by_cpf(user_cpf)
     
+    def alterar_status(self, comanda_id):
+        usuario = self._get_usuario_logado()
+
+        dados = request.json or {}
+        try:
+            novo_status = OrderStatus(dados.get('status'))
+        except ValueError:
+            return self.json_response(False, "Status inválido", status=400)
+
+        success, message = self.order_service.alterar_status(comanda_id, novo_status, usuario)
+        return self.json_response(success, message, status=200 if success else 400)
+
     def listar_todas_comandas(self):
         usuario = self._get_usuario_logado()
         if not usuario: return self.json_response(False, "Não autorizado", status=401)
@@ -47,7 +62,7 @@ class OrderController(BaseController):
         if not usuario or usuario.cargo != Role.GARCOM:
             return self.json_response(False, "Acesso negado", status=403)
         
-        comanda_id, message = self.order_service.abrir_comanda(numero_mesa, usuario.id)
+        comanda_id, message = self.order_service.abrir_comanda(numero_mesa, usuario.cpf)
         if not comanda_id:
             return self.json_response(False, message, status=400)
         return self.json_response(True, message, data={"comanda_id": comanda_id})
@@ -95,21 +110,7 @@ class OrderController(BaseController):
             return self.json_response(False, "Acesso negado", status=403)
 
         success, message = self.order_service.enviar_comanda(comanda_id, usuario)
-        return self.json_response(success, message, status=200 if success else 400)
-    
-    def alterar_status(self, numero_mesa, comanda_id):
-        usuario = self._get_usuario_logado()
-        if not usuario or usuario.cargo not in [Role.COZINHEIRO, Role.GARCOM, Role.ADMINISTRADOR]:
-            return self.json_response(False, "Acesso negado", status=403)
-
-        dados = request.json or {}
-        try:
-            novo_status = OrderStatus(dados.get('status'))
-        except ValueError:
-            return self.json_response(False, "Status inválido", status=400)
-
-        success, message = self.order_service.alterar_status(comanda_id, novo_status, usuario)
-        return self.json_response(success, message, status=200 if success else 400)
+        return self.json_response(success, message, status=200 if success else 400)  
         
     def fechar_comanda(self, numero_mesa, comanda_id):
         usuario = self._get_usuario_logado()

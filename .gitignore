@@ -15,3 +15,17 @@ __pycache__/
 
 # Variáveis de Ambiente
 .env
+
+# VSCodeCounter
+.vscodecounter/
+
+# Pasta de instância do Flask (geralmente contém o banco de dados)
+instance/
+
+# Arquivos de banco de dados específicos
+nexus_gourmet.db
+
+# Pastas de IDE e sistema
+.vscode/
+.idea/
+.DS_Store

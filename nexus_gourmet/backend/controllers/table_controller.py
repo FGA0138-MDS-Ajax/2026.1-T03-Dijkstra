@@ -11,14 +11,14 @@ class TableController(BaseController):
 
     def setup_routes(self):
         self.app.add_url_rule('/api/salao', view_func=self.listar_mesas, methods=['GET'])
-        self.app.add_url_rule('/api/salao/criar', view_func=self.criar_mesa, methods=['POST'])
-        self.app.add_url_rule('/api/salao/editar/<int:numero_mesa>', view_func=self.editar_mesa, methods=['PUT'])
-        self.app.add_url_rule('/api/salao/deletar/<int:numero_mesa>', view_func=self.deletar_mesa, methods=['DELETE'])
+        self.app.add_url_rule('/api/salao/criar_mesa', view_func=self.criar_mesa, methods=['POST'])
+        self.app.add_url_rule('/api/salao/editar_mesa/<int:numero_mesa>', view_func=self.editar_mesa, methods=['PUT'])
+        self.app.add_url_rule('/api/salao/deletar_mesa/<int:numero_mesa>', view_func=self.deletar_mesa, methods=['DELETE'])
 
     def _get_usuario_logado(self):
-        user_id = session.get('user_id')
-        if not user_id: return None
-        return self.user_service.get_user_by_id(user_id)
+        user_cpf = session.get('user_cpf')
+        if not user_cpf: return None
+        return self.user_service.get_user_by_cpf(user_cpf)
 
     def listar_mesas(self):
         usuario = self._get_usuario_logado()
@@ -43,7 +43,6 @@ class TableController(BaseController):
             return self.json_response(False, "Acesso negado", status=403)
 
         dados = request.json or {}
-        # CORRIGIDO: Passando explicitamente como parâmetro nomeado para atualizar a capacidade
         success, message = self.table_service.editar_mesa(numero_mesa, capacidade=dados.get('capacidade'))
         return self.json_response(success, message, status=200 if success else 400)
 

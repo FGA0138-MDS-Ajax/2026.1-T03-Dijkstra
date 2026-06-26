@@ -7,18 +7,20 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cpf = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome = db.Column(db.String(100), nullable=False)
     senha = db.Column(db.String(255), nullable=False)
     cargo = db.Column(db.Enum(Role), nullable=False, default=Role.GARCOM)
+    foto_usuario = db.Column(db.String(255), nullable=True)
 
     comanda = db.relationship('Order', backref='user', lazy=True)
 
     def to_dict(self):
         return {
-            "id": self.id,
+            "cpf": self.cpf,
             "nome": self.nome,
-            "cargo": self.cargo.name
+            "cargo": self.cargo.name,
+            "foto_usuario": self.foto_usuario
         }
 
 class Table(db.Model):
@@ -44,7 +46,8 @@ class Product(db.Model):
     nome = db.Column(db.String(100), nullable=False)
     categoria = db.Column(db.Enum(ProductCategory), nullable=False)
     preco = db.Column(db.Numeric(10, 2), nullable=False)
-    preparation_time_minutes = db.Column(db.Integer, nullable=False, default=15)
+    tempo_preparacao = db.Column(db.Integer, nullable=False, default=15)
+    foto_prato = db.Column(db.String(255), nullable=True)
 
     def to_dict(self):
         return {
@@ -52,27 +55,29 @@ class Product(db.Model):
             "nome": self.nome,
             "categoria": self.categoria.value,
             "preco": float(self.preco),
-            "preparation_time_minutes": self.preparation_time_minutes
+            "tempo_preparacao": self.tempo_preparacao,
+            "foto_produto": self.foto_prato
         }
 
 class Order(db.Model):
     __tablename__ = 'orders'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    data_abertura = db.Column(db.DateTime, default=datetime.utcnow)
-    sent_to_kitchen_at = db.Column(db.DateTime, nullable=True)
+    numero_diario = db.Column(db.Integer, nullable=False)
+    entrada_cozinha = db.Column(db.DateTime, default=datetime.utcnow)
+    saida_cozinha = db.Column(db.DateTime, nullable=True)
     status = db.Column(db.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDENTE)
 
     numero_mesa = db.Column(db.Integer, db.ForeignKey('tables.numero'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.cpf'), nullable=False)
 
     itens = db.relationship('ProductOrdered', backref='order', lazy=True, cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
             "id": self.id,
-            "data_abertura": self.data_abertura.isoformat() if self.data_abertura else None,
-            "sent_to_kitchen_at": self.sent_to_kitchen_at.isoformat() if self.sent_to_kitchen_at else None,
+            "entrada_cozinha": self.entrada_cozinha.isoformat() if self.entrada_cozinha else None,
+            "saida_cozinha": self.saida_cozinha.isoformat() if self.saida_cozinha else None,
             "status": self.status.value,
             "numero_mesa": self.numero_mesa,
             "user_id": self.user_id,

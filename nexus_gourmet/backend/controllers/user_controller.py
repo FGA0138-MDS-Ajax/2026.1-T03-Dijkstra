@@ -10,15 +10,22 @@ class UserController(BaseController):
         self.setup_routes()
 
     def setup_routes(self):
+        #Gerenciamento de usuários (administrador)
         self.app.add_url_rule('/api/login', view_func=self.login, methods=['POST'])
         self.app.add_url_rule('/api/logout', view_func=self.logout, methods=['POST'])
+
         self.app.add_url_rule('/api/usuarios', view_func=self.listar_usuarios, methods=['GET'])
         self.app.add_url_rule('/api/usuarios/cadastrar', view_func=self.cadastrar_usuario, methods=['POST'])
         self.app.add_url_rule('/api/usuarios/editar_usuario/<int:user_id>', view_func=self.editar_usuario, methods=['PUT'])
         self.app.add_url_rule('/api/usuarios/deletar_usuario/<int:user_id>', view_func=self.deletar_usuario, methods=['DELETE'])
         self.app.add_url_rule('/api/usuarios/visualizar_perfil/<int:user_id>', view_func=self.visualizar_perfil, methods=['GET'])
-        self.app.add_url_rule('/api/usuarios/transferir_posse', view_func=self.transferir_posse, methods=['POST'])
-        self.app.add_url_rule('/api/meu_perfil', view_func=self.meu_cargo, methods=['GET'])
+        
+        #Rota para finalizar o dia e gerar estatísticas
+        self.app.add_url_rule('/api/usuarios/finalizar_dia', view_func=self.finalizar_dia, methods=['PUT'])
+
+
+        #Visualizar o próprio perfil
+        self.app.add_url_rule('/api/meu_perfil', view_func=self.meu_perfil, methods=['GET'])
 
     def login(self):
         dados = request.json or {}
@@ -27,7 +34,7 @@ class UserController(BaseController):
         
         sucess, message, usuario = self.user_service.autenticar(login_input, senha_input)
         if sucess:
-            session['user_id'] = usuario.id
+            session['user_cpf'] = usuario.cpf
             session['user_nome'] = usuario.nome
             session['user_cargo'] = usuario.cargo.name
             return self.json_response(success=True, data=usuario.to_dict())
@@ -40,11 +47,17 @@ class UserController(BaseController):
     def cadastrar_usuario(self):
         if session.get('user_cargo') != Role.ADMINISTRADOR.name:
             return self.json_response(False, "Acesso negado", status=403)
+        
+        foto = None
+        if request.files or request.form:
+            dados = request.form
+            foto = request.files.get('foto')
+        else:
+            dados = request.json or {}
 
-        dados = request.json or {}
         try:
             cargo = Role[dados.get('cargo')]
-            usuario, message = self.user_service.cadastrar_usuario(dados.get('nome'), dados.get('senha'), cargo)
+            usuario, message = self.user_service.cadastrar_usuario(dados.get('nome'), dados.get('senha'), cargo, foto)
             if not usuario:
                 return self.json_response(False, message, status=400)
             return self.json_response(True, message)
@@ -85,21 +98,25 @@ class UserController(BaseController):
             return self.json_response(success, message, status=200 if success else 400)
         except KeyError:
             return self.json_response(False, "Cargo inválido", status=400)
-
-    def transferir_posse(self):
-        if session.get('user_cargo') != Role.ADMINISTRADOR.name:
+            
+    def finalizar_dia(self, numero_mesa):
+        usuario = self._get_usuario_logado()
+        if not usuario or usuario.cargo != Role.ADMINISTRADOR:
             return self.json_response(False, "Acesso negado", status=403)
-
-        dados = request.json or {}
-        success, message = self.user_service.transferir_posse(dados.get('id_atual'), dados.get('id_novo'))
-        return self.json_response(success, message, status=200 if success else 400)
+        
+        estatisticas, message = self.order_service.estatisticas_diarias(numero_mesa)
+        if not estatisticas:
+            return self.json_response(False, message, status=400)
+        return self.json_response(True, message, data=estatisticas)
     
-    def meu_cargo(self):
-        user_id = session.get('user_id')
-        if not user_id:
-            return self.json_response(False, "Não autorizado", status=401)
+    def meu_perfil(self):
+        user_cpf = session.get('user_cpf')
+        if not user_cpf:
+            return self.json_response(False, "Usuário não autenticado", status=401)
 
-        usuario = self.user_service.get_user_by_id(user_id)
+        usuario = self.user_service.get_user_by_cpf(user_cpf)
         if not usuario:
             return self.json_response(False, "Usuário não encontrado", status=404)
         return self.json_response(True, data=usuario.to_dict())
+    
+    

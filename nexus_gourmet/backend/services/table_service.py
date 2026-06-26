@@ -10,6 +10,12 @@ class TableService:
         if self.get_table_by_number(novo_numero):
             return False, "Número de mesa já existe."
         
+        if capacidade < 1:
+            return False, "Capacidade da mesa deve ser maior que zero."
+        
+        if capacidade > 20:
+            return False, "Capacidade da mesa deve ser menor ou igual a 20."
+
         nova_mesa = Table(numero=novo_numero, status=TableStatus.LIVRE, capacidade=capacidade)
         db.session.add(nova_mesa)
         db.session.commit()
@@ -27,8 +33,12 @@ class TableService:
             mesa.numero = numero
             
         if capacidade is not None:
+            if capacidade < 1:
+                return False, "Capacidade da mesa deve ser maior que zero."
+            if capacidade > 20:
+                return False, "Capacidade da mesa deve ser menor ou igual a 20."
             mesa.capacidade = capacidade
-            
+
         try:
             db.session.commit()
             return True, "Mesa editada com sucesso."
@@ -95,3 +105,4 @@ class TableService:
 
     def get_table_by_number(self, numero):
         return Table.query.filter_by(numero=numero).first()
+ 
