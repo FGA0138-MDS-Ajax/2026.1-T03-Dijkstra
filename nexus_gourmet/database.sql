@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `nexus_db`.`products` (
   `preco` DECIMAL(10,2) NOT NULL,
   `categoria` ENUM('Bebida', 'Prato', 'Sobremesa') NOT NULL,
   `tempo_preparacao` INT NOT NULL DEFAULT 15,
-  `foto_produto` VARCHAR(255) NULL,
+  `foto_prato` VARCHAR(255) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -68,7 +68,8 @@ CREATE TABLE IF NOT EXISTS `nexus_db`.`orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `numero_diario` INT NOT NULL,
   `data_abertura` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `envio_cozinha` DATETIME NULL,
+  `entrada_cozinha` DATETIME NULL,
+  `saida_cozinha` DATETIME NULL,
   `status` ENUM('Pendente', 'Em Preparo', 'Pronto', 'Entregue', 'Cancelado') NOT NULL DEFAULT 'Pendente',
   `numero_mesa` INT NOT NULL,
   `user_id` INT NOT NULL,
