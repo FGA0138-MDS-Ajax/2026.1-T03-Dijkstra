@@ -1,4 +1,4 @@
-from flask import request, redirect, session
+from flask import request, session
 from .base_controller import BaseController
 from backend.models.enums import Role
 
@@ -10,87 +10,61 @@ class ProductController(BaseController):
         self.setup_routes()
 
     def setup_routes(self):
-        self.app.add_url_rule('/produtos', view_func=self.listar_produtos, methods=['GET'])
-        self.app.add_url_rule('/produtos/categoria/<categoria>', view_func=self.listar_por_categoria, methods=['GET'])
-        self.app.add_url_rule('/produtos/cadastrar', view_func=self.cadastrar_produto, methods=['POST'])
-        self.app.add_url_rule('/produtos/editar/<int:produto_id>', view_func=self.editar_produto, methods=['POST'])
-        self.app.add_url_rule('/produtos/deletar/<int:produto_id>', view_func=self.deletar_produto, methods=['POST'])
+        self.app.add_url_rule('/api/produtos', view_func=self.listar_produtos, methods=['GET'])
+        self.app.add_url_rule('/api/produtos/categoria/<categoria>', view_func=self.listar_por_categoria, methods=['GET'])
+        self.app.add_url_rule('/api/produtos/cadastrar', view_func=self.cadastrar_produto, methods=['POST'])
+        self.app.add_url_rule('/api/produtos/editar/<int:product_id>', view_func=self.editar_produto, methods=['PUT'])
+        self.app.add_url_rule('/api/produtos/deletar/<int:product_id>', view_func=self.deletar_produto, methods=['DELETE'])
 
     def _get_usuario_logado(self):
-        user_id = session.get('user_id')
-        if not user_id:
-            return None
-        return self.user_service.get_user_by_id(user_id)
+        user_cpf = session.get('user_cpf')
+        if not user_cpf: return None
+        return self.user_service.get_user_by_cpf(user_cpf)
 
     def listar_produtos(self):
         usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
-        
-        if usuario.cargo != Role.ADMINISTRADOR:
-            return "Acesso negado", 403
+        if not usuario or usuario.cargo not in [Role.ADMINISTRADOR, Role.GARCOM]:
+            return self.json_response(False, "Acesso negado", status=403)
         
         produtos = self.product_service.listar_produtos()
-        return self.render('produtos.html', produtos=produtos)
+        return self.json_response(True, data=[p.to_dict() for p in produtos])
     
     def listar_por_categoria(self, categoria):
         usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
-        
-        if usuario.cargo != Role.ADMINISTRADOR:
-            return "Acesso negado", 403
+        if not usuario or usuario.cargo != Role.ADMINISTRADOR:
+            return self.json_response(False, "Acesso negado", status=403)
         
         produtos = self.product_service.listar_por_categoria(categoria)
-        return self.render('produtos.html', produtos=produtos, categoria=categoria)
+        return self.json_response(True, data=[p.to_dict() for p in produtos])
 
     def cadastrar_produto(self):
         usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
-
-        if usuario.cargo != Role.ADMINISTRADOR:
-            return "Acesso negado", 403
+        if not usuario or usuario.cargo != Role.ADMINISTRADOR:
+            return self.json_response(False, "Acesso negado", status=403)
         
-        nome = request.form.get('nome')
-        categoria = request.form.get('categoria')
-        preco = request.form.get('preco')
-        
-        success, message = self.product_service.cadastrar_produto(nome, categoria, preco)
-        if not success:
-            return self.render('produtos.html', error=message)
-        
-        return redirect('/produtos')
+        dados = request.json or {}
+        success, message = self.product_service.cadastrar_produto(
+            dados.get('nome'), dados.get('categoria'), dados.get('preco'),
+            dados.get('preparation_time_minutes', 15)
+        )
+        return self.json_response(success, message, status=200 if success else 400)
 
     def editar_produto(self, product_id):
         usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
-
-        if usuario.cargo != Role.ADMINISTRADOR:
-            return "Acesso negado", 403
+        if not usuario or usuario.cargo != Role.ADMINISTRADOR:
+            return self.json_response(False, "Acesso negado", status=403)
         
-        product_id = request.form.get('product_id')
-        nome = request.form.get('nome')
-        categoria = request.form.get('categoria')
-        preco = request.form.get('preco')
-
-        success, message = self.product_service.editar_produto(product_id, nome, categoria, preco)
-        if not success:
-            return self.render('produtos.html', error=message)
-        
-        return redirect('/produtos')
+        dados = request.json or {}
+        success, message = self.product_service.editar_produto(
+            product_id, dados.get('nome'), dados.get('categoria'), dados.get('preco'),
+            dados.get('preparation_time_minutes', 15)
+        )
+        return self.json_response(success, message, status=200 if success else 400)
 
     def deletar_produto(self, product_id):
         usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
-
-        if usuario.cargo != Role.ADMINISTRADOR:
-            return "Acesso negado", 403
+        if not usuario or usuario.cargo != Role.ADMINISTRADOR:
+            return self.json_response(False, "Acesso negado", status=403)
         
         success, message = self.product_service.deletar_produto(product_id)
-        if not success:
-            return self.render('produtos.html', error=message)
-        
-        return redirect('/produtos')
+        return self.json_response(success, message, status=200 if success else 400)

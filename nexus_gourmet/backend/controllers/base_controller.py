@@ -1,13 +1,15 @@
-from flask import render_template
+from flask import jsonify
 
 class BaseController:
     def __init__(self, app):
         self.app = app
 
-    def render(self, template_name, **context):
-        # Centraliza a renderização de templates do Flask.
-        # Garante que o contexto e as variáveis sejam repassados corretamente para as views.
-
-        if not template_name.endswith(('.html', '.tpl')):
-            template_name += '.html'
-        return render_template(template_name, **context)
+    def json_response(self, success=True, message=None, data=None, status=200):
+        """Padroniza todas as respostas da API em JSON"""
+        response = {"success": success}
+        if message:
+            response["message"] = message
+        if data is not None:
+            response["data"] = data
+            
+        return jsonify(response), status

@@ -10,6 +10,12 @@ class TableService:
         if self.get_table_by_number(novo_numero):
             return False, "Número de mesa já existe."
         
+        if capacidade < 1:
+            return False, "Capacidade da mesa deve ser maior que zero."
+        
+        if capacidade > 20:
+            return False, "Capacidade da mesa deve ser menor ou igual a 20."
+
         nova_mesa = Table(numero=novo_numero, status=TableStatus.LIVRE, capacidade=capacidade)
         db.session.add(nova_mesa)
         db.session.commit()
@@ -20,21 +26,26 @@ class TableService:
         if not mesa:
             return False, "Mesa não encontrada."
         
-        # Se o utilizador quer mudar o número:
+        # Validação de conflito de números
         if numero and numero != numero_mesa:
-            # Verifica se JÁ existe uma mesa com esse novo número
             if self.get_table_by_number(numero):
                 return False, "Número de mesa já existe."
             mesa.numero = numero
             
         if capacidade is not None:
+            if capacidade < 1:
+                return False, "Capacidade da mesa deve ser maior que zero."
+            if capacidade > 20:
+                return False, "Capacidade da mesa deve ser menor ou igual a 20."
             mesa.capacidade = capacidade
-            
+
         try:
             db.session.commit()
             return True, "Mesa editada com sucesso."
+        
         except Exception as e:
-            db.session.rollback() # Limpa a transação caso falhe
+            db.session.rollback()
+        
             return False, "Erro ao atualizar mesa."
     
     def deletar_mesa(self, numero_mesa):
@@ -93,4 +104,5 @@ class TableService:
         return True, f"Mesa {mesa.numero} liberada."
 
     def get_table_by_number(self, numero):
-        return db.session.get(Table, numero)
+        return Table.query.filter_by(numero=numero).first()
+ 

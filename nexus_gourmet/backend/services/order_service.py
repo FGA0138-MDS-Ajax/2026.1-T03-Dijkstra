@@ -4,16 +4,19 @@ from models.enums import Role, OrderStatus, TableStatus
 
 FLUXO = {
     OrderStatus.PENDENTE:   [OrderStatus.EM_PREPARO, OrderStatus.CANCELADO],
-    OrderStatus.EM_PREPARO: [OrderStatus.PRONTO,     OrderStatus.CANCELADO],
-    OrderStatus.PRONTO:     [OrderStatus.ENTREGUE],
-    OrderStatus.ENTREGUE:   [],
+    # Modificado para permitir enviar novos itens a qualquer momento:
+    OrderStatus.EM_PREPARO: [OrderStatus.PRONTO,     OrderStatus.CANCELADO, OrderStatus.EM_PREPARO], 
+    OrderStatus.PRONTO:     [OrderStatus.ENTREGUE,   OrderStatus.EM_PREPARO],
+    OrderStatus.ENTREGUE:   [OrderStatus.EM_PREPARO],
     OrderStatus.CANCELADO:  [],
 }
 
 PERMISSOES = {
-    OrderStatus.EM_PREPARO: [Role.COZINHEIRO, Role.GARCOM],
-    OrderStatus.PRONTO:     [Role.COZINHEIRO],
-    OrderStatus.ENTREGUE:   [Role.GARCOM],
+    OrderStatus.EM_PREPARO: [Role.GARCOM, Role.ADMINISTRADOR], 
+    OrderStatus.PRONTO:     [Role.COZINHEIRO, Role.ADMINISTRADOR],
+    
+    # Adicione o Role.ADMINISTRADOR nesta linha abaixo:
+    OrderStatus.ENTREGUE:   [Role.GARCOM, Role.ADMINISTRADOR], 
     OrderStatus.CANCELADO:  [Role.ADMINISTRADOR, Role.GARCOM],
 }
 
@@ -27,6 +30,8 @@ class OrderService:
             {
                 'id': comanda.id,
                 'status': comanda.status.value if comanda.status else None,
+                'tempo_decorrido': self.tempo_decorrido(),
+                'estimated_preparation_minutes': max([item.product.preparation_time_minutes for item in comanda.itens if item.product and item.cozinha_status == 'PREPARANDO'] + [15]),
                 'mesa': {
                     'numero': comanda.table.numero if comanda.table else None,
                     'status': comanda.table.status.value if comanda.table and comanda.table.status else None,
@@ -37,32 +42,39 @@ class OrderService:
                         'produto': item.product.nome if item.product else None,
                         'quantidade': item.quantidade,
                         'observacao': item.observacao,
+                        'preparation_time_minutes': item.product.preparation_time_minutes if item.product else 15,
                     }
-                    for item in comanda.itens
+                    for item in comanda.itens if item.cozinha_status == 'PREPARANDO'
                 ],
             }
-            for comanda in comandas
+            for comanda in comandas if any(item.cozinha_status == 'PREPARANDO' for item in comanda.itens)
         ]
     
-    def abrir_comanda(self, numero_mesa, user_id):
-        user = db.session.get(User, user_id)
+    def abrir_comanda(self, numero_mesa, user_cpf):
+        hoje = datetime.now().date()
+
+        ultima_comanda_hoje = Order.query.filter(
+            db.func.date(Order.data_abertura) == hoje
+        ).order_by(Order.numero_diario.desc()).first()
+
+        if ultima_comanda_hoje:
+            proximo_numero = ultima_comanda_hoje.numero_diario + 1
+        else:
+            proximo_numero = 1
+
+        user = User.query.get(user_cpf)
         if not user or user.cargo != Role.GARCOM:
             return None, "Sem permissão para abrir comanda."
             
         mesa = self.table_service.get_table_by_number(numero_mesa)
         if not mesa:
             return None, "Mesa não encontrada."
-
-        if mesa.status == TableStatus.LIVRE:
-            mesa.status = TableStatus.OCUPADA
-            db.session.commit()        
-
-
-        nova_comanda = Order(numero_mesa=numero_mesa, user_id=user_id, status=OrderStatus.PENDENTE)
+        
+        nova_comanda = Order(numero_diario=proximo_numero, numero_mesa=numero_mesa, user_cpf=user_cpf, status=OrderStatus.PENDENTE)
         db.session.add(nova_comanda)
         mesa.status = TableStatus.OCUPADA
         db.session.commit()
-
+        
         return nova_comanda.id, "Comanda aberta com sucesso."
     
     def visualizar_comanda(self, order_id):
@@ -77,8 +89,8 @@ class OrderService:
         pedido = self.get_order_by_id(order_id)
         if not pedido:
             return False, "Pedido não encontrado."
-        if pedido.status != OrderStatus.PENDENTE:
-            return False, "Só é possível adicionar itens em pedidos com status Pendente."
+        if pedido.status == OrderStatus.CANCELADO:
+            return False, "Não é possível adicionar itens em uma comanda cancelada."
         try:
             quantidade = int(quantidade)
         except (TypeError, ValueError):
@@ -96,13 +108,21 @@ class OrderService:
         db.session.commit()
         return True, "Item adicionado."
     
-    def editar_comanda(self, order_id, itens, user):
+    def editar_comanda(self, order_id, itens, user, cancelar=False):
         if user.cargo not in [Role.GARCOM, Role.ADMINISTRADOR]:
             return False, "Sem permissão para editar a comanda."
         
         pedido = self.get_order_by_id(order_id)
         if not pedido:
             return False, "Pedido não encontrado."
+        
+        if cancelar:
+            if pedido.status not in [OrderStatus.PENDENTE, OrderStatus.EM_PREPARO]:
+                return False, "Só é possível cancelar comandas com status Pendente ou Em preparo."
+            pedido.status = OrderStatus.CANCELADO
+            db.session.commit()
+            return True, "Comanda cancelada com sucesso."
+        
         if pedido.status != OrderStatus.PENDENTE:
             return False, "Só é possível editar itens em pedidos com status Pendente."
         
@@ -143,10 +163,14 @@ class OrderService:
             return False, "Pedido não encontrado."
         if not pedido.itens:
             return False, "Não é possível enviar um pedido sem itens."
+        
+        pedido.entrada_cozinha = datetime.utcnow()
 
         sucesso, mensagem = self.alterar_status(order_id, OrderStatus.EM_PREPARO, user)
         if sucesso:
+            db.session.commit()
             return True, "Comanda enviada para a cozinha."
+        
         return False, mensagem
     
     def alterar_status(self, order_id, status, user):
@@ -166,6 +190,19 @@ class OrderService:
         
         if status_atual == OrderStatus.PENDENTE and not comanda.itens:
             return False, "Não é possível enviar um pedido sem itens."
+
+        if novo_status == OrderStatus.EM_PREPARO:
+            # Atualiza o timer para o novo lote de itens enviados
+            comanda.entrada_cozinha = datetime.utcnow()
+            for item in comanda.itens:
+                if item.cozinha_status == 'PENDENTE':
+                    item.cozinha_status = 'PREPARANDO'
+
+        if novo_status == OrderStatus.PRONTO:
+            comanda.saida_cozinha = datetime.utcnow()
+            for item in comanda.itens:
+                if item.cozinha_status == 'PREPARANDO':
+                    item.cozinha_status = 'PRONTO'
 
         comanda.status = novo_status
         db.session.commit()
@@ -245,8 +282,48 @@ class OrderService:
             if comandas_ativas == 0:
                 mesa.status = TableStatus.LIVRE
         
+        db.session.delete(comanda)
         db.session.commit()
         return True, {"mensagem": "Comanda fechada com sucesso.", "conta": conta}
+        
+    def estatisticas_diarias(self):
+        hoje = datetime.now().date()
+        comandas = Order.query.filter(db.func.date(Order.data_abertura) == hoje).all()
+        
+        comandas_canceladas = [c for c in comandas if c.status == OrderStatus.CANCELADO]
+        comandas_validas = [c for c in comandas if c.status != OrderStatus.CANCELADO]
+        
+        total_comandas = len(comandas)
+        # Conta apenas os itens das comandas que NÃO foram canceladas
+        total_itens = sum(len(c.itens) for c in comandas_validas)
+        
+        # Soma o faturamento APENAS das comandas válidas para não fechar o caixa errado
+        total_faturamento = round(
+            float(sum(i.product.preco * i.quantidade for c in comandas_validas for i in c.itens)), 
+            2
+        )
+        
+        return {
+            "total_comandas": total_comandas,
+            "total_comandas_canceladas": len(comandas_canceladas),
+            "total_itens": total_itens,
+            "total_faturamento": total_faturamento
+        }
+    
+    def tempo_decorrido(self):
+        if not self.entrada_cozinha:
+            return "Não iniciado"
+        
+        # Define o ponto final: ou o momento da saída, ou o agora
+        fim = self.saida_cozinha if self.status == 'PRONTO' else datetime.utcnow()
+        
+        diferenca = fim - self.entrada_cozinha
+        total_segundos = int(diferenca.total_seconds())
+        
+        minutos = total_segundos // 60
+        segundos = total_segundos % 60
+        
+        return f"{minutos}m {segundos}s"
     
     def daily_statistics(self):
             hoje = datetime.now().date()
