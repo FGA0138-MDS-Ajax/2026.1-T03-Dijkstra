@@ -1,4 +1,4 @@
-from datetime import datetime, time
+from datetime import datetime, time, timezone
 from models.models import db, Order, ProductOrdered, User, Table
 from models.enums import Role, OrderStatus, TableStatus
 
@@ -311,6 +311,13 @@ class OrderService:
     def tempo_decorrido(self, comanda):
         if not comanda.entrada_cozinha:
             return "Não iniciado"
+        
+        # Pega a hora atual com fuso horário UTC
+        agora = datetime.now(timezone.utc)
+        
+        # Se a data do banco for 'naive' (sem fuso horário), removemos o fuso do 'agora' para igualar
+        if comanda.entrada_cozinha.tzinfo is None:
+            agora = agora.replace(tzinfo=None)
         
         # Define o ponto final: ou o momento da saída, ou o agora compatível
         fim = comanda.saida_cozinha if comanda.status == OrderStatus.PRONTO else agora

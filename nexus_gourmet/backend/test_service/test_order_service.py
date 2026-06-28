@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time, timezone
 from models.models import db, User, Table, Product, Order, ProductOrdered
 from models.enums import Role, OrderStatus, TableStatus, ProductCategory
 
@@ -179,20 +179,55 @@ def test_daily_statistics_filtra_apenas_hoje(app, order_service):
     comanda_hoje = order_service.get_order_by_id(id_hoje)
     comanda_hoje.data_abertura = datetime.now()
     db.session.commit()
+def test_tempo_decorrido(app, order_service):
+    agora_sem_fuso = datetime.now(timezone.utc).replace(tzinfo=None)  
+
+    # classe Mock para simular uma comanda do banco
+    class MockComanda:
+        def __init__(self):
+            self.entrada_cozinha = agora_sem_fuso - timedelta(minutes=5, seconds=30)
+            self.status = OrderStatus.EM_PREPARO
+            self.saida_cozinha = None
+
+    comanda_simulada = MockComanda()
+    
+    tempo_formatado = order_service.tempo_decorrido(comanda_simulada)
+    
+    assert tempo_formatado == "5m 30s"
+def test_daily_statistics(app, order_service):
+    garcom, _, mesa, produto = criar_dados_iniciais()
+    
+    agora_local = datetime.now()
+    
+    # comanda para HOJE
+    id_hoje, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    pedido_hoje = order_service.get_order_by_id(id_hoje)
+    pedido_hoje.entrada_cozinha = agora_local # Força a data local!
     
     order_service.adicionar_item(id_hoje, produto.id, 1, "", garcom)
-    order_service.enviar_comanda(id_hoje, garcom)
     
-    # 2. Força a criação de uma comanda de ONTEM
-    ontem = datetime.now() - timedelta(days=1)
-    comanda_antiga = Order(numero_mesa=mesa.numero, user_id=garcom.id,
-                           status=OrderStatus.ENTREGUE, data_abertura=ontem)
+    # comanda CANCELADA HOJE
+    id_cancelada, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    order_service.adicionar_item(id_cancelada, produto.id, 2, "", garcom)
+    pedido_cancelado = order_service.get_order_by_id(id_cancelada)
+    pedido_cancelado.entrada_cozinha = agora_local # Força a data local!
+    pedido_cancelado.status = OrderStatus.CANCELADO
+    
+    # comanda de ONTEM (deve ser ignorada)
+    ontem = agora_local - timedelta(days=1)
+    comanda_antiga = Order(
+        numero_diario=99,
+        numero_mesa=mesa.numero,
+        user_id=garcom.cpf,
+        status=OrderStatus.ENTREGUE,
+        entrada_cozinha=ontem
+    )
     db.session.add(comanda_antiga)
     db.session.commit()
     
-    # 3. Executa a estatística
     stats = order_service.daily_statistics()
     
-    # 4. Verifica
-    assert stats["total_comandas"] == 1
-    assert stats["total_faturamento"] == 20.50
+    assert stats["total_comandas"] == 2 # Conta as duas de hoje (1 normal, 1 cancelada)
+    assert stats["total_comandas_canceladas"] == 1
+    assert stats["total_itens"] == 2 # 1 item na normal + 1 itens na cancelada
+    assert stats["total_faturamento"] == 61.50
