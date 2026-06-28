@@ -25,36 +25,34 @@ class OrderService:
         self.table_service = table_service
 
     def listar_todas_comandas(self):
-        comandas = Order.query.all()
-        return [
-            {
-                'id': comanda.id,
-                'status': comanda.status.value if comanda.status else None,
-                'tempo_decorrido': self.tempo_decorrido(),
-                'estimated_preparation_minutes': max([item.product.preparation_time_minutes for item in comanda.itens if item.product and item.cozinha_status == 'PREPARANDO'] + [15]),
-                'mesa': {
-                    'numero': comanda.table.numero if comanda.table else None,
-                    'status': comanda.table.status.value if comanda.table and comanda.table.status else None,
-                },
-                'itens': [
-                    {
-                        'id': item.id,
-                        'produto': item.product.nome if item.product else None,
-                        'quantidade': item.quantidade,
-                        'observacao': item.observacao,
-                        'preparation_time_minutes': item.product.preparation_time_minutes if item.product else 15,
-                    }
-                    for item in comanda.itens if item.cozinha_status == 'PREPARANDO'
-                ],
-            }
-            for comanda in comandas if any(item.cozinha_status == 'PREPARANDO' for item in comanda.itens)
-        ]
+            comandas = Order.query.all()
+            return [
+                {
+                    'id': comanda.id,
+                    'status': comanda.status.value if comanda.status else None,
+                    'tempo_decorrido': self.tempo_decorrido(comanda),
+                    'mesa': {
+                        'numero': comanda.table.numero if comanda.table else None,
+                        'status': comanda.table.status.value if comanda.table and comanda.table.status else None,
+                    },
+                    'itens': [
+                        {
+                            'id': item.id,
+                            'produto': item.product.nome if item.product else None,
+                            'quantidade': item.quantidade,
+                            'observacao': item.observacao
+                        }
+                        for item in comanda.itens if item.cozinha_status == 'PREPARANDO'
+                    ],
+                }
+                for comanda in comandas if any(item.cozinha_status == 'PREPARANDO' for item in comanda.itens)
+            ]
     
     def abrir_comanda(self, numero_mesa, user_cpf):
         hoje = datetime.now().date()
 
         ultima_comanda_hoje = Order.query.filter(
-            db.func.date(Order.data_abertura) == hoje
+            db.func.date(Order.entrada_cozinha) == hoje
         ).order_by(Order.numero_diario.desc()).first()
 
         if ultima_comanda_hoje:
@@ -70,7 +68,7 @@ class OrderService:
         if not mesa:
             return None, "Mesa não encontrada."
         
-        nova_comanda = Order(numero_diario=proximo_numero, numero_mesa=numero_mesa, user_cpf=user_cpf, status=OrderStatus.PENDENTE)
+        nova_comanda = Order(numero_diario=proximo_numero, numero_mesa=numero_mesa, user_id=user_cpf, status=OrderStatus.PENDENTE)
         db.session.add(nova_comanda)
         mesa.status = TableStatus.OCUPADA
         db.session.commit()
@@ -310,14 +308,14 @@ class OrderService:
             "total_faturamento": total_faturamento
         }
     
-    def tempo_decorrido(self):
-        if not self.entrada_cozinha:
+    def tempo_decorrido(self, comanda):
+        if not comanda.entrada_cozinha:
             return "Não iniciado"
         
-        # Define o ponto final: ou o momento da saída, ou o agora
-        fim = self.saida_cozinha if self.status == 'PRONTO' else datetime.utcnow()
+        # Define o ponto final: ou o momento da saída, ou o agora compatível
+        fim = comanda.saida_cozinha if comanda.status == OrderStatus.PRONTO else agora
         
-        diferenca = fim - self.entrada_cozinha
+        diferenca = fim - comanda.entrada_cozinha
         total_segundos = int(diferenca.total_seconds())
         
         minutos = total_segundos // 60
@@ -332,8 +330,8 @@ class OrderService:
             
             # Filtra pelo nome correto da coluna: data_abertura
             comandas = Order.query.filter(
-                Order.data_abertura >= inicio_do_dia,
-                Order.data_abertura <= fim_do_dia
+                Order.entrada_cozinha >= inicio_do_dia,
+                Order.entrada_cozinha <= fim_do_dia
             ).all()
             
             comandas_canceladas = [c for c in comandas if c.status == OrderStatus.CANCELADO]

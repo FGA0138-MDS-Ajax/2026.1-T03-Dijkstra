@@ -1,5 +1,12 @@
+import sys
+import os
 import pytest
 from flask import Flask
+
+backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if backend_dir not in sys.path:
+    sys.path.insert(0, backend_dir)
+    
 from models.models import db
 from services.user_service import UserService
 from services.table_service import TableService

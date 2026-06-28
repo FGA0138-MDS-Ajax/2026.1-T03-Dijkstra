@@ -5,10 +5,10 @@ from models.enums import Role, OrderStatus, TableStatus, ProductCategory
 
 # --- FUNÇÕES DE AJUDA PARA PREPARAR A BASE DE DADOS ---
 def criar_dados_iniciais():
-    """Cria um utilizador (Garçom), um Cozinheiro, uma Mesa e um Produto para os testes"""
-    # Deixamos o SQLAlchemy gerar os IDs automaticamente!
-    garcom = User(nome="João Garçom", senha="123", cargo=Role.GARCOM)
-    cozinheiro = User(nome="Maria Chef", senha="123", cargo=Role.COZINHEIRO)
+    """Cria um utilizador (Garçom), um Cozinheiro, uma Mesa e um Produto para os testes, utilizando CPF como chave."""
+    # Usando CPF pois abrir_comanda agora espera user_cpf
+    garcom = User(cpf=11122233344, nome="João Garçom", senha="123", cargo=Role.GARCOM)
+    cozinheiro = User(cpf=99988877766, nome="Maria Chef", senha="123", cargo=Role.COZINHEIRO)
     
     # Mantemos o número 5 apenas como ponto de partida da mesa no banco falso
     mesa = Table(numero=5, capacidade=4, status=TableStatus.LIVRE)
@@ -22,9 +22,7 @@ def criar_dados_iniciais():
 
 def test_abrir_comanda_com_sucesso(app, order_service):
     garcom, _, mesa, _ = criar_dados_iniciais()
-    
-    # Em vez de passar '5', usamos a propriedade da mesa (mesa.numero) e do garçom (garcom.id)
-    comanda_id, mensagem = order_service.abrir_comanda(numero_mesa=mesa.numero, user_id=garcom.id)
+    comanda_id, mensagem = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
     
     assert comanda_id is not None
     assert mensagem == "Comanda aberta com sucesso."
@@ -36,20 +34,20 @@ def test_abrir_comanda_com_sucesso(app, order_service):
 def test_abrir_multiplas_comandas_mesma_mesa(app, order_service):
     garcom, _, mesa, _ = criar_dados_iniciais()
     
-    # Ambas devem abrir com sucesso agora!
-    comanda1_id, mensagem1 = order_service.abrir_comanda(numero_mesa=mesa.numero, user_id=garcom.id)
-    comanda2_id, mensagem2 = order_service.abrir_comanda(numero_mesa=mesa.numero, user_id=garcom.id)
+    comanda1_id, mensagem1 = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
+    comanda2_id, mensagem2 = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
     
     assert comanda1_id is not None
     assert comanda2_id is not None
     assert comanda1_id != comanda2_id # IDs diferentes para comandas diferentes
 
 def test_listar_todas_comandas(app, order_service):
-    garcom, _, mesa, _ = criar_dados_iniciais()
+    garcom, _, mesa, produto = criar_dados_iniciais()
     
-    order_service.abrir_comanda(numero_mesa=mesa.numero, user_id=garcom.id)
-    order_service.abrir_comanda(numero_mesa=mesa.numero, user_id=garcom.id)
-    order_service.abrir_comanda(numero_mesa=mesa.numero, user_id=garcom.id)
+    for _ in range(3):
+        order_id, _ = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
+        order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
+        order_service.enviar_comanda(order_id, garcom) # Altera para EM_PREPARO e itens para PREPARANDO
     
     todas_comandas = order_service.listar_todas_comandas()
     
@@ -59,7 +57,7 @@ def test_listar_todas_comandas(app, order_service):
 
 def test_adicionar_item_com_sucesso(app, order_service):
     garcom, _, mesa, produto = criar_dados_iniciais()
-    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.id)
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
     
     sucesso, mensagem = order_service.adicionar_item(
         order_id=order_id, 
@@ -80,7 +78,7 @@ def test_adicionar_item_com_sucesso(app, order_service):
 
 def test_adicionar_item_quantidade_invalida(app, order_service):
     garcom, _, mesa, produto = criar_dados_iniciais()
-    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.id)
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
     
     # Tenta adicionar quantidade 0
     sucesso, mensagem = order_service.adicionar_item(order_id, produto.id, 0, "", garcom)
@@ -96,7 +94,7 @@ def test_calcular_total(app, order_service):
     db.session.add(produto2)
     db.session.commit()
     
-    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.id)
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
     
     # Adiciona 1 Hambúrguer (20.50) e 2 Sucos (20.00)
     order_service.adicionar_item(order_id, produto1.id, 1, "", garcom)
@@ -109,7 +107,7 @@ def test_calcular_total(app, order_service):
 
 def test_enviar_comanda_com_sucesso(app, order_service):
     garcom, _, mesa, produto = criar_dados_iniciais()
-    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.id)
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
     order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
     
     sucesso, mensagem = order_service.enviar_comanda(order_id, garcom)
@@ -122,7 +120,7 @@ def test_enviar_comanda_com_sucesso(app, order_service):
 
 def test_enviar_comanda_sem_itens_falha(app, order_service):
     garcom, _, mesa, _ = criar_dados_iniciais()
-    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.id)
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
     
     sucesso, mensagem = order_service.enviar_comanda(order_id, garcom)
     
@@ -131,7 +129,7 @@ def test_enviar_comanda_sem_itens_falha(app, order_service):
     
 def test_fechar_comanda_sucesso(app, order_service):
     garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
-    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.id)
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
     order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
     
     # Temos de forçar o pedido a chegar ao status 'ENTREGUE' para poder fechar
@@ -151,9 +149,9 @@ def test_fechar_comanda_sucesso(app, order_service):
 
 def test_alterar_status(app, order_service):
     garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
-    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.id)
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
     order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
-    order_service.alterar_status(order_id, OrderStatus.EM_PREPARO, cozinheiro)
+    order_service.alterar_status(order_id, OrderStatus.EM_PREPARO, garcom)
 
     # Garçom tenta mudar para PRONTO (deve falhar)
     sucesso_garcom, mensagem_garcom = order_service.alterar_status(order_id, OrderStatus.PRONTO, garcom)

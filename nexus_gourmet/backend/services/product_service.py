@@ -13,7 +13,7 @@ class ProductService:
             return []
         return Product.query.filter_by(categoria=categoria).all()
  
-    def cadastrar_produto(self, nome, categoria, preco, preparation_time_minutes=15):
+    def cadastrar_produto(self, nome, categoria, preco, tempo_preparacao=15):
         while True:
             novo_id = random.randint(1000, 9999)
             if self.get_product_by_id(novo_id) is None:
@@ -33,12 +33,12 @@ class ProductService:
         except ValueError:
             return False, f"Categoria inválida: {categoria}."
  
-        produto = Product(id=novo_id, nome=nome.strip(), categoria=categoria, preco=preco, preparation_time_minutes=int(preparation_time_minutes))
+        produto = Product(id=novo_id, nome=nome.strip(), categoria=categoria, preco=preco, tempo_preparacao=int(tempo_preparacao))
         db.session.add(produto)
         db.session.commit()
         return True, "Produto cadastrado com sucesso."
  
-    def editar_produto(self, product_id, nome, categoria, preco, preparation_time_minutes=15):
+    def editar_produto(self, product_id, nome, categoria, preco, tempo_preparacao=15):
         produto = self.get_product_by_id(product_id)
         if not produto:
             return False, "Produto não encontrado."
@@ -58,7 +58,7 @@ class ProductService:
         produto.nome = nome.strip()
         produto.categoria = categoria
         produto.preco = preco
-        produto.preparation_time_minutes = int(preparation_time_minutes)
+        produto.tempo_preparacao = int(tempo_preparacao)
         db.session.commit()
         return True, "Produto atualizado com sucesso."
  
