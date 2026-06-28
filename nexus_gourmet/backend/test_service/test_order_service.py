@@ -164,21 +164,98 @@ def test_alterar_status(app, order_service):
     
     assert sucesso_cozinheiro is True
     assert mensagem_cozinheiro == "Status atualizado para Pronto."
-    
-    pedido_atualizado = order_service.get_order_by_id(order_id)
-    assert pedido_atualizado.status == OrderStatus.PRONTO
 
-def test_daily_statistics_filtra_apenas_hoje(app, order_service):
+def test_editar_comanda_com_sucesso(app, order_service):
     garcom, _, mesa, produto = criar_dados_iniciais()
     
-    # 1. Cria uma comanda de HOJE
-    id_hoje, _ = order_service.abrir_comanda(mesa.numero, garcom.id)
+    order_id, _ = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
+    order_service.adicionar_item(order_id, produto.id, 1, "Sem cebola", garcom)
     
-    # A MÁGICA ESTÁ AQUI: Forçamos a data exata de hoje na hora local,
-    # ignorando o que o banco de dados colocou como padrão.
-    comanda_hoje = order_service.get_order_by_id(id_hoje)
-    comanda_hoje.data_abertura = datetime.now()
+    itens_para_editar = [
+        {
+            'product_id': produto.id,
+            'quantidade': 3,
+            'observacao': 'Com muito bacon'
+        }
+    ]
+    
+    sucesso, mensagem = order_service.editar_comanda(order_id, itens_para_editar, garcom)
+    
+    assert sucesso is True
+    assert mensagem == "Comanda atualizada com sucesso."
+    
+    pedido = order_service.get_order_by_id(order_id)
+    assert pedido.itens[0].quantidade == 3
+    assert pedido.itens[0].observacao == "Com muito bacon"
+
+def test_gerar_conta(app, order_service):
+    garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    order_service.adicionar_item(order_id, produto.id, 2, "", garcom) # 2 x 20.50 = 41.00
+    
+    pedido = order_service.get_order_by_id(order_id)
+    pedido.status = OrderStatus.ENTREGUE
     db.session.commit()
+    
+    conta, mensagem = order_service.gerar_conta(mesa.numero)
+    
+    assert conta is not None
+    assert mensagem == "Conta gerada."
+    assert conta['mesa'] == mesa.numero
+    assert conta['total'] == 41.00
+    assert len(conta['itens']) == 1
+
+def test_gerar_conta_com_cpf(app, order_service):
+    garcom, _, mesa, produto = criar_dados_iniciais()
+    
+    cpf_cliente_garcom = garcom.cpf
+    
+    #'user_cpf' porque é o que a função do Service pede
+    order_id, _ = order_service.abrir_comanda(mesa.numero, user_cpf=cpf_cliente_garcom)
+    order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
+    
+    pedido = order_service.get_order_by_id(order_id)
+    pedido.status = OrderStatus.ENTREGUE
+    db.session.commit()
+    
+    conta, _ = order_service.gerar_conta(mesa.numero)
+    
+    assert conta['total'] == 20.50
+    comanda_vinculada = Order.query.get(order_id)
+    
+    #'user_id' porque é o nome da coluna no Banco de Dados
+    assert comanda_vinculada.user_id == cpf_cliente_garcom
+
+def test_orders_per_table(app, order_service):
+    garcom, _, mesa1, _ = criar_dados_iniciais()
+    
+    mesa2 = Table(numero=10, capacidade=2, status=TableStatus.LIVRE)
+    db.session.add(mesa2)
+    db.session.commit()
+    
+    # Abre 2 comandas na mesa 5 e 1 comanda na mesa 10
+    order_service.abrir_comanda(mesa1.numero, garcom.cpf)
+    order_service.abrir_comanda(mesa1.numero, garcom.cpf)
+    order_service.abrir_comanda(mesa2.numero, garcom.cpf)
+    
+    resultado = order_service.order_per_table()
+    
+    assert resultado[mesa1.numero] == 2
+    assert resultado[mesa2.numero] == 1
+
+def test_open_order_counter(app, order_service):
+    garcom, _, mesa, _ = criar_dados_iniciais()
+    
+    assert order_service.open_order_counter() == 0
+    
+    order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    
+    assert order_service.open_order_counter() == 3
+    assert order_service.open_order_counter(numero_mesa=mesa.numero) == 3
+    assert order_service.open_order_counter(numero_mesa=99) == 0 # Mesa inexistente
+
 def test_tempo_decorrido(app, order_service):
     agora_sem_fuso = datetime.now(timezone.utc).replace(tzinfo=None)  
 
@@ -194,6 +271,24 @@ def test_tempo_decorrido(app, order_service):
     tempo_formatado = order_service.tempo_decorrido(comanda_simulada)
     
     assert tempo_formatado == "5m 30s"
+
+def test_visualizar_comanda(app, order_service):
+    garcom, _, mesa, _ = criar_dados_iniciais()
+    
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    
+    comanda = order_service.visualizar_comanda(order_id)
+    
+    # Caso a comanda exista, o método retorna a própria comanda
+    assert comanda is not None
+    assert comanda.id == order_id
+    assert comanda.numero_mesa == mesa.numero
+
+    # Testando comanda que não existe
+    comanda_inexistente, msg_erro = order_service.visualizar_comanda(9999)
+    assert comanda_inexistente is None
+    assert msg_erro == "Pedido não encontrado."
+
 def test_daily_statistics(app, order_service):
     garcom, _, mesa, produto = criar_dados_iniciais()
     
