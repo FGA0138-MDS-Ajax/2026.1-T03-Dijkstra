@@ -20,6 +20,7 @@ class OrderController(BaseController):
         self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/enviar_comanda', view_func=self.enviar_comanda, methods=['POST'])
         self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/alterar_status', view_func=self.alterar_status, methods=['PUT']) 
         self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/fechar', view_func=self.fechar_comanda, methods=['POST'])
+        self.app.add_url_rule('/api/admin/estatisticas', view_func=self.estatisticas_diarias, methods=['GET'])
 
     def _get_usuario_logado(self):
         user_id = session.get('user_id')
@@ -118,3 +119,11 @@ class OrderController(BaseController):
 
         success, message = self.order_service.fechar_comanda(comanda_id)
         return self.json_response(success, message, status=200 if success else 400)
+
+    def estatisticas_diarias(self):
+        usuario = self._get_usuario_logado()
+        if not usuario or usuario.cargo != Role.ADMINISTRADOR:
+            return self.json_response(False, "Acesso negado", status=403)
+        
+        stats = self.order_service.daily_statistics()
+        return self.json_response(True, data=stats)

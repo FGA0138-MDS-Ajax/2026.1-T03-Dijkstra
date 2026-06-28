@@ -107,7 +107,7 @@ class UserService:
             return False, "Usuário não encontrado."
         if usuario_atual.cargo != Role.ADMINISTRADOR:
             return False, "Apenas administradores podem transferir posse."
-        usuario_atual.cargo = Role.USUARIO
+        usuario_atual.cargo = Role.GARCOM
         usuario_novo.cargo = Role.ADMINISTRADOR
         db.session.commit()
         return True, "Posse transferida com sucesso."

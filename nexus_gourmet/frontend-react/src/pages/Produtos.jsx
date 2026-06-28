@@ -23,6 +23,14 @@ export default function Produtos() {
     const [produtoParaDeletar, setProdutoParaDeletar] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
 
+    // Estados do Modal de Edição
+    const [produtoParaEditar, setProdutoParaEditar] = useState(null);
+    const [editNome, setEditNome] = useState('');
+    const [editPreco, setEditPreco] = useState('');
+    const [editCategoria, setEditCategoria] = useState('Bebida');
+    const [editPreparationTime, setEditPreparationTime] = useState(15);
+    const [isEditing, setIsEditing] = useState(false);
+
     const fetchProdutos = async () => {
         try {
             const response = await axios.get('http://localhost:5000/api/produtos', { withCredentials: true });
@@ -82,6 +90,38 @@ export default function Produtos() {
         const matchesCategory = activeFilter === 'Todos' || p.categoria === activeFilter;
         return matchesSearch && matchesCategory;
     });
+
+    const abrirEdicao = (produto) => {
+        setProdutoParaEditar(produto);
+        setEditNome(produto.nome);
+        setEditPreco(produto.preco);
+        setEditCategoria(produto.categoria);
+        setEditPreparationTime(produto.preparation_time_minutes);
+    };
+
+    const salvarEdicao = async () => {
+        if (!produtoParaEditar) return;
+        if (!editNome.trim()) return toast.warning('Nome do produto é obrigatório.');
+        if (!editPreco || parseFloat(editPreco) <= 0) return toast.warning('Preço deve ser maior que zero.');
+        if (!editPreparationTime || parseInt(editPreparationTime) <= 0) return toast.warning('Tempo de preparo deve ser maior que zero.');
+        setIsEditing(true);
+        try {
+            const response = await axios.put(`http://localhost:5000/api/produtos/editar/${produtoParaEditar.id}`, {
+                nome: editNome.trim(), preco: parseFloat(editPreco), categoria: editCategoria, preparation_time_minutes: parseInt(editPreparationTime)
+            }, { withCredentials: true });
+            if (response.data.success) {
+                toast.success('✏️ Produto atualizado com sucesso!');
+                setProdutoParaEditar(null);
+                fetchProdutos();
+            } else {
+                toast.error(response.data.message || 'Erro ao editar produto.');
+            }
+        } catch (err) {
+            toast.error('❌ Não foi possível editar o produto.');
+        } finally {
+            setIsEditing(false);
+        }
+    };
 
     return (
         <AdminLayout>
@@ -192,14 +232,24 @@ export default function Produtos() {
                                         <td className="price-cell">R$ {parseFloat(produto.preco).toFixed(2)}</td>
                                         <td>{produto.preparation_time_minutes} min</td>
                                         <td style={{ textAlign: 'right' }}>
-                                            <motion.button 
-                                                whileHover={{ scale: 1.05 }} 
-                                                whileTap={{ scale: 0.95 }}
-                                                onClick={() => setProdutoParaDeletar(produto)} 
-                                                className="danger"
-                                            >
-                                                Excluir
-                                            </motion.button>
+                                            <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-end' }}>
+                                                <motion.button 
+                                                    whileHover={{ scale: 1.05 }} 
+                                                    whileTap={{ scale: 0.95 }}
+                                                    onClick={() => abrirEdicao(produto)} 
+                                                    style={{ background: '#444', padding: '6px 12px' }}
+                                                >
+                                                    ✏️ Editar
+                                                </motion.button>
+                                                <motion.button 
+                                                    whileHover={{ scale: 1.05 }} 
+                                                    whileTap={{ scale: 0.95 }}
+                                                    onClick={() => setProdutoParaDeletar(produto)} 
+                                                    className="danger"
+                                                >
+                                                    Excluir
+                                                </motion.button>
+                                            </div>
                                         </td>
                                     </motion.tr>
                                 ))}
@@ -220,6 +270,54 @@ export default function Produtos() {
                 onConfirm={confirmarExclusao}
                 onCancel={() => setProdutoParaDeletar(null)}
             />
+
+            {/* Modal de Edição de Produto */}
+            {produtoParaEditar && (
+                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(4px)' }}>
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        className="card" 
+                        style={{ width: '90%', maxWidth: '420px', background: '#1a1a1a', border: '1px solid #333', boxShadow: '0 10px 40px rgba(0,0,0,0.5)', padding: '24px' }}
+                    >
+                        <h2 style={{ color: '#fff', fontSize: '18px', marginBottom: '20px' }}>Editar Produto</h2>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            <div>
+                                <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>Nome</label>
+                                <input type="text" value={editNome} onChange={e => setEditNome(e.target.value)} style={{ width: '100%' }} required />
+                            </div>
+                            <div>
+                                <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>Preço (R$)</label>
+                                <input type="number" step="0.01" value={editPreco} onChange={e => setEditPreco(e.target.value)} style={{ width: '100%' }} required />
+                            </div>
+                            <div>
+                                <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>Categoria</label>
+                                <select value={editCategoria} onChange={e => setEditCategoria(e.target.value)} style={{ width: '100%' }}>
+                                    <option value="Bebida">Bebida</option>
+                                    <option value="Prato">Prato</option>
+                                    <option value="Sobremesa">Sobremesa</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>Tempo de Preparo (min)</label>
+                                <input type="number" value={editPreparationTime} onChange={e => setEditPreparationTime(e.target.value)} min="1" style={{ width: '100%' }} required />
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
+                            <button onClick={() => setProdutoParaEditar(null)} disabled={isEditing} style={{ background: 'transparent', color: '#ccc', border: '1px solid #444', opacity: isEditing ? 0.5 : 1 }}>Cancelar</button>
+                            <motion.button 
+                                whileHover={!isEditing ? { scale: 1.02 } : {}} 
+                                whileTap={!isEditing ? { scale: 0.98 } : {}}
+                                onClick={salvarEdicao} 
+                                disabled={isEditing}
+                                style={{ opacity: isEditing ? 0.7 : 1, cursor: isEditing ? 'wait' : 'pointer' }}
+                            >
+                                {isEditing ? 'Salvando...' : '✔ Salvar Alterações'}
+                            </motion.button>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
         </AdminLayout>
     );
 }

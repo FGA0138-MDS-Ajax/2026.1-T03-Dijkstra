@@ -14,12 +14,14 @@ export default function Comandas() {
     const [produtosDisponiveis, setProdutosDisponiveis] = useState([]);
     const [produtoId, setProdutoId] = useState('');
     const [quantidade, setQuantidade] = useState(1);
+    const [observacao, setObservacao] = useState('');
 
     const [isLoading, setIsLoading] = useState(true);
 
     // Estados dos Modais de Confirmação
     const [comandaParaEnviar, setComandaParaEnviar] = useState(false);
     const [contaParaFechar, setContaParaFechar] = useState(false);
+    const [cancelarComanda, setCancelarComanda] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
 
     const fetchData = async () => {
@@ -44,9 +46,9 @@ export default function Comandas() {
         e.preventDefault();
         try {
             await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/adicionar_item`, 
-                { product_id: produtoId, quantidade, observacao: '' }, { withCredentials: true });
+                { product_id: produtoId, quantidade, observacao }, { withCredentials: true });
             toast.success('➕ Produto adicionado à comanda.');
-            setProdutoId(''); setQuantidade(1);
+            setProdutoId(''); setQuantidade(1); setObservacao('');
             fetchData();
         } catch (err) { toast.error('Erro ao adicionar produto.'); }
     };
@@ -98,6 +100,7 @@ export default function Comandas() {
                         ))}
                     </select>
                     <input type="number" value={quantidade} onChange={e => setQuantidade(e.target.value)} min="1" style={{ width: '80px' }} required />
+                    <input type="text" placeholder="Obs: Sem cebola..." value={observacao} onChange={e => setObservacao(e.target.value)} style={{ flex: 1, minWidth: '140px' }} />
                     <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} type="submit">+ Adicionar</motion.button>
                 </form>
             </div>
@@ -110,6 +113,7 @@ export default function Comandas() {
                             <tr>
                                 <th>Qtd</th>
                                 <th>Produto</th>
+                                <th>Observação</th>
                                 <th style={{ textAlign: 'right' }}>Subtotal</th>
                             </tr>
                         </thead>
@@ -119,6 +123,7 @@ export default function Comandas() {
                                     <tr key={`skel-${idx}`} className="skeleton-row">
                                         <td><div className="skeleton skeleton-text" style={{ width: '30px' }}></div></td>
                                         <td><div className="skeleton skeleton-text"></div></td>
+                                        <td><div className="skeleton skeleton-text" style={{ width: '80px' }}></div></td>
                                         <td style={{ textAlign: 'right' }}><div className="skeleton skeleton-text" style={{ width: '50px', marginLeft: 'auto' }}></div></td>
                                     </tr>
                                 ))
@@ -132,6 +137,13 @@ export default function Comandas() {
                                         >
                                             <td>{item.quantidade}x</td>
                                             <td>{item.produto?.nome}</td>
+                                            <td>
+                                                {item.observacao ? (
+                                                    <span style={{ fontStyle: 'italic', color: '#ffaa00', fontSize: '11px' }}>{item.observacao}</span>
+                                                ) : (
+                                                    <span style={{ color: '#555', fontSize: '11px' }}>—</span>
+                                                )}
+                                            </td>
                                             <td className="price-cell" style={{ textAlign: 'right' }}>
                                                 R$ {(item.quantidade * (item.produto?.preco || 0)).toFixed(2)}
                                             </td>
@@ -146,6 +158,9 @@ export default function Comandas() {
                         <h3 style={{ color: 'var(--primary-red)' }}>Total: R$ {totalComanda.toFixed(2)}</h3>
                         <div>
                             {comanda.status === 'Entregue' && <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setContaParaFechar(true)} className="danger" style={{ marginRight: '10px' }}>Fechar Conta</motion.button>}
+                            {(comanda.status === 'Pendente' || comanda.status === 'Em Preparo') && (
+                                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setCancelarComanda(true)} style={{ marginRight: '10px', background: '#333', color: '#ff6666', border: '1px solid #550000' }}>❌ Cancelar</motion.button>
+                            )}
                             <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => setComandaParaEnviar(true)}>Enviar Pedido para Cozinha</motion.button>
                         </div>
                     </div>
@@ -174,6 +189,28 @@ export default function Comandas() {
                 isLoading={isProcessing}
                 onConfirm={fecharConta}
                 onCancel={() => setContaParaFechar(false)}
+            />
+
+            <ConfirmDialog 
+                isOpen={cancelarComanda}
+                title="Cancelar esta comanda?"
+                description={`A comanda da Mesa ${numero_mesa} será cancelada permanentemente. Esta ação não pode ser desfeita.`}
+                confirmLabel="Cancelar comanda"
+                cancelLabel="Manter comanda"
+                variant="danger"
+                isLoading={isProcessing}
+                onConfirm={async () => {
+                    setIsProcessing(true);
+                    try {
+                        await axios.put(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/alterar_status`, 
+                            { status: 'Cancelado' }, { withCredentials: true });
+                        toast.success('❌ Comanda cancelada.');
+                        setCancelarComanda(false);
+                        navigate('/salao');
+                    } catch (err) { toast.error('Erro ao cancelar comanda.'); }
+                    finally { setIsProcessing(false); }
+                }}
+                onCancel={() => setCancelarComanda(false)}
             />
 
         </SalaoLayout>

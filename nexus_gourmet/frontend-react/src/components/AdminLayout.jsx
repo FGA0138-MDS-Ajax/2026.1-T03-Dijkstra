@@ -29,6 +29,7 @@ export default function AdminLayout({ children }) {
             <div className="nav-tabs">
                 <Link to="/produtos" className={location.pathname === '/produtos' ? 'active' : ''}>Produtos</Link>
                 <Link to="/usuarios" className={location.pathname === '/usuarios' ? 'active' : ''}>Usuários</Link>
+                <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>Dashboard</Link>
             </div>
 
             <div className="content-container">

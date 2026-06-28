@@ -6,6 +6,7 @@ import Comandas from './pages/Comandas';
 import Pedidos from './pages/Pedidos';
 import Produtos from './pages/Produtos';
 import Usuarios from './pages/Usuarios';
+import Dashboard from './pages/Dashboard';
 import { Toaster } from 'sonner';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/cozinha/fila" element={<Pedidos />} />
         <Route path="/produtos" element={<Produtos />} />
         <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
     </>
