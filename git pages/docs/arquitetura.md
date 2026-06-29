@@ -1,349 +1,326 @@
-<h1 id="documento-de-arquitetura">Documento de Arquitetura</h1>
+# Documento de Arquitetura
 
-<p><strong>Versão 1.1</strong></p>
+**Versão 1.2**
 
 ## Integrantes do Grupo
 
-<table class="doc-table doc-table--md">
-  <thead>
-    <tr>
-      <th>Matrícula</th>
-      <th>Nome</th>
-      <th>Função (responsabilidade)</th>
-      <th>Pontos de participação</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>242004457</td><td>Alexandre Henrique Almeida Valadares Sousa</td><td>Banco de dados</td><td>10</td></tr>
-    <tr><td>242028655</td><td>Davi Kenichi Watanabe Sakai</td><td>Frontend</td><td>10</td></tr>
-    <tr><td>241025953</td><td>Igor Lima Carneiro</td><td>Backend</td><td>10</td></tr>
-    <tr><td>242005329</td><td>Jhonatan William Araújo de Almeida</td><td>Banco de dados</td><td>10</td></tr>
-    <tr><td>242015432</td><td>João Gabriel Rolim Veiga</td><td>Backend</td><td>10</td></tr>
-    <tr><td>241039322</td><td>João Paulo Jacomini Batista</td><td>Frontend</td><td>10</td></tr>
-    <tr><td>241039304</td><td>João Victor Amorim Kurihara</td><td>Frontend</td><td>10</td></tr>
-    <tr><td>242024253</td><td>Lucas Ferreira Santana</td><td>Backend</td><td>10</td></tr>
-    <tr><td>242024271</td><td>Lucas Peixoto Rodrigues</td><td>Backend</td><td>10</td></tr>
-    <tr><td>242005006</td><td>Rafael de Aquino Marinho</td><td>Frontend</td><td>10</td></tr>
-  </tbody>
-</table>
+| Matrícula   | Nome                                                | Função (responsabilidade) | Pontos de participação |
+|-------------|-----------------------------------------------------|---------------------------|------------------------|
+| 242004457   | Alexandre Henrique Almeida Valadares Sousa          | Banco de dados            | 10                     |
+| 242028655   | Davi Kenichi Watanabe Sakai                         | Frontend                  | 10                     |
+| 241025953   | Igor Lima Carneiro                                  | Backend                   | 10                     |
+| 242005329   | Jhonatan William Araújo de Almeida                  | Banco de dados            | 10                     |
+| 242015432   | João Gabriel Rolim Veiga                            | Backend                   | 10                     |
+| 241039322   | João Paulo Jacomini Batista                         | Frontend                  | 10                     |
+| 241039304   | João Victor Amorim Kurihara                         | Frontend                  | 10                     |
+| 242024253   | Lucas Ferreira Santana                              | Backend                   | 10                     |
+| 242024271   | Lucas Peixoto Rodrigues                             | Backend                   | 10                     |
+| 242005006   | Rafael de Aquino Marinho                            | Frontend/ MkDocs          | 10                     |
 
 ## Histórico de Revisões
 
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Data</th>
-      <th>Versão</th>
-      <th>Descrição</th>
-      <th>Autor(es)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>14/05/2026</td><td>1.0</td><td>Primeira versão do documento que define a arquitetura usada no produto</td><td>Grupo Dijkstra</td></tr>
-    <tr><td>02/06/2026</td><td>1.1</td><td>Adicionado menções diretas no corpo do documento às fontes bibliográficas usadas</td><td>Grupo Dijkstra</td></tr>
-  </tbody>
-</table>
+| Data       | Versão | Descrição                                                                           | Autor(es)             |
+|------------|--------|-------------------------------------------------------------------------------------|-----------------------|
+| 14/05/2026 | 1.0    | Primeira versão do documento que define a arquitetura usada no produto              | Grupo Dijkstra        |
+| 02/06/2026 | 1.1    | Adicionado menções diretas no corpo do documento às fontes bibliográficas usadas    | Grupo Dijkstra        |
+| 28/06/2026 | 1.2    | Melhorando Explicação Figuras e diagramas                                           | Rafael                |
 
-<hr />
+---
 
 ## Sumário
 
-<ul>
-  <li><a href="#1-introducao">1 Introdução</a>
-    <ul>
-      <li><a href="#11-proposito">1.1 Propósito</a></li>
-      <li><a href="#12-escopo">1.2 Escopo</a></li>
-    </ul>
-  </li>
-  <li><a href="#2-representacao-arquitetural">2 Representação Arquitetural</a>
-    <ul>
-      <li><a href="#21-definicoes">2.1 Definições</a></li>
-      <li><a href="#22-justifique-sua-escolha">2.2 Justifique sua escolha</a></li>
-      <li><a href="#23-detalhamento">2.3 Detalhamento</a></li>
-      <li><a href="#24-metas-e-restricoes-arquiteturais">2.4 Metas e restrições arquiteturais</a></li>
-      <li><a href="#25-visoes">2.5 Visões</a>
-        <ul>
-          <li><a href="#251-visao-de-uso-o-escopo-do-sistema">2.5.1 Visão de uso (o escopo do sistema)</a></li>
-          <li><a href="#252-visao-de-organizacao-logica">2.5.2 Visão de organização lógica</a></li>
-          <li><a href="#253-visao-estrutural">2.5.3 Visão estrutural</a></li>
-        </ul>
-      </li>
-      <li><a href="#26-visao-de-implantacao">2.6 Visão de Implantação</a></li>
-      <li><a href="#27-restricoes-adicionais">2.7 Restrições adicionais</a></li>
-    </ul>
-  </li>
-  <li><a href="#3-bibliografia">3 Bibliografia</a></li>
-</ul>
+- [1 Introdução](#1-introducao)
+  - [1.1 Propósito](#11-proposito)
+  - [1.2 Escopo](#12-escopo)
+- [2 Representação Arquitetural](#2-representacao-arquitetural)
+  - [2.1 Definições](#21-definicoes)
+  - [2.2 Justifique sua escolha](#22-justifique-sua-escolha)
+  - [2.3 Detalhamento](#23-detalhamento)
+  - [2.4 Metas e restrições arquiteturais](#24-metas-e-restricoes-arquiteturais)
+  - [2.5 Visões](#25-visoes)
+    - [2.5.1 Visão de uso (o escopo do sistema)](#251-visao-de-uso-o-escopo-do-sistema)
+    - [2.5.2 Visão de organização lógica](#252-visao-de-organizacao-logica)
+    - [2.5.3 Visão estrutural](#253-visao-estrutural)
+  - [2.6 Visão de Implantação](#26-visao-de-implantacao)
+  - [2.7 Restrições adicionais](#27-restricoes-adicionais)
+- [3 Bibliografia](#3-bibliografia)
 
-<hr />
+---
 
 ## 1. Introdução
 
 ### 1.1 Propósito
 
-<p>Este documento descreve a arquitetura do sistema sendo desenvolvido pelo grupo Dijkstra, na disciplina de MDS – Métodos de Desenvolvimento de Software – edição do primeiro semestre de 2026, para o sistema Nexus Gourmet, a fim de fornecer uma visão abrangente do sistema para desenvolvedores, testadores e demais interessados em aspectos relacionados às tecnologias a serem usadas no desenvolvimento.</p>
+Este documento descreve a arquitetura do sistema sendo desenvolvido pelo grupo Dijkstra, na disciplina de MDS – Métodos de Desenvolvimento de Software – edição do primeiro semestre de 2026, para o sistema Nexus Gourmet, a fim de fornecer uma visão abrangente do sistema para desenvolvedores, testadores e demais interessados em aspectos relacionados às tecnologias a serem usadas no desenvolvimento.
 
 ### 1.2 Escopo
 
-<p>O detalhamento do escopo se encontra no documento de arquitetura, este, juntamente com o documento de Visão do produto e do projeto. Porém, em linhas gerais o escopo do produto compreende o desenvolvimento de um software capaz de registrar e organizar pedidos em restaurantes, como apresentado mais detalhadamente na tabela 1 a seguir:</p>
+O detalhamento do escopo se encontra no documento de arquitetura, este, juntamente com o documento de Visão do produto e do projeto. Porém, em linhas gerais o escopo do produto compreende o desenvolvimento de um software capaz de registrar e organizar pedidos em restaurantes, como apresentado mais detalhadamente na tabela 1 a seguir:
 
-<p><strong>Tabela 1 - Funcionalidades presentes e não presentes</strong></p>
+**Tabela 1 - Funcionalidades presentes e não presentes**
 
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>O que ele faz</th>
-      <th>O que ele não faz</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Abrir pedido para mesa</td><td>Compra e venda de produtos</td></tr>
-    <tr><td>Adicionar item ao pedido</td><td>Adicionar conta de consumidor</td></tr>
-    <tr><td>Remover item do pedido</td><td>Permitir acesso direto de consumidores</td></tr>
-    <tr><td>Enviar pedido para a cozinha</td><td></td></tr>
-    <tr><td>Visualizar pedidos na cozinha</td><td></td></tr>
-    <tr><td>Visualizar tempo de espera</td><td></td></tr>
-    <tr><td>Atualizar status do pedido</td><td></td></tr>
-    <tr><td>Fechar conta</td><td></td></tr>
-    <tr><td>Calcular total do pedido</td><td></td></tr>
-    <tr><td>Visualizar mesas</td><td></td></tr>
-    <tr><td>Cadastrar produtos</td><td></td></tr>
-    <tr><td>Editar produto</td><td></td></tr>
-  </tbody>
-</table>
+| O que ele faz                     | O que ele não faz                        |
+|-----------------------------------|------------------------------------------|
+| Abrir pedido para mesa            | Compra e venda de produtos               |
+| Adicionar item ao pedido          | Adicionar conta de consumidor            |
+| Remover item do pedido            | Permitir acesso direto de consumidores   |
+| Enviar pedido para a cozinha      |                                          |
+| Visualizar pedidos na cozinha     |                                          |
+| Visualizar tempo de espera        |                                          |
+| Atualizar status do pedido        |                                          |
+| Fechar conta                      |                                          |
+| Calcular total do pedido          |                                          |
+| Visualizar mesas                  |                                          |
+| Cadastrar produtos                |                                          |
+| Editar produto                    |                                          |
 
-<p><em>Fonte: elaborado pelo autor (2026)</em></p>
+*Fonte: elaborado pelo autor (2026)*
 
-<hr />
+---
 
 ## 2. Representação Arquitetural
 
 ### 2.1 Definições
 
-<p>O sistema Nexus Gourmet seguirá uma arquitetura Cliente-Servidor Web, organizada internamente segundo o padrão MVC em camadas, com apoio de comunicação assíncrona para atualização do status dos pedidos (SERRANO, 2026).</p>
+O sistema Nexus Gourmet seguirá uma arquitetura Cliente-Servidor Web, organizada internamente segundo o padrão MVC em camadas, com apoio de comunicação assíncrona para atualização do status dos pedidos (SERRANO, 2026).
 
-<p>A escolha da arquitetura Cliente-Servidor ocorre porque o sistema será acessado por diferentes tipos de clientes, como dispositivos móveis utilizados pelos garçons, telas utilizadas pela cozinha e interfaces administrativas (IBM, 2026). Esses clientes consomem os serviços oferecidos por uma aplicação central, responsável por processar as regras de negócio, controlar o fluxo dos pedidos e acessar o banco de dados.</p>
+A escolha da arquitetura Cliente-Servidor ocorre porque o sistema será acessado por diferentes tipos de clientes, como dispositivos móveis utilizados pelos garçons, telas utilizadas pela cozinha e interfaces administrativas (IBM, 2026). Esses clientes consomem os serviços oferecidos por uma aplicação central, responsável por processar as regras de negócio, controlar o fluxo dos pedidos e acessar o banco de dados.
 
-<p>Internamente, o servidor será organizado segundo o padrão MVC (Model-View-Controller). Nesse modelo, a camada View representa as interfaces do sistema; a camada Controller recebe as requisições dos usuários e coordena o fluxo das operações; e a camada Model representa os dados, regras de negócio e persistência relacionados a pedidos, mesas, produtos, usuários e status de atendimento.</p>
+Internamente, o servidor será organizado segundo o padrão MVC (Model-View-Controller). Nesse modelo, a camada View representa as interfaces do sistema; a camada Controller recebe as requisições dos usuários e coordena o fluxo das operações; e a camada Model representa os dados, regras de negócio e persistência relacionados a pedidos, mesas, produtos, usuários e status de atendimento.
 
-<p>Além disso, como o Nexus Gourmet exige atualização rápida entre salão e cozinha, especialmente no envio e acompanhamento dos pedidos, a arquitetura prevê o uso de comunicação assíncrona, como WebSocket ou mecanismo equivalente, para notificar alterações de status sem depender exclusivamente de carregamento manual das páginas.</p>
+Além disso, como o Nexus Gourmet exige atualização rápida entre salão e cozinha, especialmente no envio e acompanhamento dos pedidos, a arquitetura prevê o uso de comunicação assíncrona, como WebSocket ou mecanismo equivalente, para notificar alterações de status sem depender exclusivamente de carregamento manual das páginas.
 
 ### 2.2 Justifique sua escolha
 
-<p>A escolha da arquitetura Cliente-Servidor Web com organização interna MVC é adequada ao Nexus Gourmet porque o produto proposto não é um sistema isolado em uma única máquina, mas uma aplicação distribuída entre diferentes usuários e dispositivos. O documento de Visão do Produto define o Nexus Gourmet como uma aplicação web-mobile voltada a proprietários e funcionários de restaurantes, com a finalidade de registrar, acompanhar e gerenciar pedidos de forma centralizada, ágil e sem erros.</p>
+A escolha da arquitetura Cliente-Servidor Web com organização interna MVC é adequada ao Nexus Gourmet porque o produto proposto não é um sistema isolado em uma única máquina, mas uma aplicação distribuída entre diferentes usuários e dispositivos. O documento de Visão do Produto define o Nexus Gourmet como uma aplicação web-mobile voltada a proprietários e funcionários de restaurantes, com a finalidade de registrar, acompanhar e gerenciar pedidos de forma centralizada, ágil e sem erros.
 
-<p>O problema central identificado no projeto está relacionado à falha de comunicação entre salão e cozinha, à perda de informações em comandas de papel e à falta de rastreabilidade dos pedidos. Por isso, a arquitetura precisa favorecer a centralização das informações, o acesso simultâneo por múltiplos perfis de usuário e a atualização rápida do estado dos pedidos. A organização Cliente-Servidor atende diretamente a essa necessidade, pois separa os dispositivos consumidores dos serviços da aplicação central, mantendo o processamento e os dados em um servidor comum.</p>
+O problema central identificado no projeto está relacionado à falha de comunicação entre salão e cozinha, à perda de informações em comandas de papel e à falta de rastreabilidade dos pedidos. Por isso, a arquitetura precisa favorecer a centralização das informações, o acesso simultâneo por múltiplos perfis de usuário e a atualização rápida do estado dos pedidos. A organização Cliente-Servidor atende diretamente a essa necessidade, pois separa os dispositivos consumidores dos serviços da aplicação central, mantendo o processamento e os dados em um servidor comum.
 
-<p>Essa escolha é adequada ao Nexus Gourmet porque o sistema possui características típicas de uma aplicação distribuída e modular, na qual diferentes usuários interagem simultaneamente com uma aplicação centralizada. O modelo Cliente-Servidor permite separar claramente os dispositivos de acesso da camada responsável pelo processamento das regras de negócio e armazenamento dos dados, favorecendo a organização, controle e sincronização das operações realizadas no restaurante.</p>
+Essa escolha é adequada ao Nexus Gourmet porque o sistema possui características típicas de uma aplicação distribuída e modular, na qual diferentes usuários interagem simultaneamente com uma aplicação centralizada. O modelo Cliente-Servidor permite separar claramente os dispositivos de acesso da camada responsável pelo processamento das regras de negócio e armazenamento dos dados, favorecendo a organização, controle e sincronização das operações realizadas no restaurante.
 
-<p>No contexto do Nexus Gourmet, essa separação é importante porque o sistema será utilizado por diferentes perfis, como garçons, cozinha e administradores, cada um acessando funcionalidades específicas por meio de navegadores ou dispositivos conectados à aplicação principal. Dessa forma, a centralização do processamento e das informações garante maior consistência no gerenciamento de pedidos, mesas, produtos e status de atendimento.</p>
+No contexto do Nexus Gourmet, essa separação é importante porque o sistema será utilizado por diferentes perfis, como garçons, cozinha e administradores, cada um acessando funcionalidades específicas por meio de navegadores ou dispositivos conectados à aplicação principal. Dessa forma, a centralização do processamento e das informações garante maior consistência no gerenciamento de pedidos, mesas, produtos e status de atendimento.
 
-<p>Para complementar essa estrutura, o sistema adotará o padrão MVC (Model-View-Controller) como organização interna da aplicação. Essa abordagem favorece a separação de responsabilidades entre interface, controle do fluxo da aplicação e manipulação dos dados, tornando o sistema mais organizado e compreensível.</p>
+Para complementar essa estrutura, o sistema adotará o padrão MVC (Model-View-Controller) como organização interna da aplicação. Essa abordagem favorece a separação de responsabilidades entre interface, controle do fluxo da aplicação e manipulação dos dados, tornando o sistema mais organizado e compreensível.
 
-<p>A camada View será responsável pela interação com os usuários, apresentando telas e funcionalidades voltadas ao gerenciamento dos pedidos e operações do restaurante. A camada Controller coordenará o fluxo das requisições e regras de negócio, intermediando a comunicação entre interface e persistência. Já a camada Model concentrará as entidades e dados relacionados ao domínio do sistema, como pedidos, mesas, produtos e usuários.</p>
+A camada View será responsável pela interação com os usuários, apresentando telas e funcionalidades voltadas ao gerenciamento dos pedidos e operações do restaurante. A camada Controller coordenará o fluxo das requisições e regras de negócio, intermediando a comunicação entre interface e persistência. Já a camada Model concentrará as entidades e dados relacionados ao domínio do sistema, como pedidos, mesas, produtos e usuários.
 
-<p>Essa organização contribui diretamente para a manutenção e evolução do software, reduzindo o acoplamento entre partes do sistema e facilitando alterações futuras sem impacto excessivo em outros módulos. Além disso, a divisão clara das responsabilidades melhora o desenvolvimento paralelo entre as equipes de frontend, backend e banco de dados, permitindo maior produtividade e facilidade de integração.</p>
+Essa organização contribui diretamente para a manutenção e evolução do software, reduzindo o acoplamento entre partes do sistema e facilitando alterações futuras sem impacto excessivo em outros módulos. Além disso, a divisão clara das responsabilidades melhora o desenvolvimento paralelo entre as equipes de frontend, backend e banco de dados, permitindo maior produtividade e facilidade de integração.
 
-<p>Outro fator relevante é a necessidade de atualização rápida das informações entre salão e cozinha. Como o sistema exige acompanhamento contínuo dos pedidos e alteração dinâmica de status, a arquitetura também prevê comunicação assíncrona entre cliente e servidor, permitindo que mudanças importantes sejam refletidas em tempo próximo ao real. Isso possibilita maior agilidade operacional, reduz atrasos no atendimento e melhora a sincronização entre os diferentes setores do restaurante.</p>
+Outro fator relevante é a necessidade de atualização rápida das informações entre salão e cozinha. Como o sistema exige acompanhamento contínuo dos pedidos e alteração dinâmica de status, a arquitetura também prevê comunicação assíncrona entre cliente e servidor, permitindo que mudanças importantes sejam refletidas em tempo próximo ao real. Isso possibilita maior agilidade operacional, reduz atrasos no atendimento e melhora a sincronização entre os diferentes setores do restaurante.
 
-<p>Assim, a combinação entre Cliente-Servidor, MVC e comunicação assíncrona oferece uma solução adequada às necessidades funcionais e estruturais do Nexus Gourmet, equilibrando organização, modularidade, manutenção, escalabilidade e eficiência operacional.</p>
+Assim, a combinação entre Cliente-Servidor, MVC e comunicação assíncrona oferece uma solução adequada às necessidades funcionais e estruturais do Nexus Gourmet, equilibrando organização, modularidade, manutenção, escalabilidade e eficiência operacional.
 
 ### 2.3 Detalhamento
 
+A arquitetura proposta pode ser representada em quatro partes principais:
 
-<p>A arquitetura proposta pode ser representada em quatro partes principais:</p>
+- **Clientes Web** - Representam os dispositivos usados pelos perfis do sistema
+  - Garçom: abre pedidos, adiciona/remove itens, envia pedidos para a cozinha e fecha contas.
+  - Cozinha: visualiza pedidos ativos, acompanha tempo de espera e atualiza status.
+  - Administrador: cadastra e edita produtos, mesas e demais dados necessários à operação.
 
-<ul>
-<li><strong>Clientes Web</strong> - Representam os dispositivos usados pelos perfis do sistema
-  <ul>
-    <li>Garçom: abre pedidos, adiciona/remove itens, envia pedidos para a cozinha e fecha contas.</li>
-    <li>Cozinha: visualiza pedidos ativos, acompanha tempo de espera e atualiza status.</li>
-    <li>Administrador: cadastra e edita produtos, mesas e demais dados necessários à operação.</li>
-  </ul>
-</li>
-<li><strong>Camada de Apresentação - View</strong>
-  <ul>
-    <li>Corresponde às páginas e interfaces desenvolvidas em HTML, CSS e JavaScript. Essa camada é responsável por apresentar as telas ao usuário e capturar suas ações, como clicar em "enviar pedido", "adicionar item" ou "marcar como pronto".</li>
-  </ul>
-</li>
-<li><strong>Camada de Controle e Aplicação - Controller/Service</strong>
-  <ul>
-    <li>Corresponde ao backend da aplicação, desenvolvido em Python com Flask. Essa camada recebe as requisições das interfaces, valida as operações, coordena o fluxo de dados e aciona as regras de negócio. É nela que ficam os controladores e serviços relacionados a pedidos, mesas, produtos, usuários e status.</li>
-  </ul>
-</li>
-<li><strong>Camada de Modelo e Persistência — Model/Repository/Database</strong>
-  <ul>
-    <li>Representa os dados e regras centrais do sistema. Inclui as entidades principais, como Pedido, ItemPedido, Mesa, Produto, Usuário e StatusPedido. Também inclui os repositórios responsáveis por acessar o banco de dados MySQL, garantindo que os dados dos pedidos, produtos e mesas sejam armazenados de forma consistente.</li>
-  </ul>
-</li>
-</ul>
+- **Camada de Apresentação - View**
+  - Corresponde às páginas e interfaces desenvolvidas em React. Essa camada é responsável por apresentar as telas ao usuário e capturar suas ações, como clicar em "enviar pedido", "adicionar item" ou "marcar como pronto".
 
-<p><strong>Figura 1 - Estilo arquitetural</strong></p>
+- **Camada de Controle e Aplicação - Controller/Service**
+  - Corresponde ao backend da aplicação, desenvolvido em Python com Flask. Essa camada recebe as requisições das interfaces, valida as operações, coordena o fluxo de dados e aciona as regras de negócio. É nela que ficam os controladores e serviços relacionados a pedidos, mesas, produtos, usuários e status.
+
+- **Camada de Modelo e Persistência — Model/Repository/Database**
+  - Representa os dados e regras centrais do sistema. Inclui as entidades principais, como Pedido, ItemPedido, Mesa, Produto, Usuário e StatusPedido. Também inclui os repositórios responsáveis por acessar o banco de dados MySQL, garantindo que os dados dos pedidos, produtos e mesas sejam armazenados de forma consistente.
+
+<center>Figura 1 - estilo arquitectural</center>
 
 ![Figura 1 - estilo arquitectural](img/estilo-arquitectural.jpg)
 
-<p><em>Fonte: elaborado pelos autores (2026)</em></p>
+*Fonte: elaborado pelos autores (2026)*
 
-<p>O fluxo principal começa quando o garçom acessa a interface web/mobile e registra um pedido vinculado a uma mesa. A View envia a solicitação ao Controller por meio de HTTP/HTTPS. O Controller aciona o Service correspondente, que valida as regras de negócio, como existência da mesa, disponibilidade do produto e cálculo dos valores. Em seguida, o Repository persiste os dados no MySQL.</p>
+O fluxo principal começa quando o garçom acessa a interface web/mobile e registra um pedido vinculado a uma mesa. A View envia a solicitação ao Controller por meio de HTTP/HTTPS. O Controller aciona o Service correspondente, que valida as regras de negócio, como existência da mesa, disponibilidade do produto e cálculo dos valores. Em seguida, o Repository persiste os dados no MySQL.
 
-<p>Quando o pedido é enviado para a cozinha, o sistema altera seu status e disponibiliza essa alteração para a tela da cozinha. Para atender a necessidade de atualização em tempo real, a aplicação pode utilizar WebSocket ou outro mecanismo assíncrono, permitindo que a cozinha receba a atualização sem depender de recarregamento manual da página.</p>
+Quando o pedido é enviado para a cozinha, o sistema altera seu status e disponibiliza essa alteração para a tela da cozinha. Para atender à necessidade de atualização em tempo real, a aplicação pode utilizar WebSocket ou outro mecanismo assíncrono, permitindo que a cozinha receba a atualização sem depender de recarregamento manual da página.
 
-<p>Quando o cozinheiro altera o status do pedido para "em preparo" ou "pronto", o fluxo ocorre no sentido inverso: a View da cozinha envia a atualização ao Controller, o Service valida a mudança de estado e o banco de dados é atualizado. A interface do garçom pode então visualizar o novo status do pedido.</p>
+Quando o cozinheiro altera o status do pedido para "em preparo" ou "pronto", o fluxo ocorre no sentido inverso: a View da cozinha envia a atualização ao Controller, o Service valida a mudança de estado e o banco de dados é atualizado. A interface do garçom pode então visualizar o novo status do pedido.
 
-<p><strong>Tabela 2 - Responsabilidades por camada</strong></p>
+**Tabela 2 - Responsabilidades por camada**
 
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Elemento</th>
-      <th>Responsabilidade no Nexus Gourmet</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Cliente Web/Mobile</td><td>Permitir interação dos usuários com o sistema em diferentes dispositivos</td></tr>
-    <tr><td>View</td><td>Exibir telas, formulários, botões, listas de pedidos, mesas e produtos</td></tr>
-    <tr><td>Controller</td><td>Receber requisições, coordenar o fluxo e encaminhar ações aos serviços</td></tr>
-    <tr><td>Service</td><td>Aplicar regras de negócio, validações e cálculos</td></tr>
-    <tr><td>Model</td><td>Representar as entidades principais do domínio</td></tr>
-    <tr><td>Repository</td><td>Isolar o acesso ao banco de dados</td></tr>
-    <tr><td>Banco de Dados</td><td>Persistir pedidos, produtos, mesas, usuários e histórico de status</td></tr>
-    <tr><td>Comunicação assíncrona</td><td>Atualizar cozinha e salão quando houver mudança relevante no pedido</td></tr>
-  </tbody>
-</table>
+| Elemento                 | Responsabilidade no Nexus Gourmet                                                      |
+|--------------------------|----------------------------------------------------------------------------------------|
+| Cliente Web/Mobile       | Permitir interação dos usuários com o sistema em diferentes dispositivos               |
+| View                     | Exibir telas, formulários, botões, listas de pedidos, mesas e produtos                 |
+| Controller               | Receber requisições, coordenar o fluxo e encaminhar ações aos serviços                 |
+| Service                  | Aplicar regras de negócio, validações e cálculos                                       |
+| Model                    | Representar as entidades principais do domínio                                         |
+| Repository               | Isolar o acesso ao banco de dados                                                      |
+| Banco de Dados           | Persistir pedidos, produtos, mesas, usuários e histórico de status                     |
+| Comunicação assíncrona   | Atualizar cozinha e salão quando houver mudança relevante no pedido                    |
 
-<p><em>Fonte: elaborado pelos autores (2026)</em></p>
+*Fonte: elaborado pelos autores (2026)*
 
 ### 2.4 Metas e restrições arquiteturais
 
-<p>Esta seção define metas e restrições arquiteturais que o sistema deve seguir.</p>
+Esta seção define metas e restrições arquiteturais que o sistema deve seguir.
 
-<ul>
-<li><strong>Desempenho de Interface:</strong> As atualizações de status de um pedido devem refletir na tela da cozinha em tempo real.</li>
-<li><strong>Confiabilidade de Dados:</strong> O sistema deve garantir que dados de pedidos não sejam perdidos caso haja alguma queda momentânea na conexão de internet.</li>
-<li><strong>Restrições de Rede:</strong> O software precisa ser otimizado para operar na rede local do estabelecimento, a fim de minimizar a latência no envio dos pedidos do salão para a cozinha.</li>
-<li><strong>Escalabilidade e Concorrência:</strong> O sistema está restrito a operar suportando múltiplos usuários (garçons e cozinheiros) logados de forma simultânea, especialmente em horários de pico.</li>
-<li><strong>Restrição de Segurança/Acesso:</strong> É obrigatória a identificação (login) de qualquer funcionário para que o sistema permita a realização de operações de pedido.</li>
-<li><strong>Usabilidade Física:</strong> Devido ao contexto dos garçons, o design da interface no dispositivo móvel tem a meta de possibilitar a operação e uso com apenas uma das mãos.</li>
-<li><strong>Métrica de Qualidade de Código:</strong> O sistema tem como meta técnica manter uma densidade de erros de programa máxima de 0.5%.</li>
-</ul>
+- **Desempenho de Interface:** As atualizações de status de um pedido devem ser refletidas na tela da cozinha em tempo próximo ao real (limite máximo de 3 segundos), utilizando conexões assíncronas via protocolo WebSocket estabelecidas entre a View (React) e o Controller (Flask).
+
+- **Confiabilidade de Dados:** O sistema deve garantir a persistência dos pedidos mesmo em cenários de queda momentânea da internet. Para isso, a camada de apresentação (View em React) deve implementar mecanismos de armazenamento local temporário (cache/LocalStorage) até que a rota da API no backend (Flask) esteja disponível para consolidar os dados no banco MySQL.
+
+- **Restrições de Rede:** O software deve ser otimizado para operar prioritariamente sob a infraestrutura de rede local (Wi-Fi) do restaurante, minimizando requisições externas supérfluas para garantir que o tempo de tráfego de dados do salão até o sistema KDS (Kitchen Display System) da cozinha seja imperceptível ao usuário.
+
+- **Escalabilidade e Concorrência:** O sistema deve ser capaz de suportar o acesso simultâneo de ao menos 15 usuários logados (entre garçons e cozinheiros), garantindo a estabilidade e a sincronização dos dados em tempo real.
+
+- **Restrição de Segurança/Acesso:** É obrigatória a identificação (login) de qualquer funcionário para que o sistema permita a realização de operações de pedido.
+
+- **Usabilidade Física:** Devido ao contexto dos garçons, o design da interface no dispositivo móvel tem a meta de possibilitar a operação e uso com apenas uma das mãos.
+
+- **Métrica de Qualidade de Código:** O sistema adota como meta técnica manter uma densidade de defeitos máxima de \(0,5\%\) (erros por mil linhas de código - KLOC) mensurada durante a execução dos testes unitários e de integração na branch de homologação.
 
 ### 2.5 Visões
 
 #### 2.5.1 Visão de uso (o escopo do sistema)
 
-<p>O escopo do sistema Nexus Gourmet abrange o desenvolvimento de uma aplicação distribuída, com interfaces web e mobile, destinada à centralização e otimização do registro e gerenciamento de pedidos em ambientes gastronômicos. O fluxo operacional da aplicação engloba o ciclo completo do atendimento: a abertura da mesa e a inserção de itens pelo garçom; o envio simultâneo do pedido para a interface da cozinha, o monitoramento do tempo de preparo e a atualização de status ("em preparo" ou "pronto") pela equipe de cozinheiros, e, por fim, o encerramento da conta da mesa.</p>
+O escopo do sistema Nexus Gourmet abrange o desenvolvimento de uma aplicação distribuída, com interfaces web e mobile, destinada à centralização e otimização do registro e gerenciamento de pedidos em ambientes gastronômicos. O fluxo operacional da aplicação engloba o ciclo completo do atendimento: a abertura da mesa e a inserção de itens pelo garçom; o envio simultâneo do pedido para a interface da cozinha, o monitoramento do tempo de preparo e a atualização de status ("em preparo" ou "pronto") pela equipe de cozinheiros, e, por fim, o encerramento da conta da mesa.
 
-<p>A definição do estilo arquitetural Cliente-Servidor Web, aliada ao padrão estrutural Model-View-Controller (MVC), foi fundamentada primordialmente nos requisitos operacionais do ambiente de implantação. A necessidade de mitigar falhas de comunicação históricas entre o salão e a cozinha exigiu uma arquitetura que garantisse a centralização das informações e o acesso simultâneo. Adicionalmente, a pluralidade de perfis de acesso sistêmico caracterizada pelo uso de dispositivos móveis pelos garçons, telas ou tablets na cozinha e interfaces web exclusivas para a administração justificou a separação lógica das interfaces gráficas (camada View) do processamento das regras de negócio e da persistência de dados.</p>
+A definição do estilo arquitetural Cliente-Servidor Web, aliada ao padrão estrutural Model-View-Controller (MVC), foi fundamentada primordialmente nos requisitos operacionais do ambiente de implantação. A necessidade de mitigar falhas de comunicação históricas entre o salão e a cozinha exigiu uma arquitetura que garantisse a centralização das informações e o acesso simultâneo. Adicionalmente, a pluralidade de perfis de acesso sistêmico caracterizada pelo uso de dispositivos móveis pelos garçons, telas ou tablets na cozinha e interfaces web exclusivas para a administração justificou a separação lógica das interfaces gráficas (camada View) do processamento das regras de negócio e da persistência de dados.
 
-<p>Por fim, o requisito de atualização sistêmica ágil para o acompanhamento dos pedidos determinou a adoção de mecanismos de comunicação assíncrona, a exemplo do protocolo WebSocket, possibilitando que as mudanças de status sejam refletidas nas telas de operação sem a necessidade de recarregamento manual.</p>
-
-<p><strong>Figura 2 - Diagrama de Casos de Uso</strong></p>
+<center>Figura 2 - Diagrama de Casos de Uso</center>
 
 ![Figura 2 - Diagrama de Casos de Uso](img/casos-de-uso.png)
 
-<p><em>Fonte: Elaborado pelos autores (2026)</em></p>
+*Fonte: Elaborado pelos autores (2026)*
+
+Por fim, o requisito de atualização sistêmica ágil para o acompanhamento dos pedidos determinou a adoção de mecanismos de comunicação assíncrona, a exemplo do protocolo WebSocket, possibilitando que as mudanças de status sejam refletidas nas telas de operação sem a necessidade de recarregamento manual.
 
 #### 2.5.2 Visão de organização lógica
 
-<p>O sistema é subdividido nos seguintes módulos.</p>
+O sistema é subdividido nos seguintes módulos.
 
-<ul>
-<li><p><strong>Módulo de Apresentação (View):</strong></p>
-  <ul>
-    <li><strong>Composição:</strong> Desenvolvido com HTML, CSS e JavaScript.</li>
-    <li><strong>Razão Lógica:</strong> É responsável unicamente pela interface com o usuário, apresentando as diferentes telas (mobile para garçom, desktop para cozinha) e capturando ações como "enviar pedido" ou "marcar como pronto".</li>
-  </ul>
-</li>
-<li><p><strong>Módulo de Controle e Serviços (Controller/Service):</strong></p>
-  <ul>
-    <li><strong>Composição:</strong> Desenvolvido em linguagem Python utilizando o framework Flask.</li>
-    <li><strong>Razão Lógica:</strong> Coordena todo o fluxo da aplicação. Este módulo recebe as requisições das telas, efetua as devidas validações, aplica regras de negócio (cálculos de contas, existência da mesa) e determina as ações para persistência.</li>
-  </ul>
-</li>
-<li><p><strong>Módulo de Modelo e Persistência (Model/Repository/Database):</strong></p>
-  <ul>
-    <li><strong>Composição:</strong> Composto pelas entidades fundamentais do sistema e o banco de dados MySQL.</li>
-    <li><strong>Razão Lógica:</strong> Este módulo serve para modelar o domínio (Pedido, ItemPedido, Mesa, Produto e Usuário) e garantir a integridade e isolamento na persistência física dos dados.</li>
-  </ul>
-</li>
-</ul>
+- **Módulo de Apresentação (View):**
+  - **Composição:** Desenvolvido com HTML, CSS e JavaScript.
+  - **Razão Lógica:** É responsável unicamente pela interface com o usuário, apresentando as diferentes telas (mobile para garçom, desktop para cozinha) e capturando ações como "enviar pedido" ou "marcar como pronto".
 
-<p><strong>Como eles se comunicam (Interfaces):</strong></p>
+- **Módulo de Controle e Serviços (Controller/Service):**
+  - **Composição:** Desenvolvido em linguagem Python utilizando o framework Flask.
+  - **Razão Lógica:** Coordena todo o fluxo da aplicação. Este módulo recebe as requisições das telas, efetua as devidas validações, aplica regras de negócio (cálculos de contas, existência da mesa) e determina as ações para persistência.
 
-<p>A camada de Apresentação (View) comunica-se com os Controladores (backend) através de API REST utilizando o protocolo HTTP/HTTPS.</p>
+- **Módulo de Modelo e Persistência (Model/Repository/Database):**
+  - **Composição:** Composto pelas entidades fundamentais do sistema e o banco de dados MySQL.
+  - **Razão Lógica:** Este módulo serve para modelar o domínio (Pedido, ItemPedido, Mesa, Produto e Usuário) e garantir a integridade e isolamento na persistência física dos dados.
 
-<p>Para garantir o fluxo reverso dinâmico e em tempo real (como a cozinha notificando o garçom de que um prato finalizou), utiliza-se conexão assíncrona (WebSockets) entre a camada de Serviço e as Views.</p>
+**Como eles se comunicam (Interfaces):**
 
-<p>Internamente, o Controller utiliza a camada de Service (regras de negócio) para se comunicar de maneira contínua com o Model e os Repositories, que por sua vez persistem e consultam as informações diretamente no banco de dados MySQL.</p>
+A camada de Apresentação (View) comunica-se com os Controladores (backend) através de API REST utilizando o protocolo HTTP/HTTPS.
 
-<p><strong>Figura 3 - Diagrama de Pacotes</strong></p>
+Para garantir o fluxo reverso dinâmico e em tempo real (como a cozinha notificando o garçom de que um prato finalizou), utiliza-se conexão assíncrona (WebSockets) entre a camada de Serviço e as Views.
+
+Internamente, o Controller utiliza a camada de Service (regras de negócio) para se comunicar de maneira contínua com o Model e os Repositories, que por sua vez persistem e consultam as informações diretamente no banco de dados MySQL.
+
+<center>Figura 3 - Diagrama de Pacotes</center>
 
 ![Figura 3 - Diagrama de Pacotes](img/diagrama-de-pacotes.png)
 
-<p><em>Fonte: Elaborado pelos autores (2026)</em></p>
+*Fonte: Elaborado pelos autores (2026)*
 
 #### 2.5.3 Visão estrutural
 
-<p><strong>Figura 4 - Diagrama de Classes</strong></p>
+<center>Figura 4 - Diagrama de Classes</center>
 
 ![Figura 4 - Diagrama de Classes](img/diagrama-de-classes.png)
 
-<p>A Figura 4 ilustra o Diagrama de Classes, delimitando o escopo do produto e as interações entre os atores externos e as funcionalidades do sistema.</p>
+A Figura 4 ilustra o Diagrama de Classes, delimitando o escopo do produto e as interações entre os atores externos e as funcionalidades do sistema.
 
-<p><strong>Detalhamento dos Atores e Interações:</strong></p>
+**Detalhamento dos Atores e Interações:**
 
-<ul>
-<li><strong>Atores Primários:</strong> O diagrama identifica três perfis distintos com responsabilidades segregadas: Administrador, Garçom e Cozinheiro. Essa separação é refletida na arquitetura de segurança e controle de acesso do sistema.</li>
-<li><strong>Gestão de Pedidos (Garçom/Cozinheiro):</strong> O núcleo operacional do sistema é representado pelos casos de uso "Fazer pedido", "Visualizar pedidos" e "Atualizar status do pedido". A interação entre esses atores através do sistema mitiga falhas de comunicação e agiliza o tempo de atendimento.</li>
-<li><strong>Gestão Administrativa (Administrador):</strong> O ator administrador possui permissões exclusivas para a manutenção do ecossistema, incluindo "Gerenciar mesas", "Gerenciar produtos" e "Gerenciar usuários", garantindo a integridade dos dados cadastrais utilizados nas operações de salão.</li>
-<li><strong>Fechamento de Ciclo:</strong> O caso de uso "Fechar conta" encerra o fluxo operacional, integrando as seleções feitas pelo garçom com o cálculo financeiro final, conforme as regras de negócio estabelecidas.</li>
-</ul>
+- **Atores Primários:** O diagrama identifica três perfis distintos com responsabilidades segregadas: Administrador, Garçom e Cozinheiro. Essa separação é refletida na arquitetura de segurança e controle de acesso do sistema.
 
-<p><strong>Relevância Arquitetural:</strong></p>
+- **Gestão de Pedidos (Garçom/Cozinheiro):** O núcleo operacional do sistema é representado pelos casos de uso "Fazer pedido", "Visualizar pedidos" e "Atualizar status do pedido". A interação entre esses atores através do sistema mitiga falhas de comunicação e agiliza o tempo de atendimento.
 
-<p>O mapeamento da Figura 4 serve como base para a definição das rotas da API no backend e para a construção das interfaces no frontend. Cada caso de uso representado foi priorizado para atender aos requisitos funcionais e garantir que a arquitetura lógica suporte a carga de trabalho simultânea de múltiplos atores.</p>
+- **Gestão Administrativa (Administrador):** O ator administrador possui permissões exclusivas para a manutenção do ecossistema, incluindo "Gerenciar mesas", "Gerenciar produtos" e "Gerenciar usuários", garantindo a integridade dos dados cadastrais utilizados nas operações de salão.
 
-<p><em>Fonte: Elaborado pelos autores (2026)</em></p>
+- **Fechamento de Ciclo:** O caso de uso "Fechar conta" encerra o fluxo operacional, integrando as seleções feitas pelo garçom com o cálculo financeiro final, conforme as regras de negócio estabelecidas.
+
+**Relevância Arquitetural:**
+
+O mapeamento da Figura 4 serve como base para a definição das rotas da API no backend e para a construção das interfaces no frontend. Cada caso de uso representado foi priorizado para atender aos requisitos funcionais e garantir que a arquitetura lógica suporte a carga de trabalho simultânea de múltiplos atores.
+
+*Fonte: Elaborado pelos autores (2026)*
 
 ### 2.6 Visão de Implantação
 
-<p>Descreve como o sistema será distribuído fisicamente, focando no modelo Cliente-Servidor para garantir a sincronização em tempo real entre salão e cozinha.</p>
+A visão de implantação descreve como os componentes do sistema serão distribuídos fisicamente nos ambientes operacionais do restaurante, evidenciando o modelo Cliente-Servidor adotado e os mecanismos de comunicação que garantem a sincronização em tempo real entre salão e cozinha. A Figura 5 ilustra essa topologia, destacando os principais nós de hardware, os papéis de cada dispositivo e os protocolos de rede utilizados.
 
-<ul>
-<li><strong>Dispositivos Clientes:</strong>
-  <ul>
-    <li><strong>Interface Mobile:</strong> O processo inicia com a autenticação do usuário. Após o login, o garçom executa as atividades de seleção de mesa e montagem do pedido. A atividade "Confirmar/Enviar" representa o gatilho de integração, onde os dados são despachados via API para o processamento central.</li>
-    <li><strong>Interface Desktop:</strong> Esta parte descreve o ciclo de vida operacional na cozinha. O sistema KDS (Kitchen Display System) recebe o pedido e gerencia as atividades de "Preparação" e "Marcar Pronto". Esta transição é crítica para garantir a redução da carga cognitiva e eliminar o uso de papel.</li>
-    <li><strong>Entrega &amp; Fechamento:</strong> Descreve as atividades finais do ciclo de atendimento. A "Notificação/Retirada" serve como ponte de retorno para o salão, seguida pela "Entrega na Mesa" e a atividade financeira de "Pagamento/Fim", que culmina na liberação de recursos do sistema.</li>
-  </ul>
-</li>
-<li><strong>Banco de Dados:</strong> O banco de dados será isolado da camada de aplicação para maior segurança, usando um sistema de gerenciamento relacional para garantir a consistência dos produtos cadastrados, além do registro de transações financeiras e pedidos.</li>
-<li><strong>Conectores:</strong> A comunicação entre frontend e backend será feita via Protocolo HTTP.</li>
-</ul>
+#### 2.6.1 Dispositivos Clientes
 
-<p><strong>Figura 5 - Diagrama de Implantação</strong></p>
+A aplicação atende três perfis de uso, cada um com dispositivos e interfaces específicas:
+
+- **Interface Mobile (Garçom):**
+
+Os garçons utilizam smartphones ou tablets com navegador web para acessar a interface otimizada para toque. O fluxo operacional inicia-se com a autenticação do usuário. Após o login, o garçom pode selecionar uma mesa, abrir uma comanda, adicionar ou remover itens e, por fim, enviar o pedido à cozinha. A ação "Confirmar/Enviar" dispara uma requisição HTTP para a API central, que registra o pedido e aciona a notificação assíncrona para a cozinha.
+
+- **Interface Desktop (Cozinha - KDS):**
+
+A cozinha utiliza um sistema de display (Kitchen Display System - KDS), normalmente executado em tablets ou monitores fixos. Essa interface exibe a lista de pedidos ativos, organizada por status ("em preparo" e "pronto"), com destaque para o tempo de espera de cada comanda. O cozinheiro interage com o sistema para marcar um pedido como "em preparo" ou "pronto", ações que atualizam o estado e são imediatamente refletidas na interface do garçom via WebSocket. Essa transição elimina a necessidade de comandas de papel e reduz a carga cognitiva da equipe.
+
+- **Interface Administrativa (Desktop/Web):**
+
+O administrador acessa uma interface web completa para gerenciar o cardápio (cadastro, edição e remoção de produtos) e configurar as mesas do salão. Esse perfil também pode gerenciar usuários e visualizar relatórios operacionais. O acesso é feito via navegador em computadores fixos ou notebooks.
+
+#### 2.6.2 Servidor de Aplicação
+
+O servidor central hospeda a aplicação backend desenvolvida em Python com o framework Flask. Ele é responsável por:
+
+- Processar as requisições REST provenientes dos clientes (autenticação, operações de comanda, gestão de produtos e mesas);
+- Gerenciar as conexões WebSocket para atualizações em tempo real de status;
+- Executar as regras de negócio (validações, cálculos de total, controle de fluxo de status);
+- Coordenar o acesso ao banco de dados por meio da camada de repositórios.
+
+O servidor pode ser implantado em uma máquina dedicada na rede local do restaurante (para menor latência) ou em nuvem, dependendo da infraestrutura disponível. Em ambos os casos, a comunicação com os clientes é feita via protocolo HTTP/HTTPS para requisições síncronas e WebSocket para notificações assíncronas.
+
+#### 2.6.3 Banco de Dados
+
+O banco de dados relacional MySQL é mantido em um servidor separado do servidor de aplicação, garantindo isolamento e segurança. Ele persiste todas as informações do sistema:
+
+- Dados cadastrais (produtos, mesas, usuários);
+- Comandas e itens associados;
+- Histórico de status e transações financeiras.
+
+Essa separação permite políticas de backup independentes, maior controle de acesso e facilita a escalabilidade (por exemplo, migrar o banco para um ambiente com mais recursos sem afetar a camada de aplicação).
+
+#### 2.6.4 Conectores e Protocolos
+
+A comunicação entre os componentes segue os seguintes padrões:
+
+- **Cliente ↔ Servidor de Aplicação:**
+
+Requisições síncronas (abrir comanda, adicionar item, fechar conta) utilizam o protocolo HTTP/HTTPS com uma API RESTful. As atualizações de status e notificações em tempo real são realizadas via WebSocket, que mantém um canal bidirecional persistente entre a cozinha e o servidor, e entre o servidor e os dispositivos dos garçons.
+
+- **Servidor de Aplicação ↔ Banco de Dados:**
+
+A comunicação ocorre por meio de conexão TCP/IP utilizando o driver MySQL, com credenciais específicas e, preferencialmente, em uma rede interna segregada para reduzir a exposição a ataques externos.
+
+<center>Figura 5 - Diagrama de Implantação</center>
 
 ![Figura 5 - Diagrama de Implantação](img/diagrama-de-implantacao.png)
 
-<p><em>Fonte: Elaborado pelos autores (2026)</em></p>
+*Fonte: Elaborado pelos autores (2026)*
+
+A Figura 5 representa graficamente a topologia descrita. No lado esquerdo, vemos os clientes agrupados por perfil: smartphones/tablets dos garçons, displays da cozinha e computadores administrativos. Todos se conectam, via rede local ou internet, ao servidor de aplicação central, que está ligado ao banco de dados MySQL. As setas indicam os protocolos utilizados - HTTP/HTTPS para requisições síncronas e WebSocket para o fluxo assíncrono de atualizações. Essa arquitetura garante que o envio de um pedido pelo garçom seja imediatamente refletido na tela da cozinha, e que as alterações de status feitas pelo cozinheiro cheguem em tempo real ao garçom, mantendo toda a equipe sincronizada e eliminando os atrasos e erros típicos do método manual.
 
 ### 2.7 Restrições adicionais
 
-<p>Esta seção detalha limitações e requisitos de qualidade que o sistema deve seguir.</p>
+Esta seção detalha limitações e requisitos de qualidade que o sistema deve seguir.
 
-<p><strong>Aspectos negociais:</strong></p>
+- **Aspectos negociais:**
 
-<p>O software será acessível diretamente pela Internet e otimizado para a rede local do estabelecimento para evitar latência no envio de pedidos para cozinha. O produto exigirá obrigatoriamente a identificação e login do usuário (funcionário do restaurante) para qualquer operação de pedido. O sistema estará preparado para atender múltiplos usuários logados simultaneamente durante horários de pico do restaurante.</p>
+O software será acessível diretamente pela Internet e otimizado para a rede local do estabelecimento para evitar latência no envio de pedidos para cozinha. O produto exigirá obrigatoriamente a identificação e login do usuário (funcionário do restaurante) para qualquer operação de pedido.
 
-<p><strong>Característica de Qualidade de Software:</strong></p>
+- **Característica de Qualidade de Software:**
 
-<p><strong>Confiabilidade:</strong> Caso haja uma queda momentânea de conexão, o sistema não deve perder dados de pedidos.</p>
-<p><strong>Usabilidade:</strong> A interface seguirá padrões de design que possibilitem o uso com apenas uma mão, no caso dos garçons, facilitando o trabalho deles.</p>
+  - **Confiabilidade:** Caso haja uma queda momentânea de conexão, o sistema não deve perder dados de pedidos.
+  - **Usabilidade:** A interface seguirá padrões de design que possibilitem o uso com apenas uma mão, no caso dos garçons, facilitando o trabalho deles.
 
-<hr />
+---
 
 ## 3. Bibliografia
 
-<p>IBM. Modelo cliente/servidor. IBM Documentation, [s. d.]. Disponível em: <a href="https://www.ibm.com/docs/pt-br/cics-ts/5.6.0?topic=programs-clientserver-model">https://www.ibm.com/docs/pt-br/cics-ts/5.6.0?topic=programs-clientserver-model</a>. Acesso em: 14 maio 2026.</p>
+IBM. Modelo cliente/servidor. IBM Documentation, [s. d.]. Disponível em: [https://www.ibm.com/docs/pt-br/cics-ts/5.6.0?topic=programs-clientserver-model](https://www.ibm.com/docs/pt-br/cics-ts/5.6.0?topic=programs-clientserver-model). Acesso em: 14 maio 2026.
 
-<p>SERRANO, Milene. Arquitetura de Software: Visão Geral. [S.l.]: Engenharia de Software UnB/FGA, 2026. 1 arquivo (70 slides), PDF.</p>
+SERRANO, Milene. Arquitetura de Software: Visão Geral. [S.l.]: Engenharia de Software UnB/FGA, 2026. 1 arquivo (70 slides), PDF.
