@@ -15,4 +15,4 @@ theme:
     - search.suggest
 
 extra_css:
-  - git pages/extra.css
+  - css/extra.css
