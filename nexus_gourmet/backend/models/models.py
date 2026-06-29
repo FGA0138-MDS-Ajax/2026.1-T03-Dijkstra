@@ -1,19 +1,20 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from backend.models.enums import Role, TableStatus, ProductCategory, OrderStatus
+
+from models.enums import Role, TableStatus, ProductCategory, OrderStatus
 
 db = SQLAlchemy()
 
 class User(db.Model):
     __tablename__ = 'users'
 
-    cpf = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cpf = db.Column(db.String(11), primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     senha = db.Column(db.String(255), nullable=False)
     cargo = db.Column(db.Enum(Role), nullable=False, default=Role.GARCOM)
     foto_usuario = db.Column(db.String(255), nullable=True)
 
-    comanda = db.relationship('Order', backref='user', lazy=True)
+    comandas = db.relationship('Order', backref='user', lazy=True)
 
     def to_dict(self):
         return {
@@ -64,24 +65,25 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     numero_diario = db.Column(db.Integer, nullable=False)
-    entrada_cozinha = db.Column(db.DateTime, default=datetime.utcnow)
+    data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
+    entrada_cozinha = db.Column(db.DateTime)
     saida_cozinha = db.Column(db.DateTime, nullable=True)
     status = db.Column(db.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDENTE)
+    itens = db.relationship('ProductOrdered', backref='order', lazy=True, cascade="all, delete-orphan")
 
     numero_mesa = db.Column(db.Integer, db.ForeignKey('tables.numero'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.cpf'), nullable=False)
-
-    itens = db.relationship('ProductOrdered', backref='order', lazy=True, cascade="all, delete-orphan")
+    user_cpf = db.Column(db.String(11), db.ForeignKey('users.cpf'), nullable=False)
 
     def to_dict(self):
         return {
             "id": self.id,
+            "numero_diario": self.numero_diario,
             "entrada_cozinha": self.entrada_cozinha.isoformat() if self.entrada_cozinha else None,
             "saida_cozinha": self.saida_cozinha.isoformat() if self.saida_cozinha else None,
             "status": self.status.value,
+            "itens": [item.to_dict() for item in self.itens],
             "numero_mesa": self.numero_mesa,
-            "user_id": self.user_id,
-            "itens": [item.to_dict() for item in self.itens]
+            "user_cpf": self.user_cpf            
         }
 
 class ProductOrdered(db.Model):

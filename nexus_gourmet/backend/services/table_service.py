@@ -1,70 +1,76 @@
-from backend.models.models import db, Table
-from backend.models.enums import TableStatus, OrderStatus
- 
+from models.models import db, Table
+from models.enums import Role, TableStatus, OrderStatus
+from models.sucess_message import TableSuccessMessages
+from models.error_message import UserErrorMessages, TableErrorMessages
+from services.user_service import UserService 
+
 class TableService:
-    def criar_mesa(self, capacidade):
+    def criar_mesa(self, cpf_usuario_logado, capacidade):
+        usuario_logado = UserService().get_user_by_cpf(cpf_usuario_logado)
+        if not usuario_logado or usuario_logado.cargo != Role.ADMINISTRADOR:
+            return False, UserErrorMessages.ACESSO_NEGADO
+
         novo_numero = 1
         while self.get_table_by_number(novo_numero) is not None:
             novo_numero += 1
-
-        if self.get_table_by_number(novo_numero):
-            return False, "Número de mesa já existe."
         
         if capacidade < 1:
-            return False, "Capacidade da mesa deve ser maior que zero."
+            return False, TableErrorMessages.CAPACIDADE_INVALIDA
         
         if capacidade > 20:
-            return False, "Capacidade da mesa deve ser menor ou igual a 20."
+            return False, TableErrorMessages.CAPACIDADE_EXCEDIDA
 
         nova_mesa = Table(numero=novo_numero, status=TableStatus.LIVRE, capacidade=capacidade)
         db.session.add(nova_mesa)
         db.session.commit()
-        return True, "Mesa criada com sucesso."
-    
-    def editar_mesa(self, numero_mesa, numero=None, capacidade=None):
+        return True, TableSuccessMessages.MESA_CRIADA
+
+    def editar_mesa(self, cpf_usuario_logado, numero_mesa, capacidade=None):
+        usuario_logado = UserService().get_user_by_cpf(cpf_usuario_logado)
+        if not usuario_logado or usuario_logado.cargo != Role.ADMINISTRADOR:
+            return False, UserErrorMessages.ACESSO_NEGADO
+
         mesa = self.get_table_by_number(numero_mesa)
         if not mesa:
-            return False, "Mesa não encontrada."
+            return False, TableErrorMessages.MESA_NAO_ENCONTRADA
         
-        # Validação de conflito de números
-        if numero and numero != numero_mesa:
-            if self.get_table_by_number(numero):
-                return False, "Número de mesa já existe."
-            mesa.numero = numero
-            
         if capacidade is not None:
             if capacidade < 1:
-                return False, "Capacidade da mesa deve ser maior que zero."
+                return False, TableErrorMessages.CAPACIDADE_INVALIDA
             if capacidade > 20:
-                return False, "Capacidade da mesa deve ser menor ou igual a 20."
+                return False, TableErrorMessages.CAPACIDADE_EXCEDIDA
             mesa.capacidade = capacidade
 
         try:
             db.session.commit()
-            return True, "Mesa editada com sucesso."
-        
+            return True, TableSuccessMessages.MESA_EDITADA
         except Exception as e:
-            db.session.rollback()
-        
-            return False, "Erro ao atualizar mesa."
-    
-    def deletar_mesa(self, numero_mesa):
+            db.session.rollback()        
+            return False, TableErrorMessages.ERRO_ATUALIZAR_MESA
+
+    def deletar_mesa(self, cpf_usuario_logado, numero_mesa):
+        usuario_logado = UserService().get_user_by_cpf(cpf_usuario_logado)
+        if not usuario_logado or usuario_logado.cargo != Role.ADMINISTRADOR:
+            return False, UserErrorMessages.ACESSO_NEGADO
+
         mesa = self.get_table_by_number(numero_mesa)
         if not mesa:
-            return False, "Mesa não encontrada."
+            return False, TableErrorMessages.MESA_NAO_ENCONTRADA
+        
         if mesa.comandas:
-            return False, "Não é possível deletar uma mesa com comandas associadas."
+            return False, TableErrorMessages.MESA_COM_COMANDAS
+        
         db.session.delete(mesa)
         db.session.commit()
-        return True, "Mesa deletada com sucesso."
-    
+        return True, TableSuccessMessages.MESA_DELETADA
+
     def listar_mesas(self):
         mesas = Table.query.all()
         return [
             {
                 'numero': mesa.numero,
                 'status': mesa.status.value if hasattr(mesa.status, 'value') else mesa.status,
-                'capacidade': f"{len(mesa.comandas)}/{mesa.capacidade}",
+                'capacidade': mesa.capacidade
             }
             for mesa in mesas
         ]
@@ -72,7 +78,8 @@ class TableService:
     def listar_comandas_mesa(self, mesa_numero):
         mesa = self.get_table_by_number(mesa_numero)
         if not mesa:
-            return None, "Mesa não encontrada."
+            return False, TableErrorMessages.MESA_NAO_ENCONTRADA
+        
         comandas = []
         for comanda in mesa.comandas:
             comandas.append({
@@ -87,22 +94,24 @@ class TableService:
                     for item in comanda.itens
                 ]
             })
-        return comandas, "Comandas listadas com sucesso."
-    
+        return comandas, None
+
     def liberar_mesa(self, mesa_numero):
         mesa = self.get_table_by_number(mesa_numero)
         if not mesa:
-            return False, "Mesa não encontrada."
+            return False, TableErrorMessages.MESA_NAO_ENCONTRADA
+        
         comandas_em_aberto = [
             p for p in mesa.comandas
-            if p.status not in (OrderStatus.ENTREGUE, OrderStatus.CANCELADO)
+            if p.status not in (OrderStatus.FINALIZADO, OrderStatus.CANCELADO)
         ]
+
         if comandas_em_aberto:
             return False, f"Mesa {mesa.numero} ainda tem comandas em aberto."
+                
         mesa.status = TableStatus.LIVRE
         db.session.commit()
-        return True, f"Mesa {mesa.numero} liberada."
+        return True, TableSuccessMessages.MESA_LIBERADA
 
     def get_table_by_number(self, numero):
         return Table.query.filter_by(numero=numero).first()
- 
