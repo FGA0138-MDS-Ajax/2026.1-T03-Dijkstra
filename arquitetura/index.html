@@ -1,515 +1,1483 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../vis%C3%A3o/">
+      
+      
         
+      
+      
+      <link rel="icon" href="../logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Documento de Arquitetura - Nexus Gourmet</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
         
-        
-        <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Arquitetura - Nexus Gourmet</title>
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../css/brands.min.css" rel="stylesheet">
-        <link href="../css/solid.min.css" rel="stylesheet">
-        <link href="../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
-    </head>
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
 
-    <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="..">Nexus Gourmet</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href=".." class="nav-link">Nexus Gourmet</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Arquitetura</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../vis%C3%A3o/" class="nav-link">Visão</a>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav ms-md-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" href=".." class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../vis%C3%A3o/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-bs-level="2"><a href="#integrantes-do-grupo" class="nav-link">Integrantes do Grupo</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-bs-level="2"><a href="#historico-de-revisoes" class="nav-link">Histórico de Revisões</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-bs-level="2"><a href="#sumario" class="nav-link">Sumário</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-bs-level="2"><a href="#1-introducao" class="nav-link">1. Introdução</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-bs-level="2"><a href="#2-representacao-arquitetural" class="nav-link">2. Representação Arquitetural</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-bs-level="2"><a href="#3-bibliografia" class="nav-link">3. Bibliografia</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-        </ul>
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#documento-de-arquitetura" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
-</div></div>
-                    <div class="col-md-9" role="main">
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Nexus Gourmet" class="md-header__button md-logo" aria-label="Nexus Gourmet" data-md-component="logo">
+      
+  <img src="../logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Nexus Gourmet
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Documento de Arquitetura
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Documento de Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../vis%C3%A3o/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Documento de Visão
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Nexus Gourmet" class="md-nav__button md-logo" aria-label="Nexus Gourmet" data-md-component="logo">
+      
+  <img src="../logo.png" alt="logo">
+
+    </a>
+    Nexus Gourmet
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#integrantes-do-grupo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrantes do Grupo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#historico-de-revisoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Histórico de Revisões
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sumário
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introdução
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introdução">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Propósito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Escopo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-representacao-arquitetural" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Representação Arquitetural
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Representação Arquitetural">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-definicoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Definições
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-justifique-sua-escolha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Justifique sua escolha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-detalhamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Detalhamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-metas-e-restricoes-arquiteturais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Metas e restrições arquiteturais
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-visoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Visões
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5 Visões">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#251-visao-de-uso-o-escopo-do-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5.1 Visão de uso (o escopo do sistema)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#252-visao-de-organizacao-logica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5.2 Visão de organização lógica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#253-visao-estrutural" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5.3 Visão estrutural
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-visao-de-implantacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Visão de Implantação
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.6 Visão de Implantação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#261-dispositivos-clientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.1 Dispositivos Clientes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#262-servidor-de-aplicacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.2 Servidor de Aplicação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#263-banco-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.3 Banco de Dados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#264-conectores-e-protocolos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.4 Conectores e Protocolos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-restricoes-adicionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Restrições adicionais
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-bibliografia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Bibliografia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vis%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Visão
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#integrantes-do-grupo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrantes do Grupo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#historico-de-revisoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Histórico de Revisões
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sumário
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introdução
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introdução">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Propósito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Escopo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-representacao-arquitetural" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Representação Arquitetural
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Representação Arquitetural">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-definicoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Definições
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-justifique-sua-escolha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Justifique sua escolha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-detalhamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Detalhamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-metas-e-restricoes-arquiteturais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Metas e restrições arquiteturais
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-visoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Visões
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5 Visões">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#251-visao-de-uso-o-escopo-do-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5.1 Visão de uso (o escopo do sistema)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#252-visao-de-organizacao-logica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5.2 Visão de organização lógica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#253-visao-estrutural" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5.3 Visão estrutural
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-visao-de-implantacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Visão de Implantação
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.6 Visão de Implantação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#261-dispositivos-clientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.1 Dispositivos Clientes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#262-servidor-de-aplicacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.2 Servidor de Aplicação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#263-banco-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.3 Banco de Dados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#264-conectores-e-protocolos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6.4 Conectores e Protocolos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-restricoes-adicionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Restrições adicionais
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-bibliografia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Bibliografia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
 
 <h1 id="documento-de-arquitetura">Documento de Arquitetura</h1>
-
-<p><strong>Versão 1.1</strong></p>
-
+<p><strong>Versão 1.2</strong></p>
 <h2 id="integrantes-do-grupo">Integrantes do Grupo</h2>
-<table class="doc-table doc-table--md">
-  <thead>
-    <tr>
-      <th>Matrícula</th>
-      <th>Nome</th>
-      <th>Função (responsabilidade)</th>
-      <th>Pontos de participação</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>242004457</td><td>Alexandre Henrique Almeida Valadares Sousa</td><td>Banco de dados</td><td>10</td></tr>
-    <tr><td>242028655</td><td>Davi Kenichi Watanabe Sakai</td><td>Frontend</td><td>10</td></tr>
-    <tr><td>241025953</td><td>Igor Lima Carneiro</td><td>Backend</td><td>10</td></tr>
-    <tr><td>242005329</td><td>Jhonatan William Araújo de Almeida</td><td>Banco de dados</td><td>10</td></tr>
-    <tr><td>242015432</td><td>João Gabriel Rolim Veiga</td><td>Backend</td><td>10</td></tr>
-    <tr><td>241039322</td><td>João Paulo Jacomini Batista</td><td>Frontend</td><td>10</td></tr>
-    <tr><td>241039304</td><td>João Victor Amorim Kurihara</td><td>Frontend</td><td>10</td></tr>
-    <tr><td>242024253</td><td>Lucas Ferreira Santana</td><td>Backend</td><td>10</td></tr>
-    <tr><td>242024271</td><td>Lucas Peixoto Rodrigues</td><td>Backend</td><td>10</td></tr>
-    <tr><td>242005006</td><td>Rafael de Aquino Marinho</td><td>Frontend</td><td>10</td></tr>
-  </tbody>
+<table>
+<thead>
+<tr>
+<th>Matrícula</th>
+<th>Nome</th>
+<th>Função (responsabilidade)</th>
+<th>Pontos de participação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>242004457</td>
+<td>Alexandre Henrique Almeida Valadares Sousa</td>
+<td>Banco de dados</td>
+<td>10</td>
+</tr>
+<tr>
+<td>242028655</td>
+<td>Davi Kenichi Watanabe Sakai</td>
+<td>Frontend</td>
+<td>10</td>
+</tr>
+<tr>
+<td>241025953</td>
+<td>Igor Lima Carneiro</td>
+<td>Backend</td>
+<td>10</td>
+</tr>
+<tr>
+<td>242005329</td>
+<td>Jhonatan William Araújo de Almeida</td>
+<td>Banco de dados</td>
+<td>10</td>
+</tr>
+<tr>
+<td>242015432</td>
+<td>João Gabriel Rolim Veiga</td>
+<td>Backend</td>
+<td>10</td>
+</tr>
+<tr>
+<td>241039322</td>
+<td>João Paulo Jacomini Batista</td>
+<td>Frontend</td>
+<td>10</td>
+</tr>
+<tr>
+<td>241039304</td>
+<td>João Victor Amorim Kurihara</td>
+<td>Frontend</td>
+<td>10</td>
+</tr>
+<tr>
+<td>242024253</td>
+<td>Lucas Ferreira Santana</td>
+<td>Backend</td>
+<td>10</td>
+</tr>
+<tr>
+<td>242024271</td>
+<td>Lucas Peixoto Rodrigues</td>
+<td>Backend</td>
+<td>10</td>
+</tr>
+<tr>
+<td>242005006</td>
+<td>Rafael de Aquino Marinho</td>
+<td>Frontend/ MkDocs</td>
+<td>10</td>
+</tr>
+</tbody>
 </table>
-
 <h2 id="historico-de-revisoes">Histórico de Revisões</h2>
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Data</th>
-      <th>Versão</th>
-      <th>Descrição</th>
-      <th>Autor(es)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>14/05/2026</td><td>1.0</td><td>Primeira versão do documento que define a arquitetura usada no produto</td><td>Grupo Dijkstra</td></tr>
-    <tr><td>02/06/2026</td><td>1.1</td><td>Adicionado menções diretas no corpo do documento às fontes bibliográficas usadas</td><td>Grupo Dijkstra</td></tr>
-  </tbody>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Versão</th>
+<th>Descrição</th>
+<th>Autor(es)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14/05/2026</td>
+<td>1.0</td>
+<td>Primeira versão do documento que define a arquitetura usada no produto</td>
+<td>Grupo Dijkstra</td>
+</tr>
+<tr>
+<td>02/06/2026</td>
+<td>1.1</td>
+<td>Adicionado menções diretas no corpo do documento às fontes bibliográficas usadas</td>
+<td>Grupo Dijkstra</td>
+</tr>
+<tr>
+<td>28/06/2026</td>
+<td>1.2</td>
+<td>Melhorando Explicação Figuras e diagramas</td>
+<td>Rafael</td>
+</tr>
+</tbody>
 </table>
-
 <hr />
-
 <h2 id="sumario">Sumário</h2>
 <ul>
-  <li><a href="#1-introducao">1 Introdução</a>
-    <ul>
-      <li><a href="#11-proposito">1.1 Propósito</a></li>
-      <li><a href="#12-escopo">1.2 Escopo</a></li>
-    </ul>
-  </li>
-  <li><a href="#2-representacao-arquitetural">2 Representação Arquitetural</a>
-    <ul>
-      <li><a href="#21-definicoes">2.1 Definições</a></li>
-      <li><a href="#22-justifique-sua-escolha">2.2 Justifique sua escolha</a></li>
-      <li><a href="#23-detalhamento">2.3 Detalhamento</a></li>
-      <li><a href="#24-metas-e-restricoes-arquiteturais">2.4 Metas e restrições arquiteturais</a></li>
-      <li><a href="#25-visoes">2.5 Visões</a>
-        <ul>
-          <li><a href="#251-visao-de-uso-o-escopo-do-sistema">2.5.1 Visão de uso (o escopo do sistema)</a></li>
-          <li><a href="#252-visao-de-organizacao-logica">2.5.2 Visão de organização lógica</a></li>
-          <li><a href="#253-visao-estrutural">2.5.3 Visão estrutural</a></li>
-        </ul>
-      </li>
-      <li><a href="#26-visao-de-implantacao">2.6 Visão de Implantação</a></li>
-      <li><a href="#27-restricoes-adicionais">2.7 Restrições adicionais</a></li>
-    </ul>
-  </li>
-  <li><a href="#3-bibliografia">3 Bibliografia</a></li>
+<li><a href="#1-introducao">1 Introdução</a></li>
+<li><a href="#11-proposito">1.1 Propósito</a></li>
+<li><a href="#12-escopo">1.2 Escopo</a></li>
+<li><a href="#2-representacao-arquitetural">2 Representação Arquitetural</a></li>
+<li><a href="#21-definicoes">2.1 Definições</a></li>
+<li><a href="#22-justifique-sua-escolha">2.2 Justifique sua escolha</a></li>
+<li><a href="#23-detalhamento">2.3 Detalhamento</a></li>
+<li><a href="#24-metas-e-restricoes-arquiteturais">2.4 Metas e restrições arquiteturais</a></li>
+<li><a href="#25-visoes">2.5 Visões</a><ul>
+<li><a href="#251-visao-de-uso-o-escopo-do-sistema">2.5.1 Visão de uso (o escopo do sistema)</a></li>
+<li><a href="#252-visao-de-organizacao-logica">2.5.2 Visão de organização lógica</a></li>
+<li><a href="#253-visao-estrutural">2.5.3 Visão estrutural</a></li>
 </ul>
-
+</li>
+<li><a href="#26-visao-de-implantacao">2.6 Visão de Implantação</a></li>
+<li><a href="#27-restricoes-adicionais">2.7 Restrições adicionais</a></li>
+<li><a href="#3-bibliografia">3 Bibliografia</a></li>
+</ul>
 <hr />
-
 <h2 id="1-introducao">1. Introdução</h2>
 <h3 id="11-proposito">1.1 Propósito</h3>
 <p>Este documento descreve a arquitetura do sistema sendo desenvolvido pelo grupo Dijkstra, na disciplina de MDS – Métodos de Desenvolvimento de Software – edição do primeiro semestre de 2026, para o sistema Nexus Gourmet, a fim de fornecer uma visão abrangente do sistema para desenvolvedores, testadores e demais interessados em aspectos relacionados às tecnologias a serem usadas no desenvolvimento.</p>
-
 <h3 id="12-escopo">1.2 Escopo</h3>
 <p>O detalhamento do escopo se encontra no documento de arquitetura, este, juntamente com o documento de Visão do produto e do projeto. Porém, em linhas gerais o escopo do produto compreende o desenvolvimento de um software capaz de registrar e organizar pedidos em restaurantes, como apresentado mais detalhadamente na tabela 1 a seguir:</p>
-
 <p><strong>Tabela 1 - Funcionalidades presentes e não presentes</strong></p>
-
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>O que ele faz</th>
-      <th>O que ele não faz</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Abrir pedido para mesa</td><td>Compra e venda de produtos</td></tr>
-    <tr><td>Adicionar item ao pedido</td><td>Adicionar conta de consumidor</td></tr>
-    <tr><td>Remover item do pedido</td><td>Permitir acesso direto de consumidores</td></tr>
-    <tr><td>Enviar pedido para a cozinha</td><td></td></tr>
-    <tr><td>Visualizar pedidos na cozinha</td><td></td></tr>
-    <tr><td>Visualizar tempo de espera</td><td></td></tr>
-    <tr><td>Atualizar status do pedido</td><td></td></tr>
-    <tr><td>Fechar conta</td><td></td></tr>
-    <tr><td>Calcular total do pedido</td><td></td></tr>
-    <tr><td>Visualizar mesas</td><td></td></tr>
-    <tr><td>Cadastrar produtos</td><td></td></tr>
-    <tr><td>Editar produto</td><td></td></tr>
-  </tbody>
+<table>
+<thead>
+<tr>
+<th>O que ele faz</th>
+<th>O que ele não faz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Abrir pedido para mesa</td>
+<td>Compra e venda de produtos</td>
+</tr>
+<tr>
+<td>Adicionar item ao pedido</td>
+<td>Adicionar conta de consumidor</td>
+</tr>
+<tr>
+<td>Remover item do pedido</td>
+<td>Permitir acesso direto de consumidores</td>
+</tr>
+<tr>
+<td>Enviar pedido para a cozinha</td>
+<td></td>
+</tr>
+<tr>
+<td>Visualizar pedidos na cozinha</td>
+<td></td>
+</tr>
+<tr>
+<td>Visualizar tempo de espera</td>
+<td></td>
+</tr>
+<tr>
+<td>Atualizar status do pedido</td>
+<td></td>
+</tr>
+<tr>
+<td>Fechar conta</td>
+<td></td>
+</tr>
+<tr>
+<td>Calcular total do pedido</td>
+<td></td>
+</tr>
+<tr>
+<td>Visualizar mesas</td>
+<td></td>
+</tr>
+<tr>
+<td>Cadastrar produtos</td>
+<td></td>
+</tr>
+<tr>
+<td>Editar produto</td>
+<td></td>
+</tr>
+</tbody>
 </table>
-
 <p><em>Fonte: elaborado pelo autor (2026)</em></p>
-
 <hr />
-
 <h2 id="2-representacao-arquitetural">2. Representação Arquitetural</h2>
 <h3 id="21-definicoes">2.1 Definições</h3>
 <p>O sistema Nexus Gourmet seguirá uma arquitetura Cliente-Servidor Web, organizada internamente segundo o padrão MVC em camadas, com apoio de comunicação assíncrona para atualização do status dos pedidos (SERRANO, 2026).</p>
-
 <p>A escolha da arquitetura Cliente-Servidor ocorre porque o sistema será acessado por diferentes tipos de clientes, como dispositivos móveis utilizados pelos garçons, telas utilizadas pela cozinha e interfaces administrativas (IBM, 2026). Esses clientes consomem os serviços oferecidos por uma aplicação central, responsável por processar as regras de negócio, controlar o fluxo dos pedidos e acessar o banco de dados.</p>
-
 <p>Internamente, o servidor será organizado segundo o padrão MVC (Model-View-Controller). Nesse modelo, a camada View representa as interfaces do sistema; a camada Controller recebe as requisições dos usuários e coordena o fluxo das operações; e a camada Model representa os dados, regras de negócio e persistência relacionados a pedidos, mesas, produtos, usuários e status de atendimento.</p>
-
 <p>Além disso, como o Nexus Gourmet exige atualização rápida entre salão e cozinha, especialmente no envio e acompanhamento dos pedidos, a arquitetura prevê o uso de comunicação assíncrona, como WebSocket ou mecanismo equivalente, para notificar alterações de status sem depender exclusivamente de carregamento manual das páginas.</p>
-
 <h3 id="22-justifique-sua-escolha">2.2 Justifique sua escolha</h3>
 <p>A escolha da arquitetura Cliente-Servidor Web com organização interna MVC é adequada ao Nexus Gourmet porque o produto proposto não é um sistema isolado em uma única máquina, mas uma aplicação distribuída entre diferentes usuários e dispositivos. O documento de Visão do Produto define o Nexus Gourmet como uma aplicação web-mobile voltada a proprietários e funcionários de restaurantes, com a finalidade de registrar, acompanhar e gerenciar pedidos de forma centralizada, ágil e sem erros.</p>
-
 <p>O problema central identificado no projeto está relacionado à falha de comunicação entre salão e cozinha, à perda de informações em comandas de papel e à falta de rastreabilidade dos pedidos. Por isso, a arquitetura precisa favorecer a centralização das informações, o acesso simultâneo por múltiplos perfis de usuário e a atualização rápida do estado dos pedidos. A organização Cliente-Servidor atende diretamente a essa necessidade, pois separa os dispositivos consumidores dos serviços da aplicação central, mantendo o processamento e os dados em um servidor comum.</p>
-
 <p>Essa escolha é adequada ao Nexus Gourmet porque o sistema possui características típicas de uma aplicação distribuída e modular, na qual diferentes usuários interagem simultaneamente com uma aplicação centralizada. O modelo Cliente-Servidor permite separar claramente os dispositivos de acesso da camada responsável pelo processamento das regras de negócio e armazenamento dos dados, favorecendo a organização, controle e sincronização das operações realizadas no restaurante.</p>
-
 <p>No contexto do Nexus Gourmet, essa separação é importante porque o sistema será utilizado por diferentes perfis, como garçons, cozinha e administradores, cada um acessando funcionalidades específicas por meio de navegadores ou dispositivos conectados à aplicação principal. Dessa forma, a centralização do processamento e das informações garante maior consistência no gerenciamento de pedidos, mesas, produtos e status de atendimento.</p>
-
 <p>Para complementar essa estrutura, o sistema adotará o padrão MVC (Model-View-Controller) como organização interna da aplicação. Essa abordagem favorece a separação de responsabilidades entre interface, controle do fluxo da aplicação e manipulação dos dados, tornando o sistema mais organizado e compreensível.</p>
-
 <p>A camada View será responsável pela interação com os usuários, apresentando telas e funcionalidades voltadas ao gerenciamento dos pedidos e operações do restaurante. A camada Controller coordenará o fluxo das requisições e regras de negócio, intermediando a comunicação entre interface e persistência. Já a camada Model concentrará as entidades e dados relacionados ao domínio do sistema, como pedidos, mesas, produtos e usuários.</p>
-
 <p>Essa organização contribui diretamente para a manutenção e evolução do software, reduzindo o acoplamento entre partes do sistema e facilitando alterações futuras sem impacto excessivo em outros módulos. Além disso, a divisão clara das responsabilidades melhora o desenvolvimento paralelo entre as equipes de frontend, backend e banco de dados, permitindo maior produtividade e facilidade de integração.</p>
-
 <p>Outro fator relevante é a necessidade de atualização rápida das informações entre salão e cozinha. Como o sistema exige acompanhamento contínuo dos pedidos e alteração dinâmica de status, a arquitetura também prevê comunicação assíncrona entre cliente e servidor, permitindo que mudanças importantes sejam refletidas em tempo próximo ao real. Isso possibilita maior agilidade operacional, reduz atrasos no atendimento e melhora a sincronização entre os diferentes setores do restaurante.</p>
-
 <p>Assim, a combinação entre Cliente-Servidor, MVC e comunicação assíncrona oferece uma solução adequada às necessidades funcionais e estruturais do Nexus Gourmet, equilibrando organização, modularidade, manutenção, escalabilidade e eficiência operacional.</p>
-
 <h3 id="23-detalhamento">2.3 Detalhamento</h3>
 <p>A arquitetura proposta pode ser representada em quatro partes principais:</p>
-
 <ul>
-<li><strong>Clientes Web</strong> - Representam os dispositivos usados pelos perfis do sistema
-  <ul>
-    <li>Garçom: abre pedidos, adiciona/remove itens, envia pedidos para a cozinha e fecha contas.</li>
-    <li>Cozinha: visualiza pedidos ativos, acompanha tempo de espera e atualiza status.</li>
-    <li>Administrador: cadastra e edita produtos, mesas e demais dados necessários à operação.</li>
-  </ul>
+<li><strong>Clientes Web</strong> - Representam os dispositivos usados pelos perfis do sistema</li>
+<li>Garçom: abre pedidos, adiciona/remove itens, envia pedidos para a cozinha e fecha contas.</li>
+<li>Cozinha: visualiza pedidos ativos, acompanha tempo de espera e atualiza status.</li>
+<li>
+<p>Administrador: cadastra e edita produtos, mesas e demais dados necessários à operação.</p>
 </li>
-<li><strong>Camada de Apresentação - View</strong>
-  <ul>
-    <li>Corresponde às páginas e interfaces desenvolvidas em HTML, CSS e JavaScript. Essa camada é responsável por apresentar as telas ao usuário e capturar suas ações, como clicar em "enviar pedido", "adicionar item" ou "marcar como pronto".</li>
-  </ul>
+<li>
+<p><strong>Camada de Apresentação - View</strong></p>
 </li>
-<li><strong>Camada de Controle e Aplicação - Controller/Service</strong>
-  <ul>
-    <li>Corresponde ao backend da aplicação, desenvolvido em Python com Flask. Essa camada recebe as requisições das interfaces, valida as operações, coordena o fluxo de dados e aciona as regras de negócio. É nela que ficam os controladores e serviços relacionados a pedidos, mesas, produtos, usuários e status.</li>
-  </ul>
+<li>
+<p>Corresponde às páginas e interfaces desenvolvidas em React. Essa camada é responsável por apresentar as telas ao usuário e capturar suas ações, como clicar em "enviar pedido", "adicionar item" ou "marcar como pronto".</p>
 </li>
-<li><strong>Camada de Modelo e Persistência — Model/Repository/Database</strong>
-  <ul>
-    <li>Representa os dados e regras centrais do sistema. Inclui as entidades principais, como Pedido, ItemPedido, Mesa, Produto, Usuário e StatusPedido. Também inclui os repositórios responsáveis por acessar o banco de dados MySQL, garantindo que os dados dos pedidos, produtos e mesas sejam armazenados de forma consistente.</li>
-  </ul>
+<li>
+<p><strong>Camada de Controle e Aplicação - Controller/Service</strong></p>
 </li>
+<li>
+<p>Corresponde ao backend da aplicação, desenvolvido em Python com Flask. Essa camada recebe as requisições das interfaces, valida as operações, coordena o fluxo de dados e aciona as regras de negócio. É nela que ficam os controladores e serviços relacionados a pedidos, mesas, produtos, usuários e status.</p>
+</li>
+<li>
+<p><strong>Camada de Modelo e Persistência — Model/Repository/Database</strong></p>
+</li>
+<li>Representa os dados e regras centrais do sistema. Inclui as entidades principais, como Pedido, ItemPedido, Mesa, Produto, Usuário e StatusPedido. Também inclui os repositórios responsáveis por acessar o banco de dados MySQL, garantindo que os dados dos pedidos, produtos e mesas sejam armazenados de forma consistente.</li>
 </ul>
+<center>Figura 1 - estilo arquitectural</center>
 
-<p></p>
-Figura 1 - estilo arquitectural</p>
-<p><img alt="Figura 1 - estilo arquitectural" src="../img/estilo%20arquitectural.jpg" /></p>
+<p><img alt="Figura 1 - estilo arquitectural" src="../img/estilo-arquitectural.jpg" /></p>
 <p><em>Fonte: elaborado pelos autores (2026)</em></p>
-
 <p>O fluxo principal começa quando o garçom acessa a interface web/mobile e registra um pedido vinculado a uma mesa. A View envia a solicitação ao Controller por meio de HTTP/HTTPS. O Controller aciona o Service correspondente, que valida as regras de negócio, como existência da mesa, disponibilidade do produto e cálculo dos valores. Em seguida, o Repository persiste os dados no MySQL.</p>
-
-<p>Quando o pedido é enviado para a cozinha, o sistema altera seu status e disponibiliza essa alteração para a tela da cozinha. Para atender a necessidade de atualização em tempo real, a aplicação pode utilizar WebSocket ou outro mecanismo assíncrono, permitindo que a cozinha receba a atualização sem depender de recarregamento manual da página.</p>
-
+<p>Quando o pedido é enviado para a cozinha, o sistema altera seu status e disponibiliza essa alteração para a tela da cozinha. Para atender à necessidade de atualização em tempo real, a aplicação pode utilizar WebSocket ou outro mecanismo assíncrono, permitindo que a cozinha receba a atualização sem depender de recarregamento manual da página.</p>
 <p>Quando o cozinheiro altera o status do pedido para "em preparo" ou "pronto", o fluxo ocorre no sentido inverso: a View da cozinha envia a atualização ao Controller, o Service valida a mudança de estado e o banco de dados é atualizado. A interface do garçom pode então visualizar o novo status do pedido.</p>
-
 <p><strong>Tabela 2 - Responsabilidades por camada</strong></p>
-
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Elemento</th>
-      <th>Responsabilidade no Nexus Gourmet</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Cliente Web/Mobile</td><td>Permitir interação dos usuários com o sistema em diferentes dispositivos</td></tr>
-    <tr><td>View</td><td>Exibir telas, formulários, botões, listas de pedidos, mesas e produtos</td></tr>
-    <tr><td>Controller</td><td>Receber requisições, coordenar o fluxo e encaminhar ações aos serviços</td></tr>
-    <tr><td>Service</td><td>Aplicar regras de negócio, validações e cálculos</td></tr>
-    <tr><td>Model</td><td>Representar as entidades principais do domínio</td></tr>
-    <tr><td>Repository</td><td>Isolar o acesso ao banco de dados</td></tr>
-    <tr><td>Banco de Dados</td><td>Persistir pedidos, produtos, mesas, usuários e histórico de status</td></tr>
-    <tr><td>Comunicação assíncrona</td><td>Atualizar cozinha e salão quando houver mudança relevante no pedido</td></tr>
-  </tbody>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Responsabilidade no Nexus Gourmet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cliente Web/Mobile</td>
+<td>Permitir interação dos usuários com o sistema em diferentes dispositivos</td>
+</tr>
+<tr>
+<td>View</td>
+<td>Exibir telas, formulários, botões, listas de pedidos, mesas e produtos</td>
+</tr>
+<tr>
+<td>Controller</td>
+<td>Receber requisições, coordenar o fluxo e encaminhar ações aos serviços</td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Aplicar regras de negócio, validações e cálculos</td>
+</tr>
+<tr>
+<td>Model</td>
+<td>Representar as entidades principais do domínio</td>
+</tr>
+<tr>
+<td>Repository</td>
+<td>Isolar o acesso ao banco de dados</td>
+</tr>
+<tr>
+<td>Banco de Dados</td>
+<td>Persistir pedidos, produtos, mesas, usuários e histórico de status</td>
+</tr>
+<tr>
+<td>Comunicação assíncrona</td>
+<td>Atualizar cozinha e salão quando houver mudança relevante no pedido</td>
+</tr>
+</tbody>
 </table>
-
 <p><em>Fonte: elaborado pelos autores (2026)</em></p>
-
 <h3 id="24-metas-e-restricoes-arquiteturais">2.4 Metas e restrições arquiteturais</h3>
 <p>Esta seção define metas e restrições arquiteturais que o sistema deve seguir.</p>
-
 <ul>
-<li><strong>Desempenho de Interface:</strong> As atualizações de status de um pedido devem refletir na tela da cozinha em tempo real.</li>
-<li><strong>Confiabilidade de Dados:</strong> O sistema deve garantir que dados de pedidos não sejam perdidos caso haja alguma queda momentânea na conexão de internet.</li>
-<li><strong>Restrições de Rede:</strong> O software precisa ser otimizado para operar na rede local do estabelecimento, a fim de minimizar a latência no envio dos pedidos do salão para a cozinha.</li>
-<li><strong>Escalabilidade e Concorrência:</strong> O sistema está restrito a operar suportando múltiplos usuários (garçons e cozinheiros) logados de forma simultânea, especialmente em horários de pico.</li>
-<li><strong>Restrição de Segurança/Acesso:</strong> É obrigatória a identificação (login) de qualquer funcionário para que o sistema permita a realização de operações de pedido.</li>
-<li><strong>Usabilidade Física:</strong> Devido ao contexto dos garçons, o design da interface no dispositivo móvel tem a meta de possibilitar a operação e uso com apenas uma das mãos.</li>
-<li><strong>Métrica de Qualidade de Código:</strong> O sistema tem como meta técnica manter uma densidade de erros de programa máxima de 0.5%.</li>
+<li>
+<p><strong>Desempenho de Interface:</strong> As atualizações de status de um pedido devem ser refletidas na tela da cozinha em tempo próximo ao real (limite máximo de 3 segundos), utilizando conexões assíncronas via protocolo WebSocket estabelecidas entre a View (React) e o Controller (Flask).</p>
+</li>
+<li>
+<p><strong>Confiabilidade de Dados:</strong> O sistema deve garantir a persistência dos pedidos mesmo em cenários de queda momentânea da internet. Para isso, a camada de apresentação (View em React) deve implementar mecanismos de armazenamento local temporário (cache/LocalStorage) até que a rota da API no backend (Flask) esteja disponível para consolidar os dados no banco MySQL.</p>
+</li>
+<li>
+<p><strong>Restrições de Rede:</strong> O software deve ser otimizado para operar prioritariamente sob a infraestrutura de rede local (Wi-Fi) do restaurante, minimizando requisições externas supérfluas para garantir que o tempo de tráfego de dados do salão até o sistema KDS (Kitchen Display System) da cozinha seja imperceptível ao usuário.</p>
+</li>
+<li>
+<p><strong>Escalabilidade e Concorrência:</strong> O sistema deve ser capaz de suportar o acesso simultâneo de ao menos 15 usuários logados (entre garçons e cozinheiros), garantindo a estabilidade e a sincronização dos dados em tempo real.</p>
+</li>
+<li>
+<p><strong>Restrição de Segurança/Acesso:</strong> É obrigatória a identificação (login) de qualquer funcionário para que o sistema permita a realização de operações de pedido.</p>
+</li>
+<li>
+<p><strong>Usabilidade Física:</strong> Devido ao contexto dos garçons, o design da interface no dispositivo móvel tem a meta de possibilitar a operação e uso com apenas uma das mãos.</p>
+</li>
+<li>
+<p><strong>Métrica de Qualidade de Código:</strong> O sistema adota como meta técnica manter uma densidade de defeitos máxima de (0,5\%) (erros por mil linhas de código - KLOC) mensurada durante a execução dos testes unitários e de integração na branch de homologação.</p>
+</li>
 </ul>
-
 <h3 id="25-visoes">2.5 Visões</h3>
 <h4 id="251-visao-de-uso-o-escopo-do-sistema">2.5.1 Visão de uso (o escopo do sistema)</h4>
 <p>O escopo do sistema Nexus Gourmet abrange o desenvolvimento de uma aplicação distribuída, com interfaces web e mobile, destinada à centralização e otimização do registro e gerenciamento de pedidos em ambientes gastronômicos. O fluxo operacional da aplicação engloba o ciclo completo do atendimento: a abertura da mesa e a inserção de itens pelo garçom; o envio simultâneo do pedido para a interface da cozinha, o monitoramento do tempo de preparo e a atualização de status ("em preparo" ou "pronto") pela equipe de cozinheiros, e, por fim, o encerramento da conta da mesa.</p>
-
 <p>A definição do estilo arquitetural Cliente-Servidor Web, aliada ao padrão estrutural Model-View-Controller (MVC), foi fundamentada primordialmente nos requisitos operacionais do ambiente de implantação. A necessidade de mitigar falhas de comunicação históricas entre o salão e a cozinha exigiu uma arquitetura que garantisse a centralização das informações e o acesso simultâneo. Adicionalmente, a pluralidade de perfis de acesso sistêmico caracterizada pelo uso de dispositivos móveis pelos garçons, telas ou tablets na cozinha e interfaces web exclusivas para a administração justificou a separação lógica das interfaces gráficas (camada View) do processamento das regras de negócio e da persistência de dados.</p>
+<center>Figura 2 - Diagrama de Casos de Uso</center>
 
-<p>Por fim, o requisito de atualização sistêmica ágil para o acompanhamento dos pedidos determinou a adoção de mecanismos de comunicação assíncrona, a exemplo do protocolo WebSocket, possibilitando que as mudanças de status sejam refletidas nas telas de operação sem a necessidade de recarregamento manual.</p>
-
-<p></p>Figura 2 - Diagrama de Casos de Uso
-<img alt="Figura 2 - Diagrama de Casos de Uso" src="../img/casos%20de%20uso.png" /></p>
+<p><img alt="Figura 2 - Diagrama de Casos de Uso" src="../img/casos-de-uso.png" /></p>
 <p><em>Fonte: Elaborado pelos autores (2026)</em></p>
-
+<p>Por fim, o requisito de atualização sistêmica ágil para o acompanhamento dos pedidos determinou a adoção de mecanismos de comunicação assíncrona, a exemplo do protocolo WebSocket, possibilitando que as mudanças de status sejam refletidas nas telas de operação sem a necessidade de recarregamento manual.</p>
 <h4 id="252-visao-de-organizacao-logica">2.5.2 Visão de organização lógica</h4>
 <p>O sistema é subdividido nos seguintes módulos.</p>
-
 <ul>
-<li><p><strong>Módulo de Apresentação (View):</strong></p>
-  <ul>
-    <li><strong>Composição:</strong> Desenvolvido com HTML, CSS e JavaScript.</li>
-    <li><strong>Razão Lógica:</strong> É responsável unicamente pela interface com o usuário, apresentando as diferentes telas (mobile para garçom, desktop para cozinha) e capturando ações como "enviar pedido" ou "marcar como pronto".</li>
-  </ul>
+<li><strong>Módulo de Apresentação (View):</strong></li>
+<li><strong>Composição:</strong> Desenvolvido com HTML, CSS e JavaScript.</li>
+<li>
+<p><strong>Razão Lógica:</strong> É responsável unicamente pela interface com o usuário, apresentando as diferentes telas (mobile para garçom, desktop para cozinha) e capturando ações como "enviar pedido" ou "marcar como pronto".</p>
 </li>
-<li><p><strong>Módulo de Controle e Serviços (Controller/Service):</strong></p>
-  <ul>
-    <li><strong>Composição:</strong> Desenvolvido em linguagem Python utilizando o framework Flask.</li>
-    <li><strong>Razão Lógica:</strong> Coordena todo o fluxo da aplicação. Este módulo recebe as requisições das telas, efetua as devidas validações, aplica regras de negócio (cálculos de contas, existência da mesa) e determina as ações para persistência.</li>
-  </ul>
+<li>
+<p><strong>Módulo de Controle e Serviços (Controller/Service):</strong></p>
 </li>
-<li><p><strong>Módulo de Modelo e Persistência (Model/Repository/Database):</strong></p>
-  <ul>
-    <li><strong>Composição:</strong> Composto pelas entidades fundamentais do sistema e o banco de dados MySQL.</li>
-    <li><strong>Razão Lógica:</strong> Este módulo serve para modelar o domínio (Pedido, ItemPedido, Mesa, Produto e Usuário) e garantir a integridade e isolamento na persistência física dos dados.</li>
-  </ul>
+<li><strong>Composição:</strong> Desenvolvido em linguagem Python utilizando o framework Flask.</li>
+<li>
+<p><strong>Razão Lógica:</strong> Coordena todo o fluxo da aplicação. Este módulo recebe as requisições das telas, efetua as devidas validações, aplica regras de negócio (cálculos de contas, existência da mesa) e determina as ações para persistência.</p>
 </li>
+<li>
+<p><strong>Módulo de Modelo e Persistência (Model/Repository/Database):</strong></p>
+</li>
+<li><strong>Composição:</strong> Composto pelas entidades fundamentais do sistema e o banco de dados MySQL.</li>
+<li><strong>Razão Lógica:</strong> Este módulo serve para modelar o domínio (Pedido, ItemPedido, Mesa, Produto e Usuário) e garantir a integridade e isolamento na persistência física dos dados.</li>
 </ul>
-
 <p><strong>Como eles se comunicam (Interfaces):</strong></p>
-
 <p>A camada de Apresentação (View) comunica-se com os Controladores (backend) através de API REST utilizando o protocolo HTTP/HTTPS.</p>
-
 <p>Para garantir o fluxo reverso dinâmico e em tempo real (como a cozinha notificando o garçom de que um prato finalizou), utiliza-se conexão assíncrona (WebSockets) entre a camada de Serviço e as Views.</p>
-
 <p>Internamente, o Controller utiliza a camada de Service (regras de negócio) para se comunicar de maneira contínua com o Model e os Repositories, que por sua vez persistem e consultam as informações diretamente no banco de dados MySQL.</p>
+<center>Figura 3 - Diagrama de Pacotes</center>
 
-<p></p>Figura 3 - Diagrama de Pacotes
-<img alt="Figura 3 - Diagrama de Pacotes" src="../img/diagrama%20de%20pacotes.png" /></p>
+<p><img alt="Figura 3 - Diagrama de Pacotes" src="../img/diagrama-de-pacotes.png" /></p>
 <p><em>Fonte: Elaborado pelos autores (2026)</em></p>
-
 <h4 id="253-visao-estrutural">2.5.3 Visão estrutural</h4>
-<p></p>Figura 4 - Diagrama de Classes
-<img alt="Figura 4 - Diagrama de Classes" src="../img/diagrama%20de%20classes.png" /></p>
+<center>Figura 4 - Diagrama de Classes</center>
+
+<p><img alt="Figura 4 - Diagrama de Classes" src="../img/diagrama-de-classes.png" /></p>
 <p>A Figura 4 ilustra o Diagrama de Classes, delimitando o escopo do produto e as interações entre os atores externos e as funcionalidades do sistema.</p>
-
 <p><strong>Detalhamento dos Atores e Interações:</strong></p>
-
 <ul>
-<li><strong>Atores Primários:</strong> O diagrama identifica três perfis distintos com responsabilidades segregadas: Administrador, Garçom e Cozinheiro. Essa separação é refletida na arquitetura de segurança e controle de acesso do sistema.</li>
-<li><strong>Gestão de Pedidos (Garçom/Cozinheiro):</strong> O núcleo operacional do sistema é representado pelos casos de uso "Fazer pedido", "Visualizar pedidos" e "Atualizar status do pedido". A interação entre esses atores através do sistema mitiga falhas de comunicação e agiliza o tempo de atendimento.</li>
-<li><strong>Gestão Administrativa (Administrador):</strong> O ator administrador possui permissões exclusivas para a manutenção do ecossistema, incluindo "Gerenciar mesas", "Gerenciar produtos" e "Gerenciar usuários", garantindo a integridade dos dados cadastrais utilizados nas operações de salão.</li>
-<li><strong>Fechamento de Ciclo:</strong> O caso de uso "Fechar conta" encerra o fluxo operacional, integrando as seleções feitas pelo garçom com o cálculo financeiro final, conforme as regras de negócio estabelecidas.</li>
-</ul>
-
-<p><strong>Relevância Arquitetural:</strong></p>
-
-<p>O mapeamento da Figura 4 serve como base para a definição das rotas da API no backend e para a construção das interfaces no frontend. Cada caso de uso representado foi priorizado para atender aos requisitos funcionais e garantir que a arquitetura lógica suporte a carga de trabalho simultânea de múltiplos atores.</p>
-
-<p><em>Fonte: Elaborado pelos autores (2026)</em></p>
-
-<h3 id="26-visao-de-implantacao">2.6 Visão de Implantação</h3>
-<p>Descreve como o sistema será distribuído fisicamente, focando no modelo Cliente-Servidor para garantir a sincronização em tempo real entre salão e cozinha.</p>
-
-<ul>
-<li><strong>Dispositivos Clientes:</strong>
-  <ul>
-    <li><strong>Interface Mobile:</strong> O processo inicia com a autenticação do usuário. Após o login, o garçom executa as atividades de seleção de mesa e montagem do pedido. A atividade "Confirmar/Enviar" representa o gatilho de integração, onde os dados são despachados via API para o processamento central.</li>
-    <li><strong>Interface Desktop:</strong> Esta parte descreve o ciclo de vida operacional na cozinha. O sistema KDS (Kitchen Display System) recebe o pedido e gerencia as atividades de "Preparação" e "Marcar Pronto". Esta transição é crítica para garantir a redução da carga cognitiva e eliminar o uso de papel.</li>
-    <li><strong>Entrega &amp; Fechamento:</strong> Descreve as atividades finais do ciclo de atendimento. A "Notificação/Retirada" serve como ponte de retorno para o salão, seguida pela "Entrega na Mesa" e a atividade financeira de "Pagamento/Fim", que culmina na liberação de recursos do sistema.</li>
-  </ul>
+<li>
+<p><strong>Atores Primários:</strong> O diagrama identifica três perfis distintos com responsabilidades segregadas: Administrador, Garçom e Cozinheiro. Essa separação é refletida na arquitetura de segurança e controle de acesso do sistema.</p>
 </li>
-<li><strong>Banco de Dados:</strong> O banco de dados será isolado da camada de aplicação para maior segurança, usando um sistema de gerenciamento relacional para garantir a consistência dos produtos cadastrados, além do registro de transações financeiras e pedidos.</li>
-<li><strong>Conectores:</strong> A comunicação entre frontend e backend será feita via Protocolo HTTP.</li>
+<li>
+<p><strong>Gestão de Pedidos (Garçom/Cozinheiro):</strong> O núcleo operacional do sistema é representado pelos casos de uso "Fazer pedido", "Visualizar pedidos" e "Atualizar status do pedido". A interação entre esses atores através do sistema mitiga falhas de comunicação e agiliza o tempo de atendimento.</p>
+</li>
+<li>
+<p><strong>Gestão Administrativa (Administrador):</strong> O ator administrador possui permissões exclusivas para a manutenção do ecossistema, incluindo "Gerenciar mesas", "Gerenciar produtos" e "Gerenciar usuários", garantindo a integridade dos dados cadastrais utilizados nas operações de salão.</p>
+</li>
+<li>
+<p><strong>Fechamento de Ciclo:</strong> O caso de uso "Fechar conta" encerra o fluxo operacional, integrando as seleções feitas pelo garçom com o cálculo financeiro final, conforme as regras de negócio estabelecidas.</p>
+</li>
 </ul>
-
-<p></p>
-Figura 5 - Diagrama de Implantação
-<img alt="Figura 5 - Diagrama de Implantação" src="../img/diagrama%20de%20implanta%C3%A7%C3%A3o.png" /></p>
+<p><strong>Relevância Arquitetural:</strong></p>
+<p>O mapeamento da Figura 4 serve como base para a definição das rotas da API no backend e para a construção das interfaces no frontend. Cada caso de uso representado foi priorizado para atender aos requisitos funcionais e garantir que a arquitetura lógica suporte a carga de trabalho simultânea de múltiplos atores.</p>
 <p><em>Fonte: Elaborado pelos autores (2026)</em></p>
+<h3 id="26-visao-de-implantacao">2.6 Visão de Implantação</h3>
+<p>A visão de implantação descreve como os componentes do sistema serão distribuídos fisicamente nos ambientes operacionais do restaurante, evidenciando o modelo Cliente-Servidor adotado e os mecanismos de comunicação que garantem a sincronização em tempo real entre salão e cozinha. A Figura 5 ilustra essa topologia, destacando os principais nós de hardware, os papéis de cada dispositivo e os protocolos de rede utilizados.</p>
+<h4 id="261-dispositivos-clientes">2.6.1 Dispositivos Clientes</h4>
+<p>A aplicação atende três perfis de uso, cada um com dispositivos e interfaces específicas:</p>
+<ul>
+<li><strong>Interface Mobile (Garçom):</strong></li>
+</ul>
+<p>Os garçons utilizam smartphones ou tablets com navegador web para acessar a interface otimizada para toque. O fluxo operacional inicia-se com a autenticação do usuário. Após o login, o garçom pode selecionar uma mesa, abrir uma comanda, adicionar ou remover itens e, por fim, enviar o pedido à cozinha. A ação "Confirmar/Enviar" dispara uma requisição HTTP para a API central, que registra o pedido e aciona a notificação assíncrona para a cozinha.</p>
+<ul>
+<li><strong>Interface Desktop (Cozinha - KDS):</strong></li>
+</ul>
+<p>A cozinha utiliza um sistema de display (Kitchen Display System - KDS), normalmente executado em tablets ou monitores fixos. Essa interface exibe a lista de pedidos ativos, organizada por status ("em preparo" e "pronto"), com destaque para o tempo de espera de cada comanda. O cozinheiro interage com o sistema para marcar um pedido como "em preparo" ou "pronto", ações que atualizam o estado e são imediatamente refletidas na interface do garçom via WebSocket. Essa transição elimina a necessidade de comandas de papel e reduz a carga cognitiva da equipe.</p>
+<ul>
+<li><strong>Interface Administrativa (Desktop/Web):</strong></li>
+</ul>
+<p>O administrador acessa uma interface web completa para gerenciar o cardápio (cadastro, edição e remoção de produtos) e configurar as mesas do salão. Esse perfil também pode gerenciar usuários e visualizar relatórios operacionais. O acesso é feito via navegador em computadores fixos ou notebooks.</p>
+<h4 id="262-servidor-de-aplicacao">2.6.2 Servidor de Aplicação</h4>
+<p>O servidor central hospeda a aplicação backend desenvolvida em Python com o framework Flask. Ele é responsável por:</p>
+<ul>
+<li>Processar as requisições REST provenientes dos clientes (autenticação, operações de comanda, gestão de produtos e mesas);</li>
+<li>Gerenciar as conexões WebSocket para atualizações em tempo real de status;</li>
+<li>Executar as regras de negócio (validações, cálculos de total, controle de fluxo de status);</li>
+<li>Coordenar o acesso ao banco de dados por meio da camada de repositórios.</li>
+</ul>
+<p>O servidor pode ser implantado em uma máquina dedicada na rede local do restaurante (para menor latência) ou em nuvem, dependendo da infraestrutura disponível. Em ambos os casos, a comunicação com os clientes é feita via protocolo HTTP/HTTPS para requisições síncronas e WebSocket para notificações assíncronas.</p>
+<h4 id="263-banco-de-dados">2.6.3 Banco de Dados</h4>
+<p>O banco de dados relacional MySQL é mantido em um servidor separado do servidor de aplicação, garantindo isolamento e segurança. Ele persiste todas as informações do sistema:</p>
+<ul>
+<li>Dados cadastrais (produtos, mesas, usuários);</li>
+<li>Comandas e itens associados;</li>
+<li>Histórico de status e transações financeiras.</li>
+</ul>
+<p>Essa separação permite políticas de backup independentes, maior controle de acesso e facilita a escalabilidade (por exemplo, migrar o banco para um ambiente com mais recursos sem afetar a camada de aplicação).</p>
+<h4 id="264-conectores-e-protocolos">2.6.4 Conectores e Protocolos</h4>
+<p>A comunicação entre os componentes segue os seguintes padrões:</p>
+<ul>
+<li><strong>Cliente ↔ Servidor de Aplicação:</strong></li>
+</ul>
+<p>Requisições síncronas (abrir comanda, adicionar item, fechar conta) utilizam o protocolo HTTP/HTTPS com uma API RESTful. As atualizações de status e notificações em tempo real são realizadas via WebSocket, que mantém um canal bidirecional persistente entre a cozinha e o servidor, e entre o servidor e os dispositivos dos garçons.</p>
+<ul>
+<li><strong>Servidor de Aplicação ↔ Banco de Dados:</strong></li>
+</ul>
+<p>A comunicação ocorre por meio de conexão TCP/IP utilizando o driver MySQL, com credenciais específicas e, preferencialmente, em uma rede interna segregada para reduzir a exposição a ataques externos.</p>
+<center>Figura 5 - Diagrama de Implantação</center>
 
+<p><img alt="Figura 5 - Diagrama de Implantação" src="../img/diagrama-de-implantacao.png" /></p>
+<p><em>Fonte: Elaborado pelos autores (2026)</em></p>
+<p>A Figura 5 representa graficamente a topologia descrita. No lado esquerdo, vemos os clientes agrupados por perfil: smartphones/tablets dos garçons, displays da cozinha e computadores administrativos. Todos se conectam, via rede local ou internet, ao servidor de aplicação central, que está ligado ao banco de dados MySQL. As setas indicam os protocolos utilizados - HTTP/HTTPS para requisições síncronas e WebSocket para o fluxo assíncrono de atualizações. Essa arquitetura garante que o envio de um pedido pelo garçom seja imediatamente refletido na tela da cozinha, e que as alterações de status feitas pelo cozinheiro cheguem em tempo real ao garçom, mantendo toda a equipe sincronizada e eliminando os atrasos e erros típicos do método manual.</p>
 <h3 id="27-restricoes-adicionais">2.7 Restrições adicionais</h3>
 <p>Esta seção detalha limitações e requisitos de qualidade que o sistema deve seguir.</p>
-
-<p><strong>Aspectos negociais:</strong></p>
-
-<p>O software será acessível diretamente pela Internet e otimizado para a rede local do estabelecimento para evitar latência no envio de pedidos para cozinha. O produto exigirá obrigatoriamente a identificação e login do usuário (funcionário do restaurante) para qualquer operação de pedido. O sistema estará preparado para atender múltiplos usuários logados simultaneamente durante horários de pico do restaurante.</p>
-
+<ul>
+<li><strong>Aspectos negociais:</strong></li>
+</ul>
+<p>O software será acessível diretamente pela Internet e otimizado para a rede local do estabelecimento para evitar latência no envio de pedidos para cozinha. O produto exigirá obrigatoriamente a identificação e login do usuário (funcionário do restaurante) para qualquer operação de pedido.</p>
+<ul>
+<li>
 <p><strong>Característica de Qualidade de Software:</strong></p>
-
+</li>
+<li>
 <p><strong>Confiabilidade:</strong> Caso haja uma queda momentânea de conexão, o sistema não deve perder dados de pedidos.</p>
-<p><strong>Usabilidade:</strong> A interface seguirá padrões de design que possibilitem o uso com apenas uma mão, no caso dos garçons, facilitando o trabalho deles.</p>
-
+</li>
+<li><strong>Usabilidade:</strong> A interface seguirá padrões de design que possibilitem o uso com apenas uma mão, no caso dos garçons, facilitando o trabalho deles.</li>
+</ul>
 <hr />
-
 <h2 id="3-bibliografia">3. Bibliografia</h2>
 <p>IBM. Modelo cliente/servidor. IBM Documentation, [s. d.]. Disponível em: <a href="https://www.ibm.com/docs/pt-br/cics-ts/5.6.0?topic=programs-clientserver-model">https://www.ibm.com/docs/pt-br/cics-ts/5.6.0?topic=programs-clientserver-model</a>. Acesso em: 14 maio 2026.</p>
+<p>SERRANO, Milene. Arquitetura de Software: Visão Geral. [S.l.]: Engenharia de Software UnB/FGA, 2026. 1 arquivo (70 slides), PDF.</p>
 
-<p>SERRANO, Milene. Arquitetura de Software: Visão Geral. [S.l.]: Engenharia de Software UnB/FGA, 2026. 1 arquivo (70 slides), PDF.</p></div>
-            </div>
-        </div>
 
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script src="../js/bootstrap.bundle.min.js"></script>
-        <script>
-            var base_url = "..",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="../js/base.js"></script>
-        <script src="../search/main.js"></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+
+
+
+
+
+
+                
+              </article>
             </div>
-            <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-    </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
 </div>
-
-    </body>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
 </html>
