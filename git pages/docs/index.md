@@ -1,6 +1,6 @@
 # Início
 
-# Nexus Gourmet
+## Nexus Gourmet
 **Sistema de Gerenciamento de Pedidos para Restaurantes**
 
 Bem-vindo ao **Nexus Gourmet**, uma aplicação web-mobile desenvolvida para centralizar e otimizar o registro, acompanhamento e gerenciamento de pedidos em restaurantes. Nosso objetivo é eliminar a dependência de anotações manuais, reduzir erros de comunicação entre salão e cozinha e proporcionar uma experiência mais ágil e eficiente para funcionários e clientes.

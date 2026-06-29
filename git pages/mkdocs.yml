@@ -1,5 +1,6 @@
 site_name: Nexus Gourmet
 nav:
+  - Início: index.md
   - Documento de Visão: visão.md
   - Documento de Arquitetura: arquitetura.md
   - Política de Branches e Commits: politica-commits.md
