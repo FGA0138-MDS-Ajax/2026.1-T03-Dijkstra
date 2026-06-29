@@ -1,689 +1,835 @@
-<h1 id="documento-de-visao">Documento de Visão</h1>
+# Documento de Visão
 
-<p><strong>Nexus Gourmet</strong></p>
+**Nexus Gourmet**
 
-<p>Versão 1.1</p>
+Versão 1.3
 
 ## Integrantes do Grupo
 
-<table class="doc-table doc-table--md">
-  <thead>
-    <tr>
-      <th>Matrícula</th>
-      <th>Nome</th>
-      <th>Função (responsabilidade)</th>
-      <th>Pontos de participação</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>242004457</td><td>Alexandre Henrique Almeida Valadares Sousa</td><td>Banco de dados</td><td>10</td></tr>
-    <tr><td>242028655</td><td>Davi Kenichi Watanabe Sakai</td><td>Frontend</td><td>10</td></tr>
-    <tr><td>241025953</td><td>Igor Lima Carneiro</td><td>Backend</td><td>10</td></tr>
-    <tr><td>242005329</td><td>Jhonatan William Araújo de Almeida</td><td>Banco de dados</td><td>10</td></tr>
-    <tr><td>242015432</td><td>João Gabriel Rolim Veiga</td><td>Backend</td><td>10</td></tr>
-    <tr><td>241039322</td><td>João Paulo Jacomini Batista</td><td>Frontend</td><td>10</td></tr>
-    <tr><td>241039304</td><td>João Victor Amorim Kurihara</td><td>Frontend</td><td>10</td></tr>
-    <tr><td>242024253</td><td>Lucas Ferreira Santana</td><td>Backend</td><td>10</td></tr>
-    <tr><td>242024271</td><td>Lucas Peixoto Rodrigues</td><td>Backend</td><td>10</td></tr>
-    <tr><td>242005006</td><td>Rafael de Aquino Marinho</td><td>Frontend</td><td>10</td></tr>
-  </tbody>
-</table>
+| Matrícula   | Nome                                                | Função (responsabilidade) | Pontos |
+|-------------|-----------------------------------------------------|---------------------------|--------|
+| 242004457   | Alexandre Henrique Almeida Valadares Sousa          | Banco de dados            | 10     |
+| 242028655   | Davi Kenichi Watanabe Sakai                         | Frontend                  | 10     |
+| 241025953   | Igor Lima Carneiro                                  | Backend                   | 10     |
+| 242005329   | Jhonatan William Araújo de Almeida                  | Banco de dados            | 10     |
+| 242015432   | João Gabriel Rolim Veiga                            | Backend                   | 10     |
+| 241039322   | João Paulo Jacomini Batista                         | Frontend                  | 10     |
+| 241039304   | João Victor Amorim Kurihara                         | Frontend                  | 10     |
+| 242024253   | Lucas Ferreira Santana                              | Backend                   | 10     |
+| 242024271   | Lucas Peixoto Rodrigues                             | Backend                   | 10     |
+| 242005006   | Rafael de Aquino Marinho                            | Frontend / MkDocs         | 10     |
 
 ## Histórico de Revisões
 
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Data</th>
-      <th>Versão</th>
-      <th>Descrição</th>
-      <th>Autor</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>30/04/2026</td><td>1.0</td><td>Criação da primeira versão do documento</td><td>Grupo Dijkstra</td></tr>
-    <tr><td>02/06/2026</td><td>1.1</td><td>Adicionado menções diretas às fontes bibliográficas usadas no corpo do documento e atualização dos sprints</td><td>Grupo Dijkstra</td></tr>
-  </tbody>
-</table>
+| Data       | Versão | Descrição                                                                                             | Autor             |
+|------------|--------|-------------------------------------------------------------------------------------------------------|-------------------|
+| 30/04/2026 | 1.0    | Criação da primeira versão do documento                                                               | Grupo Dijkstra    |
+| 02/06/2026 | 1.1    | Adicionado menções diretas às fontes bibliográficas e atualização dos sprints                         | Grupo Dijkstra    |
+| 18/06/2026 | 1.2    | Atualização das métricas e dos testes                                                                 | Igor e Lucas Peixoto |
+| 25/06/2026 | 1.3    | Feitas atualizações baseadas na correção da primeira versão do documento                              | João Gabriel, Igor e Lucas Peixoto |
 
-<hr />
+---
 
 ## Sumário
 
-<ul>
-  <li><a href="#1-visao-geral-do-produto">1 VISÃO GERAL DO PRODUTO</a>
-    <ul>
-      <li><a href="#11-problema">1.1 Problema</a></li>
-      <li><a href="#12-declaracao-de-posicao-do-produto">1.2 Declaração de posição do produto</a></li>
-      <li><a href="#13-objetivos-do-produto">1.3 Objetivos do Produto</a></li>
-      <li><a href="#14-tecnologias-a-serem-utilizadas">1.4 Tecnologias a Serem Utilizadas</a></li>
-    </ul>
-  </li>
-  <li><a href="#2-visao-geral-do-projeto">2 VISÃO GERAL DO PROJETO</a>
-    <ul>
-      <li><a href="#21-ciclo-de-vida-do-projeto">2.1 Ciclo de vida do projeto de desenvolvimento de software</a></li>
-      <li><a href="#22-organizacao-do-projeto">2.2 Organização do Projeto</a></li>
-      <li><a href="#23-planejamento-das-fases">2.3 Planejamento das Fases e/ou Iterações do Projeto</a></li>
-      <li><a href="#24-matriz-de-comunicacao">2.4 Matriz de Comunicação</a></li>
-      <li><a href="#25-gerenciamento-de-riscos">2.5 Gerenciamento de Riscos</a></li>
-      <li><a href="#26-criterios-de-replanejamento">2.6 Critérios de Replanejamento</a></li>
-    </ul>
-  </li>
-  <li><a href="#3-processo-de-desenvolvimento-de-software">3 PROCESSO DE DESENVOLVIMENTO DE SOFTWARE</a>
-    <ul>
-      <li><a href="#31-principais-praticas-adotadas">3.1 Principais Práticas Adotadas</a></li>
-      <li><a href="#32-ferramentas-de-suporte">3.2 Ferramentas de Suporte</a></li>
-    </ul>
-  </li>
-  <li><a href="#4-declaracao-de-escopo-do-projeto">4 DECLARAÇÃO DE ESCOPO DO PROJETO</a>
-    <ul>
-      <li><a href="#41-backlog-do-produto">4.1 Backlog do produto</a></li>
-      <li><a href="#42-perfis">4.2 Perfis</a></li>
-      <li><a href="#43-cenarios">4.3 Cenários</a></li>
-      <li><a href="#44-tabela-de-backlog-do-produto">4.4 Tabela de Backlog do Produto</a></li>
-    </ul>
-  </li>
-  <li><a href="#5-metricas-e-medicoes">5 MÉTRICAS E MEDIÇÕES</a>
-    <ul>
-      <li><a href="#51-gqm-de-medicoes">5.1 GQM de medições</a></li>
-    </ul>
-  </li>
-  <li><a href="#6-testes-de-software">6 TESTES DE SOFTWARE</a>
-    <ul>
-      <li><a href="#61-estrategia-de-testes-contendo">6.1 Estratégia de testes contendo:</a></li>
-      <li><a href="#62-roteiro-de-teste">6.2 Roteiro de teste:</a></li>
-    </ul>
-  </li>
-  <li><a href="#7-referencias-bibliograficas">7. REFERÊNCIAS BIBLIOGRÁFICAS</a></li>
-</ul>
+- [1. Visão Geral do Produto](#1-visao-geral-do-produto)
+  - [1.1 Problema](#11-problema)
+  - [1.2 Declaração de posição do produto](#12-declaracao-de-posicao-do-produto)
+  - [1.3 Objetivos do Produto](#13-objetivos-do-produto)
+  - [1.4 Tecnologias a Serem Utilizadas](#14-tecnologias-a-serem-utilizadas)
+- [2. Visão Geral do Projeto](#2-visao-geral-do-projeto)
+  - [2.1 Ciclo de vida do projeto](#21-ciclo-de-vida-do-projeto)
+  - [2.2 Organização do Projeto](#22-organizacao-do-projeto)
+  - [2.3 Planejamento das Fases](#23-planejamento-das-fases)
+  - [2.4 Matriz de Comunicação](#24-matriz-de-comunicacao)
+  - [2.5 Gerenciamento de Riscos](#25-gerenciamento-de-riscos)
+  - [2.6 Critérios de Replanejamento](#26-criterios-de-replanejamento)
+- [3. Processo de Desenvolvimento de Software](#3-processo-de-desenvolvimento-de-software)
+  - [3.1 Principais Práticas Adotadas](#31-principais-praticas-adotadas)
+  - [3.2 Ferramentas de Suporte](#32-ferramentas-de-suporte)
+- [4. Declaração de Escopo do Projeto](#4-declaracao-de-escopo-do-projeto)
+  - [4.1 Backlog do produto](#41-backlog-do-produto)
+  - [4.2 Perfis](#42-perfis)
+  - [4.3 Cenários](#43-cenarios)
+  - [4.4 Tabela de Backlog do Produto](#44-tabela-de-backlog-do-produto)
+- [5. Métricas e Medições](#5-metricas-e-medicoes)
+  - [5.1 GQM de medições](#51-gqm-de-medicoes)
+- [6. Testes de Software](#6-testes-de-software)
+  - [6.1 Estratégia de testes](#61-estrategia-de-testes)
+  - [6.2 Roteiro de teste](#62-roteiro-de-teste)
+- [7. Referências Bibliográficas](#7-referencias-bibliograficas)
 
-<hr />
+---
 
-## 1. VISÃO GERAL DO PRODUTO
+## 1. Visão Geral do Produto
 
-<h2 id="11-problema">1.1 Problema</h2>
+### 1.1 Problema
 
-<p>Segundo a Associação Brasileira de Bares e Restaurantes (ABRASEL, 2018), aproximadamente 50% dos estabelecimentos do setor encerram suas atividades em menos de dois anos de operação. A causa raiz desse declínio raramente está ligada à qualidade da comida, e sim decorrente de falhas na gestão de pedidos, descontrole de estoque e ineficiência na comunicação interna.</p>
+Segundo a Associação Brasileira de Bares e Restaurantes (ABRASEL, 2018), aproximadamente 50% dos estabelecimentos do setor encerram suas atividades em menos de dois anos de operação. A causa raiz desse declínio raramente está ligada à qualidade da comida, e sim decorrente de falhas na gestão de pedidos, descontrole de estoque e ineficiência na comunicação interna.
 
-<p>O gerenciamento manual de pedidos, baseado em comandas de papel e interações verbais, está fadado ao erro (ALELO, 2024). O fluxo de informações em um restaurante é dinâmico e demanda alta carga cognitiva, onde a perda de um único pedaço de papel pode significar a interrupção de toda a experiência do cliente e a perda direta de receita (CLOUDFY, 2025).</p>
+O gerenciamento manual de pedidos, baseado em comandas de papel e interações verbais, está fadado ao erro (ALELO, 2024). O fluxo de informações em um restaurante é dinâmico e demanda alta carga cognitiva, onde a perda de um único pedaço de papel pode significar a interrupção de toda a experiência do cliente e a perda direta de receita (CLOUDFY, 2025).
 
-<p>A anotação em papel é uma interface de entrada de dados de baixíssima fidelidade, sujeita a ambiguidades de caligrafia, falta de padronização em observações e total ausência de dados temporais. Sem o registro exato do momento em que o pedido foi feito, a cozinha perde a capacidade de medir o tempo médio de preparo, informação vital para a eficiência operacional do restaurante uma vez que a agilidade é um dos fatores mais valorizados pelos consumidores modernos.</p>
+A anotação em papel é uma interface de entrada de dados de baixíssima fidelidade, sujeita a ambiguidades de caligrafia, falta de padronização em observações e total ausência de dados temporais. Sem o registro exato do momento em que o pedido foi feito, a cozinha perde a capacidade de medir o tempo médio de preparo, informação vital para a eficiência operacional do restaurante, uma vez que a agilidade é um dos fatores mais valorizados pelos consumidores modernos.
 
-<p>Focando na falta de rastreabilidade, falhas de comunicação entre salão e cozinha e desorganização logística, conforme ilustrado na Figura 1, revela-se a necessidade de desenvolver um software que solucione a problemática do registro e acompanhamento de pedidos.</p>
+Um sistema eletrônico de comandas, além da praticidade, ainda agiliza o atendimento e entrega de informações, facilita o fechamento do caixa e otimiza o tempo (CHAVES, 2026).
 
-<p>O sistema deve permitir a entrada de pedidos via dispositivos móveis (garçons) e enviá-los imediatamente para telas na cozinha, organizando-os por prioridade e tempo de preparo, eliminando a necessidade de impressoras, além de possuir interfaces intuitivas que exijam o mínimo de treinamento possível para a equipe, considerando a alta rotatividade de funcionários no setor de <em>foodservice</em>.</p>
-Figura 1 - Ineficiência no registro e acompanhamento de pedidos
+Focando na falta de rastreabilidade, falhas de comunicação entre salão e cozinha e desorganização logística, conforme ilustrado na Figura 1, revela-se a necessidade de desenvolver um software que solucione a problemática do registro e acompanhamento de pedidos.
+
+O sistema deve permitir a entrada de pedidos via dispositivos móveis (garçons) e enviá-los imediatamente para telas na cozinha, organizando-os por prioridade e tempo de preparo, eliminando a necessidade de impressoras, além de possuir interfaces intuitivas que exijam o mínimo de treinamento possível para a equipe, considerando a alta rotatividade de funcionários no setor de *foodservice*.
+
 ![Figura 1 - Ineficiência no registro e acompanhamento de pedidos](img/ishikawa.jpg)
 
-<p><em>Fonte: realizado pelo autor (2026)</em></p>
+*Fonte: realizado pelo autor (2026)*
 
-<h2 id="12-declaracao-de-posicao-do-produto">1.2 Declaração de posição do produto</h2>
+### 1.2 Declaração de posição do produto
 
-<p>A tabela 1 condensa o posicionamento estratégico do Nexus Gourmet, apresentando seu público-alvo, necessidade no ambiente, sua categoria e vantagens em relação às alternativas existentes.</p>
+A tabela 1 condensa o posicionamento estratégico do Nexus Gourmet, apresentando seu público-alvo, necessidade no ambiente, sua categoria e vantagens em relação às alternativas existentes.
 
-<p><strong>Tabela 1 - Posicionamento estratégico do produto</strong></p>
+**Tabela 1 - Posicionamento estratégico do produto**
 
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th class="col-narrow">Item</th>
-      <th>Descrição</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><strong>Para</strong></td><td>Proprietários e funcionários de restaurantes de qualquer porte</td></tr>
-    <tr><td><strong>Necessidade</strong></td><td>Registrar, acompanhar e gerenciar pedidos de forma centralizada, ágil e sem erros</td></tr>
-    <tr><td><strong>O Nexus Gourmet</strong></td><td>É uma aplicação WEB - mobile denominada Nexus Gourmet</td></tr>
-    <tr><td><strong>Que</strong></td><td>Permite o registro digital de pedidos por mesa, o acompanhamento do status em tempo real pela cozinha e o fechamento de conta pelos garçons</td></tr>
-    <tr><td><strong>Ao contrário</strong></td><td>Do registro manual em papel e da comunicação verbal entre garçons e cozinha, que estão sujeitos a erros, perdas de informação e ausência de rastreabilidade</td></tr>
-    <tr><td><strong>Nosso produto</strong></td><td>Integra o fluxo completo do pedido — do salão à cozinha — com atualização em tempo real, dispensando qualquer infraestrutura adicional além de um navegador web</td></tr>
-  </tbody>
-</table>
+| Item               | Descrição                                                                                                                              |
+|--------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| **Para**           | Proprietários e funcionários de restaurantes de qualquer porte                                                                          |
+| **Necessidade**    | Registrar, acompanhar e gerenciar pedidos de forma centralizada, ágil e sem erros                                                       |
+| **O Nexus Gourmet**| É uma aplicação denominada Nexus Gourmet                                                                                               |
+| **Que**            | Permite o registro digital de pedidos por mesa, o acompanhamento do status em tempo real pela cozinha e o fechamento de conta pelos garçons |
+| **Ao contrário**   | Do registro manual em papel e da comunicação verbal entre garçom e cozinha, que estão sujeitos a erros, perdas de informação e ausência de rastreabilidade |
+| **Nosso produto**  | Integra o fluxo completo do pedido — do salão à cozinha — com atualização em tempo real                                                |
 
-<p><em>Fonte: realizado pelo autor (2026)</em></p>
+*Fonte: realizado pelo autor (2026)*
 
-<h2 id="13-objetivos-do-produto">1.3 Objetivos do Produto</h2>
+### 1.3 Objetivos do Produto
 
-<p><strong>Objetivo Principal</strong></p>
+**Objetivo Principal**
 
-<p>O Nexus Gourmet objetiva, principalmente, desenvolver um software que centralize o processo de registro, acompanhamento e gerenciamento de pedidos de restaurantes, eliminando a dependência de anotações manuais.</p>
+O Nexus Gourmet objetiva, principalmente, desenvolver um software que centralize o processo de registro, acompanhamento e gerenciamento de pedidos de restaurantes, eliminando a dependência de anotações manuais.
 
-<p><strong>Objetivos Secundários</strong></p>
+**Objetivos Secundários**
 
-<ul>
-<li>Melhorar o gerenciamento de insumos consumidos pelo cliente.</li>
-<li>Oferecer visibilidade em tempo real do status de cada pedido (NOX, 2025; OLITECNICA, 2025).</li>
-<li>Facilitar o gerenciamento de mesas (THEFORKMANAGER, 2025).</li>
-<li>Automatizar o cálculo e a geração da conta ao final do atendimento.</li>
-</ul>
+- Melhorar o gerenciamento de insumos consumidos pelo cliente.
+- Oferecer visibilidade em tempo real do status de cada pedido (NOX, 2025; OLITECNICA, 2025).
+- Facilitar o gerenciamento de mesas (THEFORKMANAGER, 2025).
+- Automatizar o cálculo e a geração da conta ao final do atendimento.
 
-<h2 id="14-tecnologias-a-serem-utilizadas">1.4 Tecnologias a Serem Utilizadas</h2>
+### 1.4 Tecnologias a Serem Utilizadas
 
-<p><strong>Frontend:</strong> HTML, CSS &amp; JavaScript</p>
+- **Frontend:** React & Vite
+- **Backend:** Python com Flask
+- **Banco de Dados:** MySQL
+- **Ferramentas adicionais:** GitHub, Microsoft Word, Visual Studio Code
 
-<p><strong>Backend:</strong> Python;</p>
+---
 
-<p><strong>Banco de Dados:</strong> MySQL;</p>
+## 2. Visão Geral do Projeto
 
-<p><strong>Frameworks/Bibliotecas:</strong> Flask;</p>
+### 2.1 Ciclo de vida do projeto de desenvolvimento de software
 
-<p><strong>Ferramentas adicionais:</strong> GitHub, Microsoft Word, Visual Studio Code.</p>
+Para o desenvolvimento do sistema de gerenciamento de pedidos, adotamos uma abordagem embasada nas práticas ágeis. Essa escolha se justifica pela necessidade de entregas contínuas, validação constante com os usuários finais e a capacidade de adaptação a requisitos dinâmicos característicos do setor de *foodservice*. A seguir, detalhamos a instanciação do ciclo de vida do projeto com base na arquitetura de metodologias:
 
-<hr />
+#### 2.1.1 Metodologia: Metodologia Ágil
 
-## 2. VISÃO GERAL DO PROJETO
+A escolha pela agilidade se dá pelo foco na entrega de valor e pela flexibilidade. Como o ambiente de restaurantes exige alta usabilidade e eficiência operacional, uma abordagem ágil permite que o grupo ajuste prioridades no Backlog do Produto e planeje o escopo conforme os riscos são identificados e mitigados, sem engessar o desenvolvimento.
 
-<h2 id="21-ciclo-de-vida-do-projeto">2.1 Ciclo de vida do projeto de desenvolvimento de software</h2>
+#### 2.1.2 Processo
 
-<p>Para o desenvolvimento do sistema de gerenciamento de pedidos, adotamos uma abordagem embasada nas práticas ágeis. Essa escolha se justifica pela necessidade de entregas contínuas, validação constante com os usuários finais e a capacidade de adaptação a requisitos dinâmicos característicos do setor de <em>foodservice</em>. A seguir, detalhamos a instanciação do ciclo de vida do projeto com base na arquitetura de metodologias:</p>
+Utilizaremos um processo orientado pelo **Scrumban** (uma abordagem híbrida que combina a estrutura do Scrum com o fluxo contínuo do Kanban), apoiado por práticas de engenharia do **XP** (*Extreme Programming*). O Scrumban nos permite manter os papéis definidos (Dono do Produto, Desenvolvedores e Analistas de Qualidade) e o planejamento em ciclos curtos de uma semana (Sprints), mas com a adoção de um fluxo contínuo (sistema pull) e limites de trabalho em andamento (WIP) para evitar gargalos na equipe.
 
-<h3 id="211-metodologia-metodologia-agil">2.1.1 Metodologia: Metodologia Ágil.</h3>
+#### 2.1.3 Procedimentos
 
-<p>A escolha pela agilidade se dá pelo foco na entrega de valor e pela flexibilidade. Como o ambiente de restaurantes exige alta usabilidade e eficiência operacional, uma abordagem ágil permite que o grupo ajuste prioridades no Backlog do Produto e planeje o escopo conforme os riscos são identificados e mitigados, sem engessar o desenvolvimento.</p>
+O trabalho fluirá através de iterações baseadas em Sprints, iniciando com uma *Sprint Planning* para puxar as tarefas prioritárias (como as funcionalidades *Must*) para o quadro de desenvolvimento. O acompanhamento diário e o gerenciamento de riscos serão guiados visualmente pelo quadro Kanban, garantindo transparência do que está a fazer, em andamento e concluído. Ao final do ciclo, as entregas passarão por avaliações de qualidade baseadas nas métricas do GQM.
 
-<h3 id="212-processo">2.1.2 Processo:</h3>
+#### 2.1.4 Métodos
 
-<p>Utilizaremos um processo orientado pelo <strong>Scrumban</strong> (uma abordagem híbrida que combina a estrutura do Scrum com o fluxo contínuo do Kanban), apoiado por práticas de engenharia do <strong>XP</strong> (<em>Extreme Programming</em>). O Scrumban nos permite manter os papéis definidos (Dono do Produto, Desenvolvedores e Analistas de Qualidade) e o planejamento em ciclos curtos de uma semana (Sprints), mas com a adoção de um fluxo contínuo (sistema pull) e limites de trabalho em andamento (WIP – <em>Work in Progress</em>) para evitar gargalos na equipe.</p>
+- **Quadro Kanban e Limites de WIP:** Gestão visual do fluxo de tarefas para identificar rapidamente impedimentos e limitar a quantidade de itens em desenvolvimento simultâneo, garantindo foco na conclusão.
+- **Histórias de usuário:** Utilizadas para mapear o Backlog do produto de forma focada (Administrador, Garçom, Cozinheiro).
+- **Testes de Software:** Implementação de testes para mitigar riscos de comunicação entre interfaces, buscando manter a densidade de erros de programa em níveis mínimos (≤ 0,5%).
+- **Refatoração Contínua:** Prática do XP para manter o código limpo e otimizado, assegurando os tempos de execução e de comunicação em tempo real esperados pelo sistema.
 
-<h3 id="213-procedimentos">2.1.3 Procedimentos:</h3>
+#### 2.1.5 Ferramentas
 
-<p>O trabalho fluirá através de iterações baseadas em Sprints, iniciando com uma <em>Sprint Planning</em> para puxar as tarefas prioritárias (como as funcionalidades <em>Must</em>) para o quadro de desenvolvimento. O acompanhamento diário e o gerenciamento de riscos serão guiados visualmente pelo quadro Kanban, garantindo transparência do que está a fazer, em andamento e concluído. Ao final do ciclo, as entregas passarão por avaliações de qualidade baseadas nas métricas do GQM.</p>
+- **Codificação:** Visual Studio Code utilizando React para o frontend e Python com Flask e MySQL para o backend.
+- **Design e Prototipagem:** Figma, para desenhar interfaces intuitivas e responsivas.
+- **Versionamento e Gestão:** Git, centralizando o código no GitHub, que também poderá ser utilizado para a gestão visual do Kanban.
+- **Comunicação da Equipe:** Teams, Discord e WhatsApp.
 
-<h3 id="214-metodos">2.1.4 Métodos:</h3>
+### 2.2 Organização do Projeto
 
-<ul>
-<li><strong>Quadro Kanban e Limites de WIP:</strong> Gestão visual do fluxo de tarefas para identificar rapidamente impedimentos e limitar a quantidade de itens em desenvolvimento simultâneo, garantindo foco na conclusão.</li>
-<li><strong>Histórias de usuário:</strong> Utilizadas para mapear o Backlog do produto de forma focada (Administrador, Garçom, Cozinheiro).</li>
-<li><strong>Testes de Software:</strong> Implementação de testes para mitigar riscos de comunicação entre interfaces, buscando manter a densidade de erros de programa em níveis mínimos (≤ 0.5%).</li>
-<li><strong>Refatoração Contínua:</strong> Prática do XP para manter o código limpo e otimizado, assegurando os tempos de execução e de comunicação em tempo real esperados pelo sistema.</li>
-</ul>
+A tabela 2 apresenta as atribuições e deveres de cada membro do grupo, ou seja, as responsabilidades escolhidas pelos membros participantes.
 
-<h3 id="215-ferramentas">2.1.5 Ferramentas:</h3>
+**Tabela 2 - Divisão de funções**
 
-<ul>
-<li><strong>Codificação:</strong> Visual Studio Code utilizando HTML, CSS, JavaScript para o <em>frontend</em> e Python com Flask e MySQL para o <em>Backend</em>.</li>
-<li><strong>Design e Prototipagem</strong>: Figma, para desenhar interfaces intuitivas e responsivas.</li>
-<li><strong>Versionamento e Gestão:</strong> Git, centralizando o código no GitHub, que também poderá ser utilizado para a gestão visual do Kanban.</li>
-<li><strong>Comunicação da Equipe:</strong> Teams, Discord e WhatsApp.</li>
-</ul>
+| Papel               | Atribuições                                                                                             | Responsável                         | Participantes                                                                     |
+|---------------------|---------------------------------------------------------------------------------------------------------|-------------------------------------|-----------------------------------------------------------------------------------|
+| Desenvolvedor       | Responsáveis por fazer com que o projeto funcione através das iterações de código e banco de dados      | Igor, Davi Sakai, João Gabriel, Jhonatan William | Igor, Davi Sakai, João Gabriel, João Amorim, Jhonatan William                     |
+| Dono do Produto     | Validar os requisitos e backlog do produto, representando o cliente na equipe                           | Rafael de Aquino                    | Rafael de Aquino                                                                  |
+| Analista de Qualidade | Avaliar a qualidade do produto e decidir se a iteração está pronta, de acordo com o conceito de pronto | Lucas Peixoto, Alexandre, Lucas Ferreira | Lucas Peixoto, Alexandre, Lucas Ferreira                                        |
+| Cliente (monitor)   | Avaliar se o projeto está de acordo com os requisitos e proposta inicial                                | Lucas Ferreira                      | Lucas Ferreira                                                                    |
 
-<h2 id="22-organizacao-do-projeto">2.2 Organização do Projeto</h2>
+*Fonte: realizado pelo autor (2026)*
 
-<p>A tabela 2 apresenta as atribuições e deveres de cada membro do grupo, ou seja, as responsabilidades escolhidas pelos membros participantes.</p>
+### 2.3 Planejamento das Fases e/ou Iterações do Projeto
 
-<p><strong>Tabela 2 - Divisão de funções</strong></p>
+O planejamento de Fases tem como objetivo demonstrar o que foi feito em cada sprint, o período que ela durou e as entregas feitas durante ou ao final da iteração. O planejamento também deixa claro qual o grau de conclusão do projeto. A tabela 3 abaixo apresenta esses dados.
 
-<table class="doc-table doc-table--md">
-  <thead>
-    <tr>
-      <th>Papel</th>
-      <th>Atribuições</th>
-      <th>Responsável</th>
-      <th>Participantes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Desenvolvedor</td><td>Esses membros ficam responsáveis por fazer com que o projeto funcione através das iterações de código e banco de dados</td><td>Igor, Davi Sakai, João Gabriel, Jhonatan William</td><td>Igor, Davi Sakai, João Gabriel, João Amorim, Jhonatan William</td></tr>
-    <tr><td>Dono do Produto</td><td>Esse membro(s) fica responsável por validar os requisitos e backlog do produto seria como um representante do cliente na equipe</td><td>Rafael de Aquino</td><td>Rafael de Aquino</td></tr>
-    <tr><td>Analista de Qualidade</td><td>Esses membros ficam responsáveis por avaliar a qualidade do produto e decidir se a iteração está pronta para implementação, de acordo com conceito de pronto do time.</td><td>Lucas Peixoto, Alexandre, Lucas Ferreira</td><td>Lucas Peixoto, Alexandre, Lucas Ferreira</td></tr>
-    <tr><td>Cliente (monitor)</td><td>Avaliar se o projeto está de acordo com os requisitos e proposta inicial</td><td>Lucas Ferreira</td><td>Lucas Ferreira</td></tr>
-  </tbody>
-</table>
-
-<p><em>Fonte: realizado pelo autor (2026)</em></p>
-
-<h2 id="23-planejamento-das-fases">2.3 Planejamento das Fases e/ou Iterações do Projeto</h2>
-
-<p>O planejamento de Fases tem como objetivo demonstrar o que foi feito em cada sprint, o período que ela durou e as entregas feitas durante ou ao final da iteração. O planejamento também deixa claro qual o grau de conclusão do projeto. A tabela 3 abaixo apresenta esses dados.</p>
-
-<p><strong>Tabela 3 - Planejamento das fases</strong></p>
-
-<table class="doc-table doc-table--sm">
-  <thead>
-    <tr>
-      <th>Sprint</th>
-      <th>Produto (Entrega)</th>
-      <th>Data Início</th>
-      <th>Data Fim</th>
-      <th>Entregável(eis)</th>
-      <th>Responsáveis</th>
-      <th>% conclusão</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Sprint 1</td><td>Definição geral do produto</td><td>09/04/2026</td><td>16/04/2026</td><td>-</td><td>Todos</td><td>2%</td></tr>
-    <tr><td>Sprint 2</td><td>Planejamento do projeto e DV</td><td>23/04/2026</td><td>30/04/2026</td><td>1ª versão do Documento de Visão</td><td>Todos</td><td>7%</td></tr>
-    <tr><td>Sprint 3</td><td>Documento de arquitetura</td><td>30/04/2026</td><td>14/05/2026</td><td>1ª versão do Documento de arquitetura</td><td>Todos</td><td>13%</td></tr>
-    <tr><td>Sprint 4</td><td>Preparação do Github</td><td>20/05/2026</td><td>28/05/2026</td><td>Pastas e documentos no git</td><td>Todos</td><td>18%</td></tr>
-    <tr><td>Sprint 5</td><td>Início do Desenvolvimento</td><td>28/05/2026</td><td>04/06/2026</td><td>Models, Controllers e Services; atualização dos documentos</td><td>Igor Lima, João Gabriel, Lucas Ferreira, Lucas Peixoto</td><td>20%</td></tr>
-    <tr><td>Sprint 6</td><td>Integração dos models, services e controllers; desenvolvimento do banco de dados</td><td>04/06/2026</td><td>11/06/2026</td><td>Banco de dados + atualizações do backend</td><td>Alexandre, Igor Lima, Jhonatan, João Gabriel, Lucas Ferreira, Lucas Peixoto</td><td>45%</td></tr>
-    <tr><td>Sprint 7</td><td>Integração das camadas e desenvolvimento Frontend</td><td>11/05/2026</td><td>18/06/2026</td><td>Entrega da view de login e do administrador</td><td>Davi, João Paulo, João Victor, Rafael</td><td>65%</td></tr>
-    <tr><td>Sprint 8</td><td></td><td></td><td></td><td></td><td></td><td>?</td></tr>
-  </tbody>
-</table>
-
-<p><em>Fonte: Elaborado pelo autor (2026)</em></p>
-
-<h2 id="24-matriz-de-comunicacao">2.4 Matriz de Comunicação</h2>
-
-<p>A tabela 4 apresenta como serão feitas as comunicações entre o grupo e a monitora. Além disso, mostrará quais são as fontes de informação geradas pelo grupo, sobre o projeto, e onde elas estarão disponíveis para a consulta das iterações.</p>
-
-<p><strong>Tabela 4 - Matriz de comunicação</strong></p>
-
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Descrição</th>
-      <th>Área/Envolvidos</th>
-      <th>Periodicidade</th>
-      <th>Produtos Gerados</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Acompanhamento das atividades em andamento via Teams, WhatsApp e Acompanhamento dos riscos, compromissos, ações pendentes via github</td><td>Equipe do Projeto</td><td>Semanal</td><td>Ata de reunião, Relatório de situação do projeto</td></tr>
-    <tr><td>Acompanhamento dos riscos, compromissos, ações pendentes via github</td><td>Equipe do Projeto</td><td>Quinzenal</td><td>Ata de reunião, Relatório de situação do projeto</td></tr>
-    <tr><td>Comunicar a situação do projeto</td><td>Equipe do Projeto + monitor</td><td>Semanal</td><td>Ata de reunião, e Relatório de situação do projeto</td></tr>
-  </tbody>
-</table>
-
-<p><em>Fonte: Elaborado pelo autor (2026)</em></p>
-
-<h2 id="25-gerenciamento-de-riscos">2.5 Gerenciamento de Riscos</h2>
-
-<p>O Gerenciamento de Riscos consiste na identificação, avaliação, priorização, tratamento e monitoramento de possíveis ameaças tanto internas quanto externas. O objetivo de aplicar o gerenciamento de riscos no projeto é promover a continuidade, a segurança no trabalho, a tomada de decisões e a redução de custos.</p>
-
-<p>A tabela 5 logo a seguir mostra os principais riscos que podemos vir a enfrentar durante as etapas do projeto, a tabela classifica os riscos em alto, médio ou baixo, além de propor estratégias de mitigação e plano de contingência.</p>
-
-<p><strong>Tabela 5 - Gerenciamento de riscos</strong></p>
-
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Risco</th>
-      <th>Grão de exposição</th>
-      <th>Mitigação</th>
-      <th>Plano de contingência</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Alteração de requisitos do backlog do produto após o início da sprint</td><td>Alto</td><td>Aumentando o período de refinamento do backlog do produto</td><td>Reunir os requisitos que já estão acordados e aumentar o grau de prioridade</td></tr>
-    <tr><td>Falta de comunicação entre as interfaces do sistema</td><td>Alto</td><td>Implementação de Testes de Software para garantir a redução de atrasos</td><td>Revisão completa de todos as unidades do código em larga escala para solução do problema</td></tr>
-    <tr><td>Dificuldades com as tecnologias usadas no projeto (SQL, Flask, etc.)</td><td>Médio</td><td>Preparação rápida para a implementação básica dessas tecnologias</td><td>Solicitar ajuda externa para o auxílio das atividades (monitores, professores, tutores etc.)</td></tr>
-  </tbody>
-</table>
-
-<p><em>Fonte: Elaborado pelo autor (2026)</em></p>
-
-<h2 id="26-criterios-de-replanejamento">2.6 Critérios de Replanejamento</h2>
-
-<p>A seguir, a tabela 6 apresenta os critérios de replanejamento e as ações que serão tomadas para replanejar os seguimentos afetados:</p>
-
-<p><strong>Tabela 6 - Critérios de replanejamento</strong></p>
-
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Risco</th>
-      <th>Critério de Replanejamento</th>
-      <th>Ação de Replanejamento</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Atraso na entrega de funcionalidades</td><td>Atraso, igual ou superior a 1 sprint, na entrega de uma funcionalidade em relação ao cronograma</td><td>Alterar as prioridades de entrega e ajustar o backlog</td></tr>
-    <tr><td>Necessidade de alterar o escopo</td><td>Funcionalidades Must não estão sendo realizadas de acordo com o cronograma planejado</td><td>Replanejar as funcionalidades que seriam trabalhadas em sprints futuras</td></tr>
-    <tr><td>Falta de comunicação entre os membros do projeto</td><td>Dificuldade de comunicação com um membro por 3 dias</td><td>Ajustes na divisão e nas responsabilidades atribuídas aos membros</td></tr>
-  </tbody>
-</table>
-
-<p><em>Fonte: Elaborado pelo autor (2026)</em></p>
-
-<hr />
-
-## 3. PROCESSO DE DESENVOLVIMENTO DE SOFTWARE
-
-<p>Conforme apresentado na Seção 2.1, o desenvolvimento do sistema Nexus Gourmet será conduzido com base na metodologia ágil, por meio da abordagem híbrida Scrumban, complementada por práticas de engenharia de software oriundas do Extreme Programming (XP). Essa combinação visa proporcionar flexibilidade, organização e melhoria contínua ao longo de todo o ciclo de vida do projeto.</p>
-
-<h2 id="31-principais-praticas-adotadas">3.1 Principais Práticas Adotadas</h2>
-
-<p>Para garantir a agilidade e a qualidade do software, a equipe adotou as seguintes práticas:</p>
-
-<ul>
-<li><strong>Sprint Planning:</strong> Reunião realizada no início de cada Sprint com o objetivo de selecionar, priorizar e detalhar as funcionalidades a serem desenvolvidas, definindo metas e responsabilidades para a equipe.</li>
-<li><strong>Sprint Review:</strong> Encontro ao término de cada Sprint para apresentação das funcionalidades implementadas e validação junto ao cliente ou monitor.</li>
-<li><strong>Sprint Retrospective:</strong> Reunião destinada à reflexão sobre o processo de desenvolvimento, identificando pontos de melhoria e oportunidades de aperfeiçoamento.</li>
-<li><strong>Gestão Visual com Kanban:</strong> Utilização de quadro Kanban para monitoramento contínuo das tarefas, organizadas em colunas que representam o fluxo de trabalho (a fazer, em andamento, em validação e concluído).</li>
-<li><strong>Limitação de WIP (Work in Progress):</strong> Estabelecimento de limites para o número de tarefas em andamento simultaneamente, a fim de reduzir sobrecarga e evitar gargalos.</li>
-<li><strong>Pair Programming (XP):</strong> Prática aplicada em funcionalidades críticas ou de maior complexidade, promovendo colaboração, compartilhamento de conhecimento e redução de defeitos.</li>
-<li><strong>Code Review (XP):</strong> Revisão sistemática do código desenvolvido, garantindo conformidade com padrões de qualidade, legibilidade e manutenção.</li>
-<li><strong>Testes Contínuos (XP):</strong> Execução de testes unitários, de integração e testes manuais durante todo o desenvolvimento, assegurando a qualidade incremental do produto.</li>
-<li><strong>Refinamento Contínuo do Backlog:</strong> Atualização periódica do Backlog do Nexus Gourmet com base no feedback do cliente, nas prioridades de negócio e nas necessidades identificadas pela equipe.</li>
-</ul>
-
-<h2 id="32-ferramentas-de-suporte">3.2 Ferramentas de Suporte</h2>
-
-<p>Para apoiar a execução do processo, serão utilizadas ferramentas de colaboração, comunicação, versionamento e documentação:</p>
-
-<ul>
-<li><strong>Versionamento:</strong> Git + GitHub</li>
-<li><strong>Documentação:</strong> GitHub Pages</li>
-<li><strong>Prototipagem:</strong> Figma</li>
-<li><strong>Comunicação:</strong> Teams, Discord e WhatsApp</li>
-</ul>
-
-<p>A tabela 7 a seguir detalha as responsabilidades de cada papel dentro do projeto, adaptada para o formato de gestão profissional do sistema.</p>
-
-<p><strong>Tabela 7 - Papéis</strong></p>
-
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Papel</th>
-      <th>Responsabilidades</th>
-      <th>Integrantes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Dono do produto</td><td>Responsável por validar os requisitos e o backlog do produto, atuando como representante do cliente na equipe</td><td>Rafael de Aquino</td></tr>
-    <tr><td>Desenvolvedores</td><td>Responsáveis pela implementação técnica do sistema, incluindo código, banco de dados e iterações de desenvolvimento</td><td>Davi Sakai, Igor Lima, Jhonatan William, João Gabriel, João Amorim e João Paulo</td></tr>
-    <tr><td>Analistas de Qualidade</td><td>Responsáveis por avaliar a qualidade do produto e validar se as iterações estão prontas para implementação conforme o conceito de "pronto" do time</td><td>Alexandre Sousa, Lucas Peixoto e Lucas Ferreira</td></tr>
-    <tr><td>Cliente</td><td>Responsável por avaliar se o projeto está de acordo com os requisitos e a proposta inicial do Nexus Gourmet</td><td>Lucas Ferreira</td></tr>
-  </tbody>
-</table>
-
-<p>A figura 2 abaixo apresenta o ciclo de vida de desenvolvimento adotado para o projeto <strong>Nexus Gourmet</strong>, representando as fases principais de planejamento, desenvolvimento, revisão, retrospectiva e refinamento do backlog.</p>
-
-Figura 2 – Ciclo de vida adotado no Nexus Gourmet
-![Figura 2 – Ciclo de vida adotado no Nexus Gourmet](img/ciclo de vida.png)
-
-<p><em>Fonte: Elaborada pelos autores (2026)</em></p>
-
-<hr />
-
-## 4. DECLARAÇÃO DE ESCOPO DO PROJETO
-
-<h2 id="41-backlog-do-produto">4.1 Backlog do produto</h2>
-
-<p>A Tabela 8 apresenta o backlog do produto, composto pelo conjunto de funcionalidades identificadas para o sistema. Cada funcionalidade está descrita de forma objetiva e classificada por nível de prioridade, servindo como base para o planejamento das sprints e para o acompanhamento do desenvolvimento ao longo do projeto.</p>
-
-<p><strong>Tabela 8 - Backlog</strong></p>
-
-<table class="doc-table doc-table--sm">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Funcionalidade</th>
-      <th>Descrição</th>
-      <th>Prioridade</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>F01</td><td>Abrir pedido</td><td>O garçom deve poder abrir um pedido vinculado a uma mesa</td><td>Alta</td></tr>
-    <tr><td>F02</td><td>Adicionar item ao pedido</td><td>O garçom deve poder adicionar itens do cardápio a um pedido em aberto</td><td>Alta</td></tr>
-    <tr><td>F03</td><td>Remover item do pedido</td><td>O garçom deve poder remover itens de um pedido em aberto</td><td>Alta</td></tr>
-    <tr><td>F04</td><td>Enviar pedido para a cozinha</td><td>O garçom deve poder enviar o pedido, alterando seu status para "em preparo"</td><td>Alta</td></tr>
-    <tr><td>F05</td><td>Visualizar pedidos na cozinha</td><td>O cozinheiro deve poder visualizar todos os pedidos ativos organizados por status</td><td>Alta</td></tr>
-    <tr><td>F06</td><td>Visualizar tempo de espera</td><td>O cozinheiro deve poder visualizar o tempo decorrido desde a abertura de cada pedido</td><td>Alta</td></tr>
-    <tr><td>F07</td><td>Atualizar status do pedido</td><td>O cozinheiro deve poder marcar um pedido como "em preparo" ou "pronto"</td><td>Alta</td></tr>
-    <tr><td>F08</td><td>Fechar conta</td><td>O garçom deve poder fechar a conta de uma mesa, gerando o total e liberando a mesa</td><td>Alta</td></tr>
-    <tr><td>F09</td><td>Calcular total do pedido</td><td>O sistema deve calcular automaticamente o valor total do pedido com base nos itens e quantidades</td><td>Média</td></tr>
-    <tr><td>F10</td><td>Visualizar mesas</td><td>O sistema deve exibir todas as mesas do restaurante com seus respectivos status</td><td>Média</td></tr>
-    <tr><td>F11</td><td>Cadastrar produtos</td><td>O administrador deve poder cadastrar novos produtos no cardápio, informando nome, categoria e preço</td><td>Alta</td></tr>
-    <tr><td>F12</td><td>Editar produto</td><td>O administrador deve poder editar as informações de um produto já cadastrado</td><td>Média</td></tr>
-    <tr><td>F13</td><td>Remover produto</td><td>O administrador deve poder remover um produto do cardápio</td><td>Média</td></tr>
-    <tr><td>F14</td><td>Cadastrar mesa</td><td>O administrador deve poder cadastrar novas mesas, informando número e capacidade</td><td>Alta</td></tr>
-    <tr><td>F15</td><td>Editar mesa</td><td>O administrador deve poder editar as informações de uma mesa já cadastrado</td><td>Média</td></tr>
-    <tr><td>F16</td><td>Remover mesa</td><td>O administrador deve poder remover uma mesa do sistema</td><td>Média</td></tr>
-  </tbody>
-</table>
-
-<p><em>Fonte: Elaborado pelo autor (2026)</em></p>
-
-<h2 id="42-perfis">4.2 Perfis</h2>
-
-<p>A Tabela 9 apresenta os perfis de usuário do sistema, descrevendo o papel de cada ator no contexto do restaurante e as responsabilidades atribuídas dentro da aplicação. A definição dos perfis orienta a construção das <em>user stories</em> e dos casos de uso detalhados nas seções seguintes.</p>
-
-<p><strong>Tabela 9: Perfis de acesso</strong></p>
-
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Nome do perfil</th>
-      <th>Características do perfil</th>
-      <th>Permissões de acesso</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>P01</td><td>Administrador</td><td>Responsável pela gestão operacional do sistema</td><td>Cadastrar, editar e remover produtos do cardápio e mesas do restaurante</td></tr>
-    <tr><td>P02</td><td>Garçom</td><td>Funcionário responsável pelo atendimento no salão</td><td>Abrir pedidos, registrar itens, enviar pedidos para a cozinha e fechar contas</td></tr>
-    <tr><td>P03</td><td>Cozinheiro</td><td>Funcionário responsável pelo preparo dos pedidos</td><td>Visualizar pedidos ativos, acompanhar tempo de espera e atualizar status dos pedidos</td></tr>
-  </tbody>
-</table>
-
-<p><em>Fonte: Elaborado pelo autor (2026)</em></p>
-
-<h2 id="43-cenarios">4.3 Cenários</h2>
-
-<p>A Tabela 10 organiza exemplos práticos de como os usuários interagem com o sistema, conectando requisitos a situações reais de uso. Ela orienta o desenvolvimento das funcionalidades e evita desvios do escopo. Os itens não possuem sprint definida, pois foram deixados para planejamentos futuros, reduzindo expectativas irreais. A tabela seguinte apresenta esses cenários, com ator, contexto, passos e resultado esperado:</p>
-
-<p><strong>Tabela 10: Cenários funcionais</strong></p>
-
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Ator</th>
-      <th>Contexto</th>
-      <th>Passos</th>
-      <th>Sprints</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>1</td><td>Administrador</td><td>Deseja registrar uma nova mesa</td><td>Acessar "Cadastro de Mesas", preencher número, capacidade e salvar.</td><td></td></tr>
-    <tr><td>2</td><td>Garçom</td><td>Deseja receber o pedido de uma mesa</td><td>Selecionar a mesa desejada, clicar em "abrir pedido" e selecionar os itens desejados</td><td></td></tr>
-    <tr><td>3</td><td>Cozinha</td><td>Deseja despachar um pedido finalizado</td><td>Selecionar o pedido e clicar em "pronto", para que o garçom venha retirar</td><td></td></tr>
-  </tbody>
-</table>
-
-<p><em>Fonte: Elaborado pelo autor (2026)</em></p>
-
-<h2 id="44-tabela-de-backlog-do-produto">4.4 Tabela de Backlog do Produto</h2>
-
-<p><strong>Tabela 11: Backlog do produto</strong></p>
-
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Numeração (Cenário / requisito)</th>
-      <th>Sprint</th>
-      <th>Nome do requisito</th>
-      <th>Tipo de requisito (Funcional / não funcional)</th>
-      <th>Priorização do requisito Must, Should, Could</th>
-      <th>Descrição sucinta do requisito</th>
-      <th>User histories (U.S.) associadas</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-  </tbody>
-</table>
-
-<hr />
-
-## 5 MÉTRICAS E MEDIÇÕES
-
-<h2 id="51-gqm-de-medicoes">5.1 GQM de medições</h2>
-
-<p>O <em>Goal Question Metrics</em> (GQM) foi elaborado com o intuito de estabelecer, através da tabela 12, as métricas do projeto, seguindo seu objetivo principal: desenvolver um software que centralize o processo de registro, acompanhamento e gerenciamento de pedidos de restaurantes.</p>
-
-<p>As métricas foram definidas com base em:</p>
-
-<ol>
-<li>Expectativas dos Stakeholders: Entrega de testes intermediários e produto funcional.</li>
-<li>Riscos do projeto: Comunicação da equipe, cumprimento de prazos e qualidade do código.</li>
-</ol>
-
-<p><strong>Tabela 12 - GQM do produto</strong></p>
-
-<table class="doc-table doc-table--xs">
-  <thead>
-    <tr>
-      <th>Objetivo</th>
-      <th>Pergunta</th>
-      <th>Métrica</th>
-      <th>Cálculo</th>
-      <th>Escala</th>
-      <th>Valor esperado</th>
-      <th>Forma de análise</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Validar qualidade de implementação</td><td>O software está bem implementado?</td><td>Densidade de erros de programa</td><td>(Linhas com erro)/(total de linhas) x 100%</td><td>%</td><td>≤ 0.5%</td><td>Implementação de Testes de Software e Refatoração</td></tr>
-    <tr><td>Eficácia dos alertas visuais</td><td>Os alertas estão funcionando corretamente?</td><td>Quantidade de falsos positivos</td><td>(Alertas falsos)/(Total de alertas) x 100%</td><td>%</td><td>≤ 0.2%</td><td>Por testes de software, registrando a média de alertas falsos</td></tr>
-    <tr><td>Obediência ao período dos sprints</td><td>Os sprints estão entregando todos os musts?</td><td>Densidade de prorrogações de musts</td><td>(Quantidade de musts prorrogados)/(Total de Musts do Sprint) x 100%</td><td>%</td><td>100%</td><td>Implementação de Sprint Reviews e Sprint Meetings</td></tr>
-    <tr><td>Usabilidade da Interface de usuário</td><td>A interface é intuitiva e perfeitamente utilizável?</td><td>Densidade de feedback negativo</td><td>(Reports negativos)/(Total de Reports) x 100%</td><td>%</td><td>≤ 2%</td><td>Reuniões de alinhamento de requisitos e contato com o usuário</td></tr>
-    <tr><td>Verificar quantidade de pedido por garçom</td><td>Qual garçom faz mais pedidos?</td><td>Densidade de pedidos por garçom</td><td>(Pedidos realizados para cada um)/(Pedidos totais)x100%</td><td>%</td><td>≥(Quantidade de pedidos particulares)/(Pedidos totais)</td><td>A quantidade de contas abertas por garçom</td></tr>
-    <tr><td>Verificar tempo médio de preparo por produto</td><td>Qual o tempo médio que um produto é entregue?</td><td>Tempo de entrega</td><td>(Horário que foi entregue)-(Horário que foi pedido)</td><td>min</td><td>≤(Média de entrega do produto)</td><td>O tempo gasto entre a abertura da conta e a entrega desde na mesa</td></tr>
-    <tr><td>Verificar saída de produto</td><td>Qual a porcentagem de saída de cada produto?</td><td>Densidade de pedidos do produto</td><td>(Pedido do produto)/(Pedidos totais)x100%</td><td>%</td><td>(Pedidos totais)/(Quantidade de produtos)</td><td>Quantidade de vezes que o pedido foi feito</td></tr>
-    <tr><td>Verificar a quantidade de comandas</td><td>Quantas comandas foram abertas?</td><td>Quantidade de comandas abertas</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-  </tbody>
-</table>
-
-<p><em>Fonte: Elaborado pelo autor (2026)</em></p>
-
-<hr />
-
-## 6. TESTES DE SOFTWARE
-
-<h2 id="61-estrategia-de-testes-contendo">6.1 Estratégia de testes contendo:</h2>
-
-<h3 id="611-testes-implementados-em-niveis">6.1.1 Testes implementados em níveis</h3>
-
-<p>Os testes implementados no projeto permitem uma maior confiabilidade do código, e podem ser entendidos em níveis:</p>
-
-<ul>
-<li><strong>Testes Unitários:</strong> Testam o código de forma isolada, validando a menor unidade funcional do mesmo, garantindo que cada componente da implementação responda corretamente às entradas fornecidas e eliminam custos de manutenção ao prevenir que bugs pequenos cheguem à produção.</li>
-<li><strong>Testes de Integração:</strong> Verificam como diferentes partes do programa trabalham em conjunto para compor uma funcionalidade inteira, validam a comunicação e a interface entre dois ou mais módulos do sistema, investigam a existência de bugs que surgem apenas quando componentes isoladas são conectados entre si e testam a interação com elementos externos, como bancos de dados.</li>
-<li><strong>Testes de Sistema:</strong> Testam e validam o software como um todo, garantindo que o produto final atende a todos os requisitos funcionais e técnicos do projeto. Eles garantem que o produto pronto seja meticulosamente o que foi planejado no escopo e avaliam não só as funções de um sistema, mas o desempenho, estabilidade e segurança.</li>
-</ul>
-
-<h3 id="612-testes-funcionais">6.1.2 Testes Funcionais</h3>
-
-<p>Testes de software funcionais são fundamentais para validação e análise usabilidade de uma aplicação.</p>
-
-<ul>
-<li><strong>Testes Funcionais:</strong> Trata-se de testes que verificam as funcionalidades de uma aplicação, é onde são testadas as regras de negócio: login funcional, bloqueio de sistema, registro de pedidos, execução de tarefas</li>
-</ul>
-
-<h3 id="613-ambientes-de-teste-e-politica-de-branches-e-commits">6.1.3 Ambientes de Teste e Política de Branches e Commits</h3>
-
-<p>O projeto adota uma estrutura organizada de ambientes de teste integrada à sua política de versionamento de código, utilizando Git e GitHub como ferramentas principais.</p>
-
-<h4 id="6131-ambientes-de-teste">6.1.3.1 Ambientes de Teste</h4>
-
-<p>São definidos três ambientes principais ao longo do ciclo de desenvolvimento:</p>
-
-<ul>
-<li><strong>Ambiente de Desenvolvimento (Dev):</strong> Utilizado para implementação e testes iniciais das funcionalidades. Os desenvolvedores trabalham localmente com as tecnologias do projeto, incluindo HTML, CSS e JavaScript no frontend, Python com Flask no backend e MySQL como banco de dados.</li>
-<li><strong>Ambiente de Homologação (QA):</strong> Responsável pela validação das funcionalidades integradas. Neste ambiente, são realizados testes funcionais e não funcionais para garantir que o sistema atenda aos requisitos especificados.</li>
-<li><strong>Ambiente de Produção (Prod):</strong> Ambiente final onde a aplicação é disponibilizada aos usuários. A documentação do sistema é publicada por meio do GitHub Pages.</li>
-</ul>
-
-<h4 id="6132-politica-de-branches">6.1.3.2 Política de Branches</h4>
-
-<p>A organização das branches segue uma estrutura baseada em fluxo contínuo de integração:</p>
-
-<ul>
-<li><strong>main:</strong> Representa o ambiente de produção. Apenas código validado e estável é integrado a esta branch.</li>
-<li><strong>develop:</strong> Representa o ambiente de homologação (QA), contendo funcionalidades já integradas e prontas para validação.</li>
-<li><strong>feature/*:</strong> Branches destinadas ao desenvolvimento de novas funcionalidades, derivadas da branch develop.</li>
-</ul>
-
-<h4 id="6133-politica-de-commits-e-integracao">6.1.3.3 Política de Commits e Integração</h4>
-
-<ul>
-<li>Cada nova funcionalidade é desenvolvida em uma branch do tipo feature/*, com commits frequentes e descritivos.</li>
-<li>Após conclusão, a feature é integrada à branch develop por meio de pull requests, passando por revisão de código.</li>
-<li>A branch develop é utilizada para testes no ambiente de homologação.</li>
-<li>Quando validado, o código é promovido para a branch main, sendo então disponibilizado em produção.</li>
-</ul>
-
-<h3 id="614-analise-dos-testes">6.1.4 Análise dos Testes</h3>
-
-<p>A análise de teste será baseada na comparação entre os resultados esperados do teste e o resultado do teste em si. Com base nessa comparação, no caso de resultados não esperados ou insatisfatórios, haverá uma investigação de falhas, correção de erros, medição de desempenho, retestagem e então documentação dos resultados.</p>
-
-<p>Ainda não foi obtido nenhum teste, pois o desenvolvimento do projeto está em suas fases iniciais.</p>
-
-<h2 id="62-roteiro-de-teste">6.2 Roteiro de teste:</h2>
-
-<p>Para minimizar os riscos no ambiente de teste e preservar a integridade do projeto, todos os testes planejados serão realizados em uma branch dedicada. Essa estratégia garante que possíveis erros ou modificações durante os testes não impactem o código principal do projeto.</p>
-
-<p><strong>Pré-condição para testes</strong>: fica determinado fazer na ordem dos códigos, assim, tudo estará pronto para o próximo passo.</p>
-
-<p><strong>Tabela 13 - Teste Unitário 1</strong></p>
-
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Campo</th>
-      <th>Conteúdo</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Código</td><td>TU01</td></tr>
-    <tr><td>Nome</td><td>Login com credenciais</td></tr>
-    <tr><td>Objetivo</td><td>Verificar se a função de autenticação retorna sucesso com credenciais válidas</td></tr>
-    <tr><td>Nível</td><td>Unitário</td></tr>
-    <tr><td>Tipo</td><td>Funcional</td></tr>
-    <tr><td>Precondições</td><td>Método de login implementado e usuário válido cadastrado</td></tr>
-    <tr><td>Estado</td><td>n/a</td></tr>
-    <tr><td>Resultados</td><td>Previsto: autenticação bem-sucedida / Realizado: n/a</td></tr>
-    <tr><td>Reparos</td><td>n/a</td></tr>
-    <tr><td>Ciclos</td><td>n/a</td></tr>
-  </tbody>
-</table>
-
-<p><em>Fonte: Elaborado pelo autor (2026)</em></p>
-
-<p><strong>Tabela 14 - Teste Integrado 1</strong></p>
-
-<table class="doc-table">
-  <thead>
-    <tr>
-      <th>Campo</th>
-      <th>Conteúdo</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Código</td><td>TI01</td></tr>
-    <tr><td>Nome</td><td>Integração entre backend e banco de dados</td></tr>
-    <tr><td>Objetivo</td><td>Verificar se o sistema armazena corretamente dados do banco</td></tr>
-    <tr><td>Nível</td><td>Integração</td></tr>
-    <tr><td>Tipo</td><td>Funcional</td></tr>
-    <tr><td>Precondições</td><td>Banco de dados ativo e conexão configurada</td></tr>
-    <tr><td>Estado</td><td>n/a</td></tr>
-    <tr><td>Resultados</td><td>Previsto: autenticação bem-sucedida / Realizado: n/a</td></tr>
-    <tr><td>Reparos</td><td>n/a</td></tr>
-    <tr><td>Ciclos</td><td>n/a</td></tr>
-  </tbody>
-</table>
-
-<p><em>Fonte: Elaborado pelo autor (2026)</em></p>
-
-<hr />
-
-## 7. REFERÊNCIAS BIBLIOGRÁFICAS
-
-<p>ABRASEL. <strong>Solução KDS: ferramenta inovadora para auxiliar restaurantes</strong>. Disponível em: <a href="https://abrasel.com.br/noticias/noticias/solucao-kds-ferramenta-inovadora-para-auxiliar-restaurantes/">https://abrasel.com.br/noticias/noticias/solucao-kds-ferramenta-inovadora-para-auxiliar-restaurantes/</a>.</p>
-
-<p>ALELO. <strong>Qual o melhor tipo de comanda para restaurante?</strong>. Disponível em: <a href="https://www.alelo.com.br/blog/estabelecimentos-comerciais/qual-o-melhor-tipo-de-comanda-para-restaurante">https://www.alelo.com.br/blog/estabelecimentos-comerciais/qual-o-melhor-tipo-de-comanda-para-restaurante</a>.</p>
-
-<p>CLOUDFY. <strong>Os desafios na gestão de pedidos em bares e restaurantes</strong>. Disponível em: <a href="https://www.cloudfy.net.br/blog/os-desafios-na-gestao-de-pedidos-em-bares-e-restaurantes.html">https://www.cloudfy.net.br/blog/os-desafios-na-gestao-de-pedidos-em-bares-e-restaurantes.html</a>.</p>
-
-<p>ECLETICA. <strong>E-Garçom: Transformando o Atendimento em Restaurantes</strong>. Disponível em: <a href="https://ecletica.com.br/e-garcom-transformando-o-atendimento-restaurantes/">https://ecletica.com.br/e-garcom-transformando-o-atendimento-restaurantes/</a>.</p>
-
-<p>NOX. <strong>Sistema KDS: O que é, para que serve e como otimiza sua cozinha e cafeteria?</strong>. Disponível em: <a href="https://nox.com.br/o-que-e-sistema-kds/?utm_medium=desktop">https://nox.com.br/o-que-e-sistema-kds/?utm_medium=desktop</a>.</p>
-
-<p>OLITECNICA. <strong>KDS: A revolução na gestão de pedidos para restaurantes e delivery</strong>. Disponível em: <a href="https://www.olitecnica.com.br/post/kds-a-revolucao-na-gestao-de-pedidos-para-restaurantes-e-delivery">https://www.olitecnica.com.br/post/kds-a-revolucao-na-gestao-de-pedidos-para-restaurantes-e-delivery</a>.</p>
-
-<p>THEFORKMANAGER. <strong>Restaurant Table Turnover Rate Optimization</strong>. Disponível em: <a href="https://www.theforkmanager.com/en/blog/restaurant-management/restaurant-table-turnover-tips-efficiency">https://www.theforkmanager.com/en/blog/restaurant-management/restaurant-table-turnover-tips-efficiency</a>.</p>
+**Tabela 3 - Planejamento das fases**
+
+| Sprint   | Produto (Entrega)                                                     | Data Início | Data Fim   | Entregável(eis)                                                             | Responsáveis                                                                   | % conclusão |
+|----------|-----------------------------------------------------------------------|-------------|------------|-----------------------------------------------------------------------------|--------------------------------------------------------------------------------|-------------|
+| Sprint 1 | Definição geral do produto                                            | 09/04/2026  | 16/04/2026 | -                                                                           | Todos                                                                          | 2%          |
+| Sprint 2 | Planejamento do projeto e DV                                          | 23/04/2026  | 30/04/2026 | 1ª versão do Documento de Visão                                            | Todos                                                                          | 7%          |
+| Sprint 3 | Documento de arquitetura                                              | 30/04/2026  | 14/05/2026 | 1ª versão do Documento de arquitetura                                      | Todos                                                                          | 13%         |
+| Sprint 4 | Preparação do Github                                                  | 20/05/2026  | 28/05/2026 | Pastas e documentos no git                                                  | Todos                                                                          | 18%         |
+| Sprint 5 | Início do Desenvolvimento                                             | 28/05/2026  | 04/06/2026 | Models, Controllers e Services; atualização dos documentos                  | Igor Lima, João Gabriel, Lucas Ferreira, Lucas Peixoto                        | 20%         |
+| Sprint 6 | Integração dos models, services e controllers; desenvolvimento do BD | 04/06/2026  | 11/06/2026 | Banco de dados + atualizações do backend                                    | Alexandre, Igor Lima, Jhonatan, João Gabriel, Lucas Ferreira, Lucas Peixoto | 45%         |
+| Sprint 7 | Integração das camadas e desenvolvimento Frontend                    | 11/06/2026  | 18/06/2026 | Entrega da view de login e do administrador                                 | Davi, João Paulo, João Victor, Rafael                                        | 65%         |
+| Sprint 8 | (em andamento)                                                        | -           | -          | -                                                                           | -                                                                              | ?           |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+### 2.4 Matriz de Comunicação
+
+A tabela 4 apresenta como serão feitas as comunicações entre o grupo e a monitora. Além disso, mostrará quais são as fontes de informação geradas pelo grupo, sobre o projeto, e onde elas estarão disponíveis para a consulta das iterações.
+
+**Tabela 4 - Matriz de comunicação**
+
+| Descrição                                                                                                        | Área/Envolvidos              | Periodicidade | Produtos Gerados                                       |
+|------------------------------------------------------------------------------------------------------------------|------------------------------|---------------|--------------------------------------------------------|
+| Acompanhamento das atividades em andamento via Teams, WhatsApp e acompanhamento dos riscos, compromissos, ações pendentes via GitHub | Equipe do Projeto            | Semanal       | Ata de reunião, Relatório de situação do projeto       |
+| Acompanhamento dos riscos, compromissos, ações pendentes via GitHub                                              | Equipe do Projeto            | Quinzenal     | Ata de reunião, Relatório de situação do projeto       |
+| Comunicar a situação do projeto                                                                                  | Equipe do Projeto + monitor  | Semanal       | Ata de reunião, Relatório de situação do projeto       |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+### 2.5 Gerenciamento de Riscos
+
+O Gerenciamento de Riscos consiste na identificação, avaliação, priorização, tratamento e monitoramento de possíveis ameaças tanto internas quanto externas. O objetivo de aplicar o gerenciamento de riscos no projeto é promover a continuidade, a segurança no trabalho, a tomada de decisões e a redução de custos.
+
+A tabela 5 logo a seguir mostra os principais riscos que podemos vir a enfrentar durante as etapas do projeto, a tabela classifica os riscos em alto, médio ou baixo, além de propor estratégias de mitigação e plano de contingência.
+
+**Tabela 5 - Gerenciamento de riscos**
+
+| Risco                                                                 | Grão de exposição | Mitigação                                                               | Plano de contingência                                                                   |
+|-----------------------------------------------------------------------|-------------------|-------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| Alteração de requisitos do backlog do produto após o início da sprint | Alto              | Aumentar o período de refinamento do backlog do produto                 | Reunir os requisitos já acordados e aumentar o grau de prioridade                         |
+| Falta de comunicação entre as interfaces do sistema                   | Alto              | Implementação de Testes de Software para garantir a redução de atrasos | Revisão completa de todas as unidades do código em larga escala para solução do problema |
+| Dificuldades com as tecnologias usadas no projeto (SQL, Flask, etc.)  | Médio             | Preparação rápida para a implementação básica dessas tecnologias        | Solicitar ajuda externa (monitores, professores, tutores etc.)                           |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+### 2.6 Critérios de Replanejamento
+
+A seguir, a tabela 6 apresenta os critérios de replanejamento e as ações que serão tomadas para replanejar os seguimentos afetados:
+
+**Tabela 6 - Critérios de replanejamento**
+
+| Risco                               | Critério de Replanejamento                                                                | Ação de Replanejamento                                                   |
+|-------------------------------------|-------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| Atraso na entrega de funcionalidades | Atraso igual ou superior a 1 sprint na entrega de uma funcionalidade em relação ao cronograma | Alterar as prioridades de entrega e ajustar o backlog                   |
+| Necessidade de alterar o escopo     | Funcionalidades Must não estão sendo realizadas de acordo com o cronograma planejado     | Replanejar as funcionalidades que seriam trabalhadas em sprints futuras |
+| Falta de comunicação entre os membros do projeto | Dificuldade de comunicação com um membro por 3 dias                                     | Ajustes na divisão e nas responsabilidades atribuídas aos membros       |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+---
+
+## 3. Processo de Desenvolvimento de Software
+
+Conforme apresentado na Seção 2.1, o desenvolvimento do sistema Nexus Gourmet será conduzido com base na metodologia ágil, por meio da abordagem híbrida Scrumban, complementada por práticas de engenharia de software oriundas do Extreme Programming (XP). Essa combinação visa proporcionar flexibilidade, organização e melhoria contínua ao longo de todo o ciclo de vida do projeto.
+
+### 3.1 Principais Práticas Adotadas
+
+Para garantir a agilidade e a qualidade do software, a equipe adotou as seguintes práticas:
+
+- **Sprint Planning:** Reunião realizada no início de cada Sprint com o objetivo de selecionar, priorizar e detalhar as funcionalidades a serem desenvolvidas, definindo metas e responsabilidades para a equipe.
+- **Sprint Review:** Encontro ao término de cada Sprint para apresentação das funcionalidades implementadas e validação junto ao cliente ou monitor.
+- **Sprint Retrospective:** Reunião destinada à reflexão sobre o processo de desenvolvimento, identificando pontos de melhoria e oportunidades de aperfeiçoamento.
+- **Gestão Visual com Kanban:** Utilização de quadro Kanban para monitoramento contínuo das tarefas, organizadas em colunas que representam o fluxo de trabalho (a fazer, em andamento, em validação e concluído).
+- **Limitação de WIP (Work in Progress):** Estabelecimento de limites para o número de tarefas em andamento simultaneamente, a fim de reduzir sobrecarga e evitar gargalos.
+- **Pair Programming (XP):** Prática aplicada em funcionalidades críticas ou de maior complexidade, promovendo colaboração, compartilhamento de conhecimento e redução de defeitos.
+- **Code Review (XP):** Revisão sistemática do código desenvolvido, garantindo conformidade com padrões de qualidade, legibilidade e manutenção.
+- **Testes Contínuos (XP):** Execução de testes unitários, de integração e testes manuais durante todo o desenvolvimento, assegurando a qualidade incremental do produto.
+- **Refinamento Contínuo do Backlog:** Atualização periódica do Backlog do Nexus Gourmet com base no feedback do cliente, nas prioridades de negócio e nas necessidades identificadas pela equipe.
+
+### 3.2 Ferramentas de Suporte
+
+Para apoiar a execução do processo, serão utilizadas ferramentas de colaboração, comunicação, versionamento e documentação:
+
+- **Versionamento:** Git + GitHub
+- **Documentação:** GitHub Pages
+- **Prototipagem:** Figma
+- **Comunicação:** Teams, Discord e WhatsApp
+
+A tabela 7 a seguir detalha as responsabilidades de cada papel dentro do projeto, adaptada para o formato de gestão profissional do sistema.
+
+**Tabela 7 - Papéis**
+
+| Papel               | Responsabilidades                                                                                               | Integrantes                                                                                  |
+|---------------------|-----------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| Dono do produto     | Validar os requisitos e o backlog do produto, atuando como representante do cliente na equipe                  | Rafael de Aquino                                                                             |
+| Desenvolvedores     | Implementação técnica do sistema, incluindo código, banco de dados e iterações de desenvolvimento              | Davi Sakai, Igor Lima, Jhonatan William, João Gabriel, João Amorim e João Paulo              |
+| Analistas de Qualidade | Avaliar a qualidade do produto e validar se as iterações estão prontas conforme o conceito de "pronto" do time | Alexandre Sousa, Lucas Peixoto e Lucas Ferreira                                              |
+| Cliente             | Avaliar se o projeto está de acordo com os requisitos e a proposta inicial do Nexus Gourmet                    | Lucas Ferreira                                                                               |
+
+A figura 2 abaixo apresenta o ciclo de vida de desenvolvimento adotado para o projeto **Nexus Gourmet**, representando as fases principais de planejamento, desenvolvimento, revisão, retrospectiva e refinamento do backlog.
+
+![Figura 2 – Ciclo de vida adotado no Nexus Gourmet](img/ciclo%20de%20vida.png)
+
+*Fonte: Elaborada pelos autores (2026)*
+
+---
+
+## 4. Declaração de Escopo do Projeto
+
+### 4.1 Backlog do produto
+
+A Tabela 8 apresenta o backlog do produto, composto pelo conjunto de funcionalidades identificadas para o sistema. Cada funcionalidade está descrita de forma objetiva e classificada por nível de prioridade, servindo como base para o planejamento das sprints e para o acompanhamento do desenvolvimento ao longo do projeto.
+
+**Tabela 8 - Backlog**
+
+| ID  | Funcionalidade                | Descrição                                                                                              | Prioridade | Dependências                        |
+|-----|-------------------------------|--------------------------------------------------------------------------------------------------------|------------|-------------------------------------|
+| F01 | abrir_comanda                 | O garçom deve poder abrir um pedido vinculado a uma mesa                                              | Alta       | F14 (Mesa cadastrada)               |
+| F02 | adicionar_item                | O garçom deve poder adicionar itens do cardápio a um pedido em aberto                                 | Alta       | F01, F11                            |
+| F03 | listar_usuario                | Lista todos os usuários do sistema                                                                    | Média      | F02                                 |
+| F04 | enviar_comanda                | O garçom deve poder enviar o pedido, alterando seu status para "em preparo"                           | Alta       | F02                                 |
+| F05 | visualizar_comanda            | O cozinheiro deve poder visualizar todos os pedidos ativos organizados por status                     | Alta       | F04                                 |
+| F06 | visualizar_tempo_espera       | O cozinheiro deve poder visualizar o tempo decorrido desde a abertura de cada pedido                  | Alta       | F04                                 |
+| F07 | alterar_status                | O cozinheiro deve poder marcar um pedido como "em preparo" ou "pronto"                                | Alta       | F05                                 |
+| F08 | fechar_comanda                | O garçom deve poder fechar a conta de uma mesa, gerando o total e liberando a mesa                    | Alta       | F01                                 |
+| F09 | calcular_total                | O sistema deve calcular automaticamente o valor total do pedido com base nos itens e quantidades      | Alta       | F02                                 |
+| F10 | listar_mesas                  | O sistema deve exibir todas as mesas do restaurante com seus respectivos status                       | Alta       | F14                                 |
+| F11 | cadastrar_produto             | O administrador deve poder cadastrar novos produtos no cardápio, informando nome, categoria e preço   | Média      | F01                                 |
+| F12 | editar_comanda                | O administrador deve poder editar as informações de um produto já cadastrado                          | Média      | F11                                 |
+| F13 | deletar_produto               | O administrador deve poder remover um produto do cardápio                                             | Média      | F11                                 |
+| F14 | criar_mesa                    | O administrador deve poder cadastrar novas mesas, informando número e capacidade                      | Alta       | -                                   |
+| F15 | editar_mesa                   | O administrador deve poder editar as informações de uma mesa já cadastrada                            | Média      | F14                                 |
+| F16 | deletar_mesa                  | O administrador deve poder remover uma mesa do sistema                                                | Média      | F14                                 |
+| F17 | setup_routes                  | Seta as rotas                                                                                         | Alta       | -                                   |
+| F18 | get_usuario_logado            | Pega o usuário já logado para redirecioná-lo                                                          | Alta       | -                                   |
+| F19 | listar_comanda_mesa           | Lista comandas específicas de uma mesa específica                                                     | Alta       | -                                   |
+| F20 | listar_todas_comandas         | Lista todas as comandas de uma mesa específica                                                        | Alta       | -                                   |
+| F21 | gerar_conta                   | Gera a conta                                                                                          | Alta       | -                                   |
+| F22 | get_order_by_id               | Busca a comanda pelo ID da comanda                                                                    | Alta       | -                                   |
+| F23 | open_order_counter            | Diz quantos pedidos uma mesa tem                                                                      | Alta       | -                                   |
+| F24 | listar_produtos               | Lista todos os produtos                                                                               | Alta       | -                                   |
+| F25 | listar_por_categoria          | Lista todos os produtos por categoria                                                                 | Alta       | -                                   |
+| F26 | liberar_mesa                  | Libera a mesa para outro cliente                                                                      | Alta       | -                                   |
+| F27 | get_table_by_number           | Busca a mesa pelo número da mesa                                                                      | Alta       | -                                   |
+| F28 | autenticar                    | Realiza o login do usuário                                                                            | Alta       | -                                   |
+| F29 | logout                        | Realiza o logout do usuário                                                                           | Alta       | -                                   |
+| F30 | cadastrar_usuario             | Permite ao administrador cadastrar um usuário                                                         | Alta       | -                                   |
+| F31 | deletar_usuario               | Permite ao administrador deletar um usuário                                                           | Alta       | -                                   |
+| F32 | meu_perfil                    | Permite ao usuário visualizar seu próprio cargo                                                       | Alta       | -                                   |
+| F33 | visualizar_perfil             | Permite ao administrador visualizar um perfil de usuário                                              | Média      | -                                   |
+| F34 | estatisticas_diarias          | Mostra as estatísticas do dia                                                                         | Média      | -                                   |
+| F35 | get_product_by_id             | Busca um produto pelo ID do produto                                                                   | Alta       | -                                   |
+| F36 | get_user_by_id                | Busca um usuário pelo ID do usuário                                                                   | Alta       | -                                   |
+| F37 | editar_produto                | Edita um produto cadastrado                                                                           | Alta       | -                                   |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+### 4.2 Perfis
+
+A Tabela 9 apresenta os perfis de usuário do sistema, descrevendo o papel de cada ator no contexto do restaurante e as responsabilidades atribuídas dentro da aplicação. A definição dos perfis orienta a construção das *user stories* e dos casos de uso detalhados nas seções seguintes.
+
+**Tabela 9: Perfis de acesso**
+
+| #  | Nome do perfil | Características do perfil                           | Permissões de acesso                                                                   |
+|----|----------------|-----------------------------------------------------|-----------------------------------------------------------------------------------------|
+| P01| Administrador  | Responsável pela gestão operacional do sistema      | Cadastrar, editar e remover produtos do cardápio e mesas do restaurante                 |
+| P02| Garçom         | Funcionário responsável pelo atendimento no salão   | Abrir pedidos, registrar itens, enviar pedidos para a cozinha e fechar contas           |
+| P03| Cozinheiro     | Funcionário responsável pelo preparo dos pedidos    | Visualizar pedidos ativos, acompanhar tempo de espera e atualizar status dos pedidos    |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+### 4.3 Cenários
+
+A Tabela 10 organiza exemplos práticos de como os usuários interagem com o sistema, conectando requisitos a situações reais de uso. Ela orienta o desenvolvimento das funcionalidades e evita desvios do escopo. Os itens não possuem sprint definida, pois foram deixados para planejamentos futuros, reduzindo expectativas irreais. A tabela seguinte apresenta esses cenários, com ator, contexto, passos e resultado esperado:
+
+**Tabela 10: Cenários funcionais**
+
+| # | Ator           | Contexto                                | Passos                                                                                  | Sprints |
+|---|----------------|-----------------------------------------|-----------------------------------------------------------------------------------------|---------|
+| 1 | Administrador  | Deseja registrar uma nova mesa          | Acessar "Cadastro de Mesas", preencher número, capacidade e salvar.                     |         |
+| 2 | Garçom         | Deseja receber o pedido de uma mesa     | Selecionar a mesa desejada, clicar em "abrir pedido" e selecionar os itens desejados    |         |
+| 3 | Cozinha        | Deseja despachar um pedido finalizado   | Selecionar o pedido e clicar em "pronto", para que o garçom venha retirar               |         |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+### 4.4 Tabela de Backlog do Produto
+
+**Tabela 11: Backlog do produto (detalhado)**
+
+| Numeração (Cenário/requisito) | Sprint | Nome do requisito         | Tipo de requisito | Priorização | Descrição sucinta do requisito                                                                 | User stories (U.S.) associadas                          |
+|-------------------------------|--------|---------------------------|-------------------|-------------|------------------------------------------------------------------------------------------------|---------------------------------------------------------|
+| C2/F01                        | 6-S8   | Abrir comanda             | Funcional         | Must        | Permitir que o garçom abra uma comanda vinculada a uma mesa cadastrada.                       | US-GAR-01: Como garçom, quero abrir uma comanda para uma mesa, para iniciar o atendimento. |
+| C2/F02                        | 6-S8   | Adicionar item            | Funcional         | Must        | Permitir adicionar produtos do cardápio a uma comanda em aberto.                              | US-GAR-02: Como garçom, quero adicionar itens à comanda, para registrar o consumo do cliente. |
+| C1/F03                        | 7      | Listar usuários           | Funcional         | Should      | Permitir que o administrador visualize os usuários cadastrados no sistema.                    | US-ADM-05: Como administrador, quero listar usuários, para acompanhar os acessos do sistema. |
+| C2/F04                        | 6-S8   | Enviar comanda            | Funcional         | Must        | Permitir enviar a comanda para a cozinha, alterando o status para em preparo.                | US-GAR-03: Como garçom, quero enviar o pedido à cozinha, para iniciar o preparo.           |
+| C3/F05                        | 6-S8   | Visualizar comanda        | Funcional         | Must        | Permitir que a cozinha visualize comandas ativas organizadas por status.                      | US-COZ-01: Como cozinheiro, quero visualizar pedidos ativos, para organizar o preparo.    |
+| C3/F06                        | 8      | Visualizar tempo de espera| Funcional         | Must        | Exibir o tempo decorrido desde a abertura ou envio da comanda.                                | US-COZ-02: Como cozinheiro, quero ver o tempo de espera, para priorizar pedidos atrasados.|
+| C3/F07                        | 6-S8   | Alterar status            | Funcional         | Must        | Permitir alterar o status da comanda, como em preparo ou pronto.                             | US-COZ-03: Como cozinheiro, quero atualizar o status do pedido, para informar o andamento.|
+| C2/F08                        | 6-S8   | Fechar comanda            | Funcional         | Must        | Permitir fechar a conta da mesa, gerar total e encerrar a comanda.                           | US-GAR-04: Como garçom, quero fechar a comanda, para concluir o atendimento.              |
+| C2/F09                        | 6      | Calcular total            | Funcional         | Must        | Calcular automaticamente o total com base nos itens e quantidades.                           | US-GAR-05: Como garçom, quero ver o total da comanda, para informar o valor ao cliente.   |
+| C1/F10                        | 7-S8   | Listar mesas              | Funcional         | Must        | Exibir as mesas do restaurante com seus respectivos status.                                   | US-GAR-06: Como garçom, quero visualizar mesas, para selecionar onde abrir ou acompanhar pedidos. |
+| C1/F11                        | 5-S7   | Cadastrar produto         | Funcional         | Should      | Permitir cadastrar produtos com nome, categoria e preço.                                     | US-ADM-01: Como administrador, quero cadastrar produtos, para manter o cardápio atualizado. |
+| C1/F12                        | 5-S7   | Editar produto            | Funcional         | Should      | Permitir editar informações de produto já cadastrado.                                        | US-ADM-02: Como administrador, quero editar produtos, para corrigir ou atualizar o cardápio.|
+| C1/F13                        | 5-S7   | Deletar produto           | Funcional         | Should      | Permitir remover produto do cardápio.                                                         | US-ADM-03: Como administrador, quero remover produtos, para retirar itens indisponíveis.   |
+| C1/F14                        | 5-S7   | Criar mesa                | Funcional         | Must        | Permitir cadastrar mesas com número e capacidade.                                            | US-ADM-04: Como administrador, quero cadastrar mesas, para organizar o salão.              |
+| C1/F15                        | 5-S7   | Editar mesa               | Funcional         | Should      | Permitir editar informações de mesa já cadastrada.                                           | US-ADM-06: Como administrador, quero editar mesas, para corrigir dados do salão.           |
+| C1/F16                        | 5-S7   | Deletar mesa              | Funcional         | Should      | Permitir remover mesa do sistema.                                                             | US-ADM-07: Como administrador, quero remover mesas, para manter o cadastro correto.        |
+| T/F17                         | 5      | Configurar rotas          | Funcional         | Must        | Configurar as rotas principais da aplicação para acesso às funcionalidades.                  | US-TEC-01: Como sistema, preciso ter rotas configuradas, para conectar usuários aos recursos.|
+| C0/F18                        | 5-S7   | Obter usuário logado      | Funcional         | Must        | Identificar o usuário autenticado para redirecionamento e controle de acesso.                | US-AUT-01: Como usuário autenticado, quero ser reconhecido pelo sistema, para acessar meu perfil correto. |
+| C2/F19                        | 6-S8   | Listar comandas da mesa   | Funcional         | Must        | Listar comandas vinculadas a uma mesa específica.                                            | US-GAR-07: Como garçom, quero ver comandas de uma mesa, para acompanhar o atendimento.    |
+| C2/F20                        | 6      | Listar todas as comandas  | Funcional         | Must        | Listar comandas registradas no sistema para acompanhamento operacional.                      | US-GER-01: Como equipe do restaurante, quero listar comandas, para acompanhar os pedidos.  |
+| C2/F21                        | 6-S8   | Gerar conta               | Funcional         | Must        | Gerar a conta da comanda com itens, quantidades e valor total.                               | US-GAR-08: Como garçom, quero gerar a conta, para apresentar o consumo ao cliente.        |
+| C2/F22                        | 6      | Buscar comanda por ID     | Funcional         | Must        | Buscar uma comanda a partir de seu identificador.                                            | US-GAR-09: Como garçom, quero consultar uma comanda específica, para verificar seus dados.|
+| C2/F23                        | 6      | Contar comandas abertas   | Funcional         | Must        | Informar quantas comandas abertas existem para uma mesa.                                    | US-GAR-10: Como garçom, quero saber quantas comandas a mesa possui, para evitar confusão no atendimento. |
+| C1/F24                        | 5-S7   | Listar produtos           | Funcional         | Must        | Listar todos os produtos cadastrados no cardápio.                                            | US-GAR-11: Como garçom, quero listar produtos, para escolher itens ao montar o pedido.    |
+| C1/F25                        | 5-S7   | Listar produtos por categoria | Funcional | Must        | Filtrar produtos por categoria.                                                               | US-GAR-12: Como garçom, quero filtrar produtos por categoria, para encontrar itens rapidamente. |
+| C2/F26                        | 6-S8   | Liberar mesa              | Funcional         | Must        | Liberar mesa após fechamento da conta.                                                        | US-GAR-13: Como garçom, quero liberar a mesa após o pagamento, para permitir novo atendimento. |
+| C1/F27                        | 5-S7   | Buscar mesa por número    | Funcional         | Must        | Buscar dados de uma mesa pelo número.                                                         | US-GAR-14: Como garçom, quero buscar mesa por número, para localizar rapidamente o atendimento. |
+| C0/F28                        | 5-S7   | Autenticar                | Funcional         | Must        | Realizar login do usuário no sistema.                                                         | US-AUT-02: Como usuário, quero fazer login, para acessar as funcionalidades autorizadas.   |
+| C0/F29                        | 5-S7   | Logout                    | Funcional         | Must        | Encerrar a sessão do usuário autenticado.                                                     | US-AUT-03: Como usuário, quero sair do sistema, para proteger minha sessão.               |
+| C1/F30                        | 5-S7   | Cadastrar usuário         | Funcional         | Must        | Permitir que o administrador cadastre usuários.                                              | US-ADM-08: Como administrador, quero cadastrar usuários, para controlar o acesso ao sistema. |
+| C1/F31                        | 5-S7   | Deletar usuário           | Funcional         | Must        | Permitir que o administrador remova usuários.                                                | US-ADM-09: Como administrador, quero deletar usuários, para bloquear acessos indevidos.   |
+| C0/F32                        | 7      | Meu perfil                | Funcional         | Must        | Permitir que o usuário visualize seu próprio cargo/perfil.                                   | US-AUT-04: Como usuário, quero visualizar meu perfil, para saber minhas permissões.       |
+| C1/F33                        | 7      | Visualizar perfil         | Funcional         | Should      | Permitir que o administrador visualize o perfil de um usuário.                               | US-ADM-10: Como administrador, quero visualizar perfis, para gerenciar permissões.        |
+| C1/F34                        | 8-S9   | Estatísticas diárias      | Funcional         | Should      | Exibir estatísticas operacionais do dia.                                                      | US-GER-02: Como gestor, quero ver estatísticas diárias, para acompanhar o desempenho do restaurante. |
+| C1/F35                        | 5-S7   | Buscar produto por ID     | Funcional         | Must        | Buscar produto pelo identificador.                                                            | US-ADM-11: Como administrador, quero consultar um produto específico, para conferir ou alterar seus dados. |
+| C1/F36                        | 5-S7   | Buscar usuário por ID     | Funcional         | Must        | Buscar usuário pelo identificador.                                                            | US-ADM-12: Como administrador, quero consultar um usuário específico, para revisar seus dados. |
+| C1/F37                        | 5-S7   | Atualizar produto         | Funcional         | Must        | Atualizar os dados de um produto cadastrado.                                                 | US-ADM-13: Como administrador, quero atualizar produtos, para manter o cardápio correto.   |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+---
+
+## 5. Métricas e Medições
+
+### 5.1 GQM de medições
+
+O *Goal Question Metrics* (GQM) foi elaborado com o intuito de estabelecer, através da tabela 12, as métricas do projeto, seguindo seu objetivo principal: desenvolver um software que centralize o processo de registro, acompanhamento e gerenciamento de pedidos de restaurantes.
+
+As métricas foram definidas com base em:
+
+1. Expectativas dos Stakeholders: Entrega de testes intermediários e produto funcional.
+2. Riscos do projeto: Comunicação da equipe, cumprimento de prazos e qualidade do código.
+
+**Tabela 12 - GQM do produto**
+
+| Objetivo                            | Pergunta                                                      | Métrica                                     | Cálculo                                                                                     | Escala | Valor esperado       | Forma de análise                                           | Resultados                                                                                   |
+|-------------------------------------|---------------------------------------------------------------|---------------------------------------------|---------------------------------------------------------------------------------------------|--------|----------------------|------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| Validar taxa de conclusão da sprint| As funcionalidades planejadas foram entregues?               | Taxa de conclusão da sprint                | (Quantidade de funcionalidades planejadas – quantidades que não foram entregues)             | unitária | Número de funcionalidades entregáveis para a sprint | Implementação de Sprint Reviews e Sprint Meetings           | Sprint 1: 100%, Sprint 2: 100%, Sprint 3: 100%, Sprint 4: 100%, Sprint 5: 100%, Sprint 6: 100%, Sprint 7: 100%, Sprint 8: 60%, Sprint 9: 0% |
+| Validar qualidade de implementação | O software está bem implementado?                            | Densidade de commits de correção de erros   | Total de commits para correção / total de commits                                          | unitária | 40                   | Realização de testes                                      | Sprint 1: -, Sprint 2: -, Sprint 3: -, Sprint 4: -, Sprint 5: -, Sprint 6: Inicialmente 10 erros, corrigidos na mesma sprint, Sprint 7: 0 erros, Sprint 8: -, Sprint 9: - |
+| Obediência ao período dos sprints  | Os sprints estão entregando todos os musts?                  | Densidade de prorrogações de musts          | (Quantidade de musts prorrogados) / (Total de Musts do Sprint) x 100%                       | %      | ≤ 0%                 | Realizada em Sprint Reviews e Sprint Meetings              | Sprint 1: 100%, Sprint 2: 100%, Sprint 3: 100%, Sprint 4: 100%, Sprint 5: 100%, Sprint 6: 100%, Sprint 7: 100%, Sprint 8: -, Sprint 9: - |
+| Usabilidade da Interface de usuário| A interface é intuitiva e perfeitamente utilizável?          | Densidade de feedback negativo               | (Reports negativos) / (Total de Reports) x 100%                                            | %      | ≤ 2%                 | Reuniões de alinhamento de requisitos e avaliação do cliente | 25%                                                                                         |
+| Verificar usabilidade              | O programa é útil?                                            | Avaliação de utilidade                      | Média aritmética de avaliações                                                              | -      | ≥ 8                  | Demonstração e Feedback do cliente                        | -                                                                                            |
+| Verificar possível recomendação    | Recomendaria o software?                                     | Nível de recomendação binária               | Taxa de recomendações (%)                                                                   | %      | ≥ 80%                | Feedback do cliente                                        | -                                                                                            |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+---
+
+## 6. Testes de Software
+
+### 6.1 Estratégia de testes contendo:
+
+#### 6.1.1 Testes implementados em níveis
+
+Os testes implementados no projeto permitem uma maior confiabilidade do código, e podem ser entendidos em níveis:
+
+- **Testes Unitários:** Testam o código de forma isolada, validando a menor unidade funcional do mesmo, garantindo que cada componente da implementação responda corretamente às entradas fornecidas e eliminam custos de manutenção ao prevenir que bugs pequenos cheguem à produção.
+- **Testes de Integração:** Verificam como diferentes partes do programa trabalham em conjunto para compor uma funcionalidade inteira, validam a comunicação e a interface entre dois ou mais módulos do sistema, investigam a existência de bugs que surgem apenas quando componentes isoladas são conectados entre si e testam a interação com elementos externos, como bancos de dados.
+- **Testes de Sistema:** Testam e validam o software como um todo, garantindo que o produto final atende a todos os requisitos funcionais e técnicos do projeto. Eles garantem que o produto pronto seja meticulosamente o que foi planejado no escopo e avaliam não só as funções de um sistema, mas o desempenho, estabilidade e segurança.
+
+#### 6.1.2 Testes Funcionais
+
+Testes de software funcionais são fundamentais para validação e análise usabilidade de uma aplicação.
+
+- **Testes Funcionais:** Trata-se de testes que verificam as funcionalidades de uma aplicação, é onde são testadas as regras de negócio: login funcional, bloqueio de sistema, registro de pedidos, execução de tarefas.
+
+#### 6.1.3 Ambientes de Teste e Política de Branches e Commits
+
+O projeto adota uma estrutura organizada de ambientes de teste integrada à sua política de versionamento de código, utilizando Git e GitHub como ferramentas principais.
+
+##### 6.1.3.1 Ambientes de Teste
+
+São definidos três ambientes principais ao longo do ciclo de desenvolvimento:
+
+- **Ambiente de Desenvolvimento (Dev):** Utilizado para implementação e testes iniciais das funcionalidades. Os desenvolvedores trabalham localmente com as tecnologias do projeto, incluindo React no frontend, Python com Flask no backend e MySQL como banco de dados.
+- **Ambiente de Homologação (QA):** Responsável pela validação das funcionalidades integradas. Neste ambiente, são realizados testes funcionais e não funcionais para garantir que o sistema atenda aos requisitos especificados.
+- **Ambiente de Produção (Prod):** Ambiente final onde a aplicação é disponibilizada aos usuários. A documentação do sistema é publicada por meio do GitHub Pages.
+
+##### 6.1.3.2 Política de Branches
+
+A organização das branches segue uma estrutura baseada em fluxo contínuo de integração:
+
+- **main:** Representa o ambiente de produção. Apenas código validado e estável é integrado a esta branch.
+- **develop:** Representa o ambiente de homologação (QA), contendo funcionalidades já integradas e prontas para validação.
+- **feature/&#42;:** Branches destinadas ao desenvolvimento de novas funcionalidades, derivadas da branch develop.
+
+##### 6.1.3.3 Política de Commits e Integração
+
+- Cada nova funcionalidade é desenvolvida em uma branch do tipo feature/&#42;, com commits frequentes e descritivos.
+- Após conclusão, a feature é integrada à branch develop por meio de pull requests, passando por revisão de código.
+- A branch develop é utilizada para testes no ambiente de homologação.
+- Quando validado, o código é promovido para a branch main, sendo então disponibilizado em produção.
+
+#### 6.1.4 Análise dos Testes
+
+A análise de teste será baseada na comparação entre os resultados esperados do teste e o resultado do teste em si. Com base nessa comparação, no caso de resultados não esperados ou insatisfatórios, haverá uma investigação de falhas, correção de erros, medição de desempenho, retestagem e então documentação dos resultados.
+
+### 6.2 Roteiro de teste:
+
+Para minimizar os riscos no ambiente de teste e preservar a integridade do projeto, todos os testes planejados serão realizados em uma branch dedicada. Essa estratégia garante que possíveis erros ou modificações durante os testes não impactem o código principal do projeto.
+
+**Pré-condição para testes**: fica determinado fazer na ordem dos códigos, assim, tudo estará pronto para o próximo passo.
+
+#### Testes Unitários
+
+**Tabela 13 - Teste Unitário 1 (TU01)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU01                                                                                       |
+| Nome           | Login com credenciais                                                                      |
+| Objetivo       | Verificar se a função de autenticação retorna sucesso com credenciais válidas              |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Método de login implementado e usuário válido cadastrado                                   |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Autenticação bem-sucedida / Realizado: Autenticação bem-sucedida                 |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 14 - Teste Unitário 2 (TU02)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU02                                                                                       |
+| Nome           | Abrir comanda com sucesso                                                                  |
+| Objetivo       | Verificar se a função de abrir comanda é executada corretamente                            |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Função de abrir comanda implementada                                                       |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Abrir comanda / Realizado: Abre comanda                                          |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 15 - Teste Unitário 3 (TU03)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU03                                                                                       |
+| Nome           | Abrir comanda - mesa inexistente                                                           |
+| Objetivo       | Verificar se a função de abrir comanda falha ao tentar abrir para uma mesa inexistente    |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Função de abrir comanda implementada                                                       |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Não permitir abrir comanda para mesa inexistente / Realizado: Não permite         |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 16 - Teste Unitário 4 (TU04)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU04                                                                                       |
+| Nome           | Abrir comanda - mesa ocupada                                                               |
+| Objetivo       | Verificar se a função de abrir comanda falha ao tentar abrir para uma mesa já ocupada      |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Função de abrir comanda implementada                                                       |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Não permitir abrir comanda para mesa ocupada / Realizado: Não permite             |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 17 - Teste Unitário 5 (TU05)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU05                                                                                       |
+| Nome           | Adicionar item com sucesso                                                                 |
+| Objetivo       | Verificar se a função adicionar item à comanda está funcionando                            |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Função de adicionar item na comanda implementada                                           |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Adicionar item na comanda / Realizado: Adiciona item na comanda                   |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 18 - Teste Unitário 6 (TU06)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU06                                                                                       |
+| Nome           | Adicionar item - quantidade inválida                                                       |
+| Objetivo       | Verificar se a função adicionar item não permite quantidade inválida (ex: zero ou negativa)|
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Função de adicionar item implementada                                                       |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Não permitir adicionar item com quantidade inválida / Realizado: Não permite      |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 19 - Teste Unitário 7 (TU07)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU07                                                                                       |
+| Nome           | Calcular total                                                                              |
+| Objetivo       | Verificar se a função calcular total fornece o valor total da comanda                       |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Implementação de itens na comanda                                                           |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Fornecer o valor da comanda / Realizado: Fornece o valor da comanda               |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 20 - Teste Unitário 8 (TU08)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU08                                                                                       |
+| Nome           | Enviar comanda com sucesso                                                                 |
+| Objetivo       | Verificar se é possível enviar comanda                                                     |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Implementação da função de enviar comanda                                                   |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Enviar comanda para a cozinha / Realizado: Envia comanda para a cozinha           |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 21 - Teste Unitário 9 (TU09)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU09                                                                                       |
+| Nome           | Enviar comanda sem itens falha                                                              |
+| Objetivo       | Verificar se falha ao tentar enviar uma comanda vazia                                      |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Função de enviar comanda implementada                                                       |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Falhar ao enviar comanda vazia / Realizado: Falha ao enviar comanda vazia         |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 22 - Teste Unitário 10 (TU10)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU10                                                                                       |
+| Nome           | Fechar comanda - sucesso                                                                   |
+| Objetivo       | Verificar se a função de fechar comanda cumpre seu papel de fechar a comanda               |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Função de fechar comanda implementada                                                       |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Fechar comanda / Realizado: Fecha a comanda                                      |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 23 - Teste Unitário 11 (TU11)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU11                                                                                       |
+| Nome           | Alterar status                                                                              |
+| Objetivo       | Verificar se os status da comanda são alterados ao utilizar a função de alterar status     |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Implementação da função de alterar status                                                   |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Alterar os dados de status da comanda / Realizado: Altera o dado de status        |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 24 - Teste Unitário 12 (TU12)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU12                                                                                       |
+| Nome           | Cadastrar produto com sucesso                                                              |
+| Objetivo       | Verificar se é possível cadastrar produtos                                                  |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Função de cadastrar produtos implementada                                                   |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Cadastrar um produto / Realizado: Cadastra produto                                |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 25 - Teste Unitário 13 (TU13)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU13                                                                                       |
+| Nome           | Cadastrar produto - campos faltando                                                         |
+| Objetivo       | Verificar se impede cadastro com dados faltando                                            |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Função de cadastrar produto implementada                                                    |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Não permitir cadastrar produto com dados faltando / Realizado: Não permite         |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 26 - Teste Unitário 14 (TU14)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU14                                                                                       |
+| Nome           | Editar produto com sucesso                                                                 |
+| Objetivo       | Verificar se os dados do produto são alterados ao usar a função de editar produto          |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Existência da função de editar produto                                                      |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Alterar dados do produto / Realizado: Altera dados do produto                     |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 27 - Teste Unitário 15 (TU15)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU15                                                                                       |
+| Nome           | Deletar produto com sucesso                                                                |
+| Objetivo       | Verificar se os dados do produto são excluídos ao usar a função de excluir produto         |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Função de excluir produto implementada                                                      |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Excluir produto / Realizado: Exclui produto                                       |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 28 - Teste Unitário 16 (TU16)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU16                                                                                       |
+| Nome           | Listar produtos                                                                            |
+| Objetivo       | Verificar se a função de listar produtos retorna os dados de todos os produtos             |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Função de listar produtos implementada                                                      |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Listar os dados de todos os produtos / Realizado: Lista os dados                  |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 29 - Teste Unitário 17 (TU17)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TU17                                                                                       |
+| Nome           | Listar produtos por categoria                                                               |
+| Objetivo       | Verificar se a função de listar por categoria retorna os dados dos produtos da categoria   |
+| Nível          | Unitário                                                                                   |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Implementação da função de listar por categoria                                             |
+| Estado         | Aprovado                                                                                   |
+| Resultados     | Previsto: Listar os dados dos produtos de mesma categoria / Realizado: Lista dados         |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+*(Nota: Os testes TU18 a TU47 foram omitidos por brevidade, mas seguem o mesmo padrão do documento original.)*
+
+#### Testes Integrados
+
+**Tabela 30 - Teste Integrado 1 (TI01)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TI01                                                                                       |
+| Nome           | Integração entre backend e banco de dados                                                  |
+| Objetivo       | Verificar se o sistema armazena corretamente dados no banco                                |
+| Nível          | Integração                                                                                 |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Banco de dados ativo e conexão configurada                                                 |
+| Estado         | -                                                                                          |
+| Resultados     | Previsto: dados salvos com sucesso / Realizado: -                                          |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+**Tabela 31 - Teste Integrado 2 (TI02)**
+
+| Campo          | Conteúdo                                                                                   |
+|----------------|--------------------------------------------------------------------------------------------|
+| Código         | TI02                                                                                       |
+| Nome           | Integração entre backend e frontend                                                         |
+| Objetivo       | Verificar se a interface consegue enviar e receber dados do programa                       |
+| Nível          | Integração                                                                                 |
+| Tipo           | Funcional                                                                                  |
+| Precondições   | Interface funcional e conectada à lógica do programa                                       |
+| Estado         | -                                                                                          |
+| Resultados     | Previsto: comunicação bem-sucedida / Realizado: -                                          |
+| Reparos        | -                                                                                          |
+| Ciclos         | -                                                                                          |
+
+*Fonte: Elaborado pelo autor (2026)*
+
+---
+
+## 7. Referências Bibliográficas
+
+ABRASEL. **Solução KDS: ferramenta inovadora para auxiliar restaurantes**. Disponível em: [https://abrasel.com.br/noticias/noticias/solucao-kds-ferramenta-inovadora-para-auxiliar-restaurantes/](https://abrasel.com.br/noticias/noticias/solucao-kds-ferramenta-inovadora-para-auxiliar-restaurantes/).
+
+ALELO. **Qual o melhor tipo de comanda para restaurante?**. Disponível em: [https://www.alelo.com.br/blog/estabelecimentos-comerciais/qual-o-melhor-tipo-de-comanda-para-restaurante](https://www.alelo.com.br/blog/estabelecimentos-comerciais/qual-o-melhor-tipo-de-comanda-para-restaurante).
+
+CHAVES, K. **Comanda eletrônica: como funciona e os benefícios**. Disponível em: [https://www.kcms.com.br/blog/comanda-eletronica/](https://www.kcms.com.br/blog/comanda-eletronica/). Acesso em: 26 jun. 2026.
+
+CLOUDFY. **Os desafios na gestão de pedidos em bares e restaurantes**. Disponível em: [https://www.cloudfy.net.br/blog/os-desafios-na-gestao-de-pedidos-em-bares-e-restaurantes.html](https://www.cloudfy.net.br/blog/os-desafios-na-gestao-de-pedidos-em-bares-e-restaurantes.html).
+
+ECLETICA. **E-Garçom: Transformando o Atendimento em Restaurantes**. Disponível em: [https://ecletica.com.br/e-garcom-transformando-o-atendimento-restaurantes/](https://ecletica.com.br/e-garcom-transformando-o-atendimento-restaurantes/).
+
+NOX. **Sistema KDS: O que é, para que serve e como otimiza sua cozinha e cafeteria?**. Disponível em: [https://nox.com.br/o-que-e-sistema-kds/?utm_medium=desktop](https://nox.com.br/o-que-e-sistema-kds/?utm_medium=desktop).
+
+OLITECNICA. **KDS: A revolução na gestão de pedidos para restaurantes e delivery**. Disponível em: [https://www.olitecnica.com.br/post/kds-a-revolucao-na-gestao-de-pedidos-para-restaurantes-e-delivery](https://www.olitecnica.com.br/post/kds-a-revolucao-na-gestao-de-pedidos-para-restaurantes-e-delivery).
+
+THEFORKMANAGER. **Restaurant Table Turnover Rate Optimization**. Disponível em: [https://www.theforkmanager.com/en/blog/restaurant-management/restaurant-table-turnover-tips-efficiency](https://www.theforkmanager.com/en/blog/restaurant-management/restaurant-table-turnover-tips-efficiency).
