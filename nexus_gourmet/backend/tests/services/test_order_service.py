@@ -247,6 +247,65 @@ def test_fechar_comanda_cancelada_faturamento_zero(app, order_service):
     mesa_atualizada = Table.query.filter_by(numero=mesa.numero).first()
     assert mesa_atualizada.status == TableStatus.LIVRE
 
+def test_fechamento_multiplas_comandas_na_mesma_mesa(order_service, table_service, dados_iniciais):
+    garcom = dados_iniciais["garcom"]
+    mesa = dados_iniciais["mesa"]
+    
+    # 1. Garçom abre DUAS comandas para a mesma mesa
+    comanda1_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    comanda2_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    
+    # Adiciona itens e entrega ambas
+    produto_id = dados_iniciais["produto"].id
+    order_service.adicionar_item(comanda1_id, produto_id, 1, "", garcom)
+    order_service.adicionar_item(comanda2_id, produto_id, 1, "", garcom)
+    
+    # (Pula direto pro final simulando entrega)
+    order_service.alterar_status(comanda1_id, "Em Preparo", garcom)
+    order_service.alterar_status(comanda1_id, "Pronto", dados_iniciais["cozinheiro"])
+    order_service.alterar_status(comanda1_id, "Entregue", garcom)
+    
+    order_service.alterar_status(comanda2_id, "Em Preparo", garcom)
+    order_service.alterar_status(comanda2_id, "Pronto", dados_iniciais["cozinheiro"])
+    order_service.alterar_status(comanda2_id, "Entregue", garcom)
+    
+    # 2. Fecha a PRIMEIRA comanda
+    order_service.fechar_comanda(comanda1_id, garcom)
+    
+    # A mesa deve CONTINUAR OCUPADA, pois a comanda 2 ainda está lá!
+    mesa_atualizada = table_service.get_table_by_number(mesa.numero)
+    assert mesa_atualizada.status.value == "Ocupada"
+    
+    # 3. Fecha a SEGUNDA comanda
+    order_service.fechar_comanda(comanda2_id, garcom)
+    
+    # Agora sim, a mesa deve ficar LIVRE!
+    assert mesa_atualizada.status.value == "Livre"
+
+def test_comanda_fantasma_fechamento_zerado(order_service, table_service, dados_iniciais):
+    garcom = dados_iniciais["garcom"]
+    mesa = dados_iniciais["mesa"]
+    
+    # 1. Garçom abre a comanda (cliente sentou, mesa fica ocupada)
+    comanda_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    
+    # 2. Tenta enviar pra cozinha sem itens (Deve ser bloqueado)
+    sucesso_enviar, msg_enviar = order_service.enviar_comanda(comanda_id, garcom)
+    assert sucesso_enviar is False
+    
+    # 3. Cliente desiste e vai embora. Garçom cancela a comanda.
+    sucesso_cancelar, _ = order_service.editar_comanda(comanda_id, [], garcom, cancelar=True)
+    assert sucesso_cancelar is True
+    
+    # 4. Garçom fecha a comanda cancelada para liberar a mesa no sistema
+    sucesso_fechar, dados_fechar = order_service.fechar_comanda(comanda_id, garcom)
+    assert sucesso_fechar is True
+    assert dados_fechar["conta"]["total"] == 0.0 # Conta tem que vir zerada
+    
+    # 5. Garante que a mesa foi liberada com sucesso
+    mesa_atualizada = table_service.get_table_by_number(mesa.numero)
+    assert mesa_atualizada.status.value == "Livre"
+
 def test_alterar_status_permissoes(app, order_service):
     garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
     order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
@@ -255,11 +314,10 @@ def test_alterar_status_permissoes(app, order_service):
     order_service.alterar_status(order_id, OrderStatus.EM_PREPARO, garcom)
 
     sucesso_garcom, mensagem_garcom = order_service.alterar_status(order_id, OrderStatus.PRONTO, garcom)
-    assert sucesso_garcom is False
-    assert "não pode definir status" in mensagem_garcom.lower()
+    assert sucesso_garcom is True
     
-    sucesso_cozinheiro, mensagem_cozinheiro = order_service.alterar_status(order_id, OrderStatus.PRONTO, cozinheiro)
-    assert sucesso_cozinheiro is True
+    sucesso_cozinheiro, _ = order_service.alterar_status(order_id, OrderStatus.ENTREGUE, cozinheiro)
+    assert sucesso_cozinheiro is False
     
     pedido_atualizado = order_service.get_order_by_id(order_id)
     assert pedido_atualizado.status == OrderStatus.PRONTO
@@ -345,3 +403,53 @@ def test_fechar_comanda_por_cozinheiro_deve_falhar(app, order_service):
     sucesso, mensagem = order_service.fechar_comanda(order_id, user=cozinheiro)
     assert sucesso is False
     assert mensagem == OrderErrorMessages.SEM_PERMISSAO
+
+def test_contra_fluxo_status_comanda(order_service, dados_iniciais):
+    garcom = dados_iniciais["garcom"]
+    cozinheiro = dados_iniciais["cozinheiro"]
+    mesa = dados_iniciais["mesa"]
+    produto = dados_iniciais["produto"] 
+
+    comanda_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    
+    order_service.adicionar_item(comanda_id, produto.id, 1, "Sem cebola", garcom)
+    
+    order_service.alterar_status(comanda_id, "Em Preparo", garcom)
+    order_service.alterar_status(comanda_id, "Pronto", cozinheiro)
+    order_service.alterar_status(comanda_id, "Entregue", garcom)
+    
+    # === TESTANDO O CONTRA-FLUXO DIRETO NO SERVICE ===
+    # 1. Garçom volta para PRONTO
+    sucesso, msg = order_service.alterar_status(comanda_id, "Pronto", garcom)
+    assert sucesso is True
+    
+    # 2. Cozinheiro volta para EM_PREPARO
+    sucesso, msg = order_service.alterar_status(comanda_id, "Em Preparo", cozinheiro)
+    assert sucesso is True
+    
+    # 3. Garçom volta para PENDENTE
+    sucesso, msg = order_service.alterar_status(comanda_id, "Pendente", garcom)
+    assert sucesso is True
+
+def test_status_finalizado_bloqueia_alteracao(order_service, dados_iniciais):
+    garcom = dados_iniciais["garcom"]
+    cozinheiro = dados_iniciais["cozinheiro"]
+    mesa = dados_iniciais["mesa"]
+    produto = dados_iniciais["produto"]
+    
+    comanda_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    order_service.adicionar_item(comanda_id, produto.id, 1, "Sem cebola", garcom)
+    order_service.alterar_status(comanda_id, "Em Preparo", garcom)
+    order_service.alterar_status(comanda_id, "Pronto", cozinheiro)
+    order_service.alterar_status(comanda_id, "Entregue", garcom)
+    
+    # Garçom fecha a comanda (status FINALIZADO)
+    sucesso_fechar, _ = order_service.fechar_comanda(comanda_id, garcom)
+    assert sucesso_fechar is True
+    
+    # === TESTANDO O BLOQUEIO ===
+    # Tenta tirar do finalizado e voltar para Entregue
+    sucesso, msg = order_service.alterar_status(comanda_id, "Entregue", garcom)
+    
+    assert sucesso is False
+    assert "Transição inválida" in msg

@@ -14,6 +14,11 @@ class TableService:
         while self.get_table_by_number(novo_numero) is not None:
             novo_numero += 1
         
+        try:
+            capacidade = int(capacidade)
+        except (TypeError, ValueError):
+            return False, TableErrorMessages.CAPACIDADE_INVALIDA
+        
         if capacidade < 1:
             return False, TableErrorMessages.CAPACIDADE_INVALIDA
         
@@ -35,8 +40,14 @@ class TableService:
             return False, TableErrorMessages.MESA_NAO_ENCONTRADA
         
         if capacidade is not None:
+            try:
+                capacidade = int(capacidade)
+            except (TypeError, ValueError):
+                return False, TableErrorMessages.CAPACIDADE_INVALIDA
+            
             if capacidade < 1:
                 return False, TableErrorMessages.CAPACIDADE_INVALIDA
+            
             if capacidade > 20:
                 return False, TableErrorMessages.CAPACIDADE_EXCEDIDA
             mesa.capacidade = capacidade
