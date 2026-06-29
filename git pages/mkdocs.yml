@@ -1,5 +1,9 @@
 site_name: Nexus Gourmet
-
+nav:
+  - Documento de Visão: visão.md
+  - Documento de Arquitetura: arquitetura.md
+  - Política de Branches e Commits: politica-commits.md
+  - Relatório de Métricas: metricas.md
 theme:
   name: material
   logo: logo.png                  
