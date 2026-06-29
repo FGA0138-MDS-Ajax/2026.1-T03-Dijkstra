@@ -1,1 +1,18 @@
 site_name: Nexus Gourmet
+
+theme:
+  name: material
+  logo: logo.png                  
+  favicon: logo.png                
+  palette:
+    - scheme: default
+      primary: custom               
+      accent: custom
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - search.suggest
+
+extra_css:
+  - git pages/extra.css
