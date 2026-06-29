@@ -1,23 +1,21 @@
-import random
 from models.models import db, Product
-from models.enums import ProductCategory
-  
+from models.enums import ProductCategory, Role
+
 class ProductService:     
     def listar_produtos(self):
         return Product.query.all()  
  
     def listar_por_categoria(self, categoria):
         try:
-            categoria = ProductCategory(categoria)
+            if isinstance(categoria, str):
+                categoria = ProductCategory(categoria)
         except ValueError:
             return []
         return Product.query.filter_by(categoria=categoria).all()
  
-    def cadastrar_produto(self, nome, categoria, preco, tempo_preparacao=15):
-        while True:
-            novo_id = random.randint(1000, 9999)
-            if self.get_product_by_id(novo_id) is None:
-                break
+    def cadastrar_produto(self, nome, categoria, preco, tempo_preparacao=15, user_role=None):
+        if user_role and user_role != Role.ADMINISTRADOR:
+            return False, "Acesso negado. Apenas administradores podem cadastrar produtos."
 
         if not nome or not nome.strip():
             return False, "Nome do produto é obrigatório."
@@ -26,49 +24,79 @@ class ProductService:
             preco = float(preco)
         except (TypeError, ValueError):
             return False, "Preço inválido."
+            
         if preco <= 0:
             return False, "Preço deve ser maior que zero."
+            
         try:
             categoria = ProductCategory(categoria)
         except ValueError:
             return False, f"Categoria inválida: {categoria}."
  
-        produto = Product(id=novo_id, nome=nome.strip(), categoria=categoria, preco=preco, tempo_preparacao=int(tempo_preparacao))
-        db.session.add(produto)
-        db.session.commit()
-        return True, "Produto cadastrado com sucesso."
+        try:
+            produto = Product(
+                nome=nome.strip(), 
+                categoria=categoria, 
+                preco=preco, 
+                tempo_preparacao=int(tempo_preparacao)
+            )
+            db.session.add(produto)
+            db.session.commit()
+            return True, "Produto cadastrado com sucesso."
+        except Exception as e:
+            db.session.rollback()
+            return False, f"Erro ao salvar no banco de dados: {str(e)}"
  
-    def editar_produto(self, product_id, nome, categoria, preco, tempo_preparacao=15):
+    def editar_produto(self, product_id, nome, categoria, preco, tempo_preparacao=15, user_role=None):
+        if user_role and user_role != Role.ADMINISTRADOR:
+            return False, "Acesso negado. Apenas administradores podem editar produtos."
+
         produto = self.get_product_by_id(product_id)
         if not produto:
             return False, "Produto não encontrado."
+            
         if not nome or not nome.strip():
             return False, "Nome do produto é obrigatório."
+            
         try:
             preco = float(preco)
         except (TypeError, ValueError):
             return False, "Preço inválido."
+            
         if preco <= 0:
             return False, "Preço deve ser maior que zero."
+            
         try:
             categoria = ProductCategory(categoria)
         except ValueError:
             return False, f"Categoria inválida: {categoria}."
  
-        produto.nome = nome.strip()
-        produto.categoria = categoria
-        produto.preco = preco
-        produto.tempo_preparacao = int(tempo_preparacao)
-        db.session.commit()
-        return True, "Produto atualizado com sucesso."
+        try:
+            produto.nome = nome.strip()
+            produto.categoria = categoria
+            produto.preco = preco
+            produto.tempo_preparacao = int(tempo_preparacao)
+            db.session.commit()
+            return True, "Produto atualizado com sucesso."
+        except Exception as e:
+            db.session.rollback()
+            return False, f"Erro ao atualizar no banco de dados: {str(e)}"
  
-    def deletar_produto(self, product_id):
+    def deletar_produto(self, product_id, user_role=None):
+        if user_role and user_role != Role.ADMINISTRADOR:
+            return False, "Acesso negado. Apenas administradores podem deletar produtos."
+
         produto = self.get_product_by_id(product_id)
         if not produto:
             return False, "Produto não encontrado."
-        db.session.delete(produto)
-        db.session.commit()
-        return True, "Produto excluído com sucesso."
+            
+        try:
+            db.session.delete(produto)
+            db.session.commit()
+            return True, "Produto excluído com sucesso."
+        except Exception as e:
+            db.session.rollback()
+            return False, f"Erro ao excluir do banco de dados: {str(e)}"
 
     def get_product_by_id(self, product_id):
         return db.session.get(Product, product_id)

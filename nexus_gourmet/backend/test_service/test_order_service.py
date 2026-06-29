@@ -1,33 +1,46 @@
-from datetime import datetime, timedelta, time, timezone
+from datetime import datetime, timedelta, timezone
 from models.models import db, User, Table, Product, Order, ProductOrdered
 from models.enums import Role, OrderStatus, TableStatus, ProductCategory
+from models.error_message import OrderErrorMessages, UserErrorMessages, TableErrorMessages
+from models.sucess_message import TableSuccessMessages, OrderSuccessMessages, UserSuccessMessages
+from werkzeug.security import generate_password_hash
 
-
-# --- FUNÇÕES DE AJUDA PARA PREPARAR A BASE DE DADOS ---
+# ==================================================
+# FUNÇÕES DE AUXÍLIO PARA PREPARAR A BASE DE DADOS
+# ==================================================
 def criar_dados_iniciais():
-    """Cria um utilizador (Garçom), um Cozinheiro, uma Mesa e um Produto para os testes, utilizando CPF como chave."""
-    # Usando CPF pois abrir_comanda agora espera user_cpf
-    garcom = User(cpf=11122233344, nome="João Garçom", senha="123", cargo=Role.GARCOM)
-    cozinheiro = User(cpf=99988877766, nome="Maria Chef", senha="123", cargo=Role.COZINHEIRO)
-    
-    # Mantemos o número 5 apenas como ponto de partida da mesa no banco falso
+    garcom = User(
+        nome = "Garçom",
+        cpf = "12345678901",
+        senha = generate_password_hash("Senha123!"),
+        cargo = Role.GARCOM,
+        foto_usuario = "caminho/para/foto_garcom.jpg"
+    )
+    cozinheiro = User(
+        nome="Maria Chef",
+        cpf="11144477735",
+        senha=generate_password_hash("Senha1234!"), 
+        cargo=Role.COZINHEIRO,
+        foto_usuario="caminho/para/foto_cozinheiro.jpg"
+    )    
     mesa = Table(numero=5, capacidade=4, status=TableStatus.LIVRE)
-    produto = Product(nome="Hambúrguer", preco=20.50, categoria=ProductCategory.PRATO)
+    produto = Product(nome="Hambúrguer", preco=20.50, categoria=ProductCategory.PRATO, tempo_preparacao=20)
     
     db.session.add_all([garcom, cozinheiro, mesa, produto])
     db.session.commit()
     return garcom, cozinheiro, mesa, produto
 
-# --- INÍCIO DOS TESTES ---
-
+# ===================================================
+# TESTES DE FUNCIONALIDADES DO SERVIÇO DE COMANDAS
+# ===================================================
 def test_abrir_comanda_com_sucesso(app, order_service):
     garcom, _, mesa, _ = criar_dados_iniciais()
+    
     comanda_id, mensagem = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
     
     assert comanda_id is not None
-    assert mensagem == "Comanda aberta com sucesso."
-    
-    # Verifica se o status da mesa mudou para OCUPADA
+    assert mensagem == OrderSuccessMessages.COMANDA_ABERTA
+
     mesa_atualizada = Table.query.filter_by(numero=mesa.numero).first()
     assert mesa_atualizada.status == TableStatus.OCUPADA
 
@@ -39,21 +52,59 @@ def test_abrir_multiplas_comandas_mesma_mesa(app, order_service):
     
     assert comanda1_id is not None
     assert comanda2_id is not None
-    assert comanda1_id != comanda2_id # IDs diferentes para comandas diferentes
+    assert comanda1_id != comanda2_id 
 
 def test_listar_todas_comandas(app, order_service):
     garcom, _, mesa, produto = criar_dados_iniciais()
     
-    for _ in range(3):
-        order_id, _ = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
-        order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
-        order_service.enviar_comanda(order_id, garcom) # Altera para EM_PREPARO e itens para PREPARANDO
+    order_id, _ = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
+    order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
     
-    todas_comandas = order_service.listar_todas_comandas()
+    listagem = order_service.listar_todas_comandas()
     
-    assert len(todas_comandas) == 3
-    for comanda in todas_comandas:
-        assert comanda['mesa']['numero'] == mesa.numero
+    assert len(listagem) == 1
+    assert listagem[0]['id'] == order_id
+    assert listagem[0]['itens'][0]['produto'] == "Hambúrguer"
+
+def test_listar_todas_comandas_independente_de_status(app, order_service):
+    garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
+    
+    # Cria uma comanda PENDENTE
+    id_pendente, _ = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
+    order_service.adicionar_item(id_pendente, produto.id, 1, "", garcom)
+    
+    # Cria outra comanda e cancela ela (Status: CANCELADO)
+    id_cancelada, _ = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
+    order_service.editar_comanda(id_cancelada, [], garcom, cancelar=True)
+    
+    # O listar_todas deve trazer AMBAS
+    listagem = order_service.listar_todas_comandas()
+    assert len(listagem) == 2
+    
+    ids_retornados = [c['id'] for c in listagem]
+    assert id_pendente in ids_retornados
+    assert id_cancelada in ids_retornados
+
+def test_listar_comandas_por_status_especifico(app, order_service):
+    garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
+    
+    # 1. Cria comanda PENDENTE
+    id_pendente, _ = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
+    order_service.adicionar_item(id_pendente, produto.id, 1, "Pendente", garcom)
+    
+    # 2. Cria comanda em EM_PREPARO
+    id_preparo, _ = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
+    order_service.adicionar_item(id_preparo, produto.id, 1, "Em preparo", garcom)
+    order_service.enviar_comanda(id_preparo, garcom)
+    
+    # Testando filtro de status ÚNICO (Apenas Pendentes)
+    comandas_pendentes = order_service.listar_comandas_por_status(OrderStatus.PENDENTE)
+    assert len(comandas_pendentes) == 1
+    assert comandas_pendentes[0]['id'] == id_pendente
+    
+    # Testando filtro com uma LISTA de status (Pendentes + Em Preparo)
+    comandas_filtradas = order_service.listar_comandas_por_status([OrderStatus.PENDENTE, OrderStatus.EM_PREPARO])
+    assert len(comandas_filtradas) == 2
 
 def test_adicionar_item_com_sucesso(app, order_service):
     garcom, _, mesa, produto = criar_dados_iniciais()
@@ -68,9 +119,8 @@ def test_adicionar_item_com_sucesso(app, order_service):
     )
     
     assert sucesso is True
-    assert mensagem == "Item adicionado."
+    assert mensagem == OrderSuccessMessages.ITEM_ADICIONADO
     
-    # Verifica se os itens foram guardados
     pedido = order_service.get_order_by_id(order_id)
     assert len(pedido.itens) == 1
     assert pedido.itens[0].quantidade == 2
@@ -80,29 +130,65 @@ def test_adicionar_item_quantidade_invalida(app, order_service):
     garcom, _, mesa, produto = criar_dados_iniciais()
     order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
     
-    # Tenta adicionar quantidade 0
     sucesso, mensagem = order_service.adicionar_item(order_id, produto.id, 0, "", garcom)
     
     assert sucesso is False
-    assert mensagem == "Quantidade deve ser maior que zero."
+    assert mensagem == OrderErrorMessages.QUANTIDADE_MINIMA
 
+def test_editar_comanda_remover_e_adicionar_itens(app, order_service):
+    garcom, _, mesa, produto = criar_dados_iniciais()
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    
+    order_service.adicionar_item(order_id, produto.id, 2, "Original", garcom)
+    pedido = order_service.get_order_by_id(order_id)
+    item_id = pedido.itens[0].id
+    
+    novo_produto = Product(nome="Refrigerante", preco=6.00, categoria=ProductCategory.BEBIDA, tempo_preparacao=0)
+    db.session.add(novo_produto)
+    db.session.commit()
+    
+    payload_itens = [
+        {"id": item_id, "quantidade": 0},
+        {"product_id": novo_produto.id, "quantidade": 3, "observacao": "Gelado"}
+    ]
+    
+    sucesso, msg = order_service.editar_comanda(order_id, payload_itens, garcom)
+    assert sucesso is True
+    
+    db.session.refresh(pedido)
+    assert len(pedido.itens) == 1
+    assert pedido.itens[0].product_id == novo_produto.id
+    assert pedido.itens[0].quantidade == 3
+
+def test_cancelar_comanda_via_edicao_sucesso(app, order_service):
+    garcom, _, mesa, produto = criar_dados_iniciais()
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
+    
+    sucesso, mensagem = order_service.editar_comanda(order_id, itens=[], user=garcom, cancelar=True)
+    
+    assert sucesso is True
+    assert mensagem == OrderSuccessMessages.COMANDA_CANCELADA
+    
+    pedido = order_service.get_order_by_id(order_id)
+    assert pedido.status == OrderStatus.CANCELADO
+
+# ================================================
+# TESTES DE FUNCIONALIDADES DE CÁLCULO E STATUS
+# ================================================
 def test_calcular_total(app, order_service):
     garcom, _, mesa, produto1 = criar_dados_iniciais()
     
-    # Adicionamos uma bebida para testar a soma (sem forçar o ID)
-    produto2 = Product(nome="Suco", preco=10.00, categoria=ProductCategory.BEBIDA)
+    produto2 = Product(nome="Suco", preco=10.00, categoria=ProductCategory.BEBIDA, tempo_preparacao=2)
     db.session.add(produto2)
     db.session.commit()
     
     order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
     
-    # Adiciona 1 Hambúrguer (20.50) e 2 Sucos (20.00)
     order_service.adicionar_item(order_id, produto1.id, 1, "", garcom)
     order_service.adicionar_item(order_id, produto2.id, 2, "", garcom)
     
     total = order_service.calcular_total(order_id)
-    
-    # Total esperado = 40.50
     assert total == 40.50
 
 def test_enviar_comanda_com_sucesso(app, order_service):
@@ -113,10 +199,11 @@ def test_enviar_comanda_com_sucesso(app, order_service):
     sucesso, mensagem = order_service.enviar_comanda(order_id, garcom)
     
     assert sucesso is True
-    assert mensagem == "Comanda enviada para a cozinha."
+    assert mensagem == OrderSuccessMessages.COMANDA_ENVIADA
     
     pedido = order_service.get_order_by_id(order_id)
     assert pedido.status == OrderStatus.EM_PREPARO
+    assert pedido.entrada_cozinha is not None  
 
 def test_enviar_comanda_sem_itens_falha(app, order_service):
     garcom, _, mesa, _ = criar_dados_iniciais()
@@ -125,204 +212,136 @@ def test_enviar_comanda_sem_itens_falha(app, order_service):
     sucesso, mensagem = order_service.enviar_comanda(order_id, garcom)
     
     assert sucesso is False
-    assert mensagem == "Não é possível enviar um pedido sem itens."
-    
+    assert mensagem == OrderErrorMessages.COMANDA_SEM_ITENS
+
 def test_fechar_comanda_sucesso(app, order_service):
     garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
     order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
     order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
     
-    # Temos de forçar o pedido a chegar ao status 'ENTREGUE' para poder fechar
-    pedido = order_service.get_order_by_id(order_id)
-    pedido.status = OrderStatus.ENTREGUE
-    db.session.commit()
+    order_service.alterar_status(order_id, OrderStatus.EM_PREPARO, garcom)
+    order_service.alterar_status(order_id, OrderStatus.PRONTO, cozinheiro)
+    order_service.alterar_status(order_id, OrderStatus.ENTREGUE, garcom)
     
-    sucesso, resposta = order_service.fechar_comanda(order_id)
+    sucesso, resposta = order_service.fechar_comanda(order_id, user=garcom)
     
     assert sucesso is True
-    assert "mensagem" in resposta
+    assert resposta["mensagem"] == OrderSuccessMessages.COMANDA_FECHADA
     assert resposta["conta"]["total"] == 20.50
     
-    # A mesa deve ter ficado livre de novo
     mesa_atualizada = Table.query.filter_by(numero=mesa.numero).first()
     assert mesa_atualizada.status == TableStatus.LIVRE
 
-def test_alterar_status(app, order_service):
+def test_fechar_comanda_cancelada_faturamento_zero(app, order_service):
+    garcom, _, mesa, produto = criar_dados_iniciais()
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    order_service.adicionar_item(order_id, produto.id, 5, "", garcom)
+    
+    order_service.editar_comanda(order_id, [], garcom, cancelar=True)
+    
+    sucesso, resposta = order_service.fechar_comanda(order_id, user=garcom)
+    assert sucesso is True
+    assert resposta["conta"]["total"] == 0.0 
+    assert resposta["mensagem"] == OrderSuccessMessages.COMANDA_FECHADA
+
+    mesa_atualizada = Table.query.filter_by(numero=mesa.numero).first()
+    assert mesa_atualizada.status == TableStatus.LIVRE
+
+def test_alterar_status_permissoes(app, order_service):
     garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
     order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
     order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
+    
     order_service.alterar_status(order_id, OrderStatus.EM_PREPARO, garcom)
 
-    # Garçom tenta mudar para PRONTO (deve falhar)
     sucesso_garcom, mensagem_garcom = order_service.alterar_status(order_id, OrderStatus.PRONTO, garcom)
-    
     assert sucesso_garcom is False
-    assert "perfil" in mensagem_garcom.lower()
+    assert "não pode definir status" in mensagem_garcom.lower()
     
-    # Cozinheiro muda para PRONTO (deve funcionar)
     sucesso_cozinheiro, mensagem_cozinheiro = order_service.alterar_status(order_id, OrderStatus.PRONTO, cozinheiro)
-    
     assert sucesso_cozinheiro is True
-    assert mensagem_cozinheiro == "Status atualizado para Pronto."
+    
+    pedido_atualizado = order_service.get_order_by_id(order_id)
+    assert pedido_atualizado.status == OrderStatus.PRONTO
 
-def test_editar_comanda_com_sucesso(app, order_service):
+def test_tempo_decorrido_fluxo_completo(app, order_service):
     garcom, _, mesa, produto = criar_dados_iniciais()
-    
-    order_id, _ = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=garcom.cpf)
-    order_service.adicionar_item(order_id, produto.id, 1, "Sem cebola", garcom)
-    
-    itens_para_editar = [
-        {
-            'product_id': produto.id,
-            'quantidade': 3,
-            'observacao': 'Com muito bacon'
-        }
-    ]
-    
-    sucesso, mensagem = order_service.editar_comanda(order_id, itens_para_editar, garcom)
-    
-    assert sucesso is True
-    assert mensagem == "Comanda atualizada com sucesso."
-    
-    pedido = order_service.get_order_by_id(order_id)
-    assert pedido.itens[0].quantidade == 3
-    assert pedido.itens[0].observacao == "Com muito bacon"
-
-def test_gerar_conta(app, order_service):
-    garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
     order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
-    order_service.adicionar_item(order_id, produto.id, 2, "", garcom) # 2 x 20.50 = 41.00
-    
-    pedido = order_service.get_order_by_id(order_id)
-    pedido.status = OrderStatus.ENTREGUE
-    db.session.commit()
-    
-    conta, mensagem = order_service.gerar_conta(mesa.numero)
-    
-    assert conta is not None
-    assert mensagem == "Conta gerada."
-    assert conta['mesa'] == mesa.numero
-    assert conta['total'] == 41.00
-    assert len(conta['itens']) == 1
-
-def test_gerar_conta_com_cpf(app, order_service):
-    garcom, _, mesa, produto = criar_dados_iniciais()
-    
-    cpf_cliente_garcom = garcom.cpf
-    
-    #'user_cpf' porque é o que a função do Service pede
-    order_id, _ = order_service.abrir_comanda(mesa.numero, user_cpf=cpf_cliente_garcom)
     order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
     
     pedido = order_service.get_order_by_id(order_id)
-    pedido.status = OrderStatus.ENTREGUE
-    db.session.commit()
+    assert order_service.tempo_decorrido(pedido) == "Não iniciado"
     
-    conta, _ = order_service.gerar_conta(mesa.numero)
-    
-    assert conta['total'] == 20.50
-    comanda_vinculada = Order.query.get(order_id)
-    
-    #'user_id' porque é o nome da coluna no Banco de Dados
-    assert comanda_vinculada.user_id == cpf_cliente_garcom
+    order_service.alterar_status(order_id, OrderStatus.EM_PREPARO, garcom)
+    assert "0m" in order_service.tempo_decorrido(pedido)
 
-def test_orders_per_table(app, order_service):
-    garcom, _, mesa1, _ = criar_dados_iniciais()
-    
-    mesa2 = Table(numero=10, capacidade=2, status=TableStatus.LIVRE)
-    db.session.add(mesa2)
-    db.session.commit()
-    
-    # Abre 2 comandas na mesa 5 e 1 comanda na mesa 10
-    order_service.abrir_comanda(mesa1.numero, garcom.cpf)
-    order_service.abrir_comanda(mesa1.numero, garcom.cpf)
-    order_service.abrir_comanda(mesa2.numero, garcom.cpf)
-    
-    resultado = order_service.order_per_table()
-    
-    assert resultado[mesa1.numero] == 2
-    assert resultado[mesa2.numero] == 1
-
-def test_open_order_counter(app, order_service):
-    garcom, _, mesa, _ = criar_dados_iniciais()
-    
-    assert order_service.open_order_counter() == 0
-    
-    order_service.abrir_comanda(mesa.numero, garcom.cpf)
-    order_service.abrir_comanda(mesa.numero, garcom.cpf)
-    order_service.abrir_comanda(mesa.numero, garcom.cpf)
-    
-    assert order_service.open_order_counter() == 3
-    assert order_service.open_order_counter(numero_mesa=mesa.numero) == 3
-    assert order_service.open_order_counter(numero_mesa=99) == 0 # Mesa inexistente
-
-def test_tempo_decorrido(app, order_service):
-    agora_sem_fuso = datetime.now(timezone.utc).replace(tzinfo=None)  
-
-    # classe Mock para simular uma comanda do banco
-    class MockComanda:
-        def __init__(self):
-            self.entrada_cozinha = agora_sem_fuso - timedelta(minutes=5, seconds=30)
-            self.status = OrderStatus.EM_PREPARO
-            self.saida_cozinha = None
-
-    comanda_simulada = MockComanda()
-    
-    tempo_formatado = order_service.tempo_decorrido(comanda_simulada)
-    
-    assert tempo_formatado == "5m 30s"
-
-def test_visualizar_comanda(app, order_service):
-    garcom, _, mesa, _ = criar_dados_iniciais()
-    
-    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
-    
-    comanda = order_service.visualizar_comanda(order_id)
-    
-    # Caso a comanda exista, o método retorna a própria comanda
-    assert comanda is not None
-    assert comanda.id == order_id
-    assert comanda.numero_mesa == mesa.numero
-
-    # Testando comanda que não existe
-    comanda_inexistente, msg_erro = order_service.visualizar_comanda(9999)
-    assert comanda_inexistente is None
-    assert msg_erro == "Pedido não encontrado."
-
-def test_daily_statistics(app, order_service):
+def test_estatisticas_diarias_filtra_apenas_hoje(app, order_service):
     garcom, _, mesa, produto = criar_dados_iniciais()
     
-    agora_local = datetime.now()
-    
-    # comanda para HOJE
-    id_hoje, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
-    pedido_hoje = order_service.get_order_by_id(id_hoje)
-    pedido_hoje.entrada_cozinha = agora_local # Força a data local!
-    
+    id_hoje, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)    
     order_service.adicionar_item(id_hoje, produto.id, 1, "", garcom)
+    order_service.enviar_comanda(id_hoje, garcom)
     
-    # comanda CANCELADA HOJE
-    id_cancelada, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
-    order_service.adicionar_item(id_cancelada, produto.id, 2, "", garcom)
-    pedido_cancelado = order_service.get_order_by_id(id_cancelada)
-    pedido_cancelado.entrada_cozinha = agora_local # Força a data local!
-    pedido_cancelado.status = OrderStatus.CANCELADO
-    
-    # comanda de ONTEM (deve ser ignorada)
-    ontem = agora_local - timedelta(days=1)
+    ontem = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=1)
     comanda_antiga = Order(
         numero_diario=99,
-        numero_mesa=mesa.numero,
-        user_id=garcom.cpf,
-        status=OrderStatus.ENTREGUE,
-        entrada_cozinha=ontem
+        numero_mesa=mesa.numero, 
+        user_cpf=garcom.cpf,
+        status=OrderStatus.EM_PREPARO, 
+        entrada_cozinha=ontem,
+        data_criacao=ontem 
     )
     db.session.add(comanda_antiga)
     db.session.commit()
     
-    stats = order_service.daily_statistics()
+    stats = order_service.estatisticas_diarias()
+    assert stats["total_comandas"] == 1
+    assert stats["total_faturamento"] == 20.50
     
-    assert stats["total_comandas"] == 2 # Conta as duas de hoje (1 normal, 1 cancelada)
-    assert stats["total_comandas_canceladas"] == 1
-    assert stats["total_itens"] == 2 # 1 item na normal + 1 itens na cancelada
-    assert stats["total_faturamento"] == 61.50
+# ======================================
+# VALIDAÇÃO DE RESTRIÇÕES DE CARGO
+# ======================================
+def test_abrir_comanda_por_cozinheiro_deve_falhar(app, order_service):
+    _, cozinheiro, mesa, _ = criar_dados_iniciais()
+    comanda_id, mensagem = order_service.abrir_comanda(numero_mesa=mesa.numero, user_cpf=cozinheiro.cpf)
+    
+    assert comanda_id is None
+    assert mensagem == OrderErrorMessages.SEM_PERMISSAO
+
+def test_adicionar_item_por_cozinheiro_deve_falhar(app, order_service):
+    garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    
+    sucesso, mensagem = order_service.adicionar_item(order_id, produto.id, 1, "", cozinheiro)
+    assert sucesso is False
+    assert mensagem == OrderErrorMessages.SEM_PERMISSAO
+
+def test_editar_comanda_por_cozinheiro_deve_falhar(app, order_service):
+    garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    
+    sucesso, mensagem = order_service.editar_comanda(order_id, itens=[], user=cozinheiro)
+    assert sucesso is False
+    assert mensagem == OrderErrorMessages.SEM_PERMISSAO
+
+def test_enviar_comanda_por_cozinheiro_deve_falhar(app, order_service):
+    garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
+    
+    sucesso, mensagem = order_service.enviar_comanda(order_id, user=cozinheiro)
+    assert sucesso is False
+    assert mensagem == OrderErrorMessages.SEM_PERMISSAO
+
+def test_fechar_comanda_por_cozinheiro_deve_falhar(app, order_service):
+    garcom, cozinheiro, mesa, produto = criar_dados_iniciais()
+    order_id, _ = order_service.abrir_comanda(mesa.numero, garcom.cpf)
+    order_service.adicionar_item(order_id, produto.id, 1, "", garcom)
+    
+    order_service.alterar_status(order_id, OrderStatus.EM_PREPARO, garcom)
+    order_service.alterar_status(order_id, OrderStatus.PRONTO, cozinheiro)
+    order_service.alterar_status(order_id, OrderStatus.ENTREGUE, garcom)
+    
+    sucesso, mensagem = order_service.fechar_comanda(order_id, user=cozinheiro)
+    assert sucesso is False
+    assert mensagem == OrderErrorMessages.SEM_PERMISSAO

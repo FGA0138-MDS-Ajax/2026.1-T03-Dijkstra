@@ -7,11 +7,14 @@ backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if backend_dir not in sys.path:
     sys.path.insert(0, backend_dir)
     
+from models.models import User, Table, Product, db
+from models.enums import Role, TableStatus, ProductCategory
 from models.models import db
 from services.user_service import UserService
 from services.table_service import TableService
 from services.order_service import OrderService
 from services.product_service import ProductService
+
 
 # Cria uma aplicação Flask falsa apenas para os testes
 @pytest.fixture
@@ -49,10 +52,7 @@ def product_service():
 # No test/conftest.py
 @pytest.fixture
 def dados_iniciais():
-    from models.models import User, Table, Product, db
-    from models.enums import Role, TableStatus, ProductCategory
-    
-    garcom = User(nome="João Garçom", senha="123", cargo=Role.GARCOM)
+    garcom = User(cpf = "12345678901",nome="João Garçom", senha="Senha123!", cargo=Role.GARCOM)
     mesa = Table(numero=5, capacidade=4, status=TableStatus.LIVRE)
     produto = Product(nome="Hambúrguer", preco=20.50, categoria=ProductCategory.PRATO)
     db.session.add_all([garcom, mesa, produto])

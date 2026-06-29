@@ -17,7 +17,8 @@ class TableController(BaseController):
 
     def _get_usuario_logado(self):
         user_cpf = session.get('user_cpf')
-        if not user_cpf: return None
+        if not user_cpf: 
+            return None
         return self.user_service.get_user_by_cpf(user_cpf)
 
     def listar_mesas(self):
@@ -34,7 +35,7 @@ class TableController(BaseController):
             return self.json_response(False, "Acesso negado", status=403)
 
         dados = request.json or {}
-        success, message = self.table_service.criar_mesa(dados.get('capacidade'))
+        success, message = self.table_service.criar_mesa(usuario.cpf, dados.get('capacidade'))
         return self.json_response(success, message, status=200 if success else 400)
 
     def editar_mesa(self, numero_mesa):
@@ -43,7 +44,7 @@ class TableController(BaseController):
             return self.json_response(False, "Acesso negado", status=403)
 
         dados = request.json or {}
-        success, message = self.table_service.editar_mesa(numero_mesa, capacidade=dados.get('capacidade'))
+        success, message = self.table_service.editar_mesa(usuario.cpf, numero_mesa, capacidade=dados.get('capacidade'))
         return self.json_response(success, message, status=200 if success else 400)
 
     def deletar_mesa(self, numero_mesa):
@@ -51,5 +52,5 @@ class TableController(BaseController):
         if not usuario or usuario.cargo != Role.ADMINISTRADOR:
             return self.json_response(False, "Acesso negado", status=403)
 
-        success, message = self.table_service.deletar_mesa(numero_mesa)
+        success, message = self.table_service.deletar_mesa(usuario.cpf, numero_mesa)
         return self.json_response(success, message, status=200 if success else 400)

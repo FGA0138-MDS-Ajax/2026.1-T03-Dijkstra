@@ -1,6 +1,6 @@
 from flask import request, session
 from .base_controller import BaseController
-from backend.models.enums import OrderStatus, Role
+from backend.models.enums import Role
 
 class OrderController(BaseController):
     def __init__(self, app, user_service, order_service, table_service):
@@ -12,7 +12,7 @@ class OrderController(BaseController):
 
     def setup_routes(self):
         #Rota para visualizar todas as comandas (cozinha)
-        self.app.add_url_rule('/api/cozinha/fila',view_func=self.listar_todas_comandas, methods=['GET'])
+        self.app.add_url_rule('/api/cozinha/fila', view_func=self.listar_todas_comandas, methods=['GET'])
         self.app.add_url_rule('/api/cozinha/<int:comanda_id>/alterar_status', view_func=self.alterar_status, methods=['PUT']) 
 
         #Rotas para gerenciamento de comandas (garçom)
@@ -26,26 +26,29 @@ class OrderController(BaseController):
 
     def _get_usuario_logado(self):
         user_cpf = session.get('user_cpf')
-        if not user_cpf: return None
+        if not user_cpf: 
+            return None
         return self.user_service.get_user_by_cpf(user_cpf)
     
     def alterar_status(self, comanda_id):
         usuario = self._get_usuario_logado()
+        if not usuario:
+            return self.json_response(False, "Não autorizado", status=401)
 
         dados = request.json or {}
-        try:
-            novo_status = OrderStatus(dados.get('status'))
-        except ValueError:
-            return self.json_response(False, "Status inválido", status=400)
+        status_input = dados.get('status')
 
-        success, message = self.order_service.alterar_status(comanda_id, novo_status, usuario)
+        success, message = self.order_service.alterar_status(comanda_id, status_input, usuario)
         return self.json_response(success, message, status=200 if success else 400)
 
     def listar_todas_comandas(self):
         usuario = self._get_usuario_logado()
-        if not usuario: return self.json_response(False, "Não autorizado", status=401)
+        if not usuario or usuario.cargo not in [Role.ADMINISTRADOR, Role.COZINHEIRO]:
+            return self.json_response(False, "Acesso negado", status=403)
         
-        # Service já retorna os dados em estrutura legível
+        if not usuario: 
+            return self.json_response(False, "Não autorizado", status=401)
+        
         pedidos = self.order_service.listar_todas_comandas()
         return self.json_response(True, data=pedidos)
     
@@ -55,6 +58,8 @@ class OrderController(BaseController):
             return self.json_response(False, "Acesso negado", status=403)
         
         comandas, msg = self.table_service.listar_comandas_mesa(numero_mesa)
+        if comandas is False:
+            return self.json_response(False, msg, status=404)
         return self.json_response(True, data=comandas)
 
     def abrir_comanda(self, numero_mesa):
@@ -72,11 +77,12 @@ class OrderController(BaseController):
         if not usuario or usuario.cargo != Role.GARCOM:
             return self.json_response(False, "Acesso negado", status=403)
         
-        comanda = self.order_service.get_order_by_id(comanda_id)
+        comanda = self.order_service.visualizar_comanda(comanda_id)
         if not comanda or comanda.numero_mesa != numero_mesa:
             return self.json_response(False, "Comanda não encontrada", status=404)
         
-        return self.json_response(True, data=comanda.to_dict())
+        dados_formatados = self.order_service._formatar_comanda(comanda)
+        return self.json_response(True, data=dados_formatados)
     
     def adicionar_item(self, numero_mesa, comanda_id):
         usuario = self._get_usuario_logado()
@@ -95,14 +101,11 @@ class OrderController(BaseController):
             return self.json_response(False, "Acesso negado", status=403)
         
         dados = request.json or {}
-        itens_para_editar = [{
-            'product_id': dados.get('product_id'),
-            'quantidade': dados.get('quantidade'),
-            'observacao': dados.get('observacao')
-        }]
+        itens_para_editar = dados.get('itens', [])
+        cancelar = dados.get('cancelar', False)
 
-        sucess, message = self.order_service.editar_comanda(comanda_id, itens_para_editar, usuario)
-        return self.json_response(sucess, message, status=200 if sucess else 400)
+        success, message = self.order_service.editar_comanda(comanda_id, itens_para_editar, usuario, cancelar=cancelar)
+        return self.json_response(success, message, status=200 if success else 400)
         
     def enviar_comanda(self, numero_mesa, comanda_id):
         usuario = self._get_usuario_logado()
@@ -117,5 +120,5 @@ class OrderController(BaseController):
         if not usuario or usuario.cargo != Role.GARCOM:
             return self.json_response(False, "Acesso negado", status=403)
 
-        success, message = self.order_service.fechar_comanda(comanda_id)
+        success, message = self.order_service.fechar_comanda(comanda_id, usuario)
         return self.json_response(success, message, status=200 if success else 400)

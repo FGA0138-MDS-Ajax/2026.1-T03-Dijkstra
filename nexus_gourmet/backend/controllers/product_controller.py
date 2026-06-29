@@ -18,7 +18,8 @@ class ProductController(BaseController):
 
     def _get_usuario_logado(self):
         user_cpf = session.get('user_cpf')
-        if not user_cpf: return None
+        if not user_cpf: 
+            return None
         return self.user_service.get_user_by_cpf(user_cpf)
 
     def listar_produtos(self):
@@ -27,15 +28,33 @@ class ProductController(BaseController):
             return self.json_response(False, "Acesso negado", status=403)
         
         produtos = self.product_service.listar_produtos()
-        return self.json_response(True, data=[p.to_dict() for p in produtos])
+        dados_produtos = [
+            {
+                "id": p.id, 
+                "nome": p.nome, 
+                "categoria": p.categoria.value, 
+                "preco": p.preco, 
+                "tempo_preparacao": p.tempo_preparacao
+            } for p in produtos
+        ]
+        return self.json_response(True, data=dados_produtos)
     
     def listar_por_categoria(self, categoria):
         usuario = self._get_usuario_logado()
-        if not usuario or usuario.cargo != Role.ADMINISTRADOR:
+        if not usuario or usuario.cargo not in [Role.ADMINISTRADOR, Role.GARCOM]:
             return self.json_response(False, "Acesso negado", status=403)
         
         produtos = self.product_service.listar_por_categoria(categoria)
-        return self.json_response(True, data=[p.to_dict() for p in produtos])
+        dados_produtos = [
+            {
+                "id": p.id, 
+                "nome": p.nome, 
+                "categoria": p.categoria.value, 
+                "preco": p.preco, 
+                "tempo_preparacao": p.tempo_preparacao
+            } for p in produtos
+        ]
+        return self.json_response(True, data=dados_produtos)
 
     def cadastrar_produto(self):
         usuario = self._get_usuario_logado()
@@ -44,8 +63,11 @@ class ProductController(BaseController):
         
         dados = request.json or {}
         success, message = self.product_service.cadastrar_produto(
-            dados.get('nome'), dados.get('categoria'), dados.get('preco'),
-            dados.get('preparation_time_minutes', 15)
+            dados.get('nome'), 
+            dados.get('categoria'), 
+            dados.get('preco'),
+            dados.get('tempo_preparacao', 15),
+            user_role=usuario.cargo
         )
         return self.json_response(success, message, status=200 if success else 400)
 
@@ -56,8 +78,12 @@ class ProductController(BaseController):
         
         dados = request.json or {}
         success, message = self.product_service.editar_produto(
-            product_id, dados.get('nome'), dados.get('categoria'), dados.get('preco'),
-            dados.get('preparation_time_minutes', 15)
+            product_id, 
+            dados.get('nome'), 
+            dados.get('categoria'), 
+            dados.get('preco'),
+            dados.get('tempo_preparacao', 15),
+            user_role=usuario.cargo
         )
         return self.json_response(success, message, status=200 if success else 400)
 
@@ -66,5 +92,5 @@ class ProductController(BaseController):
         if not usuario or usuario.cargo != Role.ADMINISTRADOR:
             return self.json_response(False, "Acesso negado", status=403)
         
-        success, message = self.product_service.deletar_produto(product_id)
+        success, message = self.product_service.deletar_produto(product_id, user_role=usuario.cargo)
         return self.json_response(success, message, status=200 if success else 400)

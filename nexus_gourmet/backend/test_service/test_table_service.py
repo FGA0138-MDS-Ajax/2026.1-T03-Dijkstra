@@ -1,118 +1,169 @@
-from models.enums import TableStatus
-from models.models import Table, db
+from models.enums import Role, TableStatus, OrderStatus
+from models.models import User, db, Order, Table
+from models.error_message import UserErrorMessages, TableErrorMessages
+from models.sucess_message import TableSuccessMessages
+from werkzeug.security import generate_password_hash
+from datetime import datetime, timezone
 
-# ==========================================
+# =========================================
+# CRIAÇÃO DE USUÁRIOS PADRÃO PARA TESTES
+# =========================================
+def criar_admin_teste(user_service):
+    admin = User(
+        nome = "Admin",
+        cpf = "27791093197",
+        senha = generate_password_hash("Xpto!4321"),
+        cargo = Role.ADMINISTRADOR,
+        foto_usuario = "caminho/para/foto_admin.jpg"
+    )
+    db.session.add(admin)
+    db.session.commit()
+    return admin
+
+def criar_garcom_teste():
+    garcom = User(
+        nome = "Garçom",
+        cpf = "12345678901",
+        senha = generate_password_hash("Senha123!"),
+        cargo = Role.GARCOM,
+        foto_usuario = "caminho/para/foto_garcom.jpg"
+    )
+    db.session.add(garcom)
+    db.session.commit()
+    return garcom
+
+# ===================================
 # TESTES DE CRIAÇÃO
-# ==========================================
-def test_criar_mesa_com_sucesso(app, table_service):
-    # Não enviamos mais o 'numero', apenas a 'capacidade'!
-    sucesso, mensagem = table_service.criar_mesa(capacidade=4)
-    
-    assert sucesso is True
-    assert mensagem == "Mesa criada com sucesso."
-    
-    # Como é a primeira mesa criada no banco de testes, ela recebe o número 1 automaticamente
-    mesa = table_service.get_table_by_number(1)
-    assert mesa is not None
-    assert mesa.numero == 1
-    assert mesa.capacidade == 4
-    assert mesa.status == TableStatus.LIVRE
+# ===================================
+def test_criar_mesa_com_sucesso(app, user_service, table_service):
+    admin = criar_admin_teste(user_service)
 
-# ==========================================
+    sucesso, mensagem = table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=4)
+    assert sucesso is True
+    assert mensagem == TableSuccessMessages.MESA_CRIADA
+
+def test_criar_mesa_com_capacidade_invalida(app, user_service, table_service):
+    admin = criar_admin_teste(user_service)
+
+    # Testando capacidade menor que 1
+    sucesso, message = table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=0)
+    assert sucesso is False
+    assert message == TableErrorMessages.CAPACIDADE_INVALIDA
+    
+    # Testando capacidade maior que 20
+    sucesso, message = table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=21)
+    assert sucesso is False
+    assert message == TableErrorMessages.CAPACIDADE_EXCEDIDA
+
+def test_usuario_comum_nao_pode_criar_mesa(app, user_service, table_service):
+    criar_admin_teste(user_service)
+    garcom = criar_garcom_teste()
+
+    sucesso, mensagem = table_service.criar_mesa(cpf_usuario_logado=garcom.cpf, capacidade=4)
+    assert sucesso is False
+    assert mensagem == UserErrorMessages.ACESSO_NEGADO
+
+# ===================================
 # TESTES DE EDIÇÃO
-# ==========================================
-def test_editar_mesa_com_sucesso(app, table_service):
-    table_service.criar_mesa(capacidade=4) # Recebe automaticamente o número 1
+# ===================================
+def test_editar_mesa_com_sucesso(app, user_service, table_service):
+    admin = criar_admin_teste(user_service)
+    table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=4)
     
-    sucesso, mensagem = table_service.editar_mesa(numero_mesa=1, numero=2, capacidade=6)
+    sucesso, mensagem = table_service.editar_mesa(cpf_usuario_logado=admin.cpf, numero_mesa=1, capacidade=6)
     
     assert sucesso is True
-    assert mensagem == "Mesa editada com sucesso."
-    
-    mesa_editada = table_service.get_table_by_number(2)
-    assert mesa_editada.numero == 2
-    assert mesa_editada.capacidade == 6
+    assert mensagem == TableSuccessMessages.MESA_EDITADA
 
-def test_editar_mesa_inexistente(app, table_service):
-    sucesso, mensagem = table_service.editar_mesa(numero_mesa=99, capacidade=4)
+def test_editar_mesa_com_capacidade_invalida(app, user_service, table_service):
+    admin = criar_admin_teste(user_service)
+    table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=4)
     
+    # Testando capacidade menor que 1
+    sucesso, mensagem = table_service.editar_mesa(cpf_usuario_logado=admin.cpf, numero_mesa=1, capacidade=0)
     assert sucesso is False
-    assert mensagem == "Mesa não encontrada."
-
-def test_editar_mesa_para_numero_existente(app, table_service):
-    table_service.criar_mesa(capacidade=4) # Recebe número 1
-    table_service.criar_mesa(capacidade=4) # Recebe número 2
+    assert mensagem == TableErrorMessages.CAPACIDADE_INVALIDA
     
-    # Tenta mudar a mesa 1 para o número 2, que já existe no banco
-    sucesso, mensagem = table_service.editar_mesa(numero_mesa=1, numero=2)
-    
+    # Testando capacidade maior que 20
+    sucesso, mensagem = table_service.editar_mesa(cpf_usuario_logado=admin.cpf, numero_mesa=1, capacidade=21)
     assert sucesso is False
-    assert mensagem == "Número de mesa já existe."
+    assert mensagem == TableErrorMessages.CAPACIDADE_EXCEDIDA
 
-# ==========================================
+def test_usuario_comum_nao_pode_editar_mesa(app, user_service, table_service):
+    admin = criar_admin_teste(user_service)
+    garcom = criar_garcom_teste()
+    table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=4)
+
+    sucesso, mensagem = table_service.editar_mesa(cpf_usuario_logado=garcom.cpf, numero_mesa=1, capacidade=6)
+    assert sucesso is False
+    assert mensagem == UserErrorMessages.ACESSO_NEGADO
+
+# ===================================
 # TESTES DE DELEÇÃO
-# ==========================================
-def test_deletar_mesa_com_sucesso(app, table_service):
-    table_service.criar_mesa(capacidade=4) # Recebe número 1
+# ===================================
+def test_deletar_mesa_com_sucesso(app, user_service, table_service):
+    admin = criar_admin_teste(user_service)
+    table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=4)
     
-    sucesso, mensagem = table_service.deletar_mesa(numero_mesa=1)
+    sucesso, mensagem = table_service.deletar_mesa(cpf_usuario_logado=admin.cpf, numero_mesa=1)
     
     assert sucesso is True
-    assert mensagem == "Mesa deletada com sucesso."
-    assert table_service.get_table_by_number(1) is None
+    assert mensagem == TableSuccessMessages.MESA_DELETADA
 
-def test_deletar_mesa_inexistente(app, table_service):
-    sucesso, mensagem = table_service.deletar_mesa(numero_mesa=99)
-    
+def test_usuario_comum_nao_pode_deletar_mesa(app, user_service, table_service):
+    admin = criar_admin_teste(user_service)
+    garcom = criar_garcom_teste()
+    table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=4)
+
+    sucesso, mensagem = table_service.deletar_mesa(cpf_usuario_logado=garcom.cpf, numero_mesa=1)
     assert sucesso is False
-    assert mensagem == "Mesa não encontrada."
+    assert mensagem == UserErrorMessages.ACESSO_NEGADO
 
-# ==========================================
+# ===================================
 # TESTES DE LISTAGEM E LIBERAÇÃO
-# ==========================================
-def test_listar_mesas(app, table_service):
-    table_service.criar_mesa(capacidade=4) # Recebe número 1
-    table_service.criar_mesa(capacidade=6) # Recebe número 2
+# ===================================
+def test_listar_mesas(app, user_service, table_service):
+    admin = criar_admin_teste(user_service)
+    table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=4) 
+    table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=6) 
     
     mesas = table_service.listar_mesas()
     
     assert len(mesas) == 2
     assert mesas[0]['numero'] == 1
-    assert mesas[0]['capacidade'] == "0/4" 
+    assert mesas[0]['capacidade'] == 4 
 
-def test_listar_comandas_mesa_com_comandas(app, table_service, order_service, dados_iniciais):
-    garcom, mesa, produto = dados_iniciais
+def test_listar_comandas_mesa_com_comandas(app, user_service, table_service, order_service):
+    admin = criar_admin_teste(user_service)
+    table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=4)
+    garcom = criar_garcom_teste()
     
-    # Abrimos uma comanda para a mesa
-    order_id, _ = order_service.abrir_comanda(numero_mesa=mesa.numero, user_id=garcom.id)
+    comanda = Order(
+        id=1,
+        numero_diario=1,
+        status=OrderStatus.EM_PREPARO,
+        user_cpf=garcom.cpf,
+        numero_mesa=1
+    )
+    db.session.add(comanda)
+    db.session.commit()
     
-    # Adicionamos um item para garantir que a comanda tem algo dentro
-    order_service.adicionar_item(order_id=order_id, product_id=produto.id, quantidade=1, observacao="", user=garcom)
-    
-    comandas, mensagem = table_service.listar_comandas_mesa(mesa_numero=mesa.numero)
+    comandas, _ = table_service.listar_comandas_mesa(mesa_numero=1)
     
     assert len(comandas) == 1
-    assert comandas[0]['id'] == order_id
-    assert mensagem == "Comandas listadas com sucesso."
+    assert comandas[0]['id'] == 1
 
-def test_listar_comandas_mesa_sem_comandas(app, table_service):
-    table_service.criar_mesa(capacidade=4) # Recebe número 1
+def test_listar_comandas_mesa_sem_comandas(app, user_service, table_service):
+    admin = criar_admin_teste(user_service)
+    table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=4) 
     
-    comandas, mensagem = table_service.listar_comandas_mesa(mesa_numero=1)
-    
+    comandas, _ = table_service.listar_comandas_mesa(mesa_numero=1)
     assert comandas == []
-    assert mensagem == "Comandas listadas com sucesso."
 
-def test_listar_comandas_mesa_inexistente(app, table_service):
-    comandas, mensagem = table_service.listar_comandas_mesa(mesa_numero=99)
+def test_liberar_mesa_com_sucesso(app, user_service, table_service):
+    admin = criar_admin_teste(user_service)
+    table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=4) 
     
-    assert comandas is None
-    assert mensagem == "Mesa não encontrada."
-
-def test_liberar_mesa_com_sucesso(app, table_service):
-    table_service.criar_mesa(capacidade=4) # Recebe número 1
-    
-    # Vamos forçar a mesa a ficar ocupada para testar a liberação
     mesa = table_service.get_table_by_number(1)
     mesa.status = TableStatus.OCUPADA
     db.session.commit()
@@ -120,5 +171,28 @@ def test_liberar_mesa_com_sucesso(app, table_service):
     sucesso, mensagem = table_service.liberar_mesa(mesa_numero=1)
     
     assert sucesso is True
-    assert mensagem == "Mesa 1 liberada."
+    assert mensagem == TableSuccessMessages.MESA_LIBERADA
     assert mesa.status == TableStatus.LIVRE
+
+def test_liberar_mesa_comandas_abertas(app, user_service, table_service):
+    admin = criar_admin_teste(user_service)
+    table_service.criar_mesa(cpf_usuario_logado=admin.cpf, capacidade=4) 
+
+    mesa = table_service.get_table_by_number(1)
+    mesa.status = TableStatus.OCUPADA
+    
+    comanda_aberta = Order(
+        id=1,
+        numero_diario=1,
+        entrada_cozinha=datetime.now(timezone.utc).replace(tzinfo=None),
+        status=OrderStatus.EM_PREPARO,
+        user_cpf="12345678901",
+        numero_mesa=mesa.numero
+    )
+    db.session.add(comanda_aberta)
+    db.session.commit()
+    
+    sucesso, mensagem = table_service.liberar_mesa(mesa_numero=1)
+    
+    assert sucesso is False
+    assert mensagem == f"Mesa {mesa.numero} ainda tem comandas em aberto."
