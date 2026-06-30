@@ -1,6 +1,6 @@
 # Documento de Arquitetura
 
-**Versão 1.2**
+**Versão 1.3**
 
 ## Integrantes do Grupo
 
@@ -19,11 +19,12 @@
 
 ## Histórico de Revisões
 
-| Data       | Versão | Descrição                                                                           | Autor(es)             |
-|------------|--------|-------------------------------------------------------------------------------------|-----------------------|
-| 14/05/2026 | 1.0    | Primeira versão do documento que define a arquitetura usada no produto              | Grupo Dijkstra        |
-| 02/06/2026 | 1.1    | Adicionado menções diretas no corpo do documento às fontes bibliográficas usadas    | Grupo Dijkstra        |
-| 28/06/2026 | 1.2    | Melhorando Explicação Figuras e diagramas                                           | Rafael                |
+| Data       | Versão | Descrição                                                                                     | Autor(es)             |
+|------------|--------|-----------------------------------------------------------------------------------------------|-----------------------|
+| 14/05/2026 | 1.0    | Primeira versão do documento que define a arquitetura usada no produto                        | Grupo Dijkstra        |
+| 02/06/2026 | 1.1    | Adicionado menções diretas no corpo do documento às fontes bibliográficas usadas              | Grupo Dijkstra        |
+| 28/06/2026 | 1.2    | Melhorando explicação figuras e diagramas, corrigindo escopo                                 | Rafael                |
+| 29/06/2026 | 1.3    | Atualização para refletir a implementação real (SQLite, estrutura de pastas, serviços/controladores) | Rafael                |
 
 ---
 
@@ -82,13 +83,13 @@ O detalhamento do escopo se encontra no documento de arquitetura, este, juntamen
 
 ### 2.1 Definições
 
-O sistema Nexus Gourmet seguirá uma arquitetura Cliente-Servidor Web, organizada internamente segundo o padrão MVC em camadas, com apoio de comunicação assíncrona para atualização do status dos pedidos (SERRANO, 2026).
+O sistema Nexus Gourmet segue uma arquitetura **Cliente-Servidor Web**, organizada internamente segundo o padrão **MVC em camadas**, com previsão de comunicação assíncrona para atualização do status dos pedidos (SERRANO, 2026), embora atualmente as atualizações sejam feitas por requisições HTTP síncronas.
 
 A escolha da arquitetura Cliente-Servidor ocorre porque o sistema será acessado por diferentes tipos de clientes, como dispositivos móveis utilizados pelos garçons, telas utilizadas pela cozinha e interfaces administrativas (IBM, 2026). Esses clientes consomem os serviços oferecidos por uma aplicação central, responsável por processar as regras de negócio, controlar o fluxo dos pedidos e acessar o banco de dados.
 
-Internamente, o servidor será organizado segundo o padrão MVC (Model-View-Controller). Nesse modelo, a camada View representa as interfaces do sistema; a camada Controller recebe as requisições dos usuários e coordena o fluxo das operações; e a camada Model representa os dados, regras de negócio e persistência relacionados a pedidos, mesas, produtos, usuários e status de atendimento.
+Internamente, o servidor é organizado segundo o padrão MVC (Model-View-Controller). Nesse modelo, a camada **View** representa as interfaces do sistema (desenvolvidas em React); a camada **Controller** recebe as requisições dos usuários e coordena o fluxo das operações; e a camada **Model** representa os dados, regras de negócio e persistência relacionados a pedidos, mesas, produtos, usuários e status de atendimento.
 
-Além disso, como o Nexus Gourmet exige atualização rápida entre salão e cozinha, especialmente no envio e acompanhamento dos pedidos, a arquitetura prevê o uso de comunicação assíncrona, como WebSocket ou mecanismo equivalente, para notificar alterações de status sem depender exclusivamente de carregamento manual das páginas.
+**Nota:** A comunicação assíncrona via WebSocket está prevista na arquitetura, mas ainda não foi implementada nesta versão. Atualmente, as atualizações de status são realizadas por requisições HTTP síncronas, com recarregamento manual das páginas.
 
 ### 2.2 Justifique sua escolha
 
@@ -102,7 +103,7 @@ No contexto do Nexus Gourmet, essa separação é importante porque o sistema se
 
 Para complementar essa estrutura, o sistema adotará o padrão MVC (Model-View-Controller) como organização interna da aplicação. Essa abordagem favorece a separação de responsabilidades entre interface, controle do fluxo da aplicação e manipulação dos dados, tornando o sistema mais organizado e compreensível.
 
-A camada View será responsável pela interação com os usuários, apresentando telas e funcionalidades voltadas ao gerenciamento dos pedidos e operações do restaurante. A camada Controller coordenará o fluxo das requisições e regras de negócio, intermediando a comunicação entre interface e persistência. Já a camada Model concentrará as entidades e dados relacionados ao domínio do sistema, como pedidos, mesas, produtos e usuários.
+A camada **View** será responsável pela interação com os usuários, apresentando telas e funcionalidades voltadas ao gerenciamento dos pedidos e operações do restaurante. A camada **Controller** coordenará o fluxo das requisições e regras de negócio, intermediando a comunicação entre interface e persistência. Já a camada **Model** concentrará as entidades e dados relacionados ao domínio do sistema, como pedidos, mesas, produtos e usuários.
 
 Essa organização contribui diretamente para a manutenção e evolução do software, reduzindo o acoplamento entre partes do sistema e facilitando alterações futuras sem impacto excessivo em outros módulos. Além disso, a divisão clara das responsabilidades melhora o desenvolvimento paralelo entre as equipes de frontend, backend e banco de dados, permitindo maior produtividade e facilidade de integração.
 
@@ -115,43 +116,49 @@ Assim, a combinação entre Cliente-Servidor, MVC e comunicação assíncrona of
 A arquitetura proposta pode ser representada em quatro partes principais:
 
 - **Clientes Web** - Representam os dispositivos usados pelos perfis do sistema
-  - Garçom: abre pedidos, adiciona/remove itens, envia pedidos para a cozinha e fecha contas.
-  - Cozinha: visualiza pedidos ativos, acompanha tempo de espera e atualiza status.
-  - Administrador: cadastra e edita produtos, mesas e demais dados necessários à operação.
+  - **Garçom:** abre pedidos, adiciona/remove itens, envia pedidos para a cozinha e fecha contas.
+  - **Cozinha:** visualiza pedidos ativos, acompanha tempo de espera e atualiza status.
+  - **Administrador:** cadastra e edita produtos, mesas e demais dados necessários à operação.
 
 - **Camada de Apresentação - View**
-  - Corresponde às páginas e interfaces desenvolvidas em React. Essa camada é responsável por apresentar as telas ao usuário e capturar suas ações, como clicar em "enviar pedido", "adicionar item" ou "marcar como pronto".
+  - Corresponde às páginas e interfaces desenvolvidas em **React**. Essa camada é responsável por apresentar as telas ao usuário e capturar suas ações, como clicar em "enviar pedido", "adicionar item" ou "marcar como pronto".
 
 - **Camada de Controle e Aplicação - Controller/Service**
-  - Corresponde ao backend da aplicação, desenvolvido em Python com Flask. Essa camada recebe as requisições das interfaces, valida as operações, coordena o fluxo de dados e aciona as regras de negócio. É nela que ficam os controladores e serviços relacionados a pedidos, mesas, produtos, usuários e status.
+  - Corresponde ao backend da aplicação, desenvolvido em **Python com Flask** e **SQLAlchemy**.
+  - Os **controladores** (`order_controller`, `product_controller`, `table_controller`, `user_controller`) recebem as requisições HTTP e orquestram as ações.
+  - Os **serviços** (`order_service`, `product_service`, `table_service`, `user_service`) contêm as regras de negócio, validações e cálculos.
+  - A padronização de respostas da API é feita por meio dos arquivos `error_message.py` e `success_message.py`, que centralizam as mensagens de retorno.
 
-- **Camada de Modelo e Persistência — Model/Repository/Database**
-  - Representa os dados e regras centrais do sistema. Inclui as entidades principais, como Pedido, ItemPedido, Mesa, Produto, Usuário e StatusPedido. Também inclui os repositórios responsáveis por acessar o banco de dados MySQL, garantindo que os dados dos pedidos, produtos e mesas sejam armazenados de forma consistente.
+- **Camada de Modelo e Persistência - Model/Database**
+  - Representa os dados e regras centrais do sistema.
+  - As entidades principais (**User**, **Table**, **Product**, **Order**, **ProductOrdered**) estão definidas no arquivo `models.py`.
+  - Os valores enumerados (cargos, status, categorias) estão no arquivo `enums.py`.
+  - Não há uma camada explícita de **Repository**; o acesso ao banco de dados é realizado diretamente pelos serviços, utilizando **SQLAlchemy** e o banco de dados **SQLite** (arquivo `instance/nexus.db`).
+  - **Observação:** O banco de dados será migrado para **MySQL** em versões futuras, conforme planejado pela equipe.
 
-<center>Figura 1 - estilo arquitectural</center>
+**Figura 1 - estilo arquitectural**
 
 ![Figura 1 - estilo arquitectural](img/estilo-arquitectural.jpg)
 
 *Fonte: elaborado pelos autores (2026)*
 
-O fluxo principal começa quando o garçom acessa a interface web/mobile e registra um pedido vinculado a uma mesa. A View envia a solicitação ao Controller por meio de HTTP/HTTPS. O Controller aciona o Service correspondente, que valida as regras de negócio, como existência da mesa, disponibilidade do produto e cálculo dos valores. Em seguida, o Repository persiste os dados no MySQL.
+O fluxo principal começa quando o garçom acessa a interface web/mobile e registra um pedido vinculado a uma mesa. A View envia a solicitação ao Controller por meio de HTTP/HTTPS. O Controller aciona o Service correspondente, que valida as regras de negócio, como existência da mesa, disponibilidade do produto e cálculo dos valores. Em seguida, o Service persiste os dados no banco SQLite via SQLAlchemy.
 
-Quando o pedido é enviado para a cozinha, o sistema altera seu status e disponibiliza essa alteração para a tela da cozinha. Para atender à necessidade de atualização em tempo real, a aplicação pode utilizar WebSocket ou outro mecanismo assíncrono, permitindo que a cozinha receba a atualização sem depender de recarregamento manual da página.
+Quando o pedido é enviado para a cozinha, o sistema altera seu status e disponibiliza essa alteração para a tela da cozinha. Atualmente, a atualização é feita por requisição HTTP síncrona; futuramente, pretende-se utilizar WebSocket para que a cozinha receba a atualização sem depender de recarregamento manual da página.
 
 Quando o cozinheiro altera o status do pedido para "em preparo" ou "pronto", o fluxo ocorre no sentido inverso: a View da cozinha envia a atualização ao Controller, o Service valida a mudança de estado e o banco de dados é atualizado. A interface do garçom pode então visualizar o novo status do pedido.
 
 **Tabela 2 - Responsabilidades por camada**
 
-| Elemento                 | Responsabilidade no Nexus Gourmet                                                      |
-|--------------------------|----------------------------------------------------------------------------------------|
-| Cliente Web/Mobile       | Permitir interação dos usuários com o sistema em diferentes dispositivos               |
-| View                     | Exibir telas, formulários, botões, listas de pedidos, mesas e produtos                 |
-| Controller               | Receber requisições, coordenar o fluxo e encaminhar ações aos serviços                 |
-| Service                  | Aplicar regras de negócio, validações e cálculos                                       |
-| Model                    | Representar as entidades principais do domínio                                         |
-| Repository               | Isolar o acesso ao banco de dados                                                      |
-| Banco de Dados           | Persistir pedidos, produtos, mesas, usuários e histórico de status                     |
-| Comunicação assíncrona   | Atualizar cozinha e salão quando houver mudança relevante no pedido                    |
+| Elemento                 | Responsabilidade no Nexus Gourmet                                                          |
+|--------------------------|-------------------------------------------------------------------------------------------|
+| Cliente Web/Mobile       | Permitir interação dos usuários com o sistema em diferentes dispositivos                  |
+| View                     | Exibir telas, formulários, botões, listas de pedidos, mesas e produtos                    |
+| Controller               | Receber requisições HTTP, coordenar o fluxo e encaminhar ações aos serviços               |
+| Service                  | Aplicar regras de negócio, validações e cálculos                                          |
+| Model                    | Representar as entidades principais do domínio (User, Table, Product, Order, etc.)        |
+| Banco de Dados           | Persistir pedidos, produtos, mesas, usuários e histórico de status (SQLite)               |
+| Comunicação assíncrona   | *(não implementado)* – previsto para futuras versões                                      |
 
 *Fonte: elaborado pelos autores (2026)*
 
@@ -159,15 +166,15 @@ Quando o cozinheiro altera o status do pedido para "em preparo" ou "pronto", o f
 
 Esta seção define metas e restrições arquiteturais que o sistema deve seguir.
 
-- **Desempenho de Interface:** As atualizações de status de um pedido devem ser refletidas na tela da cozinha em tempo próximo ao real (limite máximo de 3 segundos), utilizando conexões assíncronas via protocolo WebSocket estabelecidas entre a View (React) e o Controller (Flask).
+- **Desempenho de Interface:** As atualizações de status de um pedido devem ser refletidas na tela da cozinha em tempo próximo ao real (limite máximo de 3 segundos). Para isso, futuramente serão utilizadas conexões assíncronas via protocolo WebSocket estabelecidas entre a View (React) e o Controller (Flask).
 
-- **Confiabilidade de Dados:** O sistema deve garantir a persistência dos pedidos mesmo em cenários de queda momentânea da internet. Para isso, a camada de apresentação (View em React) deve implementar mecanismos de armazenamento local temporário (cache/LocalStorage) até que a rota da API no backend (Flask) esteja disponível para consolidar os dados no banco MySQL.
+- **Confiabilidade de Dados:** O sistema deve garantir a persistência dos pedidos mesmo em cenários de queda momentânea da internet. Para isso, a camada de apresentação (View em React) deve implementar mecanismos de armazenamento local temporário (cache/LocalStorage) até que a rota da API no backend (Flask) esteja disponível para consolidar os dados no banco (SQLite/MySQL).
 
 - **Restrições de Rede:** O software deve ser otimizado para operar prioritariamente sob a infraestrutura de rede local (Wi-Fi) do restaurante, minimizando requisições externas supérfluas para garantir que o tempo de tráfego de dados do salão até o sistema KDS (Kitchen Display System) da cozinha seja imperceptível ao usuário.
 
 - **Escalabilidade e Concorrência:** O sistema deve ser capaz de suportar o acesso simultâneo de ao menos 15 usuários logados (entre garçons e cozinheiros), garantindo a estabilidade e a sincronização dos dados em tempo real.
 
-- **Restrição de Segurança/Acesso:** É obrigatória a identificação (login) de qualquer funcionário para que o sistema permita a realização de operações de pedido.
+- **Restrição de Segurança/Acesso:** É obrigatória a identificação (login) de qualquer funcionário para que o sistema permita a realização de operações de pedido. A autenticação é gerenciada pelo `user_service`, utilizando sessões Flask.
 
 - **Usabilidade Física:** Devido ao contexto dos garçons, o design da interface no dispositivo móvel tem a meta de possibilitar a operação e uso com apenas uma das mãos.
 
@@ -181,39 +188,41 @@ O escopo do sistema Nexus Gourmet abrange o desenvolvimento de uma aplicação d
 
 A definição do estilo arquitetural Cliente-Servidor Web, aliada ao padrão estrutural Model-View-Controller (MVC), foi fundamentada primordialmente nos requisitos operacionais do ambiente de implantação. A necessidade de mitigar falhas de comunicação históricas entre o salão e a cozinha exigiu uma arquitetura que garantisse a centralização das informações e o acesso simultâneo. Adicionalmente, a pluralidade de perfis de acesso sistêmico caracterizada pelo uso de dispositivos móveis pelos garçons, telas ou tablets na cozinha e interfaces web exclusivas para a administração justificou a separação lógica das interfaces gráficas (camada View) do processamento das regras de negócio e da persistência de dados.
 
-<center>Figura 2 - Diagrama de Casos de Uso</center>
+**Figura 2 - Diagrama de Casos de Uso**
 
 ![Figura 2 - Diagrama de Casos de Uso](img/casos-de-uso.png)
 
 *Fonte: Elaborado pelos autores (2026)*
 
-Por fim, o requisito de atualização sistêmica ágil para o acompanhamento dos pedidos determinou a adoção de mecanismos de comunicação assíncrona, a exemplo do protocolo WebSocket, possibilitando que as mudanças de status sejam refletidas nas telas de operação sem a necessidade de recarregamento manual.
+Por fim, o requisito de atualização sistêmica ágil para o acompanhamento dos pedidos determinou a adoção de mecanismos de comunicação assíncrona (WebSocket) – ainda não implementados, mas previstos para versões futuras.
 
 #### 2.5.2 Visão de organização lógica
 
-O sistema é subdividido nos seguintes módulos.
+O sistema é subdividido nos seguintes módulos, conforme implementado:
 
 - **Módulo de Apresentação (View):**
-  - **Composição:** Desenvolvido com HTML, CSS e JavaScript.
-  - **Razão Lógica:** É responsável unicamente pela interface com o usuário, apresentando as diferentes telas (mobile para garçom, desktop para cozinha) e capturando ações como "enviar pedido" ou "marcar como pronto".
+  - **Composição:** Desenvolvido com **React**.
+  - **Razão Lógica:** Responsável unicamente pela interface com o usuário, apresentando as diferentes telas (mobile para garçom, desktop para cozinha) e capturando ações como "enviar pedido" ou "marcar como pronto".
 
 - **Módulo de Controle e Serviços (Controller/Service):**
-  - **Composição:** Desenvolvido em linguagem Python utilizando o framework Flask.
-  - **Razão Lógica:** Coordena todo o fluxo da aplicação. Este módulo recebe as requisições das telas, efetua as devidas validações, aplica regras de negócio (cálculos de contas, existência da mesa) e determina as ações para persistência.
+  - **Composição:** Desenvolvido em linguagem **Python** utilizando o framework **Flask**, com auxílio do **SQLAlchemy**.
+  - **Controladores:** `order_controller`, `product_controller`, `table_controller`, `user_controller` – recebem as requisições e orquestram as ações.
+  - **Serviços:** `order_service`, `product_service`, `table_service`, `user_service` – contêm as regras de negócio, validações e cálculos.
+  - **Razão Lógica:** Coordenam todo o fluxo da aplicação, recebem as requisições das telas, efetuam validações, aplicam regras de negócio (cálculos de contas, existência da mesa) e determinam as ações para persistência.
 
-- **Módulo de Modelo e Persistência (Model/Repository/Database):**
-  - **Composição:** Composto pelas entidades fundamentais do sistema e o banco de dados MySQL.
-  - **Razão Lógica:** Este módulo serve para modelar o domínio (Pedido, ItemPedido, Mesa, Produto e Usuário) e garantir a integridade e isolamento na persistência física dos dados.
+- **Módulo de Modelo e Persistência (Model/Database):**
+  - **Composição:** Composto pelas entidades fundamentais do sistema (arquivo `models.py`), pelos enums (`enums.py`) e pelo banco de dados **SQLite** (arquivo `instance/nexus.db`).
+  - **Razão Lógica:** Modela o domínio (User, Table, Product, Order, ProductOrdered) e garante a integridade e persistência física dos dados, utilizando SQLAlchemy para abstração do banco.
 
 **Como eles se comunicam (Interfaces):**
 
 A camada de Apresentação (View) comunica-se com os Controladores (backend) através de API REST utilizando o protocolo HTTP/HTTPS.
 
-Para garantir o fluxo reverso dinâmico e em tempo real (como a cozinha notificando o garçom de que um prato finalizou), utiliza-se conexão assíncrona (WebSockets) entre a camada de Serviço e as Views.
+Para garantir o fluxo reverso dinâmico e em tempo real (como a cozinha notificando o garçom de que um prato finalizou), prevê-se o uso futuro de conexão assíncrona (WebSockets) entre a camada de Serviço e as Views.
 
-Internamente, o Controller utiliza a camada de Service (regras de negócio) para se comunicar de maneira contínua com o Model e os Repositories, que por sua vez persistem e consultam as informações diretamente no banco de dados MySQL.
+Internamente, o Controller utiliza a camada de Service (regras de negócio) para se comunicar de maneira contínua com o Model (SQLAlchemy), que por sua vez persiste e consulta as informações diretamente no banco de dados SQLite.
 
-<center>Figura 3 - Diagrama de Pacotes</center>
+**Figura 3 - Diagrama de Pacotes**
 
 ![Figura 3 - Diagrama de Pacotes](img/diagrama-de-pacotes.png)
 
@@ -221,7 +230,7 @@ Internamente, o Controller utiliza a camada de Service (regras de negócio) para
 
 #### 2.5.3 Visão estrutural
 
-<center>Figura 4 - Diagrama de Classes</center>
+**Figura 4 - Diagrama de Classes**
 
 ![Figura 4 - Diagrama de Classes](img/diagrama-de-classes.png)
 
@@ -229,7 +238,7 @@ A Figura 4 ilustra o Diagrama de Classes, delimitando o escopo do produto e as i
 
 **Detalhamento dos Atores e Interações:**
 
-- **Atores Primários:** O diagrama identifica três perfis distintos com responsabilidades segregadas: Administrador, Garçom e Cozinheiro. Essa separação é refletida na arquitetura de segurança e controle de acesso do sistema.
+- **Atores Primários:** O diagrama identifica três perfis distintos com responsabilidades segregadas: Administrador, Garçom e Cozinheiro. Essa separação é refletida na arquitetura de segurança e controle de acesso do sistema, implementada via `user_service` e `enums.py`.
 
 - **Gestão de Pedidos (Garçom/Cozinheiro):** O núcleo operacional do sistema é representado pelos casos de uso "Fazer pedido", "Visualizar pedidos" e "Atualizar status do pedido". A interação entre esses atores através do sistema mitiga falhas de comunicação e agiliza o tempo de atendimento.
 
@@ -253,11 +262,11 @@ A aplicação atende três perfis de uso, cada um com dispositivos e interfaces 
 
 - **Interface Mobile (Garçom):**
 
-Os garçons utilizam smartphones ou tablets com navegador web para acessar a interface otimizada para toque. O fluxo operacional inicia-se com a autenticação do usuário. Após o login, o garçom pode selecionar uma mesa, abrir uma comanda, adicionar ou remover itens e, por fim, enviar o pedido à cozinha. A ação "Confirmar/Enviar" dispara uma requisição HTTP para a API central, que registra o pedido e aciona a notificação assíncrona para a cozinha.
+Os garçons utilizam smartphones ou tablets com navegador web para acessar a interface otimizada para toque. O fluxo operacional inicia-se com a autenticação do usuário. Após o login, o garçom pode selecionar uma mesa, abrir uma comanda, adicionar ou remover itens e, por fim, enviar o pedido à cozinha. A ação "Confirmar/Enviar" dispara uma requisição HTTP para a API central, que registra o pedido e aciona a notificação para a cozinha (atualmente via requisição síncrona).
 
 - **Interface Desktop (Cozinha - KDS):**
 
-A cozinha utiliza um sistema de display (Kitchen Display System - KDS), normalmente executado em tablets ou monitores fixos. Essa interface exibe a lista de pedidos ativos, organizada por status ("em preparo" e "pronto"), com destaque para o tempo de espera de cada comanda. O cozinheiro interage com o sistema para marcar um pedido como "em preparo" ou "pronto", ações que atualizam o estado e são imediatamente refletidas na interface do garçom via WebSocket. Essa transição elimina a necessidade de comandas de papel e reduz a carga cognitiva da equipe.
+A cozinha utiliza um sistema de display (Kitchen Display System - KDS), normalmente executado em tablets ou monitores fixos. Essa interface exibe a lista de pedidos ativos, organizada por status ("em preparo" e "pronto"), com destaque para o tempo de espera de cada comanda. O cozinheiro interage com o sistema para marcar um pedido como "em preparo" ou "pronto", ações que atualizam o estado e são refletidas na interface do garçom (por recarregamento ou requisição). Futuramente, essa atualização será feita via WebSocket.
 
 - **Interface Administrativa (Desktop/Web):**
 
@@ -268,21 +277,20 @@ O administrador acessa uma interface web completa para gerenciar o cardápio (ca
 O servidor central hospeda a aplicação backend desenvolvida em Python com o framework Flask. Ele é responsável por:
 
 - Processar as requisições REST provenientes dos clientes (autenticação, operações de comanda, gestão de produtos e mesas);
-- Gerenciar as conexões WebSocket para atualizações em tempo real de status;
-- Executar as regras de negócio (validações, cálculos de total, controle de fluxo de status);
-- Coordenar o acesso ao banco de dados por meio da camada de repositórios.
+- Executar as regras de negócio (validações, cálculos de total, controle de fluxo de status) por meio dos serviços;
+- Coordenar o acesso ao banco de dados via SQLAlchemy.
 
-O servidor pode ser implantado em uma máquina dedicada na rede local do restaurante (para menor latência) ou em nuvem, dependendo da infraestrutura disponível. Em ambos os casos, a comunicação com os clientes é feita via protocolo HTTP/HTTPS para requisições síncronas e WebSocket para notificações assíncronas.
+O servidor pode ser implantado em uma máquina dedicada na rede local do restaurante (para menor latência) ou em nuvem. Atualmente, a comunicação com os clientes é feita via protocolo HTTP/HTTPS.
 
 #### 2.6.3 Banco de Dados
 
-O banco de dados relacional MySQL é mantido em um servidor separado do servidor de aplicação, garantindo isolamento e segurança. Ele persiste todas as informações do sistema:
+O banco de dados utilizado atualmente é **SQLite**, com o arquivo armazenado em `instance/nexus.db`. Ele persiste todas as informações do sistema:
 
 - Dados cadastrais (produtos, mesas, usuários);
 - Comandas e itens associados;
 - Histórico de status e transações financeiras.
 
-Essa separação permite políticas de backup independentes, maior controle de acesso e facilita a escalabilidade (por exemplo, migrar o banco para um ambiente com mais recursos sem afetar a camada de aplicação).
+A equipe planeja migrar para **MySQL** em versões futuras para melhor escalabilidade e concorrência.
 
 #### 2.6.4 Conectores e Protocolos
 
@@ -290,19 +298,19 @@ A comunicação entre os componentes segue os seguintes padrões:
 
 - **Cliente ↔ Servidor de Aplicação:**
 
-Requisições síncronas (abrir comanda, adicionar item, fechar conta) utilizam o protocolo HTTP/HTTPS com uma API RESTful. As atualizações de status e notificações em tempo real são realizadas via WebSocket, que mantém um canal bidirecional persistente entre a cozinha e o servidor, e entre o servidor e os dispositivos dos garçons.
+Requisições síncronas (abrir comanda, adicionar item, fechar conta) utilizam o protocolo HTTP/HTTPS com uma API RESTful. As atualizações de status e notificações em tempo real atualmente são feitas via requisições HTTP; futuramente, serão realizadas via WebSocket.
 
 - **Servidor de Aplicação ↔ Banco de Dados:**
 
-A comunicação ocorre por meio de conexão TCP/IP utilizando o driver MySQL, com credenciais específicas e, preferencialmente, em uma rede interna segregada para reduzir a exposição a ataques externos.
+A comunicação ocorre por meio do SQLAlchemy, que abstrai o driver do banco. Para SQLite, a conexão é feita diretamente com o arquivo local.
 
-<center>Figura 5 - Diagrama de Implantação</center>
+**Figura 5 - Diagrama de Implantação**
 
 ![Figura 5 - Diagrama de Implantação](img/diagrama-de-implantacao.png)
 
 *Fonte: Elaborado pelos autores (2026)*
 
-A Figura 5 representa graficamente a topologia descrita. No lado esquerdo, vemos os clientes agrupados por perfil: smartphones/tablets dos garçons, displays da cozinha e computadores administrativos. Todos se conectam, via rede local ou internet, ao servidor de aplicação central, que está ligado ao banco de dados MySQL. As setas indicam os protocolos utilizados - HTTP/HTTPS para requisições síncronas e WebSocket para o fluxo assíncrono de atualizações. Essa arquitetura garante que o envio de um pedido pelo garçom seja imediatamente refletido na tela da cozinha, e que as alterações de status feitas pelo cozinheiro cheguem em tempo real ao garçom, mantendo toda a equipe sincronizada e eliminando os atrasos e erros típicos do método manual.
+A Figura 5 representa graficamente a topologia descrita. No lado esquerdo, vemos os clientes agrupados por perfil: smartphones/tablets dos garçons, displays da cozinha e computadores administrativos. Todos se conectam, via rede local ou internet, ao servidor de aplicação central, que está ligado ao banco de dados SQLite. As setas indicam os protocolos utilizados - HTTP/HTTPS para requisições e, no futuro, WebSocket para atualizações assíncronas. Essa arquitetura garante que o envio de um pedido pelo garçom seja registrado e disponibilizado para a cozinha, mantendo a equipe sincronizada.
 
 ### 2.7 Restrições adicionais
 
@@ -310,11 +318,11 @@ Esta seção detalha limitações e requisitos de qualidade que o sistema deve s
 
 - **Aspectos negociais:**
 
-O software será acessível diretamente pela Internet e otimizado para a rede local do estabelecimento para evitar latência no envio de pedidos para cozinha. O produto exigirá obrigatoriamente a identificação e login do usuário (funcionário do restaurante) para qualquer operação de pedido.
+O software será acessível diretamente pela Internet e otimizado para a rede local do estabelecimento para evitar latência no envio de pedidos para cozinha. O produto exigirá obrigatoriamente a identificação e login do usuário (funcionário do restaurante) para qualquer operação de pedido. A autenticação é gerenciada pelo `user_service`, utilizando sessões Flask.
 
-- **Característica de Qualidade de Software:**
+- **Características de Qualidade de Software:**
 
-  - **Confiabilidade:** Caso haja uma queda momentânea de conexão, o sistema não deve perder dados de pedidos.
+  - **Confiabilidade:** Caso haja uma queda momentânea de conexão, o sistema não deve perder dados de pedidos. Para isso, a camada de apresentação (React) pode implementar cache local (LocalStorage) para reenvio posterior.
   - **Usabilidade:** A interface seguirá padrões de design que possibilitem o uso com apenas uma mão, no caso dos garçons, facilitando o trabalho deles.
 
 ---
