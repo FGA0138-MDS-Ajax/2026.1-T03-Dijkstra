@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 app = create_app()
 with app.app_context():
     # Defina aqui o CPF e a Senha que você quer usar para o Admin
-    cpf_admin = "12345678901"  # Importante: Deve ser um CPF válido pelo algoritmo ou mude a validação
+    cpf_admin = "03462582194"  # Importante: Deve ser um CPF válido pelo algoritmo ou mude a validação
     senha_admin = "Admin@123"  # Atende aos requisitos: Maiúscula, minúscula, número e caracter especial
     
     # Se quiser testar com um CPF fictício sem validação, vamos direto ao banco:

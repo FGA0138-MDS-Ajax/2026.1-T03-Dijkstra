@@ -3,4 +3,3 @@ flask_sqlalchemy
 pylint
 werkzeug
 beaker
-Flask-SQLAlchemy
