@@ -1,6 +1,6 @@
 # Documento de Arquitetura
 
-**Versão 1.3**
+**Versão 1.4**
 
 ## Integrantes do Grupo
 
@@ -15,7 +15,7 @@
 | 241039304   | João Victor Amorim Kurihara                         | Frontend                  | 10                     |
 | 242024253   | Lucas Ferreira Santana                              | Backend                   | 10                     |
 | 242024271   | Lucas Peixoto Rodrigues                             | Backend                   | 10                     |
-| 242005006   | Rafael de Aquino Marinho                            | Frontend/ MkDocs          | 10                     |
+| 242005006   | Rafael de Aquino Marinho                            | Frontend/MkDocs           | 10                     |
 
 ## Histórico de Revisões
 
@@ -23,8 +23,9 @@
 |------------|--------|-----------------------------------------------------------------------------------------------|-----------------------|
 | 14/05/2026 | 1.0    | Primeira versão do documento que define a arquitetura usada no produto                        | Grupo Dijkstra        |
 | 02/06/2026 | 1.1    | Adicionado menções diretas no corpo do documento às fontes bibliográficas usadas              | Grupo Dijkstra        |
-| 28/06/2026 | 1.2    | Melhorando explicação figuras e diagramas, corrigindo escopo                                 | Rafael                |
-| 29/06/2026 | 1.3    |Atualização para refletir a implementação real (MySQL, estrutura de pastas, serviços/controladores, remoção do WebSocket) | Rafael                |
+| 28/06/2026 | 1.2    | Melhorando Explicação Figuras e diagramas                                                     | Rafael                |
+| 29/06/2026 | 1.3    | Atualização para refletir a implementação real (MySQL, estrutura de pastas, serviços/controladores, remoção do WebSocket) | Rafael |
+| 30/06/2026 | 1.4    | Atualização dos diagramas e tabelas                                                          | João Kurihara         |
 
 ---
 
@@ -84,17 +85,17 @@ O detalhamento do escopo se encontra no documento de arquitetura, este, juntamen
 
 ### 2.1 Definições
 
-O sistema Nexus Gourmet segue uma arquitetura **Cliente-Servidor Web**, organizada internamente segundo o padrão **MVC em camadas**, com comunicação síncrona via HTTP para todas as operações, incluindo atualização de status de pedidos.
+O sistema Nexus Gourmet seguirá uma arquitetura Cliente-Servidor Web, organizada internamente segundo o padrão MVC em camadas, com apoio de comunicação assíncrona para atualização do status dos pedidos (SERRANO, 2026).
 
 A escolha da arquitetura Cliente-Servidor ocorre porque o sistema será acessado por diferentes tipos de clientes, como dispositivos móveis utilizados pelos garçons, telas utilizadas pela cozinha e interfaces administrativas (IBM, 2026). Esses clientes consomem os serviços oferecidos por uma aplicação central, responsável por processar as regras de negócio, controlar o fluxo dos pedidos e acessar o banco de dados.
 
-Internamente, o servidor é organizado segundo o padrão **MVC (Model-View-Controller)**. Nesse modelo:
+Internamente, o servidor é organizado segundo o padrão MVC (Model-View-Controller). Nesse modelo:
 
 - **View:** interfaces do sistema (desenvolvidas em React ou templates HTML).
 - **Controller:** recebe as requisições dos usuários e coordena o fluxo das operações.
 - **Model:** representa os dados, regras de negócio e persistência relacionados a pedidos, mesas, produtos, usuários e status de atendimento.
 
-A comunicação entre as camadas é feita via **API REST** sobre HTTP/HTTPS, com todas as requisições sendo síncronas.
+A comunicação entre as camadas é feita via API REST sobre HTTP/HTTPS, com todas as requisições sendo síncronas.
 
 ### 2.2 Justifique sua escolha
 
@@ -126,24 +127,24 @@ A arquitetura proposta pode ser representada em quatro partes principais:
   - **Administrador:** cadastra e edita produtos, mesas e demais dados necessários à operação.
 
 - **Camada de Apresentação - View**
-  - Corresponde às páginas e interfaces desenvolvidas em **React** (ou templates HTML). Essa camada é responsável por apresentar as telas ao usuário e capturar suas ações, como clicar em "enviar pedido", "adicionar item" ou "marcar como pronto".
+  - Corresponde às páginas e interfaces desenvolvidas em React (ou templates HTML). Essa camada é responsável por apresentar as telas ao usuário e capturar suas ações, como clicar em "enviar pedido", "adicionar item" ou "marcar como pronto".
 
 - **Camada de Controle e Aplicação - Controller/Service**
-  - Corresponde ao backend da aplicação, desenvolvido em **Python com Flask** e **SQLAlchemy**.
-  - Os **controladores** (`order_controller`, `product_controller`, `user_controller`) recebem as requisições HTTP e orquestram as ações.
-  - Os **serviços** (`order_service`, `product_service`, `user_service`, `mesa_service`) contêm as regras de negócio, validações e cálculos.
+  - Corresponde ao backend da aplicação, desenvolvido em Python com Flask e SQLAlchemy.
+  - Os controladores (`order_controller`, `product_controller`, `user_controller`) recebem as requisições HTTP e orquestram as ações.
+  - Os serviços (`order_service`, `product_service`, `user_service`, `mesa_service`) contêm as regras de negócio, validações e cálculos.
   - A padronização de respostas da API é feita por meio de mensagens de erro e sucesso centralizadas.
 
 - **Camada de Modelo e Persistência - Model/Database**
   - Representa os dados e regras centrais do sistema.
   - As entidades principais (**User**, **Table**, **Product**, **Order**, **ItemOrdered**) estão definidas no arquivo `models/models.py`.
   - Os valores enumerados (cargos, status, categorias) estão no arquivo `models/enums.py`.
-  - **Não há uma camada explícita de Repository**; o acesso ao banco de dados é realizado diretamente pelos serviços, utilizando **SQLAlchemy**.
-  - O banco de dados utilizado é **MySQL**, conforme script `database.sql`.
+  - Não há uma camada explícita de Repository; o acesso ao banco de dados é realizado diretamente pelos serviços, utilizando SQLAlchemy.
+  - O banco de dados utilizado é MySQL, conforme script `database.sql`.
 
 **Figura 1 - estilo arquitectural**
 
-![Figura 1 - estilo arquitectural](img/estilo-arquitectural.jpg)
+![Figura 1 - estilo arquitectural](img/estilo-arquitectural.png)
 
 *Fonte: elaborado pelos autores (2026)*
 
@@ -157,12 +158,14 @@ Quando o cozinheiro altera o status do pedido para "em preparo" ou "pronto", o f
 
 | Elemento                 | Responsabilidade no Nexus Gourmet                                                          |
 |--------------------------|-------------------------------------------------------------------------------------------|
-| Cliente Web/Mobile       | Permitir interação dos usuários com o sistema em diferentes dispositivos                  |
+| Cliente Web              | Permitir interação dos usuários com o sistema em diferentes dispositivos                  |
 | View                     | Exibir telas, formulários, botões, listas de pedidos, mesas e produtos                    |
-| Controller               | Receber requisições HTTP, coordenar o fluxo e encaminhar ações aos serviços               |
+| Controller               | Receber requisições, coordenar o fluxo e encaminhar ações aos serviços                    |
 | Service                  | Aplicar regras de negócio, validações e cálculos                                          |
-| Model                    | Representar as entidades principais do domínio (User, Table, Product, Order, etc.)        |
-| Banco de Dados           | Persistir pedidos, produtos, mesas, usuários e histórico de status (MySQL)                |
+| Model                    | Representar as entidades principais do domínio                                            |
+| Repository               | Isolar o acesso ao banco de dados                                                         |
+| Banco de Dados           | Persistir pedidos, produtos, mesas, usuários e histórico de status                        |
+| Comunicação assíncrona   | Atualizar cozinha e salão quando houver mudança relevante no pedido                       |
 
 *Fonte: elaborado pelos autores (2026)*
 
@@ -205,17 +208,17 @@ As mudanças de status são refletidas após recarregamento manual ou por meio d
 O sistema é subdividido nos seguintes módulos, conforme implementado:
 
 - **Módulo de Apresentação (View):**
-  - **Composição:** Desenvolvido com **React** (ou templates HTML).
+  - **Composição:** Desenvolvido com React (ou templates HTML).
   - **Razão Lógica:** Responsável unicamente pela interface com o usuário, apresentando as diferentes telas (mobile para garçom, desktop para cozinha) e capturando ações como "enviar pedido" ou "marcar como pronto".
 
 - **Módulo de Controle e Serviços (Controller/Service):**
-  - **Composição:** Desenvolvido em linguagem **Python** utilizando o framework **Flask**, com auxílio do **SQLAlchemy**.
-  - **Controladores:** `order_controller`, `product_controller`, `user_controller` – recebem as requisições e orquestram as ações.
-  - **Serviços:** `order_service`, `product_service`, `user_service`, `mesa_service` – contêm as regras de negócio, validações e cálculos.
+  - **Composição:** Desenvolvido em linguagem Python utilizando o framework Flask, com auxílio do SQLAlchemy.
+  - **Controladores:** `order_controller`, `product_controller`, `user_controller` - recebem as requisições e orquestram as ações.
+  - **Serviços:** `order_service`, `product_service`, `user_service`, `mesa_service` - contêm as regras de negócio, validações e cálculos.
   - **Razão Lógica:** Coordenam todo o fluxo da aplicação, recebem as requisições das telas, efetuam validações, aplicam regras de negócio (cálculos de contas, existência da mesa) e determinam as ações para persistência.
 
 - **Módulo de Modelo e Persistência (Model/Database):**
-  - **Composição:** Composto pelas entidades fundamentais do sistema (arquivo `models/models.py`), pelos enums (`models/enums.py`) e pelo banco de dados **MySQL** (script `database.sql`).
+  - **Composição:** Composto pelas entidades fundamentais do sistema (arquivo `models/models.py`), pelos enums (`models/enums.py`) e pelo banco de dados MySQL (script `database.sql`).
   - **Razão Lógica:** Modela o domínio (User, Table, Product, Order, ItemOrdered) e garante a integridade e persistência física dos dados, utilizando SQLAlchemy para abstração do banco.
 
 **Como eles se comunicam (Interfaces):**
@@ -287,7 +290,7 @@ O servidor pode ser implantado em uma máquina dedicada na rede local do restaur
 
 #### 2.6.3 Banco de Dados
 
-O banco de dados utilizado é **MySQL**, conforme script `database.sql`. Ele persiste todas as informações do sistema:
+O banco de dados utilizado é MySQL, conforme script `database.sql`. Ele persiste todas as informações do sistema:
 
 - Dados cadastrais (produtos, mesas, usuários);
 - Comandas e itens associados;
