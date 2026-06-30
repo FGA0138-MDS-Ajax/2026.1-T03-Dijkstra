@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `nexus_db`.`users` (
   `cpf` INT NOT NULL, 
   `nome` VARCHAR(100) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
-  `cargo` ENUM('Administrador', 'Garçom', 'Cozinheiro') NOT NULL,
+  `cargo` ENUM('Administrador', 'Garçom', 'Cozinheiro') NOT NULL DEFAULT 'GARCOM',
   `foto_usuario` VARCHAR(255) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -50,8 +50,9 @@ DROP TABLE IF EXISTS `nexus_db`.`products` ;
 
 CREATE TABLE IF NOT EXISTS `nexus_db`.`products` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `data_criacao` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `nome` VARCHAR(100) NOT NULL,
-  `preco` DECIMAL(10,2) NOT NULL,
+  `preco` NUMERIC(10,2) NOT NULL,
   `categoria` ENUM('Bebida', 'Prato', 'Sobremesa') NOT NULL,
   `tempo_preparacao` INT NOT NULL DEFAULT 15,
   `foto_prato` VARCHAR(255) NULL,
@@ -70,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `nexus_db`.`orders` (
   `data_abertura` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `entrada_cozinha` DATETIME NULL,
   `saida_cozinha` DATETIME NULL,
-  `status` ENUM('Pendente', 'Em Preparo', 'Pronto', 'Entregue', 'Cancelado') NOT NULL DEFAULT 'Pendente',
+  `status` ENUM('Finalizado', 'Em Preparo', 'Pronto', 'Entregue', 'Cancelado') NOT NULL DEFAULT 'EM_PREPARO',
   `numero_mesa` INT NOT NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -98,7 +99,8 @@ CREATE TABLE IF NOT EXISTS `nexus_db`.`itens_ordered` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `quantidade` INT NOT NULL DEFAULT 1,
   `observacao` VARCHAR(255) NULL,
-  `cozinha_status` VARCHAR(20) NOT NULL DEFAULT 'PENDENTE',
+  `cozinha_status` VARCHAR(20) NOT NULL DEFAULT 'EM_PREPARO',
+  `preco_vendido` NUMERIC(10,2) NOT NULL DEFAULT 0.0,
   `order_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   PRIMARY KEY (`id`),
