@@ -1,6 +1,6 @@
 # Documento de Arquitetura
 
-**Versão 1.4**
+**Versão 1.3**
 
 ## Integrantes do Grupo
 
@@ -236,6 +236,8 @@ Internamente, o Controller utiliza a camada de Service (regras de negócio) para
 
 ![Figura 4 - Diagrama de Classes](img/diagrama-de-classes.png)
 
+*Fonte: Elaborado pelos autores (2026)*
+
 A Figura 4 ilustra o Diagrama de Classes, delimitando o escopo do produto e as interações entre os atores externos e as funcionalidades do sistema.
 
 **Detalhamento dos Atores e Interações:**
@@ -252,7 +254,6 @@ A Figura 4 ilustra o Diagrama de Classes, delimitando o escopo do produto e as i
 
 O mapeamento da Figura 4 serve como base para a definição das rotas da API no backend e para a construção das interfaces no frontend. Cada caso de uso representado foi priorizado para atender aos requisitos funcionais e garantir que a arquitetura lógica suporte a carga de trabalho simultânea de múltiplos atores.
 
-*Fonte: Elaborado pelos autores (2026)*
 
 ### 2.6 Visão de Implantação
 
