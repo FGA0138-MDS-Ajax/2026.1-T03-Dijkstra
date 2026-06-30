@@ -7,6 +7,7 @@ Utilizamos o padrão **Conventional Commits** para manter o histórico legível 
 `tipo: descrição`
 
 **Tipos permitidos:**
+
 - `feat`: Nova funcionalidade
 
 - `fix`: Correção de bug
