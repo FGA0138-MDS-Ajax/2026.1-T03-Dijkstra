@@ -1,6 +1,6 @@
 from flask import request, session
 from .base_controller import BaseController
-from backend.models.enums import Role
+from models.enums import Role
 
 class OrderController(BaseController):
     def __init__(self, app, user_service, order_service, table_service):
@@ -120,5 +120,13 @@ class OrderController(BaseController):
         if not usuario or usuario.cargo != Role.GARCOM:
             return self.json_response(False, "Acesso negado", status=403)
 
-        success, message = self.order_service.fechar_comanda(comanda_id, usuario)
-        return self.json_response(success, message, status=200 if success else 400)
+        success, resultado = self.order_service.fechar_comanda(comanda_id, usuario)
+        
+        if success:
+            return self.json_response(
+                True, 
+                message=resultado["mensagem"], 
+                data={"conta": resultado["conta"]}
+            )
+        else:
+            return self.json_response(False, message=resultado, status=400)

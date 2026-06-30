@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timezone
 
 from models.enums import Role, TableStatus, ProductCategory, OrderStatus
 
@@ -65,7 +65,7 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     numero_diario = db.Column(db.Integer, nullable=False)
-    data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
+    data_criacao = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     entrada_cozinha = db.Column(db.DateTime)
     saida_cozinha = db.Column(db.DateTime, nullable=True)
     status = db.Column(db.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDENTE)
@@ -93,6 +93,8 @@ class ProductOrdered(db.Model):
     quantidade = db.Column(db.Integer, nullable=False, default=1)
     observacao = db.Column(db.String(255), nullable=True)
     cozinha_status = db.Column(db.String(20), default='PENDENTE')
+
+    preco_vendido = db.Column(db.Float, nullable=False, default=0.0)
 
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)

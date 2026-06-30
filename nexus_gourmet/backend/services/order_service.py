@@ -1,21 +1,30 @@
 from datetime import datetime, time, timezone
-from models.models import db, Order, ProductOrdered, User, Table
+from models.models import db, Order, ProductOrdered, User, Table, Product
 from models.enums import Role, OrderStatus, TableStatus
 from models.error_message import UserErrorMessages, OrderErrorMessages, TableErrorMessages
 from models.sucess_message import OrderSuccessMessages
 
 FLUXO = {
     OrderStatus.PENDENTE:   [OrderStatus.EM_PREPARO, OrderStatus.CANCELADO],
-    OrderStatus.EM_PREPARO: [OrderStatus.PRONTO,     OrderStatus.CANCELADO, OrderStatus.EM_PREPARO], 
-    OrderStatus.PRONTO:     [OrderStatus.ENTREGUE,   OrderStatus.EM_PREPARO],
-    OrderStatus.ENTREGUE:   [OrderStatus.EM_PREPARO],
+    # Permite voltar de PREPARO para PENDENTE:
+    OrderStatus.EM_PREPARO: [OrderStatus.PRONTO, OrderStatus.PENDENTE, OrderStatus.CANCELADO], 
+    # Permite voltar de PRONTO para PREPARO:
+    OrderStatus.PRONTO:     [OrderStatus.ENTREGUE, OrderStatus.EM_PREPARO],
+    # Permite voltar de ENTREGUE para PRONTO:
+    OrderStatus.ENTREGUE:   [OrderStatus.PRONTO],
+    # Status finais onde o fluxo morre (não tem volta):
+    OrderStatus.FINALIZADO: [], 
     OrderStatus.CANCELADO:  [],
 }
 
 PERMISSOES = {
-    OrderStatus.EM_PREPARO: [Role.GARCOM, Role.ADMINISTRADOR], 
-    OrderStatus.PRONTO:     [Role.COZINHEIRO, Role.ADMINISTRADOR],
+    OrderStatus.PENDENTE:   [Role.GARCOM, Role.ADMINISTRADOR, Role.COZINHEIRO],
+    # Adicionado COZINHEIRO (para reverter de PRONTO para PREPARO):
+    OrderStatus.EM_PREPARO: [Role.GARCOM, Role.ADMINISTRADOR, Role.COZINHEIRO], 
+    # Adicionado GARCOM (para reverter de ENTREGUE para PRONTO):
+    OrderStatus.PRONTO:     [Role.COZINHEIRO, Role.ADMINISTRADOR, Role.GARCOM],
     OrderStatus.ENTREGUE:   [Role.GARCOM, Role.ADMINISTRADOR], 
+    OrderStatus.FINALIZADO: [Role.GARCOM, Role.ADMINISTRADOR],
     OrderStatus.CANCELADO:  [Role.ADMINISTRADOR, Role.GARCOM],
 }
 
@@ -101,12 +110,17 @@ class OrderService:
             return False, OrderErrorMessages.QUANTIDADE_INVALIDA
         if quantidade <= 0:
             return False, OrderErrorMessages.QUANTIDADE_MINIMA
-
+        
+        produto = db.session.get(Product, product_id)
+        if not produto:
+            return False, "Produto não encontrado."
+        
         item = ProductOrdered(
             order_id=order_id,
             product_id=product_id,
             quantidade=quantidade,
-            observacao=observacao
+            observacao=observacao,
+            preco_vendido=float(produto.preco) 
         )
         db.session.add(item)
         db.session.commit()
@@ -127,7 +141,6 @@ class OrderService:
             db.session.commit()
             return True, OrderSuccessMessages.COMANDA_CANCELADA
 
-        # Nova Regra: Impede edição apenas se a comanda já estiver cancelada
         if pedido.status == OrderStatus.CANCELADO:
             return False, OrderErrorMessages.COMANDA_JA_CANCELADA
         
@@ -141,10 +154,8 @@ class OrderService:
                 continue
 
             if item_id:
-                # SE É UM ITEM EXISTENTE: 
-                # Só permitimos alterar ou remover se a comanda ainda for PENDENTE
                 if pedido.status != OrderStatus.PENDENTE:
-                    continue # Ignora a edição deste item, pois já foi para a cozinha
+                    continue 
                     
                 item_existente = db.session.get(ProductOrdered, item_id)
                 if not item_existente or item_existente.order_id != order_id:
@@ -158,13 +169,11 @@ class OrderService:
                         item_existente.observacao = item_data['observacao']
                         
             elif product_id and quantidade > 0:
-                # SE É UM ITEM NOVO:
-                # Pode ser adicionado mesmo se a comanda estiver EM_PREPARO ou ENTREGUE
                 new_item = ProductOrdered(
                     order_id=order_id,
                     product_id=product_id,
                     quantidade=quantidade,
-                    observacao=item_data.get('observacao', '')
+                    observacao=item_data.get('observacao', ''),
                 )
                 db.session.add(new_item)
                 
@@ -240,14 +249,12 @@ class OrderService:
         subtotal = 0.0
         
         for item in comanda.itens:
-            if not item.product:
-                continue
-            valor_item = float(item.product.preco) * item.quantidade
+            valor_item = float(item.preco_vendido) * item.quantidade # <--- AQUI
             subtotal += valor_item
             itens_detalhados.append({
-                'produto': item.product.nome,
+                'produto': item.product.nome if item.product else 'Produto Removido',
                 'quantidade': item.quantidade,
-                'preco_unitario': float(item.product.preco),
+                'preco_unitario': float(item.preco_vendido), # <--- E AQUI
                 'subtotal_item': round(valor_item, 2),
                 'observacao': item.observacao or ''
             })
@@ -315,7 +322,7 @@ class OrderService:
         total_itens = sum(len(c.itens) for c in comandas_validas)
         
         total_faturamento = round(
-            float(sum(i.product.preco * i.quantidade for c in comandas_validas for i in c.itens if i.product)), 
+            float(sum(i.preco_vendido * i.quantidade for c in comandas_validas for i in c.itens if i.product)), 
             2
         )
         

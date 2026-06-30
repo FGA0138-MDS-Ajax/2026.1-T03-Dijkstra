@@ -54,6 +54,7 @@ class OrderErrorMessages:
 class TableErrorMessages:
     MESA_JA_EXISTE = "Número de mesa já existe."
     MESA_NAO_ENCONTRADA = "Mesa não encontrada."
+    MESA_COM_COMANDAS = "Mesa possui comandas abertas."
 
     ERRO_ATUALIZAR_MESA = "Erro ao atualizar mesa."
 

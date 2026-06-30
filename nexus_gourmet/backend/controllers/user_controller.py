@@ -1,6 +1,6 @@
 from flask import request, session
 from .base_controller import BaseController
-from backend.models.enums import Role
+from models.enums import Role
 
 class UserController(BaseController):
     def __init__(self, app, user_service, order_service):
