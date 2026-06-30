@@ -1,3 +1,10 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -55,11 +62,9 @@ body {
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
+  width: 100%; /* Altere de 1126px para 100% */
+  margin: 0;   /* Remova o margin auto se quiser colar totalmente nas bordas */
   text-align: center;
-  border-inline: 1px solid var(--border);
   min-height: 100svh;
   display: flex;
   flex-direction: column;

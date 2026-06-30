@@ -39,7 +39,6 @@ export default function Mesas() {
     const [itemParaRemover, setItemParaRemover] = useState(null); // { comandaId, product_id, nome, quantidade }
     const [comandaParaEnviar, setComandaParaEnviar] = useState(null); // { numero_mesa, comandaId }
     const [contaParaFechar, setContaParaFechar] = useState(null);
-    const [comandaParaCancelar, setComandaParaCancelar] = useState(null); // { numero_mesa, comandaId }
     const [isProcessing, setIsProcessing] = useState(false);
 
     const fetchData = async () => {
@@ -64,14 +63,20 @@ export default function Mesas() {
     useEffect(() => { fetchData(); }, []);
 
     const carregarComandas = async (numero_mesa) => {
-        try {
-            const res = await axios.get(`http://localhost:5000/api/salao/${numero_mesa}/comandas`, { withCredentials: true });
-            if (res.data.success) {
-                const ativas = res.data.data.filter(c => c.status !== 'Cancelado');
-                setComandasMesa(ativas);
-            }
-        } catch (err) { console.error(err); }
-    };
+    try {
+        const res = await axios.get(`http://localhost:5000/api/salao/${numero_mesa}/comandas`, { withCredentials: true });
+        
+        // Se o back-end retornou sucesso mas a lista está vazia (pós-fechamento), 
+        // o front-end atualizará o estado para [] e as comandas sumirão da tela
+        if (res.data.success) {
+            const ativas = res.data.data.filter(c => !['Cancelado', 'Finalizado'].includes(c.status));
+            setComandasMesa(ativas); // Isso vai limpar a tela se 'ativas' for []
+        }
+    } catch (err) { 
+        setComandasMesa([]); // Garante que, em caso de erro ou expiração, nada seja mostrado
+        console.error(err); 
+    }
+};
 
     const toggleMesa = async (numero) => {
         if (expandedMesa === numero) {
@@ -91,7 +96,7 @@ export default function Mesas() {
         e.preventDefault();
         if (!novaCapacidade || novaCapacidade <= 0) return toast.warning("Insira uma capacidade válida.");
         try {
-            const res = await axios.post('http://localhost:5000/api/salao/criar', { capacidade: parseInt(novaCapacidade) }, { withCredentials: true });
+            const res = await axios.post('http://localhost:5000/api/salao/criar_mesa', { capacidade: parseInt(novaCapacidade) }, { withCredentials: true });
             if (res.data.success) {
                 toast.success("Mesa criada com sucesso!");
                 setNovaCapacidade('');
@@ -109,7 +114,7 @@ export default function Mesas() {
         if (!mesaParaDeletar) return;
         setIsProcessing(true);
         try {
-            const res = await axios.delete(`http://localhost:5000/api/salao/deletar/${mesaParaDeletar}`, { withCredentials: true });
+            const res = await axios.delete(`http://localhost:5000/api/salao/deletar_mesa/${mesaParaDeletar}`, { withCredentials: true });
             if (res.data.success) {
                 toast.success("Mesa excluída!");
                 if (expandedMesa === mesaParaDeletar) setExpandedMesa(null);
@@ -133,7 +138,7 @@ export default function Mesas() {
     const handleSalvarEdicaoMesa = async (e, numero_mesa) => {
         e.preventDefault();
         try {
-            const res = await axios.put(`http://localhost:5000/api/salao/editar/${numero_mesa}`, { capacidade: parseInt(editCapacidade) }, { withCredentials: true });
+            const res = await axios.put(`http://localhost:5000/api/salao/editar_mesa/${numero_mesa}`, { capacidade: parseInt(editCapacidade) }, { withCredentials: true });
             if (res.data.success) {
                 toast.success("Capacidade da mesa atualizada!");
                 setEditingMesaNum(null);
@@ -167,19 +172,10 @@ export default function Mesas() {
                 novoCart = [...comandaCart];
                 novoCart[itemIndex].quantidade += 1;
             } else {
-                novoCart = [...comandaCart, { product_id: produto.id, nome: produto.nome, preco: produto.preco, quantidade: 1, observacao: '' }];
+                novoCart = [...comandaCart, { product_id: produto.id, nome: produto.nome, preco: produto.preco, quantidade: 1 }];
             }
             toast.success(`➕ ${produto.nome} adicionado.`);
             return { ...prev, [selectedComanda]: novoCart };
-        });
-    };
-
-    const atualizarObservacao = (comandaId, productId, obs) => {
-        setCart(prev => {
-            const comandaCart = (prev[comandaId] || []).map(item =>
-                item.product_id === productId ? { ...item, observacao: obs } : item
-            );
-            return { ...prev, [comandaId]: comandaCart };
         });
     };
 
@@ -213,7 +209,7 @@ export default function Mesas() {
         try {
             const promessas = itens.map(item => 
                 axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comandaId}/adicionar_item`, {
-                    product_id: item.product_id, quantidade: item.quantidade, observacao: item.observacao || ''
+                    product_id: item.product_id, quantidade: item.quantidade, observacao: ''
                 }, { withCredentials: true })
             );
             await Promise.all(promessas);
@@ -236,8 +232,7 @@ export default function Mesas() {
 
     const marcarComoEntregue = async (numero_mesa, comandaId) => {
         try {
-            const res = await axios.put(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comandaId}/alterar_status`, 
-                { status: 'Entregue' }, { withCredentials: true });
+            const res = await axios.put(`http://localhost:5000/api/cozinha/${comandaId}/alterar_status`, { status: 'Entregue' }, { withCredentials: true });
             if (res.data.success) {
                 toast.success('Pedido marcado como Entregue.');
                 await carregarComandas(numero_mesa);
@@ -268,7 +263,7 @@ export default function Mesas() {
         if (!contaParaFechar) return;
         setIsProcessing(true);
         try {
-            const res = await axios.post(`http://localhost:5000/api/salao/${expandedMesa}/comandas/${contaParaFechar.id}/fechar`, {}, { withCredentials: true });
+            const res = await axios.post(`http://localhost:5000/api/salao/${expandedMesa}/comandas/${contaParaFechar.id}/fechar_comanda`, {}, { withCredentials: true });
             if (res.data.success) {
                 toast.success(`✅ Pagamento via ${metodoPagamento} processado! Conta fechada.`);
                 setModalConta(null);
@@ -320,20 +315,37 @@ export default function Mesas() {
                     </div>
 
                     {cargo === 'ADMINISTRADOR' && (
-                        <form onSubmit={handleCriarMesa} style={{ padding: '12px', borderBottom: '2px solid var(--border-color)', display: 'flex', gap: '8px' }}>
-                            <div className="custom-number-input" style={{ flex: 1 }}>
-                                <button type="button" className="spin-btn" onClick={() => setNovaCapacidade(prev => Math.max(1, (parseInt(prev) || 1) - 1))}>-</button>
-                                <input 
-                                    type="number" 
-                                    placeholder="Cap" 
-                                    value={novaCapacidade} 
-                                    onChange={e => setNovaCapacidade(e.target.value)}
-                                    min="1" required 
-                                    style={{ flex: 1, width: '100%' }}
-                                />
-                                <button type="button" className="spin-btn" onClick={() => setNovaCapacidade(prev => (parseInt(prev) || 0) + 1)}>+</button>
+                        <form onSubmit={handleCriarMesa} className="add-table-form">
+                            <div className="table-input-group">
+                                <span className="input-label-hint">Capacidade</span>
+                                <div className="modern-number-input">
+                                    <button 
+                                        type="button" 
+                                        className="spin-btn minus" 
+                                        onClick={() => setNovaCapacidade(prev => Math.max(1, (parseInt(prev) || 1) - 1))}
+                                    >
+                                        −
+                                    </button>
+                                    <input 
+                                        type="number"
+                                        placeholder="0"
+                                        value={novaCapacidade}
+                                        onChange={e => setNovaCapacidade(e.target.value)}
+                                        min="1" 
+                                        required 
+                                    />
+                                    <button 
+                                        type="button" 
+                                        className="spin-btn plus" 
+                                        onClick={() => setNovaCapacidade(prev => (parseInt(prev) || 0) + 1)}
+                                    >
+                                        +
+                                    </button>
+                                </div>
                             </div>
-                            <button type="submit" style={{ padding: '6px 12px', fontSize: '11px' }}>+ Criar</button>
+                            <button type="submit" className="btn-create-table">
+                                <span>+ Criar Mesa</span>
+                            </button>
                         </form>
                     )}
 
@@ -423,21 +435,12 @@ export default function Mesas() {
                                                                 {hasLocalItems ? (
                                                                     <>
                                                                         {(cart[comanda.id] || []).map(item => (
-                                                                            <div key={item.product_id} style={{ marginBottom: '6px' }}>
-                                                                                <div className="pedido-item" style={{ borderBottom: 'none' }}>
-                                                                                    <span>{item.quantidade}x {item.nome}</span>
-                                                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                                                        <span style={{ color: '#ff6666' }}>R$ {(item.preco * item.quantidade).toFixed(2)}</span>
-                                                                                        <button onClick={() => prepararRemocaoItem(comanda.id, item)} style={{ background:'none', border:'none', color:'#888', marginLeft:'10px', cursor:'pointer' }}>✕</button>
-                                                                                    </div>
+                                                                            <div className="pedido-item" key={item.product_id} style={{ borderBottom: 'none' }}>
+                                                                                <span>{item.quantidade}x {item.nome}</span>
+                                                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                                                    <span style={{ color: '#ff6666' }}>R$ {(item.preco * item.quantidade).toFixed(2)}</span>
+                                                                                    <button onClick={() => prepararRemocaoItem(comanda.id, item)} style={{ background:'none', border:'none', color:'#888', marginLeft:'10px', cursor:'pointer' }}>✕</button>
                                                                                 </div>
-                                                                                <input
-                                                                                    type="text"
-                                                                                    placeholder="Obs: Sem cebola, Bem passado..."
-                                                                                    value={item.observacao || ''}
-                                                                                    onChange={e => atualizarObservacao(comanda.id, item.product_id, e.target.value)}
-                                                                                    style={{ width: '100%', background: '#1a1a1a', border: '1px solid #333', color: '#ffaa00', fontSize: '10px', padding: '4px 6px', borderRadius: '4px', fontStyle: 'italic', marginTop: '2px' }}
-                                                                                />
                                                                             </div>
                                                                         ))}
                                                                         <div style={{ marginTop: '5px', display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
@@ -456,15 +459,10 @@ export default function Mesas() {
                                                                     </button>
                                                                 )}
                                                                 
-                                                                {/* BOTÃO DE CHECKOUT QUE ABRE O MODAL */}
-                                                                <button onClick={() => setModalConta(comanda)} className="danger" style={{ width: '100%', marginTop: '8px', fontSize: '10px' }}>
-                                                                    🧾 Ver Conta e Pagar
-                                                                </button>
-
-                                                                {/* BOTÃO DE CANCELAMENTO (só para Pendente ou Em Preparo) */}
-                                                                {(comanda.status === 'Pendente' || comanda.status === 'Em Preparo') && (
-                                                                    <button onClick={() => setComandaParaCancelar({ numero_mesa: mesa.numero, comandaId: comanda.id })} style={{ width: '100%', marginTop: '6px', fontSize: '10px', background: '#333', color: '#ff6666', border: '1px solid #550000' }}>
-                                                                        ❌ Cancelar Comanda
+                                                                {/* BOTÃO DE CHECKOUT QUE ABRE O MODAL - SÓ MOSTRA SE ENTREGUE */}
+                                                                {comanda.status === 'Entregue' && (
+                                                                    <button onClick={() => setModalConta(comanda)} className="danger" style={{ width: '100%', marginTop: '8px', fontSize: '10px' }}>
+                                                                        🧾 Ver Conta e Pagar
                                                                     </button>
                                                                 )}
                                                             </div>
@@ -661,34 +659,6 @@ export default function Mesas() {
                 isLoading={isProcessing}
                 onConfirm={confirmarFechamentoConta}
                 onCancel={() => setContaParaFechar(null)}
-            />
-
-            <ConfirmDialog 
-                isOpen={!!comandaParaCancelar}
-                title="Cancelar comanda?"
-                description={`A comanda #${comandaParaCancelar?.comandaId} da Mesa ${comandaParaCancelar?.numero_mesa} será cancelada. Esta ação não pode ser desfeita.`}
-                confirmLabel="Cancelar comanda"
-                cancelLabel="Manter comanda"
-                variant="danger"
-                isLoading={isProcessing}
-                onConfirm={async () => {
-                    if (!comandaParaCancelar) return;
-                    setIsProcessing(true);
-                    try {
-                        const res = await axios.put(`http://localhost:5000/api/salao/${comandaParaCancelar.numero_mesa}/comandas/${comandaParaCancelar.comandaId}/alterar_status`, 
-                            { status: 'Cancelado' }, { withCredentials: true });
-                        if (res.data.success) {
-                            toast.success('❌ Comanda cancelada.');
-                            setComandaParaCancelar(null);
-                            await carregarComandas(comandaParaCancelar.numero_mesa);
-                            fetchData();
-                        } else {
-                            toast.error('Erro: ' + res.data.message);
-                        }
-                    } catch (err) { toast.error('Erro ao cancelar comanda.'); }
-                    finally { setIsProcessing(false); }
-                }}
-                onCancel={() => setComandaParaCancelar(null)}
             />
 
         </SalaoLayout>

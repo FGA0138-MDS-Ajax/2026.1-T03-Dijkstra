@@ -15,15 +15,12 @@ export default function Produtos() {
     const [preparationTime, setPreparationTime] = useState(15);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Estados de Filtro e Busca
     const [searchTerm, setSearchTerm] = useState('');
     const [activeFilter, setActiveFilter] = useState('Todos');
 
-    // Estados do Modal de Confirmação
     const [produtoParaDeletar, setProdutoParaDeletar] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
 
-    // Estados do Modal de Edição
     const [produtoParaEditar, setProdutoParaEditar] = useState(null);
     const [editNome, setEditNome] = useState('');
     const [editPreco, setEditPreco] = useState('');
@@ -51,7 +48,8 @@ export default function Produtos() {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const response = await axios.post('http://localhost:5000/api/produtos/cadastrar', { nome, preco, categoria, preparation_time_minutes: preparationTime }, { withCredentials: true });
+            // CORREÇÃO: Enviando chave 'tempo_preparacao'
+            const response = await axios.post('http://localhost:5000/api/produtos/cadastrar', { nome, preco, categoria, tempo_preparacao: preparationTime }, { withCredentials: true });
             if (response.data.success) {
                 toast.success('✅ Produto cadastrado com sucesso!');
                 setNome(''); setPreco(''); setCategoria('Bebida'); setPreparationTime(15);
@@ -96,7 +94,7 @@ export default function Produtos() {
         setEditNome(produto.nome);
         setEditPreco(produto.preco);
         setEditCategoria(produto.categoria);
-        setEditPreparationTime(produto.preparation_time_minutes);
+        setEditPreparationTime(produto.tempo_preparacao); // CORREÇÃO
     };
 
     const salvarEdicao = async () => {
@@ -106,8 +104,9 @@ export default function Produtos() {
         if (!editPreparationTime || parseInt(editPreparationTime) <= 0) return toast.warning('Tempo de preparo deve ser maior que zero.');
         setIsEditing(true);
         try {
+            // CORREÇÃO: Enviando chave 'tempo_preparacao'
             const response = await axios.put(`http://localhost:5000/api/produtos/editar/${produtoParaEditar.id}`, {
-                nome: editNome.trim(), preco: parseFloat(editPreco), categoria: editCategoria, preparation_time_minutes: parseInt(editPreparationTime)
+                nome: editNome.trim(), preco: parseFloat(editPreco), categoria: editCategoria, tempo_preparacao: parseInt(editPreparationTime)
             }, { withCredentials: true });
             if (response.data.success) {
                 toast.success('✏️ Produto atualizado com sucesso!');
@@ -230,7 +229,7 @@ export default function Produtos() {
                                             </span>
                                         </td>
                                         <td className="price-cell">R$ {parseFloat(produto.preco).toFixed(2)}</td>
-                                        <td>{produto.preparation_time_minutes} min</td>
+                                        <td>{produto.tempo_preparacao} min</td> {/* CORREÇÃO */}
                                         <td style={{ textAlign: 'right' }}>
                                             <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-end' }}>
                                                 <motion.button 

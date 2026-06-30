@@ -24,6 +24,11 @@ export default function KitchenOrderCard({ order, onConcluir }) {
         cardClass = 'kitchen-order-card--on-time';
     }
 
+    // CORREÇÃO: Buscar da variável correta
+    const estMinutes = order.itens?.length 
+        ? Math.max(...order.itens.map(i => i.preparation_time_minutes || 15)) 
+        : 15;
+
     return (
         <motion.div 
             layout
@@ -37,19 +42,19 @@ export default function KitchenOrderCard({ order, onConcluir }) {
                 <h3 className="kitchen-order-card__title">
                     Mesa {order.mesa?.numero} <span style={{ fontSize: '12px', color: '#888' }}>#{order.id}</span>
                 </h3>
-                <KitchenTimeBadge status={isReady ? 'ready' : (order.sent_to_kitchen_at ? statusColor : 'waiting')} />
+                <KitchenTimeBadge status={isReady ? 'ready' : (order.tempo_decorrido && order.tempo_decorrido !== 'Não iniciado' ? statusColor : 'waiting')} />
             </div>
 
             <div className="kitchen-order-card__meta">
                 <span>
                     ⏱️ <KitchenOrderTimer 
-                        sentToKitchenAt={order.sent_to_kitchen_at} 
-                        estimatedMinutes={order.estimated_preparation_minutes || 15}
+                        tempoDecorridoStr={order.tempo_decorrido} 
+                        estimatedMinutes={estMinutes}
                         isReady={isReady}
                         onStatusChange={handleStatusChange}
                     /> 
                     <span style={{ fontSize: '10px', marginLeft: '4px' }}>
-                        / {order.estimated_preparation_minutes || 15}m
+                        / {estMinutes}m
                     </span>
                 </span>
                 <span style={{ background: 'rgba(0,0,0,0.3)', padding: '2px 6px', borderRadius: '4px' }}>

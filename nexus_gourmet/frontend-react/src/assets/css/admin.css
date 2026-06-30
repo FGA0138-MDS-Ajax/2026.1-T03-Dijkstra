@@ -374,12 +374,16 @@ tbody td {
     }
 }
 
-/* ── LAYOUT PDV (SALÃO) ── */
+/* ==========================================================================
+   ── LAYOUT PDV (SALÃO) ── 
+   ========================================================================== */
 .pdv-container {
     display: flex;
     height: calc(100vh - 64px); /* Desconta o tamanho da navbar */
     overflow: hidden;
     margin: -32px; /* Remove o padding do content-container padrão */
+    text-align: left; /* Corrige o text-align: center herdado do #root */
+    width: 100vw;
 }
 
 .left-sidebar {
@@ -388,6 +392,7 @@ tbody td {
     border-right: 2px solid var(--border-color);
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 
 .left-sidebar-header {
@@ -431,127 +436,10 @@ tbody td {
     background: #111;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
-}
-.pedidos-panel.open { max-height: 500px; }
-.pedidos-inner { padding: 10px; }
-
-.pedido-item {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    padding: 6px 0;
-    border-bottom: 1px solid #222;
-}
-
-.menu-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background: var(--bg-dark);
-}
-
-.menu-header-nav {
-    display: flex;
-    background: #1c1c1c;
-    border-bottom: 2px solid var(--border-color);
-}
-
-.menu-tab {
-    flex: 1;
-    padding: 15px;
-    background: none;
-    border: none;
-    border-right: 1px solid #2a2a2a;
-    color: var(--text-muted);
-    font-weight: 700;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-.menu-tab.active { background: linear-gradient(180deg, #cc0000, #8b0000); color: #fff; }
-
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 16px;
-    padding: 24px;
-    overflow-y: auto;
-}
-
-.product-card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 12px;
-    text-align: center;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: transform 0.2s;
-}
-.product-card:hover { transform: translateY(-4px); border-color: #cc0000; }
-.product-card .product-name { color: #000; font-weight: bold; font-size: 13px; margin-top: 8px;}
-.product-card .product-price { color: #cc0000; font-weight: bold; font-size: 12px; margin-top: 4px; }
-
-/* ── LAYOUT PDV (SALÃO) ── */
-.pdv-container {
-    display: flex;
-    height: calc(100vh - 64px); /* Desconta o tamanho da navbar */
-    overflow: hidden;
-    margin: -32px; /* Remove o padding do content-container padrão */
-}
-
-.left-sidebar {
-    width: 260px;
-    background: #1c1c1c;
-    border-right: 2px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-}
-
-.left-sidebar-header {
-    background: linear-gradient(90deg, #800000, #cc0000);
-    padding: 15px;
-    text-align: center;
-    font-weight: 800;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-}
-
-.mesas-list {
-    list-style: none;
-    overflow-y: auto;
-    flex: 1;
-}
-
-.mesa-item {
-    border-bottom: 1px solid #2a2a2a;
-}
-
-.mesa-btn {
-    width: 100%;
-    padding: 16px;
-    background: none;
-    border: none;
-    color: #ccc;
-    font-weight: 700;
-    text-transform: uppercase;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.mesa-btn:hover { background: #2a0000; color: #fff; }
-.mesa-btn.active { background: linear-gradient(90deg, #8b0000, #cc0000); color: #fff; }
-
-.pedidos-panel {
-    background: #111;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease-in-out; /* Curva mais macia e tempo ligeiramente maior */
+    transition: max-height 0.4s ease-in-out;
 }
 .pedidos-panel.open { 
-    max-height: 2000px; /* Limite maior para garantir que não corte listas longas */
+    max-height: 2000px; 
 }
 .pedidos-inner { padding: 10px; }
 
@@ -569,25 +457,6 @@ tbody td {
     flex-direction: column;
     background: var(--bg-dark);
 }
-
-.menu-header-nav {
-    display: flex;
-    background: #1c1c1c;
-    border-bottom: 2px solid var(--border-color);
-}
-
-.menu-tab {
-    flex: 1;
-    padding: 15px;
-    background: none;
-    border: none;
-    border-right: 1px solid #2a2a2a;
-    color: var(--text-muted);
-    font-weight: 700;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-.menu-tab.active { background: linear-gradient(180deg, #cc0000, #8b0000); color: #fff; }
 
 .products-grid {
     display: grid;
@@ -610,9 +479,109 @@ tbody td {
 .product-card .product-name { color: #000; font-weight: bold; font-size: 13px; margin-top: 8px;}
 .product-card .product-price { color: #cc0000; font-weight: bold; font-size: 12px; margin-top: 4px; }
 
-/* =========================================
-   CUSTOMIZAÇÃO DO INPUT DE NÚMERO
-   ========================================= */
+
+/* ==========================================================================
+   MEDIA QUERIES (Responsividade) - Nexus Gourmet (DEVEM FICAR NO FINAL)
+   ========================================================================== */
+
+/* Para tablets e telas médias (até 768px) */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .navbar-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .content-container {
+        padding: 16px;
+    }
+
+    /* Ajuste para o Salão não quebrar horizontalmente no Mobile/Tablet */
+    .pdv-container {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+    }
+
+    .left-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid var(--border-color);
+        height: auto;
+        max-height: 400px; /* Cria scroll interno para as mesas caso necessário */
+    }
+
+    .form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-row input, 
+    .form-row select, 
+    .form-row button {
+        width: 100% !important;
+        min-width: unset !important;
+    }
+
+    .card {
+        overflow-x: auto;
+    }
+    
+    table {
+        min-width: 600px; 
+    }
+    
+    .page-title {
+        font-size: 16px;
+        text-align: center;
+    }
+    div[style*="justify-content: space-between"] {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch !important;
+    }
+}
+
+/* Para celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+    .nav-tabs {
+        flex-direction: column;
+    }
+    
+    .nav-tabs a {
+        border-right: none;
+        border-bottom: 1px solid #2a2a2a;
+    }
+
+    .grid-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    div[style*="borderTop"] {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center !important;
+    }
+    
+    div[style*="borderTop"] div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+    
+    div[style*="borderTop"] button {
+        width: 100%;
+        margin-right: 0 !important;
+    }
+}
 
 /* Ocultar as setinhas nos navegadores Chrome, Safari, Edge e Opera */
 input[type="number"]::-webkit-outer-spin-button,
@@ -625,4 +594,112 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
     text-align: center; /* Deixa o número centralizado, dando um visual mais limpo */
+}
+
+/* ==========================================================================
+   FORMULÁRIO MODERNO DE ADICIONAR MESAS
+   ========================================================================== */
+
+.add-table-form {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(28, 28, 28, 0.4);
+}
+
+.table-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-label-hint {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    padding-left: 4px;
+}
+
+/* Container do seletor numérico */
+.modern-number-input {
+    display: flex;
+    align-items: center;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modern-number-input:focus-within {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.2);
+}
+
+/* Inputs internos */
+.modern-number-input input[type="number"] {
+    flex: 1;
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    padding: 10px 0 !important;
+    text-align: center;
+}
+
+/* Botões de + e - estilo premium */
+.modern-number-input .spin-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: none;
+    color: var(--text-dim);
+    font-size: 16px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+.modern-number-input .spin-btn:hover {
+    background: rgba(204, 0, 0, 0.1);
+    color: var(--primary-red);
+}
+
+.modern-number-input .spin-btn:active {
+    background: rgba(204, 0, 0, 0.2);
+}
+
+/* Botão de Criação de Mesa Centralizado/Destacado */
+.btn-create-table {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--red-dark) 100%) !important;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.2);
+    border-radius: 10px !important;
+    padding: 12px 20px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 2px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease !important;
+}
+
+.btn-create-table:hover {
+    opacity: 1 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(204, 0, 0, 0.35);
+}
+
+.btn-create-table:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px rgba(204, 0, 0, 0.2);
 }

@@ -20,3 +20,4 @@ class OrderStatus(Enum):
     PRONTO = 'Pronto'
     ENTREGUE = 'Entregue'
     CANCELADO = 'Cancelado'
+    FINALIZADO = 'Finalizado'

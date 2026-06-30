@@ -15,8 +15,8 @@ export default function Pedidos() {
     };
 
     const concluirPedido = async (numero_mesa, comanda_id) => {
-        await axios.put(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/alterar_status`, 
-            { status: 'Pronto' }, { withCredentials: true });
+        await axios.put(`http://localhost:5000/api/cozinha/${comanda_id}/alterar_status`, 
+        { status: 'Pronto' }, { withCredentials: true });
     };
 
     return (

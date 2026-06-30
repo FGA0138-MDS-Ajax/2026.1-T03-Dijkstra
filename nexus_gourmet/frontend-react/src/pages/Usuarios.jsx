@@ -7,23 +7,25 @@ import ConfirmDialog from '../components/ConfirmDialog';
 
 export default function Usuarios() {
     const [usuarios, setUsuarios] = useState([]);
+    
+    // Estados do Cadastro (Ajustado o valor inicial para bater com o Enum do Backend)
     const [nome, setNome] = useState('');
+    const [cpf, setCpf] = useState('');
     const [senha, setSenha] = useState('');
-    const [cargo, setCargo] = useState('ADMINISTRADOR');
+    const [cargo, setCargo] = useState('Administrador');
+    const [senhaAdmin, setSenhaAdmin] = useState('');
 
     // Estados do Modal de Edição
     const [usuarioParaEditar, setUsuarioParaEditar] = useState(null);
     const [editNome, setEditNome] = useState('');
     const [editCargo, setEditCargo] = useState('');
+    const [editSenhaAdmin, setEditSenhaAdmin] = useState('');
     const [isEditing, setIsEditing] = useState(false);
 
-    // Estados de Confirmação
+    // Estados de Confirmação (Deleção)
     const [usuarioParaDeletar, setUsuarioParaDeletar] = useState(null);
+    const [deleteSenhaAdmin, setDeleteSenhaAdmin] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
-
-    // Estados de Transferência de Posse
-    const [usuarioParaTransferir, setUsuarioParaTransferir] = useState(null);
-    const [isTransferring, setIsTransferring] = useState(false);
 
     const fetchUsuarios = async () => {
         try {
@@ -37,35 +39,51 @@ export default function Usuarios() {
 
     useEffect(() => { fetchUsuarios(); }, []);
 
+    // ─── CADASTRO ───
     const cadastrarUsuario = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/usuarios/cadastrar', { nome, senha, cargo }, { withCredentials: true });
+            const response = await axios.post('http://localhost:5000/api/usuarios/cadastrar', { 
+                nome, 
+                cargo,
+                cpf_cadastrado: cpf, 
+                senha_cadastrada: senha, 
+                senha_admin: senhaAdmin
+            }, { withCredentials: true });
+
             if (response.data.success) {
                 toast.success('✅ Usuário cadastrado com sucesso!');
-                setNome(''); setSenha(''); setCargo('ADMINISTRADOR');
+                setNome(''); setCpf(''); setSenha(''); setCargo('Administrador'); setSenhaAdmin('');
                 fetchUsuarios();
             } else {
                 toast.error(response.data.message || 'Erro ao cadastrar usuário.');
             }
-        } catch (err) { toast.error('❌ Não foi possível cadastrar o usuário.'); }
+        } catch (err) { 
+            toast.error(err.response?.data?.message || '❌ Não foi possível cadastrar o usuário. Verifique seus dados.'); 
+        }
     };
 
-    // Edição de Usuário
+    // ─── EDIÇÃO ───
     const abrirEdicao = (usuario) => {
         setUsuarioParaEditar(usuario);
         setEditNome(usuario.nome);
         setEditCargo(usuario.cargo);
+        setEditSenhaAdmin('');
     };
 
     const salvarEdicao = async () => {
         if (!usuarioParaEditar) return;
         if (!editNome.trim()) return toast.warning('Nome é obrigatório.');
+        if (!editSenhaAdmin) return toast.warning('A senha de administrador é obrigatória.');
+        
         setIsEditing(true);
         try {
-            const response = await axios.put(`http://localhost:5000/api/usuarios/editar_usuario/${usuarioParaEditar.id}`, {
-                nome: editNome.trim(), cargo: editCargo
+            const response = await axios.put(`http://localhost:5000/api/usuarios/editar_usuario/${usuarioParaEditar.cpf}`, {
+                nome: editNome.trim(), 
+                cargo: editCargo,
+                senha_admin: editSenhaAdmin 
             }, { withCredentials: true });
+
             if (response.data.success) {
                 toast.success('✏️ Usuário atualizado com sucesso!');
                 setUsuarioParaEditar(null);
@@ -74,50 +92,37 @@ export default function Usuarios() {
                 toast.error(response.data.message || 'Erro ao editar usuário.');
             }
         } catch (err) {
-            toast.error('❌ Não foi possível editar o usuário.');
+            toast.error(err.response?.data?.message || '❌ Não foi possível editar o usuário.');
         } finally {
             setIsEditing(false);
         }
     };
 
-    // Deleção com Confirmação
+    // ─── DELEÇÃO ───
     const confirmarDelecao = async () => {
         if (!usuarioParaDeletar) return;
+        if (!deleteSenhaAdmin) return toast.warning('A senha do administrador é obrigatória para excluir.');
+
         setIsDeleting(true);
         try {
-            const response = await axios.delete(`http://localhost:5000/api/usuarios/deletar_usuario/${usuarioParaDeletar.id}`, { withCredentials: true });
+            const response = await axios.delete(`http://localhost:5000/api/usuarios/deletar_usuario/${usuarioParaDeletar.cpf}`, { 
+                data: { senha_admin: deleteSenhaAdmin }, 
+                withCredentials: true 
+            });
+
             if (response.data.success) {
                 toast.success('🗑️ Usuário removido com sucesso.');
                 setUsuarioParaDeletar(null);
+                setDeleteSenhaAdmin('');
                 fetchUsuarios();
             } else {
                 toast.error(response.data.message || 'Erro ao excluir usuário.');
             }
-        } catch (err) { toast.error('Erro ao excluir o usuário.'); }
-        finally { setIsDeleting(false); }
-    };
-
-    // Transferência de Posse
-    const confirmarTransferencia = async () => {
-        if (!usuarioParaTransferir) return;
-        setIsTransferring(true);
-        try {
-            const meuPerfil = await axios.get('http://localhost:5000/api/meu_perfil', { withCredentials: true });
-            const meuId = meuPerfil.data.data?.id;
-            if (!meuId) return toast.error('Erro ao identificar seu perfil.');
-
-            const response = await axios.post('http://localhost:5000/api/usuarios/transferir_posse', {
-                id_atual: meuId, id_novo: usuarioParaTransferir.id
-            }, { withCredentials: true });
-            if (response.data.success) {
-                toast.success('🔑 Posse transferida com sucesso!');
-                setUsuarioParaTransferir(null);
-                fetchUsuarios();
-            } else {
-                toast.error(response.data.message || 'Erro ao transferir posse.');
-            }
-        } catch (err) { toast.error('❌ Não foi possível transferir a posse.'); }
-        finally { setIsTransferring(false); }
+        } catch (err) { 
+            toast.error(err.response?.data?.message || 'Erro ao excluir o usuário.'); 
+        } finally { 
+            setIsDeleting(false); 
+        }
     };
 
     return (
@@ -127,12 +132,19 @@ export default function Usuarios() {
             <div className="card">
                 <form onSubmit={cadastrarUsuario} className="form-row">
                     <input type="text" placeholder="Nome Completo" value={nome} onChange={e => setNome(e.target.value)} required style={{ flex: 1, minWidth: '160px' }} />
-                    <input type="password" placeholder="Senha" value={senha} onChange={e => setSenha(e.target.value)} required style={{ width: '140px' }} />
-                    <select value={cargo} onChange={e => setCargo(e.target.value)} style={{ width: '160px' }}>
-                        <option value="ADMINISTRADOR">Administrador</option>
-                        <option value="GARCOM">Garçom</option>
-                        <option value="COZINHEIRO">Cozinheiro</option>
+                    <input type="text" placeholder="CPF (Apenas números)" value={cpf} onChange={e => setCpf(e.target.value)} required style={{ width: '150px' }} />
+                    <select value={cargo} onChange={e => setCargo(e.target.value)} style={{ width: '150px' }}>
+                        {/* Values corrigidos para baterem com o Enum de Models */}
+                        <option value="Administrador">Administrador</option>
+                        <option value="Garçom">Garçom</option>
+                        <option value="Cozinheiro">Cozinheiro</option>
                     </select>
+                    <input type="password" placeholder="Senha do Usuário" value={senha} onChange={e => setSenha(e.target.value)} required style={{ width: '140px' }} />
+                    
+                    <div style={{ position: 'relative', width: '160px' }}>
+                        <input type="password" placeholder="Sua Senha (Admin)" value={senhaAdmin} onChange={e => setSenhaAdmin(e.target.value)} required style={{ width: '100%', border: '1px solid var(--primary-red)' }} title="Senha de autorização de admin" />
+                    </div>
+                    
                     <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} type="submit">+ Cadastrar</motion.button>
                 </form>
             </div>
@@ -142,20 +154,17 @@ export default function Usuarios() {
                     {usuarios.map(usuario => (
                         <motion.div 
                             className="card" 
-                            key={usuario.id}
+                            key={usuario.cpf}
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, x: -10 }}
                         >
                             <h3>{usuario.nome}</h3>
                             <span className="status-badge">{usuario.cargo}</span>
-                            <p style={{ fontFamily: "'Rubik',sans-serif", fontSize: '11px', color: '#555' }}>#{String(usuario.id).padStart(3, '0')}</p>
+                            <p style={{ fontFamily: "'Rubik',sans-serif", fontSize: '11px', color: '#555' }}>CPF: {usuario.cpf}</p>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '14px' }}>
                                 <button onClick={() => abrirEdicao(usuario)} style={{ width: '100%', background: '#444' }}>✏️ Editar</button>
                                 <button onClick={() => setUsuarioParaDeletar(usuario)} className="danger" style={{ width: '100%' }}>Excluir</button>
-                                {usuario.cargo !== 'ADMINISTRADOR' && (
-                                    <button onClick={() => setUsuarioParaTransferir(usuario)} style={{ width: '100%', background: 'linear-gradient(90deg, #444400, #888800)', color: '#fff', fontSize: '10px' }}>🔑 Transferir Posse</button>
-                                )}
                             </div>
                         </motion.div>
                     ))}
@@ -180,10 +189,15 @@ export default function Usuarios() {
                             <div>
                                 <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>Cargo</label>
                                 <select value={editCargo} onChange={e => setEditCargo(e.target.value)} style={{ width: '100%' }}>
-                                    <option value="ADMINISTRADOR">Administrador</option>
-                                    <option value="GARCOM">Garçom</option>
-                                    <option value="COZINHEIRO">Cozinheiro</option>
+                                    {/* Values corrigidos para baterem com o Enum de Models */}
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Garçom">Garçom</option>
+                                    <option value="Cozinheiro">Cozinheiro</option>
                                 </select>
+                            </div>
+                            <div style={{ marginTop: '10px' }}>
+                                <label style={{ fontSize: '11px', color: 'var(--primary-red)', display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>Sua Senha de Admin (Autorização)</label>
+                                <input type="password" placeholder="Sua senha para confirmar edição" value={editSenhaAdmin} onChange={e => setEditSenhaAdmin(e.target.value)} style={{ width: '100%', border: '1px solid var(--primary-red)' }} required />
                             </div>
                         </div>
                         <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
@@ -202,31 +216,29 @@ export default function Usuarios() {
                 </div>
             )}
 
-            {/* Confirmação de Deleção */}
+            {/* Confirmação de Deleção com Senha */}
             <ConfirmDialog 
                 isOpen={!!usuarioParaDeletar}
                 title="Excluir usuário?"
-                description={`Esta ação removerá o usuário "${usuarioParaDeletar?.nome}" do sistema. Deseja continuar?`}
+                description={`Esta ação removerá permanentemente o usuário "${usuarioParaDeletar?.nome}" do sistema. Digite sua senha de administrador para autorizar a exclusão:`}
                 confirmLabel="Excluir usuário"
                 cancelLabel="Cancelar"
                 variant="danger"
                 isLoading={isDeleting}
                 onConfirm={confirmarDelecao}
-                onCancel={() => setUsuarioParaDeletar(null)}
-            />
-
-            {/* Confirmação de Transferência de Posse */}
-            <ConfirmDialog 
-                isOpen={!!usuarioParaTransferir}
-                title="⚠️ Transferir posse do sistema?"
-                description={`Você está prestes a transferir a posse de Administrador para "${usuarioParaTransferir?.nome}". Seu cargo será rebaixado. Esta é uma ação sensível e irreversível.`}
-                confirmLabel="Transferir posse"
-                cancelLabel="Cancelar"
-                variant="danger"
-                isLoading={isTransferring}
-                onConfirm={confirmarTransferencia}
-                onCancel={() => setUsuarioParaTransferir(null)}
-            />
+                onCancel={() => { setUsuarioParaDeletar(null); setDeleteSenhaAdmin(''); }}
+            >
+                <div>
+                    <input 
+                        type="password" 
+                        placeholder="Senha do Administrador" 
+                        value={deleteSenhaAdmin} 
+                        onChange={e => setDeleteSenhaAdmin(e.target.value)} 
+                        style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #cc0000', background: '#000', color: '#fff', fontFamily: 'Rubik, sans-serif' }} 
+                        required 
+                    />
+                </div>
+            </ConfirmDialog>
         </AdminLayout>
     );
 }

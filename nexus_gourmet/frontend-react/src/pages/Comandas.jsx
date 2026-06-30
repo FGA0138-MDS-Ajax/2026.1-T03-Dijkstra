@@ -18,7 +18,6 @@ export default function Comandas() {
 
     const [isLoading, setIsLoading] = useState(true);
 
-    // Estados dos Modais de Confirmação
     const [comandaParaEnviar, setComandaParaEnviar] = useState(false);
     const [contaParaFechar, setContaParaFechar] = useState(false);
     const [cancelarComanda, setCancelarComanda] = useState(false);
@@ -70,7 +69,7 @@ export default function Comandas() {
     const fecharConta = async () => {
         setIsProcessing(true);
         try {
-            await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/fechar`, {}, { withCredentials: true });
+            await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/fechar_comanda`, {}, { withCredentials: true })
             toast.success('✅ Conta fechada com sucesso.');
             setContaParaFechar(false);
             navigate('/salao');
@@ -81,7 +80,13 @@ export default function Comandas() {
         }
     };
 
-    const totalComanda = comanda?.itens?.reduce((acc, item) => acc + (item.quantidade * (item.produto?.preco || 0)), 0) || 0;
+    // CORREÇÃO: Pegar o valor na API de produtos pois o back-end retorna apenas o nome na visualização rápida
+    const getPrecoProduto = (nomeProduto) => {
+        const prod = produtosDisponiveis.find(p => p.nome === nomeProduto);
+        return prod ? parseFloat(prod.preco) : 0;
+    };
+
+    const totalComanda = comanda?.itens?.reduce((acc, item) => acc + (item.quantidade * getPrecoProduto(item.produto)), 0) || 0;
 
     return (
         <SalaoLayout>
@@ -136,7 +141,7 @@ export default function Comandas() {
                                             animate={{ opacity: 1, y: 0 }}
                                         >
                                             <td>{item.quantidade}x</td>
-                                            <td>{item.produto?.nome}</td>
+                                            <td>{item.produto}</td> {/* CORREÇÃO (Backend apenas manda nome) */}
                                             <td>
                                                 {item.observacao ? (
                                                     <span style={{ fontStyle: 'italic', color: '#ffaa00', fontSize: '11px' }}>{item.observacao}</span>
@@ -145,7 +150,7 @@ export default function Comandas() {
                                                 )}
                                             </td>
                                             <td className="price-cell" style={{ textAlign: 'right' }}>
-                                                R$ {(item.quantidade * (item.produto?.preco || 0)).toFixed(2)}
+                                                R$ {(item.quantidade * getPrecoProduto(item.produto)).toFixed(2)}
                                             </td>
                                         </motion.tr>
                                     ))}
