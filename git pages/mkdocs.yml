@@ -5,6 +5,7 @@ nav:
   - Documento de Arquitetura: arquitetura.md
   - Política de Branches e Commits: politica-commits.md
   - Relatório de Métricas: metricas.md
+  - Testes: testes.md
 theme:
   name: material
   logo: logo.png                  
