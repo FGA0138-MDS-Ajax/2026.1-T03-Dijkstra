@@ -223,21 +223,23 @@ npm run dev
 
 Para rodar o banco de dados localmente, utilizaremos o MySQL e o MySQL Workbench. Siga o passo a passo abaixo:
 
-Passo 1: Instalação e Credenciais
-  Instale o servidor MySQL (ou inicie o módulo MySQL através do painel do XAMPP).
-  Para que o backend consiga se conectar, certifique-se de configurar a senha do usuário root do banco com a senha padrão do nosso  
-  projeto: #Pr0j3to5MD5 (Nota: esta é uma credencial exclusiva para o ambiente de desenvolvimento local).
-  Instale a ferramenta visual MySQL Workbench.
-Passo 2: Criando a Conexão
-  Abra o MySQL Workbench e, na tela inicial, clique no ícone ⊕ ao lado de MySQL Connections para criar uma nova conexão.
-  Em Connection Name, digite um nome para identificar o projeto (ex: Nexus_Gourmet_DB).
-  Deixe o Hostname como 127.0.0.1 e a Port como 3306.
-  No campo Password, clique em Store in Vault... e digite a senha #Pr0j3to5MD5. Clique em OK para salvar.
-Passo 3: Construindo as Tabelas
-  Clique no quadrado da conexão que você acabou de criar para abri-la.
-  No menu superior, vá em File > Open SQL Script... (ou pressione Ctrl + Shift + O).
-  Navegue até a pasta database do nosso projeto e selecione o arquivo do script SQL.
-  Com o script aberto na tela, clique no ícone do raio amarelo ⚡ (na barra de ferramentas superior) para executá-lo.
+Passo 1: Instalação e Credenciais                                        
+Instale o servidor MySQL. Para que o backend consiga se conectar, certifique-se de configurar a senha do usuário root do banco com a 
+senha padrão do nosso 
+projeto: #Pr0j3to5MD5 (Nota: esta é uma credencial exclusiva para o ambiente de desenvolvimento local). 
+Instale a ferramenta visual MySQL Workbench.
+
+Passo 2: Criando a Conexão                         
+Abra o MySQL Workbench e, na tela inicial, clique no ícone ⊕ ao lado de MySQL Connections para criar uma nova conexão.
+Em Connection Name, digite um nome para identificar o projeto (ex: Nexus_Gourmet_DB).
+Deixe o Hostname como 127.0.0.1 e a Port como 3306.
+No campo Password, clique em Store in Vault... e digite a senha #Pr0j3to5MD5. Clique em OK para salvar.
+
+Passo 3: Construindo as Tabelas                               
+Clique no quadrado da conexão que você acabou de criar para abri-la.
+No menu superior, vá em File > Open SQL Script... (ou pressione Ctrl + Shift + O).
+Navegue até a pasta database do nosso projeto e selecione o arquivo do script SQL.
+Com o script aberto na tela, clique no ícone do raio amarelo ⚡ (na barra de ferramentas superior) para executá-lo.
 Pronto! Com isso, o esquema e as tabelas oficiais do projeto já estarão criados no seu sistema e prontos para receber os dados da API.
 
 ---
