@@ -496,6 +496,7 @@ Para minimizar os riscos no ambiente de teste e preservar a integridade do proje
 #### Testes Integrados
 
 *(Nota: Os testes integrados foram movidos para a página específica de Testes para facilitar a consulta. Consulte a aba "Testes" para visualizar todos os 70 testes unitários e os 33 testes integrados.)*
+
 ---
 
 ## 7. Referências Bibliográficas
