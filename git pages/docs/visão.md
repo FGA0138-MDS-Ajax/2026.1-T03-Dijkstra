@@ -2,7 +2,7 @@
 
 **Nexus Gourmet**
 
-Versão 1.3
+Versão 1.4
 
 ## Integrantes do Grupo
 
@@ -27,6 +27,7 @@ Versão 1.3
 | 02/06/2026 | 1.1    | Adicionado menções diretas às fontes bibliográficas e atualização dos sprints                         | Grupo Dijkstra    |
 | 18/06/2026 | 1.2    | Atualização das métricas e dos testes                                                                 | Igor e Lucas Peixoto |
 | 25/06/2026 | 1.3    | Feitas atualizações baseadas na correção da primeira versão do documento                              | João Gabriel, Igor e Lucas Peixoto |
+| 30/06/2026 | 1.4    | Atualização da tabela de métricas e adição de novos testes                                            | João Kurihara     |
 
 ---
 
@@ -182,7 +183,8 @@ O planejamento de Fases tem como objetivo demonstrar o que foi feito em cada spr
 | Sprint 5 | Início do Desenvolvimento                                             | 28/05/2026  | 04/06/2026 | Models, Controllers e Services; atualização dos documentos                  | Igor Lima, João Gabriel, Lucas Ferreira, Lucas Peixoto                        | 20%         |
 | Sprint 6 | Integração dos models, services e controllers; desenvolvimento do BD | 04/06/2026  | 11/06/2026 | Banco de dados + atualizações do backend                                    | Alexandre, Igor Lima, Jhonatan, João Gabriel, Lucas Ferreira, Lucas Peixoto | 45%         |
 | Sprint 7 | Integração das camadas e desenvolvimento Frontend                    | 11/06/2026  | 18/06/2026 | Entrega da view de login e do administrador                                 | Davi, João Paulo, João Victor, Rafael                                        | 65%         |
-| Sprint 8 | (em andamento)                                                        | -           | -          | -                                                                           | -                                                                              | ?           |
+| Sprint 8 | Finalização e testes                                                  | 18/06/2026  | 25/06/2026 | Testes integrados e unitários; ajustes finais                               | Todos                                                                          | 90%         |
+| Sprint 9 | Entrega final                                                         | 25/06/2026  | 30/06/2026 | Documentação final e apresentação                                           | Todos                                                                          | 100%        |
 
 *Fonte: Elaborado pelo autor (2026)*
 
@@ -213,6 +215,8 @@ A tabela 5 logo a seguir mostra os principais riscos que podemos vir a enfrentar
 | Alteração de requisitos do backlog do produto após o início da sprint | Alto              | Aumentar o período de refinamento do backlog do produto                 | Reunir os requisitos já acordados e aumentar o grau de prioridade                         |
 | Falta de comunicação entre as interfaces do sistema                   | Alto              | Implementação de Testes de Software para garantir a redução de atrasos | Revisão completa de todas as unidades do código em larga escala para solução do problema |
 | Dificuldades com as tecnologias usadas no projeto (SQL, Flask, etc.)  | Médio             | Preparação rápida para a implementação básica dessas tecnologias        | Solicitar ajuda externa (monitores, professores, tutores etc.)                           |
+| Concentração de conhecimento em poucos integrantes                    | Baixo             | Documentação técnica no GitHub/GitHub Pages; rodízio leve em revisões de código | Redistribuir responsabilidades entre membros com contexto próximo à área afetada |
+| Conflitos de merge/versionamento entre membros                        | Médio             | Commits pequenos e frequentes; comunicação de qual branch/feature está sendo trabalhada | Resolver conflito em pair review antes de finalizar o merge |
 
 *Fonte: Elaborado pelo autor (2026)*
 
@@ -362,43 +366,43 @@ A Tabela 10 organiza exemplos práticos de como os usuários interagem com o sis
 
 | Numeração (Cenário/requisito) | Sprint | Nome do requisito         | Tipo de requisito | Priorização | Descrição sucinta do requisito                                                                 | User stories (U.S.) associadas                          |
 |-------------------------------|--------|---------------------------|-------------------|-------------|------------------------------------------------------------------------------------------------|---------------------------------------------------------|
-| C2/F01                        | 6-S8   | Abrir comanda             | Funcional         | Must        | Permitir que o garçom abra uma comanda vinculada a uma mesa cadastrada.                       | US-GAR-01: Como garçom, quero abrir uma comanda para uma mesa, para iniciar o atendimento. |
-| C2/F02                        | 6-S8   | Adicionar item            | Funcional         | Must        | Permitir adicionar produtos do cardápio a uma comanda em aberto.                              | US-GAR-02: Como garçom, quero adicionar itens à comanda, para registrar o consumo do cliente. |
-| C1/F03                        | 7      | Listar usuários           | Funcional         | Should      | Permitir que o administrador visualize os usuários cadastrados no sistema.                    | US-ADM-05: Como administrador, quero listar usuários, para acompanhar os acessos do sistema. |
-| C2/F04                        | 6-S8   | Enviar comanda            | Funcional         | Must        | Permitir enviar a comanda para a cozinha, alterando o status para em preparo.                | US-GAR-03: Como garçom, quero enviar o pedido à cozinha, para iniciar o preparo.           |
-| C3/F05                        | 6-S8   | Visualizar comanda        | Funcional         | Must        | Permitir que a cozinha visualize comandas ativas organizadas por status.                      | US-COZ-01: Como cozinheiro, quero visualizar pedidos ativos, para organizar o preparo.    |
-| C3/F06                        | 8      | Visualizar tempo de espera| Funcional         | Must        | Exibir o tempo decorrido desde a abertura ou envio da comanda.                                | US-COZ-02: Como cozinheiro, quero ver o tempo de espera, para priorizar pedidos atrasados.|
-| C3/F07                        | 6-S8   | Alterar status            | Funcional         | Must        | Permitir alterar o status da comanda, como em preparo ou pronto.                             | US-COZ-03: Como cozinheiro, quero atualizar o status do pedido, para informar o andamento.|
-| C2/F08                        | 6-S8   | Fechar comanda            | Funcional         | Must        | Permitir fechar a conta da mesa, gerar total e encerrar a comanda.                           | US-GAR-04: Como garçom, quero fechar a comanda, para concluir o atendimento.              |
+| C2/F01                        | 5      | Abrir comanda             | Funcional         | Must        | Permitir que o garçom abra uma comanda vinculada a uma mesa cadastrada.                       | US-GAR-01: Como garçom, quero abrir uma comanda para uma mesa, para iniciar o atendimento. |
+| C2/F02                        | 5      | Adicionar item            | Funcional         | Must        | Permitir adicionar produtos do cardápio a uma comanda em aberto.                              | US-GAR-02: Como garçom, quero adicionar itens à comanda, para registrar o consumo do cliente. |
+| C1/F03                        | 5      | Listar usuários           | Funcional         | Should      | Permitir que o administrador visualize os usuários cadastrados no sistema.                    | US-ADM-05: Como administrador, quero listar usuários, para acompanhar os acessos do sistema. |
+| C2/F04                        | 5      | Enviar comanda            | Funcional         | Must        | Permitir enviar a comanda para a cozinha, alterando o status para em preparo.                | US-GAR-03: Como garçom, quero enviar o pedido à cozinha, para iniciar o preparo.           |
+| C3/F05                        | 7      | Visualizar comanda        | Funcional         | Must        | Permitir que a cozinha visualize comandas ativas organizadas por status.                      | US-COZ-01: Como cozinheiro, quero visualizar pedidos ativos, para organizar o preparo.    |
+| C3/F06                        | 7      | Visualizar tempo de espera| Funcional         | Must        | Exibir o tempo decorrido desde a abertura ou envio da comanda.                                | US-COZ-02: Como cozinheiro, quero ver o tempo de espera, para priorizar pedidos atrasados.|
+| C3/F07                        | 5      | Alterar status            | Funcional         | Must        | Permitir alterar o status da comanda, como em preparo ou pronto.                             | US-COZ-03: Como cozinheiro, quero atualizar o status do pedido, para informar o andamento.|
+| C2/F08                        | 5      | Fechar comanda            | Funcional         | Must        | Permitir fechar a conta da mesa, gerar total e encerrar a comanda.                           | US-GAR-04: Como garçom, quero fechar a comanda, para concluir o atendimento.              |
 | C2/F09                        | 6      | Calcular total            | Funcional         | Must        | Calcular automaticamente o total com base nos itens e quantidades.                           | US-GAR-05: Como garçom, quero ver o total da comanda, para informar o valor ao cliente.   |
-| C1/F10                        | 7-S8   | Listar mesas              | Funcional         | Must        | Exibir as mesas do restaurante com seus respectivos status.                                   | US-GAR-06: Como garçom, quero visualizar mesas, para selecionar onde abrir ou acompanhar pedidos. |
-| C1/F11                        | 5-S7   | Cadastrar produto         | Funcional         | Should      | Permitir cadastrar produtos com nome, categoria e preço.                                     | US-ADM-01: Como administrador, quero cadastrar produtos, para manter o cardápio atualizado. |
-| C1/F12                        | 5-S7   | Editar produto            | Funcional         | Should      | Permitir editar informações de produto já cadastrado.                                        | US-ADM-02: Como administrador, quero editar produtos, para corrigir ou atualizar o cardápio.|
-| C1/F13                        | 5-S7   | Deletar produto           | Funcional         | Should      | Permitir remover produto do cardápio.                                                         | US-ADM-03: Como administrador, quero remover produtos, para retirar itens indisponíveis.   |
-| C1/F14                        | 5-S7   | Criar mesa                | Funcional         | Must        | Permitir cadastrar mesas com número e capacidade.                                            | US-ADM-04: Como administrador, quero cadastrar mesas, para organizar o salão.              |
-| C1/F15                        | 5-S7   | Editar mesa               | Funcional         | Should      | Permitir editar informações de mesa já cadastrada.                                           | US-ADM-06: Como administrador, quero editar mesas, para corrigir dados do salão.           |
-| C1/F16                        | 5-S7   | Deletar mesa              | Funcional         | Should      | Permitir remover mesa do sistema.                                                             | US-ADM-07: Como administrador, quero remover mesas, para manter o cadastro correto.        |
+| C1/F10                        | 5      | Listar mesas              | Funcional         | Must        | Exibir as mesas do restaurante com seus respectivos status.                                   | US-GAR-06: Como garçom, quero visualizar mesas, para selecionar onde abrir ou acompanhar pedidos. |
+| C1/F11                        | 5      | Cadastrar produto         | Funcional         | Should      | Permitir cadastrar produtos com nome, categoria e preço.                                     | US-ADM-01: Como administrador, quero cadastrar produtos, para manter o cardápio atualizado. |
+| C1/F12                        | 5      | Editar produto            | Funcional         | Should      | Permitir editar informações de produto já cadastrado.                                        | US-ADM-02: Como administrador, quero editar produtos, para corrigir ou atualizar o cardápio.|
+| C1/F13                        | 5      | Deletar produto           | Funcional         | Should      | Permitir remover produto do cardápio.                                                         | US-ADM-03: Como administrador, quero remover produtos, para retirar itens indisponíveis.   |
+| C1/F14                        | 5      | Criar mesa                | Funcional         | Must        | Permitir cadastrar mesas com número e capacidade.                                            | US-ADM-04: Como administrador, quero cadastrar mesas, para organizar o salão.              |
+| C1/F15                        | 5      | Editar mesa               | Funcional         | Should      | Permitir editar informações de mesa já cadastrada.                                           | US-ADM-06: Como administrador, quero editar mesas, para corrigir dados do salão.           |
+| C1/F16                        | 5      | Deletar mesa              | Funcional         | Should      | Permitir remover mesa do sistema.                                                             | US-ADM-07: Como administrador, quero remover mesas, para manter o cadastro correto.        |
 | T/F17                         | 5      | Configurar rotas          | Funcional         | Must        | Configurar as rotas principais da aplicação para acesso às funcionalidades.                  | US-TEC-01: Como sistema, preciso ter rotas configuradas, para conectar usuários aos recursos.|
-| C0/F18                        | 5-S7   | Obter usuário logado      | Funcional         | Must        | Identificar o usuário autenticado para redirecionamento e controle de acesso.                | US-AUT-01: Como usuário autenticado, quero ser reconhecido pelo sistema, para acessar meu perfil correto. |
-| C2/F19                        | 6-S8   | Listar comandas da mesa   | Funcional         | Must        | Listar comandas vinculadas a uma mesa específica.                                            | US-GAR-07: Como garçom, quero ver comandas de uma mesa, para acompanhar o atendimento.    |
-| C2/F20                        | 6      | Listar todas as comandas  | Funcional         | Must        | Listar comandas registradas no sistema para acompanhamento operacional.                      | US-GER-01: Como equipe do restaurante, quero listar comandas, para acompanhar os pedidos.  |
-| C2/F21                        | 6-S8   | Gerar conta               | Funcional         | Must        | Gerar a conta da comanda com itens, quantidades e valor total.                               | US-GAR-08: Como garçom, quero gerar a conta, para apresentar o consumo ao cliente.        |
-| C2/F22                        | 6      | Buscar comanda por ID     | Funcional         | Must        | Buscar uma comanda a partir de seu identificador.                                            | US-GAR-09: Como garçom, quero consultar uma comanda específica, para verificar seus dados.|
-| C2/F23                        | 6      | Contar comandas abertas   | Funcional         | Must        | Informar quantas comandas abertas existem para uma mesa.                                    | US-GAR-10: Como garçom, quero saber quantas comandas a mesa possui, para evitar confusão no atendimento. |
-| C1/F24                        | 5-S7   | Listar produtos           | Funcional         | Must        | Listar todos os produtos cadastrados no cardápio.                                            | US-GAR-11: Como garçom, quero listar produtos, para escolher itens ao montar o pedido.    |
-| C1/F25                        | 5-S7   | Listar produtos por categoria | Funcional | Must        | Filtrar produtos por categoria.                                                               | US-GAR-12: Como garçom, quero filtrar produtos por categoria, para encontrar itens rapidamente. |
-| C2/F26                        | 6-S8   | Liberar mesa              | Funcional         | Must        | Liberar mesa após fechamento da conta.                                                        | US-GAR-13: Como garçom, quero liberar a mesa após o pagamento, para permitir novo atendimento. |
-| C1/F27                        | 5-S7   | Buscar mesa por número    | Funcional         | Must        | Buscar dados de uma mesa pelo número.                                                         | US-GAR-14: Como garçom, quero buscar mesa por número, para localizar rapidamente o atendimento. |
-| C0/F28                        | 5-S7   | Autenticar                | Funcional         | Must        | Realizar login do usuário no sistema.                                                         | US-AUT-02: Como usuário, quero fazer login, para acessar as funcionalidades autorizadas.   |
-| C0/F29                        | 5-S7   | Logout                    | Funcional         | Must        | Encerrar a sessão do usuário autenticado.                                                     | US-AUT-03: Como usuário, quero sair do sistema, para proteger minha sessão.               |
-| C1/F30                        | 5-S7   | Cadastrar usuário         | Funcional         | Must        | Permitir que o administrador cadastre usuários.                                              | US-ADM-08: Como administrador, quero cadastrar usuários, para controlar o acesso ao sistema. |
-| C1/F31                        | 5-S7   | Deletar usuário           | Funcional         | Must        | Permitir que o administrador remova usuários.                                                | US-ADM-09: Como administrador, quero deletar usuários, para bloquear acessos indevidos.   |
+| C0/F18                        | 5      | Obter usuário logado      | Funcional         | Must        | Identificar o usuário autenticado para redirecionamento e controle de acesso.                | US-AUT-01: Como usuário autenticado, quero ser reconhecido pelo sistema, para acessar meu perfil correto. |
+| C2/F19                        | 5      | Listar comandas da mesa   | Funcional         | Must        | Listar comandas vinculadas a uma mesa específica.                                            | US-GAR-07: Como garçom, quero ver comandas de uma mesa, para acompanhar o atendimento.    |
+| C2/F20                        | 5      | Listar todas as comandas  | Funcional         | Must        | Listar comandas registradas no sistema para acompanhamento operacional.                      | US-GER-01: Como equipe do restaurante, quero listar comandas, para acompanhar os pedidos.  |
+| C2/F21                        | 7      | Gerar conta               | Funcional         | Must        | Gerar a conta da comanda com itens, quantidades e valor total.                               | US-GAR-08: Como garçom, quero gerar a conta, para apresentar o consumo ao cliente.        |
+| C2/F22                        | 7      | Buscar comanda por ID     | Funcional         | Must        | Buscar uma comanda a partir de seu identificador.                                            | US-GAR-09: Como garçom, quero consultar uma comanda específica, para verificar seus dados.|
+| C2/F23                        | 7      | Contar comandas abertas   | Funcional         | Must        | Informar quantas comandas abertas existem para uma mesa.                                    | US-GAR-10: Como garçom, quero saber quantas comandas a mesa possui, para evitar confusão no atendimento. |
+| C1/F24                        | 5      | Listar produtos           | Funcional         | Must        | Listar todos os produtos cadastrados no cardápio.                                            | US-GAR-11: Como garçom, quero listar produtos, para escolher itens ao montar o pedido.    |
+| C1/F25                        | 5      | Listar produtos por categoria | Funcional | Must        | Filtrar produtos por categoria.                                                               | US-GAR-12: Como garçom, quero filtrar produtos por categoria, para encontrar itens rapidamente. |
+| C2/F26                        | 5      | Liberar mesa              | Funcional         | Must        | Liberar mesa após fechamento da conta.                                                        | US-GAR-13: Como garçom, quero liberar a mesa após o pagamento, para permitir novo atendimento. |
+| C1/F27                        | 6      | Buscar mesa por número    | Funcional         | Must        | Buscar dados de uma mesa pelo número.                                                         | US-GAR-14: Como garçom, quero buscar mesa por número, para localizar rapidamente o atendimento. |
+| C0/F28                        | 5      | Autenticar                | Funcional         | Must        | Realizar login do usuário no sistema.                                                         | US-AUT-02: Como usuário, quero fazer login, para acessar as funcionalidades autorizadas.   |
+| C0/F29                        | 5      | Logout                    | Funcional         | Must        | Encerrar a sessão do usuário autenticado.                                                     | US-AUT-03: Como usuário, quero sair do sistema, para proteger minha sessão.               |
+| C1/F30                        | 5      | Cadastrar usuário         | Funcional         | Must        | Permitir que o administrador cadastre usuários.                                              | US-ADM-08: Como administrador, quero cadastrar usuários, para controlar o acesso ao sistema. |
+| C1/F31                        | 5      | Deletar usuário           | Funcional         | Must        | Permitir que o administrador remova usuários.                                                | US-ADM-09: Como administrador, quero deletar usuários, para bloquear acessos indevidos.   |
 | C0/F32                        | 7      | Meu perfil                | Funcional         | Must        | Permitir que o usuário visualize seu próprio cargo/perfil.                                   | US-AUT-04: Como usuário, quero visualizar meu perfil, para saber minhas permissões.       |
 | C1/F33                        | 7      | Visualizar perfil         | Funcional         | Should      | Permitir que o administrador visualize o perfil de um usuário.                               | US-ADM-10: Como administrador, quero visualizar perfis, para gerenciar permissões.        |
-| C1/F34                        | 8-S9   | Estatísticas diárias      | Funcional         | Should      | Exibir estatísticas operacionais do dia.                                                      | US-GER-02: Como gestor, quero ver estatísticas diárias, para acompanhar o desempenho do restaurante. |
-| C1/F35                        | 5-S7   | Buscar produto por ID     | Funcional         | Must        | Buscar produto pelo identificador.                                                            | US-ADM-11: Como administrador, quero consultar um produto específico, para conferir ou alterar seus dados. |
-| C1/F36                        | 5-S7   | Buscar usuário por ID     | Funcional         | Must        | Buscar usuário pelo identificador.                                                            | US-ADM-12: Como administrador, quero consultar um usuário específico, para revisar seus dados. |
-| C1/F37                        | 5-S7   | Atualizar produto         | Funcional         | Must        | Atualizar os dados de um produto cadastrado.                                                 | US-ADM-13: Como administrador, quero atualizar produtos, para manter o cardápio correto.   |
+| C1/F34                        | 8      | Estatísticas diárias      | Funcional         | Should      | Exibir estatísticas operacionais do dia.                                                      | US-GER-02: Como gestor, quero ver estatísticas diárias, para acompanhar o desempenho do restaurante. |
+| C1/F35                        | 5      | Buscar produto por ID     | Funcional         | Must        | Buscar produto pelo identificador.                                                            | US-ADM-11: Como administrador, quero consultar um produto específico, para conferir ou alterar seus dados. |
+| C1/F36                        | 5      | Buscar usuário por ID     | Funcional         | Must        | Buscar usuário pelo identificador.                                                            | US-ADM-12: Como administrador, quero consultar um usuário específico, para revisar seus dados. |
+| C1/F37                        | 5      | Atualizar produto         | Funcional         | Must        | Atualizar os dados de um produto cadastrado.                                                 | US-ADM-13: Como administrador, quero atualizar produtos, para manter o cardápio correto.   |
 
 *Fonte: Elaborado pelo autor (2026)*
 
@@ -419,12 +423,12 @@ As métricas foram definidas com base em:
 
 | Objetivo                            | Pergunta                                                      | Métrica                                     | Cálculo                                                                                     | Escala | Valor esperado       | Forma de análise                                           | Resultados                                                                                   |
 |-------------------------------------|---------------------------------------------------------------|---------------------------------------------|---------------------------------------------------------------------------------------------|--------|----------------------|------------------------------------------------------------|----------------------------------------------------------------------------------------------|
-| Validar taxa de conclusão da sprint| As funcionalidades planejadas foram entregues?               | Taxa de conclusão da sprint                | (Quantidade de funcionalidades planejadas – quantidades que não foram entregues)             | unitária | Número de funcionalidades entregáveis para a sprint | Implementação de Sprint Reviews e Sprint Meetings           | Sprint 1: 100%, Sprint 2: 100%, Sprint 3: 100%, Sprint 4: 100%, Sprint 5: 100%, Sprint 6: 100%, Sprint 7: 100%, Sprint 8: 60%, Sprint 9: 0% |
-| Validar qualidade de implementação | O software está bem implementado?                            | Densidade de commits de correção de erros   | Total de commits para correção / total de commits                                          | unitária | 40                   | Realização de testes                                      | Sprint 1: -, Sprint 2: -, Sprint 3: -, Sprint 4: -, Sprint 5: -, Sprint 6: Inicialmente 10 erros, corrigidos na mesma sprint, Sprint 7: 0 erros, Sprint 8: -, Sprint 9: - |
-| Obediência ao período dos sprints  | Os sprints estão entregando todos os musts?                  | Densidade de prorrogações de musts          | (Quantidade de musts prorrogados) / (Total de Musts do Sprint) x 100%                       | %      | ≤ 0%                 | Realizada em Sprint Reviews e Sprint Meetings              | Sprint 1: 100%, Sprint 2: 100%, Sprint 3: 100%, Sprint 4: 100%, Sprint 5: 100%, Sprint 6: 100%, Sprint 7: 100%, Sprint 8: -, Sprint 9: - |
-| Usabilidade da Interface de usuário| A interface é intuitiva e perfeitamente utilizável?          | Densidade de feedback negativo               | (Reports negativos) / (Total de Reports) x 100%                                            | %      | ≤ 2%                 | Reuniões de alinhamento de requisitos e avaliação do cliente | 25%                                                                                         |
-| Verificar usabilidade              | O programa é útil?                                            | Avaliação de utilidade                      | Média aritmética de avaliações                                                              | -      | ≥ 8                  | Demonstração e Feedback do cliente                        | -                                                                                            |
-| Verificar possível recomendação    | Recomendaria o software?                                     | Nível de recomendação binária               | Taxa de recomendações (%)                                                                   | %      | ≥ 80%                | Feedback do cliente                                        | -                                                                                            |
+| Validar taxa de conclusão da sprint| A sprint foi finalizada no período previsto?                 | Obediência ao período das sprints           | Número de atraso da entrega de todo o planejado em relação à sprint                         | unitária | 0                    | Implementação de Sprint Reviews e Sprint Meetings           | Sprint 1: 0, Sprint 2: 0, Sprint 3: 0, Sprint 4: 0, Sprint 5: 0, Sprint 6: 0, Sprint 7: 1, Sprint 8: 1, Sprint 9: 0 |
+| Validar qualidade de implementação | O software está bem implementado?                            | Densidade de commits de correção de erros   | (Total de commits para correção) / (Total de commits) x 100%                                | %       | 40%                  | Realização de testes                                      | 22%                                                                                         |
+| Obediência às sprints              | Os sprints estão entregando todos os musts?                  | Densidade de prorrogações de musts          | (Quantidade de musts prorrogados) / (Total de Musts da Sprint) x 100%                       | %       | ≤ 0%                 | Realizada em Sprint Reviews e Sprint Meetings              | Sprint 1: -, Sprint 2: -, Sprint 3: -, Sprint 4: -, Sprint 5: 0%, Sprint 6: 0%, Sprint 7: 16%, Sprint 8: -, Sprint 9: - |
+| Usabilidade da Interface de usuário| A interface é intuitiva e perfeitamente utilizável?          | Densidade de feedback negativo               | (Reports negativos) / (Total de Reports) x 100%                                            | %       | ≤ 2%                 | Reuniões de alinhamento de requisitos e avaliação do cliente | 25%                                                                                         |
+| Verificar usabilidade              | O programa é útil?                                            | Avaliação de utilidade                      | Média aritmética de avaliações                                                              | -       | ≥ 8                  | Demonstração e Feedback do cliente                        | 8                                                                                            |
+| Verificar possível recomendação    | Recomendaria o software?                                     | Nível de recomendação binária               | Taxa de recomendações (%)                                                                   | %       | ≥ 80%                | Feedback do cliente                                        | 100%                                                                                         |
 
 *Fonte: Elaborado pelo autor (2026)*
 
@@ -456,7 +460,7 @@ O projeto adota uma estrutura organizada de ambientes de teste integrada à sua 
 
 São definidos três ambientes principais ao longo do ciclo de desenvolvimento:
 
-- **Ambiente de Desenvolvimento (Dev):** Utilizado para implementação e testes iniciais das funcionalidades. Os desenvolvedores trabalham localmente com as tecnologias do projeto, incluindo React no frontend, Python com Flask no backend e MySQL como banco de dados.
+- **Ambiente de Desenvolvimento (Dev):** Utilizado para implementação e testes iniciais das funcionalidades. Os desenvolvedores trabalham localmente com as tecnologias do projeto, incluindo React & Vite no frontend, Python com Flask no backend e MySQL como banco de dados.
 - **Ambiente de Homologação (QA):** Responsável pela validação das funcionalidades integradas. Neste ambiente, são realizados testes funcionais e não funcionais para garantir que o sistema atenda aos requisitos especificados.
 - **Ambiente de Produção (Prod):** Ambiente final onde a aplicação é disponibilizada aos usuários. A documentação do sistema é publicada por meio do GitHub Pages.
 
@@ -487,333 +491,11 @@ Para minimizar os riscos no ambiente de teste e preservar a integridade do proje
 
 #### Testes Unitários
 
-**Tabela 13 - Teste Unitário 1 (TU01)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU01                                                                                       |
-| Nome           | Login com credenciais                                                                      |
-| Objetivo       | Verificar se a função de autenticação retorna sucesso com credenciais válidas              |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Método de login implementado e usuário válido cadastrado                                   |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Autenticação bem-sucedida / Realizado: Autenticação bem-sucedida                 |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 14 - Teste Unitário 2 (TU02)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU02                                                                                       |
-| Nome           | Abrir comanda com sucesso                                                                  |
-| Objetivo       | Verificar se a função de abrir comanda é executada corretamente                            |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Função de abrir comanda implementada                                                       |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Abrir comanda / Realizado: Abre comanda                                          |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 15 - Teste Unitário 3 (TU03)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU03                                                                                       |
-| Nome           | Abrir comanda - mesa inexistente                                                           |
-| Objetivo       | Verificar se a função de abrir comanda falha ao tentar abrir para uma mesa inexistente    |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Função de abrir comanda implementada                                                       |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Não permitir abrir comanda para mesa inexistente / Realizado: Não permite         |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 16 - Teste Unitário 4 (TU04)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU04                                                                                       |
-| Nome           | Abrir comanda - mesa ocupada                                                               |
-| Objetivo       | Verificar se a função de abrir comanda falha ao tentar abrir para uma mesa já ocupada      |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Função de abrir comanda implementada                                                       |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Não permitir abrir comanda para mesa ocupada / Realizado: Não permite             |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 17 - Teste Unitário 5 (TU05)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU05                                                                                       |
-| Nome           | Adicionar item com sucesso                                                                 |
-| Objetivo       | Verificar se a função adicionar item à comanda está funcionando                            |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Função de adicionar item na comanda implementada                                           |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Adicionar item na comanda / Realizado: Adiciona item na comanda                   |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 18 - Teste Unitário 6 (TU06)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU06                                                                                       |
-| Nome           | Adicionar item - quantidade inválida                                                       |
-| Objetivo       | Verificar se a função adicionar item não permite quantidade inválida (ex: zero ou negativa)|
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Função de adicionar item implementada                                                       |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Não permitir adicionar item com quantidade inválida / Realizado: Não permite      |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 19 - Teste Unitário 7 (TU07)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU07                                                                                       |
-| Nome           | Calcular total                                                                              |
-| Objetivo       | Verificar se a função calcular total fornece o valor total da comanda                       |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Implementação de itens na comanda                                                           |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Fornecer o valor da comanda / Realizado: Fornece o valor da comanda               |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 20 - Teste Unitário 8 (TU08)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU08                                                                                       |
-| Nome           | Enviar comanda com sucesso                                                                 |
-| Objetivo       | Verificar se é possível enviar comanda                                                     |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Implementação da função de enviar comanda                                                   |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Enviar comanda para a cozinha / Realizado: Envia comanda para a cozinha           |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 21 - Teste Unitário 9 (TU09)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU09                                                                                       |
-| Nome           | Enviar comanda sem itens falha                                                              |
-| Objetivo       | Verificar se falha ao tentar enviar uma comanda vazia                                      |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Função de enviar comanda implementada                                                       |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Falhar ao enviar comanda vazia / Realizado: Falha ao enviar comanda vazia         |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 22 - Teste Unitário 10 (TU10)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU10                                                                                       |
-| Nome           | Fechar comanda - sucesso                                                                   |
-| Objetivo       | Verificar se a função de fechar comanda cumpre seu papel de fechar a comanda               |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Função de fechar comanda implementada                                                       |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Fechar comanda / Realizado: Fecha a comanda                                      |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 23 - Teste Unitário 11 (TU11)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU11                                                                                       |
-| Nome           | Alterar status                                                                              |
-| Objetivo       | Verificar se os status da comanda são alterados ao utilizar a função de alterar status     |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Implementação da função de alterar status                                                   |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Alterar os dados de status da comanda / Realizado: Altera o dado de status        |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 24 - Teste Unitário 12 (TU12)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU12                                                                                       |
-| Nome           | Cadastrar produto com sucesso                                                              |
-| Objetivo       | Verificar se é possível cadastrar produtos                                                  |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Função de cadastrar produtos implementada                                                   |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Cadastrar um produto / Realizado: Cadastra produto                                |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 25 - Teste Unitário 13 (TU13)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU13                                                                                       |
-| Nome           | Cadastrar produto - campos faltando                                                         |
-| Objetivo       | Verificar se impede cadastro com dados faltando                                            |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Função de cadastrar produto implementada                                                    |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Não permitir cadastrar produto com dados faltando / Realizado: Não permite         |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 26 - Teste Unitário 14 (TU14)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU14                                                                                       |
-| Nome           | Editar produto com sucesso                                                                 |
-| Objetivo       | Verificar se os dados do produto são alterados ao usar a função de editar produto          |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Existência da função de editar produto                                                      |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Alterar dados do produto / Realizado: Altera dados do produto                     |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 27 - Teste Unitário 15 (TU15)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU15                                                                                       |
-| Nome           | Deletar produto com sucesso                                                                |
-| Objetivo       | Verificar se os dados do produto são excluídos ao usar a função de excluir produto         |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Função de excluir produto implementada                                                      |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Excluir produto / Realizado: Exclui produto                                       |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 28 - Teste Unitário 16 (TU16)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU16                                                                                       |
-| Nome           | Listar produtos                                                                            |
-| Objetivo       | Verificar se a função de listar produtos retorna os dados de todos os produtos             |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Função de listar produtos implementada                                                      |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Listar os dados de todos os produtos / Realizado: Lista os dados                  |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 29 - Teste Unitário 17 (TU17)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TU17                                                                                       |
-| Nome           | Listar produtos por categoria                                                               |
-| Objetivo       | Verificar se a função de listar por categoria retorna os dados dos produtos da categoria   |
-| Nível          | Unitário                                                                                   |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Implementação da função de listar por categoria                                             |
-| Estado         | Aprovado                                                                                   |
-| Resultados     | Previsto: Listar os dados dos produtos de mesma categoria / Realizado: Lista dados         |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-*(Nota: Os testes TU18 a TU47 foram omitidos por brevidade, mas seguem o mesmo padrão do documento original.)*
+*(Nota: Os testes unitários foram movidos para a página específica de Testes para facilitar a consulta. Consulte a aba "Testes" para visualizar todos os 70 testes unitários e os 33 testes integrados.)*
 
 #### Testes Integrados
 
-**Tabela 30 - Teste Integrado 1 (TI01)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TI01                                                                                       |
-| Nome           | Integração entre backend e banco de dados                                                  |
-| Objetivo       | Verificar se o sistema armazena corretamente dados no banco                                |
-| Nível          | Integração                                                                                 |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Banco de dados ativo e conexão configurada                                                 |
-| Estado         | -                                                                                          |
-| Resultados     | Previsto: dados salvos com sucesso / Realizado: -                                          |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
-**Tabela 31 - Teste Integrado 2 (TI02)**
-
-| Campo          | Conteúdo                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------|
-| Código         | TI02                                                                                       |
-| Nome           | Integração entre backend e frontend                                                         |
-| Objetivo       | Verificar se a interface consegue enviar e receber dados do programa                       |
-| Nível          | Integração                                                                                 |
-| Tipo           | Funcional                                                                                  |
-| Precondições   | Interface funcional e conectada à lógica do programa                                       |
-| Estado         | -                                                                                          |
-| Resultados     | Previsto: comunicação bem-sucedida / Realizado: -                                          |
-| Reparos        | -                                                                                          |
-| Ciclos         | -                                                                                          |
-
-*Fonte: Elaborado pelo autor (2026)*
-
+*(Nota: Os testes integrados foram movidos para a página específica de Testes para facilitar a consulta. Consulte a aba "Testes" para visualizar todos os 70 testes unitários e os 33 testes integrados.)*
 ---
 
 ## 7. Referências Bibliográficas
