@@ -287,6 +287,25 @@
   
 
       
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../testes/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Testes
+
+      </a>
+    </li>
+  
+
+      
     </ul>
   </div>
 </nav>
@@ -767,6 +786,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1146,7 +1192,7 @@
 <tr>
 <td>242005006</td>
 <td>Rafael de Aquino Marinho</td>
-<td>Frontend/ MkDocs</td>
+<td>Frontend/MkDocs</td>
 <td>10</td>
 </tr>
 </tbody>
@@ -1177,7 +1223,7 @@
 <tr>
 <td>28/06/2026</td>
 <td>1.2</td>
-<td>Melhorando explicação figuras e diagramas, corrigindo escopo</td>
+<td>Melhorando Explicação Figuras e diagramas</td>
 <td>Rafael</td>
 </tr>
 <tr>
@@ -1185,6 +1231,12 @@
 <td>1.3</td>
 <td>Atualização para refletir a implementação real (MySQL, estrutura de pastas, serviços/controladores, remoção do WebSocket)</td>
 <td>Rafael</td>
+</tr>
+<tr>
+<td>30/06/2026</td>
+<td>1.4</td>
+<td>Atualização dos diagramas e tabelas</td>
+<td>João Kurihara</td>
 </tr>
 </tbody>
 </table>
@@ -1282,15 +1334,15 @@
 <hr />
 <h2 id="2-representacao-arquitetural">2. Representação Arquitetural</h2>
 <h3 id="21-definicoes">2.1 Definições</h3>
-<p>O sistema Nexus Gourmet segue uma arquitetura <strong>Cliente-Servidor Web</strong>, organizada internamente segundo o padrão <strong>MVC em camadas</strong>, com comunicação síncrona via HTTP para todas as operações, incluindo atualização de status de pedidos.</p>
+<p>O sistema Nexus Gourmet seguirá uma arquitetura Cliente-Servidor Web, organizada internamente segundo o padrão MVC em camadas, com apoio de comunicação assíncrona para atualização do status dos pedidos (SERRANO, 2026).</p>
 <p>A escolha da arquitetura Cliente-Servidor ocorre porque o sistema será acessado por diferentes tipos de clientes, como dispositivos móveis utilizados pelos garçons, telas utilizadas pela cozinha e interfaces administrativas (IBM, 2026). Esses clientes consomem os serviços oferecidos por uma aplicação central, responsável por processar as regras de negócio, controlar o fluxo dos pedidos e acessar o banco de dados.</p>
-<p>Internamente, o servidor é organizado segundo o padrão <strong>MVC (Model-View-Controller)</strong>. Nesse modelo:</p>
+<p>Internamente, o servidor é organizado segundo o padrão MVC (Model-View-Controller). Nesse modelo:</p>
 <ul>
 <li><strong>View:</strong> interfaces do sistema (desenvolvidas em React ou templates HTML).</li>
 <li><strong>Controller:</strong> recebe as requisições dos usuários e coordena o fluxo das operações.</li>
 <li><strong>Model:</strong> representa os dados, regras de negócio e persistência relacionados a pedidos, mesas, produtos, usuários e status de atendimento.</li>
 </ul>
-<p>A comunicação entre as camadas é feita via <strong>API REST</strong> sobre HTTP/HTTPS, com todas as requisições sendo síncronas.</p>
+<p>A comunicação entre as camadas é feita via API REST sobre HTTP/HTTPS, com todas as requisições sendo síncronas.</p>
 <h3 id="22-justifique-sua-escolha">2.2 Justifique sua escolha</h3>
 <p>A escolha da arquitetura Cliente-Servidor Web com organização interna MVC é adequada ao Nexus Gourmet porque o produto proposto não é um sistema isolado em uma única máquina, mas uma aplicação distribuída entre diferentes usuários e dispositivos. O documento de Visão do Produto define o Nexus Gourmet como uma aplicação web-mobile voltada a proprietários e funcionários de restaurantes, com a finalidade de registrar, acompanhar e gerenciar pedidos de forma centralizada, ágil e sem erros.</p>
 <p>O problema central identificado no projeto está relacionado à falha de comunicação entre salão e cozinha, à perda de informações em comandas de papel e à falta de rastreabilidade dos pedidos. Por isso, a arquitetura precisa favorecer a centralização das informações, o acesso simultâneo por múltiplos perfis de usuário e a atualização rápida do estado dos pedidos. A organização Cliente-Servidor atende diretamente a essa necessidade, pois separa os dispositivos consumidores dos serviços da aplicação central, mantendo o processamento e os dados em um servidor comum.</p>
@@ -1314,14 +1366,14 @@
 <p><strong>Camada de Apresentação - View</strong></p>
 </li>
 <li>
-<p>Corresponde às páginas e interfaces desenvolvidas em <strong>React</strong> (ou templates HTML). Essa camada é responsável por apresentar as telas ao usuário e capturar suas ações, como clicar em "enviar pedido", "adicionar item" ou "marcar como pronto".</p>
+<p>Corresponde às páginas e interfaces desenvolvidas em React (ou templates HTML). Essa camada é responsável por apresentar as telas ao usuário e capturar suas ações, como clicar em "enviar pedido", "adicionar item" ou "marcar como pronto".</p>
 </li>
 <li>
 <p><strong>Camada de Controle e Aplicação - Controller/Service</strong></p>
 </li>
-<li>Corresponde ao backend da aplicação, desenvolvido em <strong>Python com Flask</strong> e <strong>SQLAlchemy</strong>.</li>
-<li>Os <strong>controladores</strong> (<code>order_controller</code>, <code>product_controller</code>, <code>user_controller</code>) recebem as requisições HTTP e orquestram as ações.</li>
-<li>Os <strong>serviços</strong> (<code>order_service</code>, <code>product_service</code>, <code>user_service</code>, <code>mesa_service</code>) contêm as regras de negócio, validações e cálculos.</li>
+<li>Corresponde ao backend da aplicação, desenvolvido em Python com Flask e SQLAlchemy.</li>
+<li>Os controladores (<code>order_controller</code>, <code>product_controller</code>, <code>user_controller</code>) recebem as requisições HTTP e orquestram as ações.</li>
+<li>Os serviços (<code>order_service</code>, <code>product_service</code>, <code>user_service</code>, <code>mesa_service</code>) contêm as regras de negócio, validações e cálculos.</li>
 <li>
 <p>A padronização de respostas da API é feita por meio de mensagens de erro e sucesso centralizadas.</p>
 </li>
@@ -1331,11 +1383,11 @@
 <li>Representa os dados e regras centrais do sistema.</li>
 <li>As entidades principais (<strong>User</strong>, <strong>Table</strong>, <strong>Product</strong>, <strong>Order</strong>, <strong>ItemOrdered</strong>) estão definidas no arquivo <code>models/models.py</code>.</li>
 <li>Os valores enumerados (cargos, status, categorias) estão no arquivo <code>models/enums.py</code>.</li>
-<li><strong>Não há uma camada explícita de Repository</strong>; o acesso ao banco de dados é realizado diretamente pelos serviços, utilizando <strong>SQLAlchemy</strong>.</li>
-<li>O banco de dados utilizado é <strong>MySQL</strong>, conforme script <code>database.sql</code>.</li>
+<li>Não há uma camada explícita de Repository; o acesso ao banco de dados é realizado diretamente pelos serviços, utilizando SQLAlchemy.</li>
+<li>O banco de dados utilizado é MySQL, conforme script <code>database.sql</code>.</li>
 </ul>
 <p><strong>Figura 1 - estilo arquitectural</strong></p>
-<p><img alt="Figura 1 - estilo arquitectural" src="../img/estilo-arquitectural.jpg" /></p>
+<p><img alt="Figura 1 - estilo arquitectural" src="../img/estilo-arquitectural.png" /></p>
 <p><em>Fonte: elaborado pelos autores (2026)</em></p>
 <p>O fluxo principal começa quando o garçom acessa a interface web/mobile e registra um pedido vinculado a uma mesa. A View envia a solicitação ao Controller por meio de HTTP/HTTPS. O Controller aciona o Service correspondente, que valida as regras de negócio, como existência da mesa, disponibilidade do produto e cálculo dos valores. Em seguida, o Service persiste os dados no banco MySQL via SQLAlchemy.</p>
 <p>Quando o pedido é enviado para a cozinha, o sistema altera seu status e disponibiliza essa alteração para a tela da cozinha. As atualizações de status são realizadas por requisições HTTP, que refletem as mudanças após o recarregamento da página ou por meio de polling periódico.</p>
@@ -1350,7 +1402,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Cliente Web/Mobile</td>
+<td>Cliente Web</td>
 <td>Permitir interação dos usuários com o sistema em diferentes dispositivos</td>
 </tr>
 <tr>
@@ -1359,7 +1411,7 @@
 </tr>
 <tr>
 <td>Controller</td>
-<td>Receber requisições HTTP, coordenar o fluxo e encaminhar ações aos serviços</td>
+<td>Receber requisições, coordenar o fluxo e encaminhar ações aos serviços</td>
 </tr>
 <tr>
 <td>Service</td>
@@ -1367,11 +1419,19 @@
 </tr>
 <tr>
 <td>Model</td>
-<td>Representar as entidades principais do domínio (User, Table, Product, Order, etc.)</td>
+<td>Representar as entidades principais do domínio</td>
+</tr>
+<tr>
+<td>Repository</td>
+<td>Isolar o acesso ao banco de dados</td>
 </tr>
 <tr>
 <td>Banco de Dados</td>
-<td>Persistir pedidos, produtos, mesas, usuários e histórico de status (MySQL)</td>
+<td>Persistir pedidos, produtos, mesas, usuários e histórico de status</td>
+</tr>
+<tr>
+<td>Comunicação assíncrona</td>
+<td>Atualizar cozinha e salão quando houver mudança relevante no pedido</td>
 </tr>
 </tbody>
 </table>
@@ -1413,23 +1473,23 @@
 <p>O sistema é subdividido nos seguintes módulos, conforme implementado:</p>
 <ul>
 <li><strong>Módulo de Apresentação (View):</strong></li>
-<li><strong>Composição:</strong> Desenvolvido com <strong>React</strong> (ou templates HTML).</li>
+<li><strong>Composição:</strong> Desenvolvido com React (ou templates HTML).</li>
 <li>
 <p><strong>Razão Lógica:</strong> Responsável unicamente pela interface com o usuário, apresentando as diferentes telas (mobile para garçom, desktop para cozinha) e capturando ações como "enviar pedido" ou "marcar como pronto".</p>
 </li>
 <li>
 <p><strong>Módulo de Controle e Serviços (Controller/Service):</strong></p>
 </li>
-<li><strong>Composição:</strong> Desenvolvido em linguagem <strong>Python</strong> utilizando o framework <strong>Flask</strong>, com auxílio do <strong>SQLAlchemy</strong>.</li>
-<li><strong>Controladores:</strong> <code>order_controller</code>, <code>product_controller</code>, <code>user_controller</code> – recebem as requisições e orquestram as ações.</li>
-<li><strong>Serviços:</strong> <code>order_service</code>, <code>product_service</code>, <code>user_service</code>, <code>mesa_service</code> – contêm as regras de negócio, validações e cálculos.</li>
+<li><strong>Composição:</strong> Desenvolvido em linguagem Python utilizando o framework Flask, com auxílio do SQLAlchemy.</li>
+<li><strong>Controladores:</strong> <code>order_controller</code>, <code>product_controller</code>, <code>user_controller</code> - recebem as requisições e orquestram as ações.</li>
+<li><strong>Serviços:</strong> <code>order_service</code>, <code>product_service</code>, <code>user_service</code>, <code>mesa_service</code> - contêm as regras de negócio, validações e cálculos.</li>
 <li>
 <p><strong>Razão Lógica:</strong> Coordenam todo o fluxo da aplicação, recebem as requisições das telas, efetuam validações, aplicam regras de negócio (cálculos de contas, existência da mesa) e determinam as ações para persistência.</p>
 </li>
 <li>
 <p><strong>Módulo de Modelo e Persistência (Model/Database):</strong></p>
 </li>
-<li><strong>Composição:</strong> Composto pelas entidades fundamentais do sistema (arquivo <code>models/models.py</code>), pelos enums (<code>models/enums.py</code>) e pelo banco de dados <strong>MySQL</strong> (script <code>database.sql</code>).</li>
+<li><strong>Composição:</strong> Composto pelas entidades fundamentais do sistema (arquivo <code>models/models.py</code>), pelos enums (<code>models/enums.py</code>) e pelo banco de dados MySQL (script <code>database.sql</code>).</li>
 <li><strong>Razão Lógica:</strong> Modela o domínio (User, Table, Product, Order, ItemOrdered) e garante a integridade e persistência física dos dados, utilizando SQLAlchemy para abstração do banco.</li>
 </ul>
 <p><strong>Como eles se comunicam (Interfaces):</strong></p>
@@ -1441,6 +1501,7 @@
 <h4 id="253-visao-estrutural">2.5.3 Visão estrutural</h4>
 <p><strong>Figura 4 - Diagrama de Classes</strong></p>
 <p><img alt="Figura 4 - Diagrama de Classes" src="../img/diagrama-de-classes.png" /></p>
+<p><em>Fonte: Elaborado pelos autores (2026)</em></p>
 <p>A Figura 4 ilustra o Diagrama de Classes, delimitando o escopo do produto e as interações entre os atores externos e as funcionalidades do sistema.</p>
 <p><strong>Detalhamento dos Atores e Interações:</strong></p>
 <ul>
@@ -1459,7 +1520,6 @@
 </ul>
 <p><strong>Relevância Arquitetural:</strong></p>
 <p>O mapeamento da Figura 4 serve como base para a definição das rotas da API no backend e para a construção das interfaces no frontend. Cada caso de uso representado foi priorizado para atender aos requisitos funcionais e garantir que a arquitetura lógica suporte a carga de trabalho simultânea de múltiplos atores.</p>
-<p><em>Fonte: Elaborado pelos autores (2026)</em></p>
 <h3 id="26-visao-de-implantacao">2.6 Visão de Implantação</h3>
 <p>A visão de implantação descreve como os componentes do sistema serão distribuídos fisicamente nos ambientes operacionais do restaurante, evidenciando o modelo Cliente-Servidor adotado e os mecanismos de comunicação que garantem a sincronização em tempo real entre salão e cozinha. A Figura 5 ilustra essa topologia, destacando os principais nós de hardware, os papéis de cada dispositivo e os protocolos de rede utilizados.</p>
 <h4 id="261-dispositivos-clientes">2.6.1 Dispositivos Clientes</h4>
@@ -1485,7 +1545,7 @@
 </ul>
 <p>O servidor pode ser implantado em uma máquina dedicada na rede local do restaurante (para menor latência) ou em nuvem. A comunicação com os clientes é feita exclusivamente via protocolo HTTP/HTTPS.</p>
 <h4 id="263-banco-de-dados">2.6.3 Banco de Dados</h4>
-<p>O banco de dados utilizado é <strong>MySQL</strong>, conforme script <code>database.sql</code>. Ele persiste todas as informações do sistema:</p>
+<p>O banco de dados utilizado é MySQL, conforme script <code>database.sql</code>. Ele persiste todas as informações do sistema:</p>
 <ul>
 <li>Dados cadastrais (produtos, mesas, usuários);</li>
 <li>Comandas e itens associados;</li>
