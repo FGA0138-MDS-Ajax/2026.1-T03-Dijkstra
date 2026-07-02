@@ -1,310 +1,337 @@
-
-
-.logo{
-    width: 50%;
+/* =========================================
+   RESET E FONTES
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-.container{
+
+/* =========================================
+   CONTAINER PRINCIPAL (Fundo da Tela)
+   ========================================= */
+.login-page-wrapper {
+    min-height: 100vh;
+    width: 100vw;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Fundo escuro com um brilho radial vermelho super sutil no centro */
     background: #000000;
-    background: linear-gradient(90deg,rgba(0, 0, 0, 1) 5%, rgba(173, 29, 29, 1) 50%, rgba(0, 0, 0, 1) 95%);
-    width: 40%;
-    height: 80%;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 0px 100px  rgb(0, 0, 0);
-    border-bottom-left-radius: 25px;
-    border-top-left-radius: 25px;
-   
+
+    padding: 20px;
+    font-family: 'Raleway', sans-serif;
 }
 
-a{
-    color: red;
-}
-.login{
+/* =========================================
+   CARD DE LOGIN (A junção das duas partes)
+   ========================================= */
+.login-card {
     display: flex;
-    width: 40%;
-    height: 80%;
-    background-color:rgb(255, 255, 255);
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    box-shadow: 0px 0px 100px  rgb(0, 0, 0);
-    border-bottom-right-radius: 25px;
-    border-top-right-radius: 25px;
+    width: 100%;
+    max-width: 70%;
+    min-height: 800px;
+    background-color: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0px 5px 110px rgb(255, 0, 0), 0 0 100px rgba(204, 0, 0, 0.1);
+    overflow: hidden; /* Garante que os cantos arredondados cortem o fundo */
 }
 
-.login-nav{  /* bordas login */
-    display:flex;
-    width: 50%;
-    height: 100%;
+/* ─── LADO ESQUERDO (Logo / Branding) ─── */
+.login-brand {
+    flex: 1;
+    background: #000000;
+    background: radial-gradient(circle,rgba(0, 0, 0, 1) 0%, rgba(250, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 82%);
+    display: flex;
     justify-content: center;
     align-items: center;
-    align-content: center;
-    flex-direction: column;
-    flex-wrap: wrap;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0px 0px px  rgb(0, 0, 0);
-    
-    
-}    
+    position: relative;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
 
-/* --- CABEÇALHO DO LOGIN (Hello!) --- */
+/* Detalhe de reflexo vermelho sutil no lado escuro */
+.brand-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at top right, rgba(204, 0, 0, 0.15) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.brand-logo {
+    width: 55%;
+    max-width: 250px;
+    z-index: 2;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+}
+
+/* ─── LADO DIREITO (Formulário) ─── */
+.login-form-container {
+    flex: 1.2; /* Um pouquinho mais largo que a imagem */
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgb(37, 37, 37);
+}
+
+/* =========================================
+   CABEÇALHO DOS TEXTOS
+   ========================================= */
 .login-header {
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.login-title {
+    color: #e4e0e0;
+    font-size: 60px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.login-subtitle {
+    color: #808080;
+    font-size: 20px;
+    font-weight: 600;
+    padding-top: 25px;
+    font-family: 'Raleway', sans-serif;
+}
+
+/* =========================================
+   FORMULÁRIO E INPUTS
+   ========================================= */
+.login-form {
     display: flex;
-    width: 100%;
     flex-direction: column;
-    justify-content: center; /* Centraliza verticalmente no espaço disponível */
-    align-items: center; /* Centraliza horizontalmente perfeitamente */
-    padding-bottom: 25px;
-    border-bottom: black; /* Removido para ficar mais limpo como na imagem */
-}
-
-.login-text {
-    color: #111111; /* Cor escura para contrastar bem */
-    font-size: 42px; /* Tamanho ajustado para ficar mais harmonioso */
-    font-weight: 800; /* Bem destacado */
-    margin: 0 0 10px 0; /* Apenas 10px de margem em baixo, sem margens laterais */
-    text-align: center;
     width: 100%;
-    font-family: 'Raleway', sans-serif;
 }
 
-.login-text2 {
-    color: #000000;
-    font-size: 18px;
-    font-weight: 700;
-    margin: 0; /* Remove as margens antigas que desalinhavam o texto */
-    letter-spacing: 0.5px;
-    text-align: center; /* Força o texto a ficar no centro */
-    width: 100%;
-    font-family: 'Raleway', sans-serif;
-    padding-top: 10px;
-}
-
-/* --- CONTAINER E ENVOLUCROS DE INPUT --- */
-.input-container {
+.input-group {
     display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
     gap: 20px;
-    margin-top: 30px;
 }
 
 .input-wrapper {
     position: relative;
-    width: 100%;
     display: flex;
     align-items: center;
 }
 
-.input-icon-left {
+/* Ícones */
+.input-icon {
     position: absolute;
     left: 20px;
-    color: #cc0000; /* Vermelho padrão da sua marca */
+    color: #999999;
     display: flex;
     pointer-events: none;
+    transition: color 0.3s;
+    z-index: 2;
 }
 
-.input-icon-right {
+.input-action-icon {
     position: absolute;
-    right: 20px;
-    color: #cc0000;
+    right: 15px;
+    color: #999999;
     display: flex;
     cursor: pointer;
-    transition: opacity 0.2s;
+    padding: 10px;
+    transition: color 0.2s;
+    z-index: 2;
 }
 
-.input-icon-right:hover {
-    opacity: 0.7;
+.input-action-icon:hover,
+.input-action-icon.active {
+    color: #cc0000;
 }
 
-/* --- ESTILO DOS INPUTS (Formato Pílula com sombra vermelha) --- */
+/* Campo de Texto (Input) Claro para fundo Branco */
 .input-field {
-    color: #ffffff;
-    background-color: #111111;
-    
-    /* Espaçamentos definidos individualmente para evitar conflitos */
-    padding-top: 16px !important;
-    padding-bottom: 16px !important;
-    padding-left: 55px !important;  /* Empurra o texto 55px para a direita, fugindo do ícone do envelope */
-    padding-right: 55px !important; /* Empurra o texto 55px para a esquerda, fugindo do ícone do olho */
-    
-    border: 1px solid #2a2a2a;
-    border-radius: 50px;
     width: 100%;
-    font-size: 14px;
-    font-family: 'Raleway', sans-serif;
+    background-color: #f5f5f7;
+    color: #222222;
+    
+    /* CORREÇÃO DO SOBREPOSIÇÃO: Espaços forçados com !important */
+    padding-top: 18px;
+    padding-bottom: 18px;
+    padding-left: 55px !important;  /* Empurra o texto para longe do ícone esquerdo */
+    padding-right: 55px !important; /* Empurra o texto para longe do ícone direito */
+    box-sizing: border-box !important; /* Garante que o padding empurre para dentro e não cresça o input */
+    
+    border: 2px solid transparent;
+    border-radius: 14px;
+    font-size: 15px;
+    font-family: inherit;
+    font-weight: 600;
     transition: all 0.3s ease;
-    box-sizing: border-box !important; /* Fundamental para o padding não "partir" o tamanho da caixa */
-    box-shadow: 0 8px 25px rgba(204, 0, 0, 0.08); 
 }
 
 .input-field::placeholder {
-    color: #ff9999; /* Tom avermelhado bem claro e suave */
+    color: #5e5d5d;
     font-weight: 500;
 }
 
+/* Efeito ao clicar no input (Foco) */
 .input-field:focus {
     outline: none;
-    box-shadow: 0 8px 30px rgba(204, 0, 0, 0.2); /* Sombra mais forte no focus */
+    background-color: #ffffff;
+    border-color: #cc0000;
+    box-shadow: 0 8px 24px rgba(204, 0, 0, 0.08);
+    color: #000000;
 }
 
-/* --- OPÇÕES EXTRAS (Lembrar e Esqueceu a Senha) --- */
-.options {
-    width: 100%;
+/* Muda a cor do ícone da esquerda quando o input está focado */
+.input-field:focus ~ .input-icon,
+.input-wrapper:focus-within .input-icon {
+    color: #cc0000;
+}
+
+/* =========================================
+   OPÇÕES (Lembrar / Esqueci Senha)
+   ========================================= */
+.login-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
-    padding: 0 10px;
-    font-size: 12px;
-    color: #ff6666; /* Tom que se assemelha ao roxo claro, mas em vermelho */
-    box-sizing: border-box;
+    margin-top: 20px;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .remember-me {
     display: flex;
     align-items: center;
     gap: 8px;
+    color: #555555;
     cursor: pointer;
 }
 
-/* Customização do checkbox */
 .remember-me input[type="checkbox"] {
-    accent-color: #cc0000; /* Deixa o checkbox selecionado na cor da marca */
-    width: 14px;
-    height: 14px;
+    accent-color: #cc0000;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }
 
-.forgot-password a {
-    color: #ff6666;
+.forgot-password {
+    color: #cc0000;
     text-decoration: none;
     transition: color 0.2s;
 }
 
-.forgot-password a:hover {
-    color: #cc0000;
-}
-
-/* --- ESTILO DO BOTÃO --- */
-.login-button {
-    padding: 16px 20px;
-    border: none;
-    background-color: #cc0000; /* Vermelho vibrante */
-    border-radius: 50px; /* Formato pílula */
-    color: white;
-    margin-top: 35px;
-    width: 65%; /* Estreito como na imagem */
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-family: 'Raleway', sans-serif;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.login-button:hover {
-    background-color: #aa0000;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.3);
-}
-
-/* --- LINK DE CADASTRO (Ao final do formulário) --- */
-.signup-link {
-    text-align: center;
-    font-size: 12px;
-    color: #ff6666;
-    margin-top: 25px;
-    width: 100%;
-}
-
-.signup-link a {
-    color: #cc0000;
-    font-weight: 700;
-    text-decoration: none;
-    margin-left: 4px;
-}
-
-.signup-link a:hover {
+.forgot-password:hover {
+    color: #8b0000;
     text-decoration: underline;
 }
 
-/* Mantendo o aviso de erro, mas ajustando a largura */
-.error-message {
-    color: #d93025;
-    background-color: #fce8e6;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 13px;
-    margin-top: 20px;
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    border: 1px solid #fad2cf;
+/* =========================================
+   BOTÃO DE LOGIN
+   ========================================= */
+.login-button {
+    background: linear-gradient(90deg, #cc0000, #aa0000);
+    color: #ffffff;
+    border: none;
+    padding: 18px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 35px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(204, 0, 0, 0.25);
+    transition: all 0.3s ease;
+}
+
+.login-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(204, 0, 0, 0.35);
+    background: linear-gradient(90deg, #e60000, #cc0000);
+}
+
+.login-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 5px 10px rgba(204, 0, 0, 0.2);
 }
 
 /* =========================================
-   MEDIA QUERIES (Responsividade) - LOGIN
+   MENSAGEM DE ERRO
+   ========================================= */
+.error-message {
+    background-color: #fff0f0;
+    color: #cc0000;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #ffd6d6;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================
+   RESPONSIVIDADE (Telas menores)
    ========================================= */
 
-/* Para tablets e telas médias (até 1024px) */
-@media (max-width: 1024px) {
-    .container, .login { width: 45%; }
-    .login-nav { width: 80%; }
-    .login-text { font-size: 40px; }
+@media (max-width: 900px) {
+    .login-form-container {
+        padding: 50px 40px;
+    }
 }
 
-/* Para celulares e telas pequenas (até 768px) */
 @media (max-width: 768px) {
-    /* Força o container principal a empilhar (coluna) em vez de ficar lado a lado */
-    .container-wrapper {
-        flex-direction: column !important;
-        height: auto !important;
-        min-height: 100vh;
+    .login-page-wrapper {
+        padding: 15px;
     }
-    
-    /* A logo fica na parte de cima ocupando menos espaço */
-    .container {
-        width: 90%;
-        height: 25vh; 
-        border-radius: 15px 15px 0 0;
-        box-shadow: none;
+
+    /* Muda o layout do cartão para empilhado (coluna) */
+    .login-card {
+        flex-direction: column;
+        max-width: 500px;
+        min-height: auto;
     }
-    
-    .logo {
-        width: 45%; 
+
+    /* O lado da imagem vira um cabeçalho menor */
+    .login-brand {
+        flex: none;
+        height: 180px;
     }
-    
-    /* O formulário de login fica embaixo ocupando o resto da tela */
-    .login {
-        width: 90%;
-        height: 65vh; 
-        border-radius: 0 0 15px 15px;
+
+    .brand-logo {
+        width: 160px;
     }
-    
-    .login-nav { width: 85%; }
-    .login-text { font-size: 35px; }
-    .signup-link { margin-top: 40px; }
+
+    .login-form-container {
+        padding: 40px 30px;
+    }
+
+    .login-title {
+        font-size: 32px;
+    }
 }
 
-/* Para telas muito pequenas (até 480px) */
 @media (max-width: 480px) {
-    .container, .login {
-        width: 100%; 
-        border-radius: 0; 
-        box-shadow: none;
+    .login-form-container {
+        padding: 30px 20px;
     }
     
-    .container { height: 25vh; }
-    .login { height: 75vh; }
+    .login-title {
+        font-size: 28px;
+    }
     
-    .login-nav { width: 90%; }
-    .login-text { font-size: 28px; }
-    .login-text2 { font-size: 16px; }
-    .input-field { margin-top: 20px; }
+    .input-field {
+        padding-top: 16px;
+        padding-bottom: 16px;
+        padding-left: 50px !important;
+        padding-right: 50px !important;
+    }
+
+    .login-button {
+        padding: 16px;
+    }
 }

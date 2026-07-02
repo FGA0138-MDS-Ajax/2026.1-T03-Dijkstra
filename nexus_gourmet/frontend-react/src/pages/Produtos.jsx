@@ -12,7 +12,8 @@ export default function Produtos() {
     const [nome, setNome] = useState('');
     const [preco, setPreco] = useState('');
     const [categoria, setCategoria] = useState('Bebida');
-    const [preparationTime, setPreparationTime] = useState(15);
+    const [preparationTime, setPreparationTime] = useState('');
+    const [fotoProduto, setFotoProduto] = useState(null); // NOVO
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -26,6 +27,7 @@ export default function Produtos() {
     const [editPreco, setEditPreco] = useState('');
     const [editCategoria, setEditCategoria] = useState('Bebida');
     const [editPreparationTime, setEditPreparationTime] = useState(15);
+    const [editFotoProduto, setEditFotoProduto] = useState(null); // NOVO
     const [isEditing, setIsEditing] = useState(false);
 
     const fetchProdutos = async () => {
@@ -48,11 +50,21 @@ export default function Produtos() {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            // CORREÇÃO: Enviando chave 'tempo_preparacao'
-            const response = await axios.post('http://localhost:5000/api/produtos/cadastrar', { nome, preco, categoria, tempo_preparacao: preparationTime }, { withCredentials: true });
+            const formData = new FormData();
+            formData.append('nome', nome);
+            formData.append('preco', preco);
+            formData.append('categoria', categoria);
+            formData.append('tempo_preparacao', preparationTime);
+            if (fotoProduto) formData.append('foto_produto', fotoProduto);
+
+            const response = await axios.post('http://localhost:5000/api/produtos/cadastrar', formData, { 
+                withCredentials: true,
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+
             if (response.data.success) {
                 toast.success('✅ Produto cadastrado com sucesso!');
-                setNome(''); setPreco(''); setCategoria('Bebida'); setPreparationTime(15);
+                setNome(''); setPreco(''); setCategoria('Bebida'); setPreparationTime(15); setFotoProduto(null);
                 fetchProdutos();
             } else {
                 toast.error(response.data.message || 'Erro ao cadastrar produto.');
@@ -94,7 +106,8 @@ export default function Produtos() {
         setEditNome(produto.nome);
         setEditPreco(produto.preco);
         setEditCategoria(produto.categoria);
-        setEditPreparationTime(produto.tempo_preparacao); // CORREÇÃO
+        setEditPreparationTime(produto.tempo_preparacao);
+        setEditFotoProduto(null);
     };
 
     const salvarEdicao = async () => {
@@ -104,10 +117,18 @@ export default function Produtos() {
         if (!editPreparationTime || parseInt(editPreparationTime) <= 0) return toast.warning('Tempo de preparo deve ser maior que zero.');
         setIsEditing(true);
         try {
-            // CORREÇÃO: Enviando chave 'tempo_preparacao'
-            const response = await axios.put(`http://localhost:5000/api/produtos/editar/${produtoParaEditar.id}`, {
-                nome: editNome.trim(), preco: parseFloat(editPreco), categoria: editCategoria, tempo_preparacao: parseInt(editPreparationTime)
-            }, { withCredentials: true });
+            const formData = new FormData();
+            formData.append('nome', editNome.trim());
+            formData.append('preco', parseFloat(editPreco));
+            formData.append('categoria', editCategoria);
+            formData.append('tempo_preparacao', parseInt(editPreparationTime));
+            if (editFotoProduto) formData.append('foto_produto', editFotoProduto);
+
+            const response = await axios.put(`http://localhost:5000/api/produtos/editar/${produtoParaEditar.id}`, formData, { 
+                withCredentials: true,
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+
             if (response.data.success) {
                 toast.success('✏️ Produto atualizado com sucesso!');
                 setProdutoParaEditar(null);
@@ -130,12 +151,15 @@ export default function Produtos() {
                 <form onSubmit={cadastrarProduto} className="form-row">
                     <input type="text" placeholder="Nome do produto" value={nome} onChange={e => setNome(e.target.value)} required style={{ flex: 1, minWidth: '160px' }} />
                     <input type="number" step="0.01" placeholder="Preço (R$)" value={preco} onChange={e => setPreco(e.target.value)} required style={{ width: '120px' }} />
-                    <select value={categoria} onChange={e => setCategoria(e.target.value)} style={{ width: '140px' }}>
+                    <select value={categoria} onChange={e => setCategoria(e.target.value)} style={{ width: '120px' }}>
                         <option value="Bebida">Bebida</option>
                         <option value="Prato">Prato</option>
                         <option value="Sobremesa">Sobremesa</option>
                     </select>
-                    <input type="number" placeholder="Tempo (min)" value={preparationTime} onChange={e => setPreparationTime(e.target.value)} required min="1" style={{ width: '100px' }} title="Tempo médio de preparo em minutos" />
+                    <input type="number" placeholder="Tempo (min)" value={preparationTime} onChange={e => setPreparationTime(e.target.value)} required min="1" style={{ width: '90px' }} title="Tempo médio de preparo em minutos" />
+                    
+                    <input type="file" accept="image/*" onChange={e => setFotoProduto(e.target.files[0])} style={{ width: '180px', color: '#aaa', fontSize: '12px' }} title="Foto do Produto" />
+
                     <motion.button 
                         whileHover={{ scale: 1.02 }} 
                         whileTap={{ scale: 0.98 }} 
@@ -149,16 +173,21 @@ export default function Produtos() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
-                <div className="search-container" style={{ marginBottom: 0 }}>
-                    <span className="search-icon">🔍</span>
-                    <input 
-                        type="text" 
-                        className="search-input" 
-                        placeholder="Buscar produto..." 
-                        value={searchTerm}
-                        onChange={e => setSearchTerm(e.target.value)}
-                    />
-                </div>
+                <div className="search-container" style={{ marginBottom: '20px' }}>
+                        <span className="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </span>
+                        <input 
+                            type="text" 
+                            className="search-input" 
+                            placeholder="Buscar produto..." 
+                            value={searchTerm} 
+                            onChange={e => setSearchTerm(e.target.value)}
+                        />
+                    </div>
                 <div className="category-pills" style={{ marginBottom: '16px' }}>
                     {['Todos', 'Bebida', 'Prato', 'Sobremesa'].map(cat => (
                         <button 
@@ -174,10 +203,12 @@ export default function Produtos() {
             </div>
 
             <div className="card" style={{ marginTop: 0 }}>
+                <div className="table-responsive">
                 <table>
                     <thead>
                         <tr>
                             <th style={{ width: '60px' }}>ID</th> 
+                            <th style={{ width: '50px' }}>Foto</th>
                             <th>Produto</th>
                             <th>Categoria</th>
                             <th>Preço</th>
@@ -190,6 +221,7 @@ export default function Produtos() {
                             Array.from({ length: 5 }).map((_, idx) => (
                                 <tr key={`skeleton-${idx}`} className="skeleton-row">
                                     <td><div className="skeleton skeleton-text" style={{ width: '30px' }}></div></td>
+                                    <td><div className="skeleton skeleton-text" style={{ width: '40px', height: '40px', borderRadius: '4px' }}></div></td>
                                     <td><div className="skeleton skeleton-text"></div></td>
                                     <td><div className="skeleton skeleton-text" style={{ width: '60px' }}></div></td>
                                     <td><div className="skeleton skeleton-text" style={{ width: '50px' }}></div></td>
@@ -201,13 +233,13 @@ export default function Produtos() {
                             ))
                         ) : produtos.length === 0 ? (
                             <tr>
-                                <td colSpan="6" style={{ padding: 0, borderBottom: 'none' }}>
+                                <td colSpan="7" style={{ padding: 0, borderBottom: 'none' }}>
                                     <EmptyState icon="📦" title="Nenhum produto cadastrado" description="Comece cadastrando novos produtos acima." />
                                 </td>
                             </tr>
                         ) : filteredProdutos.length === 0 ? (
                             <tr>
-                                <td colSpan="6" style={{ padding: 0, borderBottom: 'none' }}>
+                                <td colSpan="7" style={{ padding: 0, borderBottom: 'none' }}>
                                     <EmptyState icon="🔍" title="Nenhum produto encontrado" description="Tente buscar por outro termo ou categoria." />
                                 </td>
                             </tr>
@@ -222,6 +254,13 @@ export default function Produtos() {
                                         transition={{ duration: 0.2, delay: idx * 0.05 }}
                                     >
                                         <td style={{ fontFamily: "'Rubik',sans-serif", fontSize: '11px', color: '#555' }}>#{produto.id}</td>
+                                        <td>
+                                            {produto.foto_produto ? (
+                                                <img src={`http://localhost:5000${produto.foto_produto}`} alt={produto.nome} style={{ width: '36px', height: '36px', objectFit: 'cover', borderRadius: '4px' }} />
+                                            ) : (
+                                                <div style={{ width: '36px', height: '36px', background: '#333', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>📦</div>
+                                            )}
+                                        </td>
                                         <td>{produto.nome}</td>
                                         <td>
                                             <span className={`category-pill category-pill--${produto.categoria.toLowerCase()}`} style={{ fontSize: '10px', padding: '2px 8px', pointerEvents: 'none' }}>
@@ -229,7 +268,7 @@ export default function Produtos() {
                                             </span>
                                         </td>
                                         <td className="price-cell">R$ {parseFloat(produto.preco).toFixed(2)}</td>
-                                        <td>{produto.tempo_preparacao} min</td> {/* CORREÇÃO */}
+                                        <td>{produto.tempo_preparacao} min</td>
                                         <td style={{ textAlign: 'right' }}>
                                             <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-end' }}>
                                                 <motion.button 
@@ -256,6 +295,7 @@ export default function Produtos() {
                         )}
                     </tbody>
                 </table>
+                </div>
             </div>
 
             <ConfirmDialog 
@@ -296,6 +336,10 @@ export default function Produtos() {
                                     <option value="Prato">Prato</option>
                                     <option value="Sobremesa">Sobremesa</option>
                                 </select>
+                            </div>
+                            <div>
+                                <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>Nova Foto (opcional)</label>
+                                <input type="file" accept="image/*" onChange={e => setEditFotoProduto(e.target.files[0])} style={{ width: '100%', color: '#aaa', fontSize: '12px' }} />
                             </div>
                             <div>
                                 <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>Tempo de Preparo (min)</label>

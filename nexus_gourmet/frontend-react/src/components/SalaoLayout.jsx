@@ -22,13 +22,13 @@ export default function SalaoLayout({ children }) {
                     {cargo === 'ADMINISTRADOR' && (
                         <>
                             <Link to="/produtos">Admin</Link>
-                            <Link to="/salao" style={{ background: 'rgba(0,0,0,0.2)', color: '#fff' }}>Salão</Link>
+                            <Link to="/salao">Salão</Link>
                             <Link to="/cozinha/fila">Cozinha</Link>
                         </>
                     )}
-                    {cargo === 'GARCOM' && <Link to="/salao" style={{ background: 'rgba(0,0,0,0.2)', color: '#fff' }}>Salão</Link>}
-                    {cargo === 'COZINHEIRO' && <Link to="/cozinha/fila" style={{ background: 'rgba(0,0,0,0.2)', color: '#fff' }}>Cozinha</Link>}
-                    <button onClick={handleLogout} className="logout" style={{ background:'transparent', border:'none', cursor:'pointer', fontWeight:'bold', textTransform:'uppercase', letterSpacing:'1.5px', color:'#ffcccc' }}>Sair</button>
+                    {cargo === 'GARCOM' && <Link to="/salao">Salão</Link>}
+                    {cargo === 'COZINHEIRO' && <Link to="/cozinha/fila">Cozinha</Link>}
+                    <button onClick={handleLogout} className="logout">Sair</button>
                 </div>
             </nav>
 

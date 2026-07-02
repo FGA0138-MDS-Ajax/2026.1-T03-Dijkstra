@@ -33,15 +33,20 @@ export default function Dashboard() {
     useEffect(() => { fetchStats(); }, []);
 
     // Função que aciona a nova rota POST que criamos no Python
-    const encerrarExpediente = () => {
-    // Como você já confirmou que não precisa de lógica de backend,
-    // apenas mostramos o aviso e recarregamos a página.
-    toast.success('📊 Novo dia iniciado com sucesso!');
-    setModalEncerrar(false);
-    
-    // O reload recarrega os dados do dia, e como o seu backend 
-    // já filtra por data, os números voltarão a zero automaticamente.
-    window.location.reload(); 
+    const encerrarExpediente = async () => {
+    setIsClosing(true);
+    try {
+        // Exemplo de chamada para a rota (você precisará criar esta lógica no backend)
+        await axios.post('http://localhost:5000/api/usuarios/encerrar_caixa', {}, { withCredentials: true });
+        
+        toast.success('✨ Caixa fechado com sucesso!');
+        setModalEncerrar(false);
+        fetchStats(true); // Recarrega os dados via API em vez de dar reload na tela
+    } catch (err) {
+        toast.error('Erro ao fechar o caixa.');
+    } finally {
+        setIsClosing(false);
+    }
 };
 
     const cards = [
@@ -54,7 +59,7 @@ export default function Dashboard() {
     return (
         <AdminLayout>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
-                <h2 className="page-title" style={{ marginBottom: 0, whiteSpace: 'nowrap' }}>Dashboard — Estatísticas</h2>
+                <h2 className="page-title" style={{ marginBottom: 0 }}>Dashboard — Estatísticas</h2>
                 
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                     <motion.button 
@@ -87,12 +92,12 @@ export default function Dashboard() {
                         transition={{ duration: 0.3, delay: idx * 0.1 }}
                         style={{ background: card.gradient, border: `1px solid ${card.border}`, borderRadius: '14px', padding: '28px 24px', display: 'flex', flexDirection: 'column', gap: '12px', boxShadow: `0 4px 20px ${card.border}22` }}
                     >
-                        <div style={{ fontSize: '32px' }}>{card.icon}</div>
+                        <div style={{ fontSize: 'clamp(24px, 6vw, 32px)' }}>{card.icon}</div>
                         <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#888' }}>{card.label}</div>
                         {isLoading ? (
                             <div className="skeleton skeleton-text" style={{ width: '80px', height: '36px' }}></div>
                         ) : (
-                            <div style={{ fontSize: '32px', fontWeight: 900, color: '#fff', fontFamily: "'Rubik', sans-serif", letterSpacing: '-1px' }}>{card.value}</div>
+                            <div style={{ fontSize: 'clamp(22px, 7vw, 32px)', fontWeight: 900, color: '#fff', fontFamily: "'Rubik', sans-serif", letterSpacing: '-1px' }}>{card.value}</div>
                         )}
                     </motion.div>
                 ))}

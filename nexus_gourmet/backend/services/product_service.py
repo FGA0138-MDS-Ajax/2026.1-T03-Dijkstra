@@ -1,3 +1,6 @@
+import os
+import uuid
+from flask import current_app
 from backend.models.models import db, Product
 from backend.models.enums import ProductCategory, Role
 
@@ -13,7 +16,7 @@ class ProductService:
             return []
         return Product.query.filter_by(categoria=categoria).all()
  
-    def cadastrar_produto(self, nome, categoria, preco, tempo_preparacao=15, user_role=None):
+    def cadastrar_produto(self, nome, categoria, preco, tempo_preparacao=15, foto_produto=None, user_role=None):
         if user_role and user_role != Role.ADMINISTRADOR:
             return False, "Acesso negado. Apenas administradores podem cadastrar produtos."
 
@@ -33,12 +36,29 @@ class ProductService:
         except ValueError:
             return False, f"Categoria inválida: {categoria}."
  
+        foto_url = None
+        if foto_produto is not None:
+            if hasattr(foto_produto, 'filename') and foto_produto.filename != '':
+                extensao = foto_produto.filename.rsplit('.', 1)[-1].lower()
+                extensoes_permitidas = {'png', 'jpg', 'jpeg', 'webp'}
+                if extensao not in extensoes_permitidas:
+                    return False, "Formato de foto inválido. Use PNG, JPG, JPEG ou WEBP."
+                
+                novo_nome = f"{uuid.uuid4().hex}.{extensao}"
+                caminho_pasta = os.path.join(current_app.config['UPLOAD_FOLDER'], 'produtos')
+                caminho = os.path.join(caminho_pasta, novo_nome)
+                foto_produto.save(caminho)
+                foto_url = f"/static/uploads/produtos/{novo_nome}"
+            elif isinstance(foto_produto, str) and foto_produto.strip():
+                foto_url = foto_produto.strip()
+
         try:
             produto = Product(
                 nome=nome.strip(), 
                 categoria=categoria, 
                 preco=preco, 
-                tempo_preparacao=int(tempo_preparacao)
+                tempo_preparacao=int(tempo_preparacao),
+                foto_prato=foto_url
             )
             db.session.add(produto)
             db.session.commit()
@@ -47,7 +67,7 @@ class ProductService:
             db.session.rollback()
             return False, f"Erro ao salvar no banco de dados: {str(e)}"
  
-    def editar_produto(self, product_id, nome, categoria, preco, tempo_preparacao=15, user_role=None):
+    def editar_produto(self, product_id, nome, categoria, preco, tempo_preparacao=15, foto_produto=None, user_role=None):
         if user_role and user_role != Role.ADMINISTRADOR:
             return False, "Acesso negado. Apenas administradores podem editar produtos."
 
@@ -76,6 +96,19 @@ class ProductService:
             produto.categoria = categoria
             produto.preco = preco
             produto.tempo_preparacao = int(tempo_preparacao)
+            
+            if foto_produto is not None:
+                if hasattr(foto_produto, 'filename') and foto_produto.filename != '':
+                    extensao = foto_produto.filename.rsplit('.', 1)[-1].lower()
+                    if extensao in {'png', 'jpg', 'jpeg', 'webp'}:
+                        novo_nome = f"{uuid.uuid4().hex}.{extensao}"
+                        caminho_pasta = os.path.join(current_app.config['UPLOAD_FOLDER'], 'produtos')
+                        caminho = os.path.join(caminho_pasta, novo_nome)
+                        foto_produto.save(caminho)
+                        produto.foto_prato = f"/static/uploads/produtos/{novo_nome}"
+                elif isinstance(foto_produto, str) and foto_produto.strip():
+                    produto.foto_prato = foto_produto.strip()
+
             db.session.commit()
             return True, "Produto atualizado com sucesso."
         except Exception as e:

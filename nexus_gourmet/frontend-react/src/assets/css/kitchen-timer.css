@@ -1,10 +1,22 @@
 /* kitchen-timer.css */
 
+/* Cancela o text-align: center do #root e força o alinhamento à esquerda */
+.kitchen-orders-panel-container {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Configuração do Grid para preencher e alinhar no topo/esquerda */
 .kitchen-orders-panel {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 20px;
   width: 100%;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 
 .kitchen-order-card {
@@ -130,4 +142,50 @@
 }
 .kitchen-timer-text--ready {
     color: #888;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .kitchen-orders-panel {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .kitchen-orders-panel {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .kitchen-order-card {
+        padding: 14px;
+    }
+
+    .kitchen-order-card__title {
+        font-size: 15px;
+    }
+
+    .kitchen-timer-text {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Cabeçalho do pedido empilha para não espremer o timer */
+    .kitchen-order-card__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .kitchen-order-card__meta {
+        width: 100%;
+    }
+
+    .kitchen-badge {
+        font-size: 10px;
+    }
 }

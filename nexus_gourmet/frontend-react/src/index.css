@@ -35,6 +35,9 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+  @media (max-width: 480px) {
+    font-size: 15px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -152,40 +155,52 @@ code {
    UI Components (Search, Pills, Empty State)
 ========================================== */
 
-/* Search Input */
+/* Search Input Modernizado */
 .search-container {
   display: flex;
   align-items: center;
-  background: #000000;
+  background: #111111; 
   border: 1px solid #333333;
-  border-radius: 8px;
-  padding: 8px 12px;
+  border-radius: 12px;
+  padding: 10px 14px;
   margin-bottom: 16px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
 }
+
 .search-container:focus-within {
-  border-color: #ff3b30; 
-  box-shadow: none;
+  border-color: #cc0000;
+  box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.15), inset 0 2px 4px rgba(0,0,0,0.5);
+  background: #1a1a1d; /* Fundo neutro, destaque vem da borda/glow vermelho */
 }
+
 .search-icon {
-  font-size: 14px;
-  color: #ffffff;
-  margin-right: 8px;
-  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  margin-right: 10px;
+  transition: color 0.3s ease;
 }
+
+.search-container:focus-within .search-icon {
+  color: #cc0000;
+}
+
 input[type="text"].search-input {
   flex: 1;
   background: transparent !important;
   border: none !important;
   color: #ffffff !important;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
+  letter-spacing: 0.5px;
   outline: none;
   padding: 0 !important;
 }
+
 input[type="text"].search-input::placeholder {
-  color: #999999 !important;
-  opacity: 1;
+  color: #666666 !important;
 }
 
 /* Category Pills */
@@ -201,25 +216,31 @@ input[type="text"].search-input::placeholder {
   display: none; /* Safari and Chrome */
 }
 .category-pill {
-  background: var(--code-bg);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 6px 14px;
-  font-size: 13px;
-  font-weight: 500;
+  background: #111111;
+  color: #888888;
+  border: 1px solid #333333;
+  border-radius: 24px;
+  padding: 8px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 .category-pill:hover {
-  background: #333;
-  color: var(--text-h);
+  background: #1f1f22;
+  color: #ff6666;
+  border-color: #cc0000;
 }
+
 .category-pill.active {
-  background: var(--primary-red, #cc0000);
-  color: #fff;
-  border-color: var(--primary-red, #cc0000);
+  background: linear-gradient(90deg, #cc0000, #ff3333);
+  color: #ffffff;
+  border-color: #ff3333;
+  box-shadow: 0 0px 7px rgba(204, 0, 0, 0.4);
 }
 
 /* Empty State */
@@ -252,4 +273,52 @@ input[type="text"].search-input::placeholder {
   font-size: 13px;
   max-width: 250px;
   line-height: 1.4;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .search-container {
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+
+  /* 16px evita o zoom automático do iOS ao focar o campo de busca */
+  input[type="text"].search-input {
+    font-size: 16px;
+  }
+
+  .category-pill {
+    padding: 10px 16px;
+    font-size: 11px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .empty-state {
+    padding: 40px 16px 24px;
+    justify-content: flex-start; /* fica perto do topo em vez de boiar no meio de um vazio */
+  }
+
+  .empty-state-icon {
+    font-size: 36px;
+  }
+
+  .empty-state-title {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-pills {
+    gap: 6px;
+  }
+
+  .category-pill {
+    padding: 9px 14px;
+    font-size: 10px;
+  }
 }

@@ -1,5 +1,8 @@
-
+import os
+import uuid
 import re
+from flask import current_app
+from werkzeug.utils import secure_filename
 from backend.models.models import db, User
 from backend.models.enums import Role
 from backend.models.error_message import UserErrorMessages
@@ -91,29 +94,29 @@ class UserService:
         if cargo == Role.ADMINISTRADOR:
             return False, UserErrorMessages.ADMIN_JA_EXISTENTE
         
-        # Validações da foto do usuário
-        foto_usuario = foto_usuario.strip() if isinstance(foto_usuario, str) else foto_usuario
-        
-        if foto_usuario:
+        # Validações e salvamento da foto do usuário
+        foto_url = None
+        if foto_usuario is not None:
             if hasattr(foto_usuario, 'filename') and foto_usuario.filename != '':
-                nome_arquivo = foto_usuario.filename
+                extensao = foto_usuario.filename.rsplit('.', 1)[-1].lower()
+                extensoes_permitidas = {'png', 'jpg', 'jpeg', 'webp'}
                 
-                if '.' in nome_arquivo:
-                    extensao = nome_arquivo.rsplit('.', 1)[1].lower()
-                    extensoes_permitidas = {'png', 'jpg', 'jpeg'}
-                    
-                    if extensao not in extensoes_permitidas:
-                        return False, UserErrorMessages.FOTO_FORMATO_INVALIDO
-                else:
+                if extensao not in extensoes_permitidas:
                     return False, UserErrorMessages.FOTO_FORMATO_INVALIDO
+                
+                novo_nome = f"{uuid.uuid4().hex}.{extensao}"
+                caminho_pasta = os.path.join(current_app.config['UPLOAD_FOLDER'], 'usuarios')
+                caminho = os.path.join(caminho_pasta, novo_nome)
+                foto_usuario.save(caminho)
+                foto_url = f"/static/uploads/usuarios/{novo_nome}"
             
-            elif isinstance(foto_usuario, str):
+            elif isinstance(foto_usuario, str) and foto_usuario.strip():
                 if len(foto_usuario) > 255:
                     return False, UserErrorMessages.FOTO_INVALIDA
+                foto_url = foto_usuario.strip()
 
-  
         senha_hash = generate_password_hash(senha_cadastrada)
-        novo_usuario = User(nome=nome, cpf=cpf_limpo, senha=senha_hash, cargo=cargo, foto_usuario=foto_usuario)
+        novo_usuario = User(nome=nome, cpf=cpf_limpo, senha=senha_hash, cargo=cargo, foto_usuario=foto_url)
 
         try:
             db.session.add(novo_usuario)
@@ -170,36 +173,31 @@ class UserService:
             if not self.validar_cpf(cpf_limpo):
                 return False, UserErrorMessages.CPF_INVALIDO
             
-            # Verifica se o novo CPF já pertence a OUTRO usuário no sistema
             usuario_existente = User.query.filter_by(cpf=cpf_limpo).first()
             if usuario_existente and usuario_existente.cpf != usuario.cpf:
                 return False, UserErrorMessages.CPF_DUPLICADO
                 
             usuario.cpf = cpf_limpo
         
-        # Validação e edição da Senha do usuário que está sendo editado
+        # Validação e edição da Senha
         if senha is not None:
             senha = senha.strip()
             if not senha:
                 return False, UserErrorMessages.SENHA_OBRIGATORIA
             if len(senha) < 6 or len(senha) > 20:
                 return False, UserErrorMessages.SENHA_TAMANHO
-            
             if not re.search(r'[A-Z]', senha):           
                 return False, UserErrorMessages.SENHA_LETRA_MAISCUULA
-
             if not re.search(r'[a-z]', senha):           
                 return False, UserErrorMessages.SENHA_LETRA_MINUSCULA
-
             if not re.search(r'[0-9]', senha):           
                 return False, UserErrorMessages.SENHA_NUMERO
-
             if not re.search(r'[!@#$%^&*(),.?":{}|<>]', senha):
                 return False, UserErrorMessages.SENHA_CARACTERE_ESPECIAL
 
             usuario.senha = generate_password_hash(senha)
 
-        # Validação e edição do Cargo (CORRIGIDO)
+        # Validação e edição do Cargo
         if cargo is not None:
             cargo = cargo.strip() if isinstance(cargo, str) else cargo
 
@@ -220,25 +218,23 @@ class UserService:
             
         # Validação e edição da foto do usuário
         if foto_usuario is not None:
-            foto_usuario = foto_usuario.strip() if isinstance(foto_usuario, str) else foto_usuario
-            
-            if foto_usuario:
-                if hasattr(foto_usuario, 'filename') and foto_usuario.filename != '':
-                    nome_arquivo = foto_usuario.filename
-                    
-                    if '.' in nome_arquivo:
-                        extensao = nome_arquivo.rsplit('.', 1)[1].lower()
-                        extensoes_permitidas = {'png', 'jpg', 'jpeg'}
-                        
-                        if extensao not in extensoes_permitidas:
-                            return False, UserErrorMessages.FOTO_FORMATO_INVALIDO
-                    else:
-                        return False, UserErrorMessages.FOTO_FORMATO_INVALIDO
+            if hasattr(foto_usuario, 'filename') and foto_usuario.filename != '':
+                extensao = foto_usuario.filename.rsplit('.', 1)[-1].lower()
+                extensoes_permitidas = {'png', 'jpg', 'jpeg', 'webp'}
                 
-                elif isinstance(foto_usuario, str):
-                    if len(foto_usuario) > 255:
-                        return False, UserErrorMessages.FOTO_INVALIDA  
-            usuario.foto_usuario = foto_usuario
+                if extensao not in extensoes_permitidas:
+                    return False, UserErrorMessages.FOTO_FORMATO_INVALIDO
+                
+                novo_nome = f"{uuid.uuid4().hex}.{extensao}"
+                caminho_pasta = os.path.join(current_app.config['UPLOAD_FOLDER'], 'usuarios')
+                caminho = os.path.join(caminho_pasta, novo_nome)
+                foto_usuario.save(caminho)
+                usuario.foto_usuario = f"/static/uploads/usuarios/{novo_nome}"
+            
+            elif isinstance(foto_usuario, str) and foto_usuario.strip():
+                if len(foto_usuario.strip()) > 255:
+                    return False, UserErrorMessages.FOTO_INVALIDA  
+                usuario.foto_usuario = foto_usuario.strip()
         
         db.session.commit()
         return True, UserSuccessMessages.USUARIO_EDITADO

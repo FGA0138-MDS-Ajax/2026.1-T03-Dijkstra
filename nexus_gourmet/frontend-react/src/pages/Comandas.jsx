@@ -90,7 +90,7 @@ export default function Comandas() {
 
     return (
         <SalaoLayout>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <h2 className="page-title" style={{ marginBottom: 0, border: 'none' }}>Comanda - Mesa {numero_mesa}</h2>
                 <Link to="/salao"><button className="danger">Voltar às Mesas</button></Link>
             </div>
@@ -113,7 +113,8 @@ export default function Comandas() {
             {comanda && (
                 <div className="card">
                     <h3>Itens na Comanda (Status: {comanda.status})</h3>
-                    <table style={{ marginTop: '15px' }}>
+                    <div className="table-responsive" style={{ marginTop: '15px' }}>
+                    <table>
                         <thead>
                             <tr>
                                 <th>Qtd</th>
@@ -158,8 +159,9 @@ export default function Comandas() {
                             )}
                         </tbody>
                     </table>
-                    
-                    <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #3a0000', paddingTop: '15px' }}>
+                    </div>
+
+                    <div style={{ marginTop: '20px', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #3a0000', paddingTop: '15px' }}>
                         <h3 style={{ color: 'var(--primary-red)' }}>Total: R$ {totalComanda.toFixed(2)}</h3>
                         <div>
                             {comanda.status === 'Entregue' && <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setContaParaFechar(true)} className="danger" style={{ marginRight: '10px' }}>Fechar Conta</motion.button>}
@@ -205,16 +207,20 @@ export default function Comandas() {
                 variant="danger"
                 isLoading={isProcessing}
                 onConfirm={async () => {
-                    setIsProcessing(true);
-                    try {
-                        await axios.put(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/alterar_status`, 
-                            { status: 'Cancelado' }, { withCredentials: true });
-                        toast.success('❌ Comanda cancelada.');
-                        setCancelarComanda(false);
-                        navigate('/salao');
-                    } catch (err) { toast.error('Erro ao cancelar comanda.'); }
-                    finally { setIsProcessing(false); }
-                }}
+                setIsProcessing(true);
+                try {
+                    // Substituído para a rota de edição que aceita o cancelamento
+                    await axios.put(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/editar_comanda`, 
+                        { cancelar: true }, { withCredentials: true });
+                    
+                    toast.success('❌ Comanda cancelada.');
+                    setCancelarComanda(false);
+                    navigate('/salao');
+                } catch (err) { 
+                    toast.error('Erro ao cancelar comanda.'); 
+                }
+                finally { setIsProcessing(false); }
+            }}
                 onCancel={() => setCancelarComanda(false)}
             />
 

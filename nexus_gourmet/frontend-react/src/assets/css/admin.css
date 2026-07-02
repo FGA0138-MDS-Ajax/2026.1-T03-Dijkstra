@@ -2,16 +2,16 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-    --bg-dark:      #1a0000;
-    --card-bg:      #1c1c1c;
-    --card-hover:   #221010;
-    --border-color: #3a0000;
+    --bg-dark:      #0d0d0f;
+    --card-bg:      #1a1a1d;
+    --card-hover:   #202024;
+    --border-color: #2a2a2e;
     --primary-red:  #cc0000;
     --red-dark:     #8b0000;
     --text-light:   #ffffff;
-    --text-muted:   #888888;
+    --text-muted:   #9a9a9e;
     --text-dim:     #cccccc;
-    --input-bg:     #111111;
+    --input-bg:     #131316;
 }
 
 body {
@@ -21,15 +21,18 @@ body {
     min-height: 100vh;
 }
 
-/* ── NAVBAR ── */
+/* =========================================
+   ── NAVBAR (Cabeçalho) ── 
+   ========================================= */
 .navbar {
-    background: linear-gradient(180deg, #ff0000 0%, #cc0000 60%, #000 100%);
+    background: #0a0a0c; /* Escuro profundo, conectando com a tela de login */
+    border-bottom: 1px solid #2a2a2e; /* Linha de separação muito sutil */
     padding: 0 32px;
-    height: 64px;
+    height: 72px; /* Um pouco mais de respiro vertical */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.8);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     position: sticky;
     top: 0;
     z-index: 50;
@@ -42,66 +45,119 @@ body {
     text-transform: uppercase;
 }
 
+/* --- ESTILO DOS BOTÕES DA NAVBAR --- */
 .navbar-links {
     display: flex;
-    gap: 4px;
+    gap: 8px;
+    align-items: center;
 }
 
-.navbar-links a {
-    padding: 8px 16px;
+.navbar-links a, 
+.navbar-links button.logout {
+    padding: 10px 20px;
     font-family: 'Raleway', sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     text-decoration: none;
-    color: #000;
+    color: #9a9a9e; /* Cinza claro elegante em repouso */
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    border-radius: 6px;
-    transition: background 0.2s, color 0.2s;
+    letter-spacing: 1.2px;
+    border-radius: 12px; /* Curvatura moderna, combina com os inputs */
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animação super suave */
 }
 
+/* Efeito ao passar o mouse (Hover) */
 .navbar-links a:hover {
-    background: rgba(100,0,0,0.5);
-    color: #fff;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08); /* Fundo translúcido sutil */
+    transform: translateY(-2px); /* Botão "levanta" levemente */
 }
 
-.navbar-links a.logout { color: #ffcccc; }
-.navbar-links a.logout:hover { background: rgba(80,0,0,0.6); color: #fff; }
+/* Estado ativo (Caso a página seja a atual) */
+.navbar-links a.active {
+    color: #ffffff;
+    background: rgba(204, 0, 0, 0.15); /* Fundo avermelhado de destaque */
+    border: 1px solid rgba(204, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(204, 0, 0, 0.2);
+}
+
+/* --- BOTÃO DE SAIR (Destacado) --- */
+.navbar-links button.logout {
+    color: #ff6666; /* Tom avermelhado para indicar ação crítica */
+    background: rgba(204, 0, 0, 0.08);
+    border: 1px solid rgba(204, 0, 0, 0.15);
+    margin-left: 16px; /* Separa dos links de navegação */
+}
+
+/* Hover do botão de Sair */
+.navbar-links button.logout:hover {
+    background: #cc0000;
+    color: #ffffff;
+    border-color: #cc0000;
+    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.35);
+    transform: translateY(-2px);
+}
 
 /* ── NAV TABS ── */
 .nav-tabs {
     display: flex;
-    background: #1c1c1c;
-    border-bottom: 2px solid var(--border-color);
+    justify-content: space-around;
+    align-items: center;
+    background: #0a0a0a; 
+    padding: 8px;
+    border-radius: 16px;
+    width: 90%; 
+    margin: 24px auto 32px auto; /* Centraliza horizontalmente e dá espaço */
+    border: 1px solid #222;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.4);
+    gap: 8px;
 }
 
-.nav-tabs a {
-    flex: 1;
-    padding: 14px 0;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 2px;
+/* Estilo dos Botões/Links Inativos */
+.nav-tabs a,
+.nav-tabs button {
+    background: transparent;
+    color: #888888;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 800;
     text-transform: uppercase;
-    text-align: center;
-    border-right: 1px solid #2a2a2a;
-    transition: background 0.2s, color 0.2s;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
 }
 
-.nav-tabs a:last-child { border-right: none; }
-.nav-tabs a:hover { background: #2a0000; color: #fff; }
+/* Efeito ao passar o mouse em botões inativos */
+.nav-tabs a:hover,
+.nav-tabs button:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+}
 
-.nav-tabs a.active {
-    background: linear-gradient(180deg, #cc0000, #8b0000);
-    color: #fff;
+/* Estilo da Aba Ativa (Brilhante e Vibrante) */
+.nav-tabs a.active,
+.nav-tabs button.active {
+    background: linear-gradient(90deg, #cc0000, #ff3333);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.4);
+    border: none;
 }
 
 /* ── CONTAINER ── */
+/* ── CONTAINER ── */
 .content-container {
     padding: 32px;
-    
-    margin: 0 auto;
+    margin: 0 auto; /* Centraliza o bloco na tela */
+    width: 100%;
+    max-width: 1300px; /* <-- ADICIONE ISSO: Limite confortável para telas grandes */
+    text-align: left;
 }
 
 /* ── PAGE TITLE ── */
@@ -258,7 +314,7 @@ tbody tr {
     transition: background 0.15s;
 }
 
-tbody tr:hover { background: #221010; }
+tbody tr:hover { background: var(--card-hover); }
 tbody tr:last-child { border-bottom: none; }
 
 tbody td {
@@ -278,117 +334,27 @@ tbody td {
 ::-webkit-scrollbar-thumb { background: #440000; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #880000; }
 
-/* =========================================
-   MEDIA QUERIES (Responsividade) - Nexus Gourmet
-   ========================================= */
-
-/* Para tablets e telas médias (até 768px) */
-@media (max-width: 768px) {
-    /* Ajusta a barra de navegação para empilhar a logo e os links */
-    .navbar {
-        flex-direction: column;
-        height: auto;
-        padding: 16px;
-        gap: 16px;
-    }
-
-    .navbar-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
-    }
-
-    /* Reduz o espaçamento lateral do conteúdo */
-    .content-container {
-        padding: 16px;
-    }
-
-    /* Faz os formulários (inputs e botões) ocuparem 100% da largura da tela */
-    .form-row {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .form-row input, 
-    .form-row select, 
-    .form-row button {
-        width: 100% !important;
-        min-width: unset !important;
-    }
-
-    /* Permite que tabelas tenham "scroll" horizontal no celular para não quebrar a tela */
-    .card {
-        overflow-x: auto;
-    }
-    
-    table {
-        min-width: 600px; /* Força a tabela a manter um tamanho legível, criando o scroll */
-    }
-    
-    /* Na tela de comandas, empilha o título e o botão de voltar */
-    .page-title {
-        font-size: 16px;
-        text-align: center;
-    }
-    div[style*="justify-content: space-between"] {
-        flex-direction: column;
-        gap: 15px;
-        align-items: stretch !important;
-    }
-}
-
-/* Para celulares pequenos (até 480px) */
-@media (max-width: 480px) {
-    /* Transforma as abas "Produtos / Usuários" em uma lista vertical */
-    .nav-tabs {
-        flex-direction: column;
-    }
-    
-    .nav-tabs a {
-        border-right: none;
-        border-bottom: 1px solid #2a2a2a;
-    }
-
-    /* Força os cards (Mesas, Usuários e Cozinha) a ficarem 1 por linha */
-    .grid-cards {
-        grid-template-columns: 1fr;
-    }
-    
-    /* Na comanda: empilha o Total e os botões de ação */
-    div[style*="borderTop"] {
-        flex-direction: column;
-        gap: 15px;
-        align-items: center !important;
-    }
-    
-    div[style*="borderTop"] div {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: 10px;
-    }
-    
-    div[style*="borderTop"] button {
-        width: 100%;
-        margin-right: 0 !important;
-    }
-}
 
 /* ==========================================================================
    ── LAYOUT PDV (SALÃO) ── 
    ========================================================================== */
 .pdv-container {
     display: flex;
-    height: calc(100vh - 64px); /* Desconta o tamanho da navbar */
+    height: calc(100vh - 72px); /* Desconta o tamanho da navbar */
     overflow: hidden;
-    margin: -32px; /* Remove o padding do content-container padrão */
-    text-align: left; /* Corrige o text-align: center herdado do #root */
+    text-align: left; 
+    
+    /* HACK FULL-BLEED: Força a div a ignorar o max-width e usar 100% da tela */
     width: 100vw;
+    margin-top: -32px;
+    margin-bottom: -32px;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
 }
 
 .left-sidebar {
     width: 260px;
-    background: #1c1c1c;
+    background: var(--card-bg);
     border-right: 2px solid var(--border-color);
     display: flex;
     flex-direction: column;
@@ -396,12 +362,21 @@ tbody td {
 }
 
 .left-sidebar-header {
-    background: linear-gradient(90deg, #800000, #cc0000);
-    padding: 15px;
+    background: var(--input-bg);
+    padding: 12px 10px;
     text-align: center;
-    font-weight: 800;
-    letter-spacing: 3px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    color: #a3a3a3;
+    border-bottom: 1px solid #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    z-index: 2;
 }
 
 .mesas-list {
@@ -429,7 +404,7 @@ tbody td {
     transition: background 0.2s;
 }
 
-.mesa-btn:hover { background: #2a0000; color: #fff; }
+.mesa-btn:hover { background: var(--card-hover); color: #fff; }
 .mesa-btn.active { background: linear-gradient(90deg, #8b0000, #cc0000); color: #fff; }
 
 .pedidos-panel {
@@ -458,6 +433,30 @@ tbody td {
     background: var(--bg-dark);
 }
 
+/* Estado vazio da área de comanda — antes era estilo inline no JSX,
+   agora vira classe pra poder ser controlada pela media query mobile */
+.menu-empty-state {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #666;
+    text-align: center;
+    padding: 24px;
+}
+
+.menu-empty-state__icon {
+    font-size: 40px;
+    opacity: 0.5;
+}
+
+.menu-empty-state__text {
+    margin-top: 10px;
+    font-size: 13px;
+    max-width: 260px;
+}
+
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -467,121 +466,45 @@ tbody td {
 }
 
 .product-card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 12px;
+    background: linear-gradient(145deg, #1a1a1a, #111111);
+    border-radius: 16px;
+    padding: 16px;
     text-align: center;
     cursor: pointer;
-    border: 2px solid transparent;
-    transition: transform 0.2s;
-}
-.product-card:hover { transform: translateY(-4px); border-color: #cc0000; }
-.product-card .product-name { color: #000; font-weight: bold; font-size: 13px; margin-top: 8px;}
-.product-card .product-price { color: #cc0000; font-weight: bold; font-size: 12px; margin-top: 4px; }
-
-
-/* ==========================================================================
-   MEDIA QUERIES (Responsividade) - Nexus Gourmet (DEVEM FICAR NO FINAL)
-   ========================================================================== */
-
-/* Para tablets e telas médias (até 768px) */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        height: auto;
-        padding: 16px;
-        gap: 16px;
-    }
-
-    .navbar-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
-    }
-
-    .content-container {
-        padding: 16px;
-    }
-
-    /* Ajuste para o Salão não quebrar horizontalmente no Mobile/Tablet */
-    .pdv-container {
-        flex-direction: column;
-        height: auto;
-        overflow: visible;
-    }
-
-    .left-sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 2px solid var(--border-color);
-        height: auto;
-        max-height: 400px; /* Cria scroll interno para as mesas caso necessário */
-    }
-
-    .form-row {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .form-row input, 
-    .form-row select, 
-    .form-row button {
-        width: 100% !important;
-        min-width: unset !important;
-    }
-
-    .card {
-        overflow-x: auto;
-    }
-    
-    table {
-        min-width: 600px; 
-    }
-    
-    .page-title {
-        font-size: 16px;
-        text-align: center;
-    }
-    div[style*="justify-content: space-between"] {
-        flex-direction: column;
-        gap: 15px;
-        align-items: stretch !important;
-    }
+    border: 1px solid #333;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.5), inset 1px 1px 2px rgba(255,255,255,0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
 }
 
-/* Para celulares pequenos (até 480px) */
-@media (max-width: 480px) {
-    .nav-tabs {
-        flex-direction: column;
-    }
-    
-    .nav-tabs a {
-        border-right: none;
-        border-bottom: 1px solid #2a2a2a;
-    }
-
-    .grid-cards {
-        grid-template-columns: 1fr;
-    }
-    
-    div[style*="borderTop"] {
-        flex-direction: column;
-        gap: 15px;
-        align-items: center !important;
-    }
-    
-    div[style*="borderTop"] div {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: 10px;
-    }
-    
-    div[style*="borderTop"] button {
-        width: 100%;
-        margin-right: 0 !important;
-    }
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: #cc0000;
+    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.25);
 }
+
+.product-card .product-name {
+    color: #fff;
+    font-weight: 800;
+    font-size: 14px;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+}
+
+.product-card .product-price {
+    color: #ff6666;
+    font-weight: 900;
+    font-size: 13px;
+    background: rgba(204, 0, 0, 0.1);
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(204,0,0,0.2);
+}
+
+
 
 /* Ocultar as setinhas nos navegadores Chrome, Safari, Edge e Opera */
 input[type="number"]::-webkit-outer-spin-button,
@@ -702,4 +625,447 @@ input[type="number"] {
 .btn-create-table:active {
     transform: translateY(1px);
     box-shadow: 0 2px 6px rgba(204, 0, 0, 0.2);
+}
+
+/* Container de edição da mesa */
+.edit-table-form {
+    padding: 12px;
+    background: #111;
+    border-top: 1px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.edit-table-form label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.edit-table-form button.save-btn {
+    background: linear-gradient(90deg, #008b00, #00cc66);
+    padding: 8px 16px;
+    margin: 0;
+}
+
+/* ==========================================
+   INPUTS E SELECTS MODERNOS (Formulários)
+   ========================================== */
+
+/* Estilo padrão dos campos */
+.card form input,
+.card form select,
+.form-row input,
+.form-row select {
+    background: var(--input-bg); /* Fundo neutro e profundo */
+    border: 1px solid var(--border-color);
+    color: #ffffff;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); /* Sombra interna para dar profundidade */
+}
+
+/* Efeito ao clicar/focar no campo */
+.card form input:focus,
+.card form select:focus,
+.form-row input:focus,
+.form-row select:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.15), inset 0 2px 4px rgba(0,0,0,0.5);
+    background: var(--card-hover); /* Fundo neutro, o destaque vem da borda/glow vermelho */
+}
+
+/* Cor do texto de dica (Placeholder) */
+.card form input::placeholder,
+.form-row input::placeholder {
+    color: #666666;
+    font-weight: 500;
+}
+
+/* Customização do Select (Menu Dropdown do Formulário) */
+.card form select,
+.form-row select {
+    appearance: none; /* Remove a seta padrão feia do navegador */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%23888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 14px;
+    padding-right: 40px; /* Espaço para a nova setinha customizada */
+    cursor: pointer;
+}
+
+.card form select:focus,
+.form-row select:focus {
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%23cc0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+}
+
+/* Remove as setinhas nativas feias de campos de número (como o campo de Preço/Tempo) */
+.card form input[type="number"]::-webkit-inner-spin-button, 
+.card form input[type="number"]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+
+/* ==========================================================================
+   RESPONSIVIDADE — PÁGINA DO SALÃO (PDV) E LAYOUT GERAL DO ADMIN
+   ========================================================================== */
+
+/* Botão da gaveta de mesas: só existe no mobile. Fica escondido por padrão
+   aqui (fora de qualquer media query) para que a regra "display: flex" lá
+   dentro do @media (max-width: 768px) sempre vença — se essa regra base
+   viesse DEPOIS do media query no arquivo, ela sobrescreveria o flex
+   mesmo em telas pequenas, e o botão nunca apareceria. */
+.mobile-sidebar-toggle {
+    display: none;
+}
+.sidebar-backdrop {
+    display: none;
+}
+
+/* ── Telas grandes / monitores wide (ajuste fino, opcional) ── */
+@media (min-width: 1600px) {
+    .content-container {
+        max-width: 1500px;
+    }
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}
+
+/* ── Laptops / telas médias ── */
+@media (max-width: 1024px) {
+    .content-container {
+        padding: 24px;
+    }
+
+    .pdv-container {
+        margin-top: -24px;
+        margin-bottom: -24px;
+    }
+
+    .left-sidebar {
+        width: 220px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+        gap: 14px;
+        padding: 20px;
+    }
+
+    .nav-tabs {
+        width: 100%;
+    }
+}
+
+/* ── Tablets ── */
+@media (max-width: 900px) {
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .navbar-links a,
+    .navbar-links button.logout {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}
+
+/* ── Tablets pequenos / celulares em paisagem ──
+   A partir daqui o layout do PDV (sidebar + cardápio lado a lado) deixa de
+   fazer sentido em telas estreitas: empilhamos a barra de mesas em cima do
+   cardápio, cada um com sua própria área de rolagem. */
+@media (max-width: 768px) {
+    .content-container {
+        padding: 16px;
+    }
+
+    .navbar {
+        height: auto;
+        flex-wrap: wrap;
+        row-gap: 8px;
+        padding: 10px 16px;
+    }
+
+    .logo {
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+
+    .navbar-links {
+        width: 100%;
+        max-width: 100%;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow-x: visible;
+    }
+
+    .navbar-links a,
+    .navbar-links button.logout {
+        padding: 7px 12px;
+        font-size: 11px;
+        white-space: nowrap;
+        margin-left: 0;
+    }
+    .navbar-links button.logout { margin-left: 0; }
+
+    .nav-tabs {
+        width: 100%;
+        margin: 16px auto 20px;
+        padding: 6px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        scrollbar-width: none;
+    }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+
+    .nav-tabs a,
+    .nav-tabs button {
+        padding: 10px 18px;
+        font-size: 11px;
+        letter-spacing: 1px;
+        white-space: nowrap;
+    }
+
+    .page-title {
+        font-size: 15px;
+        letter-spacing: 2px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+    }
+
+    /* Tabelas: em vez de espremer as colunas, deixamos rolar na horizontal */
+    table {
+        font-size: 12px;
+        min-width: 480px;
+    }
+    thead th,
+    tbody td {
+        padding: 8px 10px;
+    }
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* ── PDV do Salão: a barra de mesas vira uma gaveta (drawer) que desliza
+       por cima do cardápio. A gaveta e o fundo escurecido são
+       "position: fixed" ancorados na JANELA INTEIRA (top:0 / bottom:0),
+       cobrindo inclusive o header quando abertos — é o padrão comum de
+       menu lateral no mobile. Isso evita ficar tentando calcular "onde o
+       header termina" (o que causava a barra preta embaixo: antes a gaveta
+       ficava presa à altura do .pdv-container, que podia ser mais baixa
+       que a tela toda). */
+    .pdv-container {
+        height: auto;
+        min-height: 70vh;
+        margin-top: -16px;
+        margin-bottom: -16px;
+    }
+
+    .left-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 85vw;
+        max-width: 320px;
+        height: 100vh;
+        border-right: none;
+        border-bottom: none;
+        transform: translateX(-105%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+        z-index: 60;
+    }
+
+    .left-sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 55;
+        animation: fadeInBackdrop 0.2s ease;
+    }
+
+    @keyframes fadeInBackdrop {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .mobile-sidebar-toggle {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 12px;
+        padding: 12px 16px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        color: #fff;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 800;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .mobile-sidebar-toggle:active {
+        transform: scale(0.98);
+    }
+
+    .menu-area {
+        width: 100%;
+        min-height: 75vh;
+    }
+
+    .menu-empty-state {
+        min-height: 220px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+        gap: 10px;
+        padding: 14px;
+    }
+
+    .product-card {
+        padding: 12px;
+    }
+
+    .modern-number-input .spin-btn {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Em telas maiores que 768px o drawer não existe: o botão fica escondido
+   (a regra que garante isso está no topo do bloco, antes dos media queries) */
+
+/* ── Celulares ── */
+@media (max-width: 480px) {
+    .content-container {
+        padding: 12px;
+    }
+
+    .navbar {
+        padding: 8px 12px;
+    }
+
+    .logo {
+        font-size: 14px;
+        letter-spacing: 1.5px;
+    }
+
+    .navbar-links a,
+    .navbar-links button.logout {
+        padding: 6px 10px;
+        font-size: 10px;
+    }
+
+    .pdv-container {
+        margin-top: -12px;
+        margin-bottom: -12px;
+        min-height: 75vh;
+    }
+
+    .left-sidebar {
+        width: 88vw;
+        max-width: 300px;
+    }
+
+    .menu-area {
+        min-height: 75vh;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .product-card .product-name {
+        font-size: 12px;
+    }
+
+    .product-card .product-price {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+
+    .add-table-form {
+        padding: 12px;
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .card {
+        padding: 14px;
+    }
+
+    .page-title {
+        font-size: 13px;
+        letter-spacing: 1.5px;
+    }
+
+    button, .btn {
+        padding: 10px 16px;
+        font-size: 10px;
+    }
+
+    /* Formulários empilham em telas bem pequenas */
+    .form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .form-row > * {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+}
+
+/* ── Celulares bem pequenos ── */
+@media (max-width: 360px) {
+    .products-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
 }

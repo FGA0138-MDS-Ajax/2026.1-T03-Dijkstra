@@ -8,18 +8,24 @@ import ConfirmDialog from '../components/ConfirmDialog';
 export default function Usuarios() {
     const [usuarios, setUsuarios] = useState([]);
     
-    // Estados do Cadastro (Ajustado o valor inicial para bater com o Enum do Backend)
+    // Estados do Cadastro
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
     const [senha, setSenha] = useState('');
     const [cargo, setCargo] = useState('Administrador');
+    const [fotoUsuario, setFotoUsuario] = useState(null); 
+    
+    // Estado de Autorização do Cadastro (Pop-up)
+    const [isConfirmingCadastro, setIsConfirmingCadastro] = useState(false);
     const [senhaAdmin, setSenhaAdmin] = useState('');
+    const [isSubmittingCadastro, setIsSubmittingCadastro] = useState(false);
 
     // Estados do Modal de Edição
     const [usuarioParaEditar, setUsuarioParaEditar] = useState(null);
     const [editNome, setEditNome] = useState('');
     const [editCargo, setEditCargo] = useState('');
     const [editSenhaAdmin, setEditSenhaAdmin] = useState('');
+    const [editFotoUsuario, setEditFotoUsuario] = useState(null); 
     const [isEditing, setIsEditing] = useState(false);
 
     // Estados de Confirmação (Deleção)
@@ -40,26 +46,50 @@ export default function Usuarios() {
     useEffect(() => { fetchUsuarios(); }, []);
 
     // ─── CADASTRO ───
-    const cadastrarUsuario = async (e) => {
+    
+    // Passo 1: Valida os campos da barra e abre o Pop-up
+    const prepararCadastro = (e) => {
         e.preventDefault();
+        if (!nome.trim() || !cpf.trim() || !senha.trim()) {
+            return toast.warning('Preencha os campos obrigatórios do usuário.');
+        }
+        setIsConfirmingCadastro(true);
+    };
+
+    // Passo 2: Roda após o Admin digitar a senha no Pop-up e confirmar
+    const cadastrarUsuario = async () => {
+        if (!senhaAdmin) {
+            return toast.warning('A senha do administrador é obrigatória.');
+        }
+        
+        setIsSubmittingCadastro(true);
         try {
-            const response = await axios.post('http://localhost:5000/api/usuarios/cadastrar', { 
-                nome, 
-                cargo,
-                cpf_cadastrado: cpf, 
-                senha_cadastrada: senha, 
-                senha_admin: senhaAdmin
-            }, { withCredentials: true });
+            const formData = new FormData();
+            formData.append('nome', nome);
+            formData.append('cpf_cadastrado', cpf);
+            formData.append('senha_cadastrada', senha);
+            formData.append('cargo', cargo);
+            formData.append('senha_admin', senhaAdmin);
+            if (fotoUsuario) formData.append('foto_usuario', fotoUsuario);
+
+            const response = await axios.post('http://localhost:5000/api/usuarios/cadastrar', formData, { 
+                withCredentials: true,
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
 
             if (response.data.success) {
                 toast.success('✅ Usuário cadastrado com sucesso!');
-                setNome(''); setCpf(''); setSenha(''); setCargo('Administrador'); setSenhaAdmin('');
+                setNome(''); setCpf(''); setSenha(''); setCargo('Administrador'); setFotoUsuario(null);
+                setSenhaAdmin('');
+                setIsConfirmingCadastro(false);
                 fetchUsuarios();
             } else {
                 toast.error(response.data.message || 'Erro ao cadastrar usuário.');
             }
         } catch (err) { 
             toast.error(err.response?.data?.message || '❌ Não foi possível cadastrar o usuário. Verifique seus dados.'); 
+        } finally {
+            setIsSubmittingCadastro(false);
         }
     };
 
@@ -69,6 +99,7 @@ export default function Usuarios() {
         setEditNome(usuario.nome);
         setEditCargo(usuario.cargo);
         setEditSenhaAdmin('');
+        setEditFotoUsuario(null);
     };
 
     const salvarEdicao = async () => {
@@ -78,11 +109,16 @@ export default function Usuarios() {
         
         setIsEditing(true);
         try {
-            const response = await axios.put(`http://localhost:5000/api/usuarios/editar_usuario/${usuarioParaEditar.cpf}`, {
-                nome: editNome.trim(), 
-                cargo: editCargo,
-                senha_admin: editSenhaAdmin 
-            }, { withCredentials: true });
+            const formData = new FormData();
+            formData.append('nome', editNome.trim());
+            formData.append('cargo', editCargo);
+            formData.append('senha_admin', editSenhaAdmin);
+            if (editFotoUsuario) formData.append('foto_usuario', editFotoUsuario);
+
+            const response = await axios.put(`http://localhost:5000/api/usuarios/editar_usuario/${usuarioParaEditar.cpf}`, formData, { 
+                withCredentials: true,
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
 
             if (response.data.success) {
                 toast.success('✏️ Usuário atualizado com sucesso!');
@@ -130,20 +166,19 @@ export default function Usuarios() {
             <h2 className="page-title">Usuários do Sistema</h2>
 
             <div className="card">
-                <form onSubmit={cadastrarUsuario} className="form-row">
+                <form onSubmit={prepararCadastro} className="form-row">
                     <input type="text" placeholder="Nome Completo" value={nome} onChange={e => setNome(e.target.value)} required style={{ flex: 1, minWidth: '160px' }} />
                     <input type="text" placeholder="CPF (Apenas números)" value={cpf} onChange={e => setCpf(e.target.value)} required style={{ width: '150px' }} />
                     <select value={cargo} onChange={e => setCargo(e.target.value)} style={{ width: '150px' }}>
-                        {/* Values corrigidos para baterem com o Enum de Models */}
                         <option value="Administrador">Administrador</option>
                         <option value="Garçom">Garçom</option>
                         <option value="Cozinheiro">Cozinheiro</option>
                     </select>
                     <input type="password" placeholder="Senha do Usuário" value={senha} onChange={e => setSenha(e.target.value)} required style={{ width: '140px' }} />
                     
-                    <div style={{ position: 'relative', width: '160px' }}>
-                        <input type="password" placeholder="Sua Senha (Admin)" value={senhaAdmin} onChange={e => setSenhaAdmin(e.target.value)} required style={{ width: '100%', border: '1px solid var(--primary-red)' }} title="Senha de autorização de admin" />
-                    </div>
+                    <input type="file" accept="image/*" onChange={e => setFotoUsuario(e.target.files[0])} style={{ width: '180px', color: '#aaa', fontSize: '12px' }} title="Foto do Usuário (opcional)" />
+                    
+                    {/* O input de senha admin foi removido daqui e transferido para o Pop-up abaixo */}
                     
                     <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} type="submit">+ Cadastrar</motion.button>
                 </form>
@@ -159,9 +194,16 @@ export default function Usuarios() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, x: -10 }}
                         >
-                            <h3>{usuario.nome}</h3>
-                            <span className="status-badge">{usuario.cargo}</span>
-                            <p style={{ fontFamily: "'Rubik',sans-serif", fontSize: '11px', color: '#555' }}>CPF: {usuario.cpf}</p>
+                            {usuario.foto_usuario ? (
+                                <img src={`http://localhost:5000${usuario.foto_usuario}`} alt={usuario.nome} style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 10px', display: 'block' }} />
+                            ) : (
+                                <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: '#333', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', margin: '0 auto 10px' }}>👤</div>
+                            )}
+                            <h3 style={{ textAlign: 'center' }}>{usuario.nome}</h3>
+                            <div style={{ textAlign: 'center' }}>
+                                <span className="status-badge">{usuario.cargo}</span>
+                            </div>
+                            <p style={{ fontFamily: "'Rubik',sans-serif", fontSize: '11px', color: '#555', textAlign: 'center' }}>CPF: {usuario.cpf}</p>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '14px' }}>
                                 <button onClick={() => abrirEdicao(usuario)} style={{ width: '100%', background: '#444' }}>✏️ Editar</button>
                                 <button onClick={() => setUsuarioParaDeletar(usuario)} className="danger" style={{ width: '100%' }}>Excluir</button>
@@ -170,6 +212,29 @@ export default function Usuarios() {
                     ))}
                 </AnimatePresence>
             </div>
+
+            {/* POP-UP: Confirmar Criação de Usuário (Pede a senha do Admin) */}
+            <ConfirmDialog 
+                isOpen={isConfirmingCadastro}
+                title="Autorizar Cadastro"
+                description={`Você está prestes a cadastrar "${nome}" como ${cargo}. Digite sua senha de administrador para confirmar a operação:`}
+                confirmLabel="Confirmar Cadastro"
+                cancelLabel="Cancelar"
+                isLoading={isSubmittingCadastro}
+                onConfirm={cadastrarUsuario}
+                onCancel={() => { setIsConfirmingCadastro(false); setSenhaAdmin(''); }}
+            >
+                <div>
+                    <input 
+                        type="password" 
+                        placeholder="Sua senha de administrador" 
+                        value={senhaAdmin} 
+                        onChange={e => setSenhaAdmin(e.target.value)} 
+                        style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #cc0000', background: '#000', color: '#fff', fontFamily: 'Rubik, sans-serif', marginTop: '10px' }} 
+                        required 
+                    />
+                </div>
+            </ConfirmDialog>
 
             {/* Modal de Edição de Usuário */}
             {usuarioParaEditar && (
@@ -189,11 +254,14 @@ export default function Usuarios() {
                             <div>
                                 <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>Cargo</label>
                                 <select value={editCargo} onChange={e => setEditCargo(e.target.value)} style={{ width: '100%' }}>
-                                    {/* Values corrigidos para baterem com o Enum de Models */}
                                     <option value="Administrador">Administrador</option>
                                     <option value="Garçom">Garçom</option>
                                     <option value="Cozinheiro">Cozinheiro</option>
                                 </select>
+                            </div>
+                            <div>
+                                <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>Nova Foto (opcional)</label>
+                                <input type="file" accept="image/*" onChange={e => setEditFotoUsuario(e.target.files[0])} style={{ width: '100%', color: '#aaa', fontSize: '12px' }} />
                             </div>
                             <div style={{ marginTop: '10px' }}>
                                 <label style={{ fontSize: '11px', color: 'var(--primary-red)', display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>Sua Senha de Admin (Autorização)</label>

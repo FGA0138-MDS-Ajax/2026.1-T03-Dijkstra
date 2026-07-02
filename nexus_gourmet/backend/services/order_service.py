@@ -150,16 +150,37 @@ class OrderService:
     def editar_comanda(self, order_id, itens, user, cancelar=False):
         if user.cargo != Role.GARCOM:
             return False, OrderErrorMessages.SEM_PERMISSAO
-        
+            
         pedido = self.get_order_by_id(order_id)
         if not pedido:
             return False, OrderErrorMessages.COMANDA_NAO_ENCONTRADA
-        
+            
         if cancelar:
             if pedido.status not in [OrderStatus.PENDENTE, OrderStatus.EM_PREPARO]:
                 return False, OrderErrorMessages.COMANDA_NAO_PODE_SER_CANCELADA
+            
             pedido.status = OrderStatus.CANCELADO
             db.session.commit()
+            
+            # --- INÍCIO DA CORREÇÃO ---
+            # Verifica se era a última comanda da mesa. Se sim, libera a mesa.
+            mesa = self.table_service.get_table_by_number(pedido.numero_mesa)
+            if mesa:
+                comandas_ativas = Order.query.filter(
+                    Order.numero_mesa == mesa.numero,
+                    Order.status.in_([
+                        OrderStatus.PENDENTE, 
+                        OrderStatus.EM_PREPARO, 
+                        OrderStatus.PRONTO, 
+                        OrderStatus.ENTREGUE
+                    ])
+                ).count()
+                
+                if comandas_ativas == 0:
+                    mesa.status = TableStatus.LIVRE
+                    db.session.commit()
+            # --- FIM DA CORREÇÃO ---
+            
             return True, OrderSuccessMessages.COMANDA_CANCELADA
 
         if pedido.status == OrderStatus.CANCELADO:
@@ -231,7 +252,6 @@ class OrderService:
             return False, f"Status inválido: {status}."
             
         status_atual = comanda.status
-        # CORREÇÃO VITAL: O SQLite às vezes retorna uma string, vamos forçar de volta para Enum
         if isinstance(status_atual, str):
             try:
                 status_atual = OrderStatus(status_atual)
@@ -251,11 +271,15 @@ class OrderService:
         agora = datetime.now(timezone.utc).replace(tzinfo=None)
         
         if novo_status == OrderStatus.EM_PREPARO:
-            if not comanda.entrada_cozinha:
-                comanda.entrada_cozinha = agora
+            tem_novo_item = False
             for item in comanda.itens:
                 if item.cozinha_status == 'PENDENTE':
                     item.cozinha_status = 'PREPARANDO'
+                    tem_novo_item = True
+            
+            # CORREÇÃO: Reseta o cronômetro se o garçom estiver mandando itens novos agora
+            if tem_novo_item or not comanda.entrada_cozinha:
+                comanda.entrada_cozinha = agora
 
         if novo_status == OrderStatus.PRONTO:
             comanda.saida_cozinha = agora

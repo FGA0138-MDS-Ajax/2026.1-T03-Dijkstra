@@ -24,10 +24,20 @@ export default function KitchenOrderCard({ order, onConcluir }) {
         cardClass = 'kitchen-order-card--on-time';
     }
 
-    // CORREÇÃO: Buscar da variável correta
-    const estMinutes = order.itens?.length 
-        ? Math.max(...order.itens.map(i => i.preparation_time_minutes || 15)) 
+    // CORREÇÃO: Filtramos para exibir apenas os itens que estão ativos na cozinha agora.
+    // Ignoramos itens já entregues (PRONTO) ou recém colocados na comanda e não enviados (PENDENTE)
+    const itensAtivos = order.itens?.filter(item => item.cozinha_status === 'PREPARANDO') || [];
+
+    // Calcula o tempo estimado focado apenas nos itens que a cozinha tem que preparar no momento
+    const estMinutes = itensAtivos.length 
+        ? Math.max(...itensAtivos.map(i => i.preparation_time_minutes || 15)) 
         : 15;
+
+    // Prevenção visual: se a comanda constar no salão como "Em Preparo", mas a cozinha já clicou 
+    // e os itens ainda estão processando a saída da tela, ele não renderiza um card vazio.
+    if (!isReady && itensAtivos.length === 0) {
+        return null;
+    }
 
     return (
         <motion.div 
@@ -63,7 +73,8 @@ export default function KitchenOrderCard({ order, onConcluir }) {
             </div>
 
             <ul className="kitchen-order-card__items">
-                {order.itens.map(item => (
+                {/* CORREÇÃO: Mapeamos o array de itens ativos ao invés de todo o histórico */}
+                {itensAtivos.map(item => (
                     <li key={item.id}>
                         {item.quantidade}x - {item.produto || 'Item apagado'}
                         {item.observacao && <span className="kitchen-order-card__obs">Obs: {item.observacao}</span>}

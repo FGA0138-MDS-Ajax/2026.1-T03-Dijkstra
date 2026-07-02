@@ -61,7 +61,7 @@ class UserController(BaseController):
         foto = None
         if request.files or request.form:
             dados = request.form
-            foto = request.files.get('foto')
+            foto = request.files.get('foto_usuario')
         else:
             dados = request.json or {}
 
@@ -121,7 +121,13 @@ class UserController(BaseController):
         if not usuario_logado or usuario_logado.cargo != Role.ADMINISTRADOR:
             return self.json_response(False, "Acesso negado", status=403)
 
-        dados = request.json or {}
+        foto = None
+        if request.files or request.form:
+            dados = request.form
+            foto = request.files.get('foto_usuario')
+        else:
+            dados = request.json or {}
+
         success, message = self.user_service.editar_usuario(
             cpf_usuario_logado=usuario_logado.cpf,
             senha_admin=dados.get('senha_admin'),
@@ -130,7 +136,7 @@ class UserController(BaseController):
             cargo=dados.get('cargo'),
             senha=dados.get('senha'),
             novo_cpf=dados.get('novo_cpf'),
-            foto_usuario=dados.get('foto_usuario')
+            foto_usuario=foto or dados.get('foto_usuario')
         )
         return self.json_response(success, message, status=200 if success else 400)
             
@@ -139,7 +145,6 @@ class UserController(BaseController):
         if not usuario or usuario.cargo != Role.ADMINISTRADOR:
             return self.json_response(False, "Acesso negado", status=403)
         
-        # O método estatisticas_diarias do service calcula os dados do dia corrente globalmente.
         estatisticas = self.order_service.estatisticas_diarias()
         return self.json_response(True, message="Estatísticas diárias geradas com sucesso", data=estatisticas)
     
@@ -150,4 +155,3 @@ class UserController(BaseController):
         
         dados_user, message = self.user_service.visualizar_usuario(usuario.cpf)
         return self.json_response(True, data=dados_user)
-

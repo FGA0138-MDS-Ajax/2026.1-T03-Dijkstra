@@ -19,10 +19,10 @@ export default function AdminLayout({ children }) {
                     <img src={logoSite2} alt="Nexus Gourmet" style={{ height: '45px', width: 'auto', objectFit: 'contain' }} />
                 </div>
                 <div className="navbar-links">
-                    <Link to="/produtos" style={{ background: 'rgba(0,0,0,0.2)', color: '#fff' }}>Admin</Link>
+                    <Link to="/produtos">Admin</Link>
                     <Link to="/salao">Salão</Link>
                     <Link to="/cozinha/fila">Cozinha</Link>
-                    <button onClick={handleLogout} className="logout" style={{ background:'transparent', border:'none', cursor:'pointer', fontWeight:'bold', textTransform:'uppercase', letterSpacing:'1.5px', color:'#ffcccc' }}>Sair</button>
+                    <button onClick={handleLogout} className="logout">Sair</button>
                 </div>
             </nav>
 

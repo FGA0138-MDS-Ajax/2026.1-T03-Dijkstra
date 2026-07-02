@@ -28,8 +28,8 @@ export default function Pedidos() {
                 <div className="navbar-links">
                     {cargo === 'ADMINISTRADOR' && <Link to="/produtos">Admin</Link>}
                     {(cargo === 'ADMINISTRADOR' || cargo === 'GARCOM') && <Link to="/salao">Salão</Link>}
-                    <Link to="/cozinha/fila" style={{ background: 'rgba(0,0,0,0.2)', color: '#fff' }}>Cozinha</Link>
-                    <button onClick={handleLogout} className="logout" style={{ background:'transparent', border:'none', cursor:'pointer', fontWeight:'bold', color:'#ffcccc' }}>Sair</button>
+                    <Link to="/cozinha/fila">Cozinha</Link>
+                    <button onClick={handleLogout} className="logout">Sair</button>
                 </div>
             </nav>
 

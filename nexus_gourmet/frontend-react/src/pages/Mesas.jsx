@@ -18,6 +18,10 @@ export default function Mesas() {
     const [selectedComanda, setSelectedComanda] = useState(null);
     const [activeTab, setActiveTab] = useState('Todos');
 
+    // Controle da gaveta (drawer) de mesas no mobile — no desktop essa
+    // classe/estado simplesmente não tem efeito nenhum (é ignorado pelo CSS)
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+
     // Estados de Busca
     const [searchMesa, setSearchMesa] = useState('');
     const [searchProduto, setSearchProduto] = useState('');
@@ -30,6 +34,8 @@ export default function Mesas() {
     // Estados do Modal de Pagamento (Caixa)
     const [modalConta, setModalConta] = useState(null);
     const [metodoPagamento, setMetodoPagamento] = useState('PIX');
+
+    const [comandaParaCancelar, setComandaParaCancelar] = useState(null);
 
     // Carrinho local por Comanda
     const [cart, setCart] = useState({});
@@ -61,6 +67,12 @@ export default function Mesas() {
     };
 
     useEffect(() => { fetchData(); }, []);
+
+    // Assim que o usuário escolhe uma comanda, fecha a gaveta de mesas
+    // (no desktop isso não muda nada visualmente, o CSS ignora)
+    useEffect(() => {
+        if (selectedComanda) setSidebarOpen(false);
+    }, [selectedComanda]);
 
     const carregarComandas = async (numero_mesa) => {
     try {
@@ -183,6 +195,32 @@ export default function Mesas() {
         setItemParaRemover({ comandaId, ...item });
     };
 
+    const confirmarCancelamentoComanda = async () => {
+    if (!comandaParaCancelar) return;
+    setIsProcessing(true);
+    try {
+        // Utilizamos a rota de editar_comanda enviando o comando de cancelar
+        const res = await axios.put(`http://localhost:5000/api/salao/${expandedMesa}/comandas/${comandaParaCancelar}/editar_comanda`, 
+            { cancelar: true }, 
+            { withCredentials: true }
+        );
+
+        if (res.data.success) {
+            toast.success('❌ Comanda cancelada com sucesso.');
+            setComandaParaCancelar(null);
+            await carregarComandas(expandedMesa);
+            if (selectedComanda === comandaParaCancelar) setSelectedComanda(null);
+            fetchData();
+        } else {
+            toast.error("Erro: " + res.data.message);
+        }
+    } catch (err) {
+        toast.error("Erro ao cancelar comanda.");
+    } finally {
+        setIsProcessing(false);
+    }
+};
+
     const confirmarRemocaoItem = () => {
         if (!itemParaRemover) return;
         setCart(prev => {
@@ -243,6 +281,8 @@ export default function Mesas() {
         } catch (err) { toast.error("Erro ao marcar comanda como entregue."); }
     };
 
+
+
     // ==========================================
     // SISTEMA DE CAIXA E PAGAMENTO
     // ==========================================
@@ -298,17 +338,29 @@ export default function Mesas() {
     return (
         <SalaoLayout>
             <div className="pdv-container">
-                <nav className="left-sidebar">
-                    <div className="left-sidebar-header">Mesas</div>
+                <nav className={`left-sidebar ${sidebarOpen ? 'open' : ''}`}>
+                    <div className="left-sidebar-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#cc0000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                            <line x1="9" y1="21" x2="9" y2="9"></line>
+                        </svg>
+                        <span>Controle de Mesas</span>
+                    </div>
                     
                     <div style={{ padding: '10px', borderBottom: '1px solid var(--border)' }}>
-                        <div className="search-container" style={{ marginBottom: 0, padding: '6px 10px' }}>
-                            <span className="search-icon">🔍</span>
+                        <div className="search-container" style={{ marginBottom: 0 }}>
+                            <span className="search-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </span>
                             <input 
-                                type="text" 
-                                className="search-input" 
-                                placeholder="Buscar mesa..." 
-                                value={searchMesa}
+                                 type="text" 
+                                 className="search-input" 
+                                 placeholder="Buscar mesa..." 
+                                 value={searchMesa}
                                 onChange={e => setSearchMesa(e.target.value)}
                             />
                         </div>
@@ -362,6 +414,13 @@ export default function Mesas() {
                             filteredMesas.map(mesa => {
                                 const isExpanded = expandedMesa === mesa.numero;
                                 const isEditing = editingMesaNum === mesa.numero;
+                                  
+                                const getStatusColor = (status) => {
+                                    if (status === 'Livre') return '#00cc66'; // Verde
+                                    if (status === 'Ocupada') return '#ff3333'; // Vermelho
+                                    return '#ffaa00'; // Laranja para outros status
+                                };
+                                const statusColor = getStatusColor(mesa.status);
 
                                 return (
                                     <motion.li 
@@ -372,46 +431,173 @@ export default function Mesas() {
                                         transition={{ duration: 0.2 }}
                                     >
                                     
-                                    <div style={{ display: 'flex', alignItems: 'center', background: isExpanded ? '#2a0000' : 'transparent' }}>
-                                        <button 
-                                            className={`mesa-btn ${isExpanded ? 'active' : ''}`}
-                                            onClick={() => toggleMesa(mesa.numero)}
-                                            style={{ 
-                                                flex: 1, background: 'transparent', border: 'none', textAlign: 'left',
-                                                padding: '12px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', minWidth: 0
-                                            }}
-                                        >
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', whiteSpace: 'normal', lineHeight: '1.2' }}>
-                                                <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Mesa {mesa.numero} ({mesa.status})</span>
-                                                <small style={{ color: '#aaa', fontSize: '10px' }}>Cap: {mesa.capacidade}</small>
-                                            </div>
-                                            <span style={{ marginLeft: '4px', fontSize: '10px' }}>{isExpanded ? '▼' : '▶'}</span>
-                                        </button>
-                                        
-                                        {cargo === 'ADMINISTRADOR' && (
-                                            <div style={{ display: 'flex', gap: '4px', paddingRight: '10px', flexShrink: 0 }}>
-                                                <button onClick={(e) => abrirEdicaoMesa(e, mesa)} style={{ background: '#444', padding: '6px', fontSize: '10px', borderRadius: '4px' }}>✏️</button>
-                                                <button onClick={(e) => handleDeletarMesa(e, mesa.numero)} className="danger" style={{ padding: '6px', fontSize: '10px', borderRadius: '4px' }}>✕</button>
-                                            </div>
-                                        )}
-                                    </div>
+                                    <div style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            background: isExpanded ? '#1a0000' : 'transparent',
+                                            borderLeft: isExpanded ? '4px solid #cc0000' : '4px solid transparent',
+                                            transition: 'all 0.2s ease',
+                                            overflow: 'hidden' /* Evita qualquer vazamento */
+                                        }}>
+                                            <button
+                                                className={`mesa-btn ${isExpanded ? 'active' : ''}`}
+                                                onClick={() => toggleMesa(mesa.numero)}
+                                                style={{
+                                                    flex: 1, 
+                                                    background: 'transparent', 
+                                                    border: 'none', 
+                                                    textAlign: 'left',
+                                                    padding: '10px', /* Reduzido para dar mais espaço */
+                                                    display: 'flex', 
+                                                    alignItems: 'center', 
+                                                    minWidth: 0, 
+                                                    width: 'auto' /* Sobrescreve o width 100% que causava o bug */
+                                                }}
+                                            >
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                                                    {/* Bloco com o Número da Mesa */}
+                                                    <div style={{
+                                                        width: '36px',
+                                                        height: '36px',
+                                                        flexShrink: 0,
+                                                        borderRadius: '8px',
+                                                        background: isExpanded ? 'linear-gradient(135deg, #cc0000, #8b0000)' : '#1a1a1a',
+                                                        border: `1px solid ${isExpanded ? '#ff3333' : '#333'}`,
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        fontSize: '15px',
+                                                        fontWeight: '900',
+                                                        color: isExpanded ? '#fff' : '#ccc',
+                                                        boxShadow: isExpanded ? '0 4px 10px rgba(204,0,0,0.3)' : 'none',
+                                                        transition: 'all 0.3s ease'
+                                                    }}>
+                                                        {mesa.numero}
+                                                    </div>
 
-                                    {isEditing && (
-                                        <form onSubmit={(e) => handleSalvarEdicaoMesa(e, mesa.numero)} style={{ padding: '10px', background: '#221010', display: 'flex', gap: '6px', alignItems: 'center' }}>
-                                            <label style={{ fontSize: '11px', color: '#ccc' }}>Nova Cap:</label>
-                                            <div className="custom-number-input">
-                                                <button type="button" className="spin-btn" onClick={() => setEditCapacidade(prev => Math.max(1, (parseInt(prev) || 1) - 1))}>-</button>
-                                                <input 
-                                                    type="number" 
-                                                    value={editCapacidade} 
-                                                    onChange={e => setEditCapacidade(e.target.value)}
-                                                    min="1" required 
-                                                />
-                                                <button type="button" className="spin-btn" onClick={() => setEditCapacidade(prev => (parseInt(prev) || 0) + 1)}>+</button>
-                                            </div>
-                                            <button type="submit" style={{ padding: '4px 8px', fontSize: '10px', background: 'green' }}>Salvar</button>
-                                        </form>
-                                    )}
+                                                    {/* Informações da Mesa */}
+                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0 }}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                            <span style={{ fontSize: '13px', fontWeight: '800', color: isExpanded ? '#fff' : '#ddd', letterSpacing: '1px' }}>
+                                                                MESA
+                                                            </span>
+                                                            <span style={{
+                                                                fontSize: '9px',
+                                                                padding: '2px 6px',
+                                                                borderRadius: '10px',
+                                                                background: `${statusColor}22`,
+                                                                color: statusColor,
+                                                                border: `1px solid ${statusColor}55`,
+                                                                fontWeight: 'bold',
+                                                                textTransform: 'uppercase',
+                                                                letterSpacing: '0.5px',
+                                                                whiteSpace: 'nowrap'
+                                                            }}>
+                                                                {mesa.status}
+                                                            </span>
+                                                        </div>
+                                                        <span style={{ color: '#888', fontSize: '11px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                            Cap: {mesa.capacidade}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </button>
+
+                                            {/* BOTOES DE ADMIN (EDITAR E DELETAR) */}
+                                            {cargo === 'ADMINISTRADOR' && (
+                                                <div style={{ display: 'flex', gap: '6px', paddingRight: '10px', flexShrink: 0 }}>
+                                                    <button 
+                                                        onClick={(e) => abrirEdicaoMesa(e, mesa)} 
+                                                        style={{ 
+                                                            background: isEditing ? '#cc0000' : '#222', 
+                                                            color: '#fff', 
+                                                            padding: '6px', /* Botões um pouco menores */
+                                                            border: '1px solid #444', 
+                                                            borderRadius: '6px', 
+                                                            display: 'flex', 
+                                                            alignItems: 'center', 
+                                                            justifyContent: 'center', 
+                                                            transition: 'all 0.2s' 
+                                                        }} 
+                                                        title="Editar Capacidade"
+                                                    >
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                                    </button>
+                                                    <button 
+                                                        onClick={(e) => handleDeletarMesa(e, mesa.numero)} 
+                                                        className="danger" 
+                                                        style={{ 
+                                                            padding: '6px', 
+                                                            borderRadius: '6px', 
+                                                            display: 'flex', 
+                                                            alignItems: 'center', 
+                                                            justifyContent: 'center' 
+                                                        }} 
+                                                        title="Excluir Mesa"
+                                                    >
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="14" height="14"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* FORMULÁRIO DE EDIÇÃO CORRIGIDO E OTIMIZADO */}
+                                        {isEditing && (
+                                            <form onSubmit={(e) => handleSalvarEdicaoMesa(e, mesa.numero)} style={{ 
+                                                padding: '12px', 
+                                                background: '#150000', 
+                                                borderBottom: '1px solid #333', 
+                                                display: 'flex', 
+                                                flexDirection: 'column', 
+                                                gap: '12px' 
+                                            }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                                    <label style={{ 
+                                                        fontSize: '10px', 
+                                                        color: '#ff8888', 
+                                                        fontWeight: 'bold', 
+                                                        textTransform: 'uppercase', 
+                                                        letterSpacing: '0.5px' 
+                                                    }}>
+                                                        Nova Cap:
+                                                    </label>
+                                                    <div className="modern-number-input" style={{ width: '100px', height: '32px' }}>
+                                                        <button type="button" className="spin-btn minus" onClick={() => setEditCapacidade(prev => Math.max(1, (parseInt(prev) || 1) - 1))}>-</button>
+                                                        <input type="number" value={editCapacidade} onChange={e => setEditCapacidade(e.target.value)} min="1" required style={{ fontSize: '13px', padding: '0', textAlign: 'center' }} />
+                                                        <button type="button" className="spin-btn plus" onClick={() => setEditCapacidade(prev => (parseInt(prev) || 0) + 1)}>+</button>
+                                                    </div>
+                                                </div>
+                                                <div style={{ display: 'flex', gap: '8px' }}>
+                                                    <button type="button" onClick={() => setEditingMesaNum(null)} style={{ 
+                                                        flex: 1, 
+                                                        background: 'transparent', 
+                                                        color: '#ccc', 
+                                                        border: '1px solid #444', 
+                                                        padding: '8px', 
+                                                        fontSize: '11px',
+                                                        borderRadius: '6px',
+                                                        fontWeight: 'bold',
+                                                        cursor: 'pointer'
+                                                    }}>
+                                                        Cancelar
+                                                    </button>
+                                                    <button type="submit" style={{ 
+                                                        flex: 1, 
+                                                        background: '#00cc66', 
+                                                        color: '#fff', 
+                                                        border: 'none', 
+                                                        padding: '8px', 
+                                                        fontSize: '11px',
+                                                        borderRadius: '6px',
+                                                        fontWeight: 'bold',
+                                                        cursor: 'pointer',
+                                                        boxShadow: '0 2px 8px rgba(0,204,102,0.3)'
+                                                    }}>
+                                                        Salvar
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        )}
                                     
                                     <div className={`pedidos-panel ${isExpanded ? 'open' : ''}`}>
                                         <div className="pedidos-inner">
@@ -425,10 +611,47 @@ export default function Mesas() {
                                                         marginBottom: '10px', border: '1px solid #3a0000', borderRadius: '8px', padding: '10px',
                                                         background: isComandaActive ? '#2a0000' : '#111'
                                                     }}>
-                                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', marginBottom: '8px' }} onClick={() => setSelectedComanda(comanda.id)}>
-                                                            <strong style={{ color: isComandaActive ? '#ff6666' : '#ccc' }}>Cmd #{comanda.id}</strong>
-                                                            <span style={{ fontSize: '10px', background: '#440000', padding: '3px 6px', borderRadius: '4px' }}>{comanda.status}</span>
-                                                        </div>
+                                                    <div style={{
+                                                         display: 'flex',
+                                                         justifyContent: 'space-between',
+                                                         alignItems: 'center',
+                                                         cursor: 'pointer',
+                                                         marginBottom: '12px',
+                                                         paddingBottom: '10px',
+                                                         borderBottom: isComandaActive ? '1px solid #cc0000' : '1px solid #333'
+                                                     }} onClick={() => setSelectedComanda(comanda.id)}>
+                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                             <span style={{
+                                                                 background: isComandaActive ? 'linear-gradient(90deg, #cc0000, #ff3333)' : '#333',
+                                                                 color: '#fff',
+                                                                 padding: '4px 8px',
+                                                                 borderRadius: '6px',
+                                                                 fontSize: '12px',
+                                                                 fontWeight: '900',
+                                                                 boxShadow: isComandaActive ? '0 2px 8px rgba(204,0,0,0.4)' : 'none'
+                                                             }}>
+                                                                 #{comanda.id}
+                                                             </span>
+                                                             <strong style={{
+                                                                 color: isComandaActive ? '#fff' : '#888',
+                                                                 fontSize: '14px',
+                                                                 letterSpacing: '0.5px'
+                                                             }}>Comanda</strong>
+                                                         </div>
+                                                         <span style={{
+                                                             fontSize: '10px',
+                                                             background: isComandaActive ? 'rgba(204,0,0,0.15)' : '#222',
+                                                             color: isComandaActive ? '#ff6666' : '#777',
+                                                             padding: '4px 10px',
+                                                             borderRadius: '12px',
+                                                             fontWeight: 'bold',
+                                                             textTransform: 'uppercase',
+                                                             letterSpacing: '1px',
+                                                             border: isComandaActive ? '1px solid rgba(204,0,0,0.3)' : '1px solid #333'
+                                                         }}>
+                                                             {comanda.status}
+                                                         </span>
+                                                     </div>
                                                         
                                                         {isComandaActive && (
                                                             <div>
@@ -465,15 +688,46 @@ export default function Mesas() {
                                                                         🧾 Ver Conta e Pagar
                                                                     </button>
                                                                 )}
+                                                                {/* O SEU NOVO BOTÃO DEVE ESTAR AQUI, DENTRO DA MESMA DIV */}
+                                                                {(comanda.status === 'Pendente' || comanda.status === 'Em Preparo') && (
+                                                                    <button 
+                                                                        onClick={() => setComandaParaCancelar(comanda.id)} 
+                                                                        style={{ width: '100%', marginTop: '8px', fontSize: '10px', background: '#333', color: '#ff6666', border: '1px solid #550000' }}
+                                                                    >
+                                                                        ❌ Cancelar Comanda
+                                                                    </button>
+                                                                )}
                                                             </div>
                                                         )}
                                                     </div>
                                                 );
                                             })}
 
-                                            <button onClick={() => criarNovaComanda(mesa.numero)} style={{ width: '100%', marginTop: '5px', background: '#222', color: '#ccc', border: '1px dashed #555' }}>
-                                                + Abrir Nova Comanda
-                                            </button>
+                                            <motion.button
+                                                 whileHover={{ scale: 1.02, backgroundColor: 'rgba(204, 0, 0, 0.15)' }}
+                                                 whileTap={{ scale: 0.98 }}
+                                                 onClick={() => criarNovaComanda(mesa.numero)}
+                                                 style={{
+                                                     width: '100%',
+                                                     marginTop: '12px',
+                                                     padding: '14px',
+                                                     background: 'rgba(204, 0, 0, 0.05)',
+                                                     color: '#ff6666',
+                                                     border: '1px dashed #cc0000',
+                                                     borderRadius: '8px',
+                                                     fontWeight: 'bold',
+                                                     textTransform: 'uppercase',
+                                                     letterSpacing: '1px',
+                                                     cursor: 'pointer',
+                                                     display: 'flex',
+                                                     justifyContent: 'center',
+                                                     alignItems: 'center',
+                                                     gap: '8px',
+                                                     transition: 'background-color 0.3s ease'
+                                                 }}>
+                                                 <span style={{ fontSize: '18px', fontWeight: '900', lineHeight: '1' }}>+</span> 
+                                                 Abrir Nova Comanda
+                                             </motion.button>
                                         </div>
                                     </div>
                                     </motion.li>
@@ -483,11 +737,25 @@ export default function Mesas() {
                     </ul>
                 </nav>
 
+                {sidebarOpen && (
+                    <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />
+                )}
+
                 <div className="menu-area">
+                    <button
+                        type="button"
+                        className="mobile-sidebar-toggle"
+                        onClick={() => setSidebarOpen(prev => !prev)}
+                    >
+                        {sidebarOpen
+                            ? '✕ Fechar'
+                            : `☰ ${expandedMesa ? `Mesa ${expandedMesa}` : 'Ver Mesas'}`}
+                    </button>
+
                     {!selectedComanda ? (
-                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', flexDirection: 'column' }}>
-                            <span style={{ fontSize: '40px', opacity: 0.5 }}>🍽️</span>
-                            <p style={{ marginTop: '10px' }}>Selecione ou crie uma comanda na barra lateral.</p>
+                        <div className="menu-empty-state">
+                            <span className="menu-empty-state__icon">🍽️</span>
+                            <p className="menu-empty-state__text">Selecione ou crie uma comanda na barra lateral.</p>
                         </div>
                     ) : (
                         <>
@@ -508,13 +776,18 @@ export default function Mesas() {
                             </div>
                             
                             <div style={{ padding: '0 10px', marginBottom: '10px' }}>
-                                <div className="search-container" style={{ marginBottom: 0, padding: '6px 10px' }}>
-                                    <span className="search-icon">🔍</span>
+                                <div className="search-container" style={{ marginBottom: 0 }}>
+                                    <span className="search-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        </svg>
+                                    </span>
                                     <input 
-                                        type="text" 
-                                        className="search-input" 
-                                        placeholder="Buscar produto para adicionar..." 
-                                        value={searchProduto}
+                                         type="text" 
+                                         className="search-input" 
+                                         placeholder="Buscar produto para adicionar..." 
+                                         value={searchProduto}
                                         onChange={e => setSearchProduto(e.target.value)}
                                     />
                                 </div>
@@ -534,7 +807,11 @@ export default function Mesas() {
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                         >
-                                            <div style={{ fontSize: '40px', color: '#ccc', marginBottom: '10px' }}>📦</div>
+                                            {prod.foto_produto ? (
+                                                <img src={`http://localhost:5000${prod.foto_produto}`} alt={prod.nome} style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '8px', marginBottom: '8px' }} />
+                                            ) : (
+                                                <div style={{ fontSize: '40px', color: '#ccc', marginBottom: '10px' }}>📦</div>
+                                            )}
                                             <div className="product-name">{prod.nome}</div>
                                             <div className="product-price">R$ {parseFloat(prod.preco).toFixed(2)}</div>
                                         </motion.div>
@@ -550,8 +827,8 @@ export default function Mesas() {
                 MODAL FLUTUANTE DE PAGAMENTO DA CONTA 
             ========================================== */}
             {modalConta && (
-                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <div className="card" style={{ width: '380px', background: '#111', border: '1px solid #cc0000', boxShadow: '0 10px 30px rgba(200,0,0,0.2)' }}>
+                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '16px', boxSizing: 'border-box' }}>
+                    <div className="card" style={{ width: '90vw', maxWidth: '380px', maxHeight: '90vh', overflowY: 'auto', background: '#111', border: '1px solid #cc0000', boxShadow: '0 10px 30px rgba(200,0,0,0.2)' }}>
                         <h2 style={{ textAlign: 'center', color: '#fff', borderBottom: '1px solid #333', paddingBottom: '15px', marginBottom: '15px' }}>
                             Conta - Comanda #{modalConta.id}
                         </h2>
@@ -659,6 +936,18 @@ export default function Mesas() {
                 isLoading={isProcessing}
                 onConfirm={confirmarFechamentoConta}
                 onCancel={() => setContaParaFechar(null)}
+            />
+
+            <ConfirmDialog 
+                isOpen={!!comandaParaCancelar}
+                title="Cancelar esta comanda?"
+                description={`A comanda #${comandaParaCancelar} da Mesa ${expandedMesa} será cancelada permanentemente. Esta ação não pode ser desfeita.`}
+                confirmLabel="Cancelar comanda"
+                cancelLabel="Manter comanda"
+                variant="danger"
+                isLoading={isProcessing}
+                onConfirm={confirmarCancelamentoComanda}
+                onCancel={() => setComandaParaCancelar(null)}
             />
 
         </SalaoLayout>
