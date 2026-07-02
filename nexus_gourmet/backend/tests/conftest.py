@@ -21,7 +21,8 @@ from werkzeug.security import generate_password_hash
 def app():
     app = Flask(__name__)
     app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:' 
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:#Pr0j3to5MD5@127.0.0.1:3306/nexus_db' 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.secret_key = 'chave_secreta_testes' 
     
@@ -30,6 +31,7 @@ def app():
         db.create_all()
         yield app
         db.session.remove()
+        #apaga todas as tabelas do nexus_db após os testes
         db.drop_all()
 
 @pytest.fixture

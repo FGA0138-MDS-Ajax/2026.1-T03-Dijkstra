@@ -186,7 +186,7 @@ def test_liberar_mesa_comandas_abertas(app, user_service, table_service):
         numero_diario=1,
         entrada_cozinha=datetime.now(timezone.utc).replace(tzinfo=None),
         status=OrderStatus.EM_PREPARO,
-        user_cpf="12345678901",
+        user_cpf=admin.cpf,
         numero_mesa=mesa.numero
     )
     db.session.add(comanda_aberta)
