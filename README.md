@@ -154,7 +154,7 @@ A arquitetura do **Dijkstra** segue o modelo cliente-servidor, utilizando uma AP
 A arquitetura do sistema foi projetada utilizando o modelo cliente-servidor, garantindo modularidade, escalabilidade e facilidade de manutenção.
 
 <p align="center">
-  <img src="git%20pages/docs/arquitetura.png" width="900">
+  <img src="git%20pages/docs/img/estilo-arquitectural.png" width="900">
 </p>
 
 ---
