@@ -22,6 +22,8 @@ class UserController(BaseController):
         
         #Rota para finalizar o dia e gerar estatísticas
         self.app.add_url_rule('/api/usuarios/finalizar_dia', view_func=self.finalizar_dia, methods=['GET'])
+        
+        self.app.add_url_rule('/api/usuarios/encerrar_caixa', view_func=self.encerrar_caixa, methods=['POST'])
 
         #Visualizar o próprio perfil
         self.app.add_url_rule('/api/meu_perfil', view_func=self.meu_perfil, methods=['GET'])
@@ -155,3 +157,11 @@ class UserController(BaseController):
         
         dados_user, message = self.user_service.visualizar_usuario(usuario.cpf)
         return self.json_response(True, data=dados_user)
+    
+    def encerrar_caixa(self):
+        usuario = self._get_usuario_logado()
+        if not usuario or usuario.cargo != Role.ADMINISTRADOR:
+            return self.json_response(False, "Acesso negado", status=403)
+        
+        success, message = self.order_service.encerrar_caixa(usuario)
+        return self.json_response(success, message, status=200 if success else 400)

@@ -186,7 +186,7 @@ export default function Mesas() {
             } else {
                 novoCart = [...comandaCart, { product_id: produto.id, nome: produto.nome, preco: produto.preco, quantidade: 1 }];
             }
-            toast.success(`➕ ${produto.nome} adicionado.`);
+            toast.success(`${produto.nome} adicionado.`);
             return { ...prev, [selectedComanda]: novoCart };
         });
     };
@@ -206,7 +206,7 @@ export default function Mesas() {
         );
 
         if (res.data.success) {
-            toast.success('❌ Comanda cancelada com sucesso.');
+            toast.success('Comanda cancelada com sucesso.');
             setComandaParaCancelar(null);
             await carregarComandas(expandedMesa);
             if (selectedComanda === comandaParaCancelar) setSelectedComanda(null);
@@ -227,7 +227,7 @@ export default function Mesas() {
             const comandaCart = prev[itemParaRemover.comandaId] || [];
             return { ...prev, [itemParaRemover.comandaId]: comandaCart.filter(i => i.product_id !== itemParaRemover.product_id) };
         });
-        toast.success(`🗑️ Item removido da comanda.`);
+        toast.success(`Item removido da comanda.`);
         setItemParaRemover(null);
     };
 
@@ -254,7 +254,7 @@ export default function Mesas() {
             await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comandaId}/enviar_comanda`, {}, { withCredentials: true });
             setCart(prev => ({ ...prev, [comandaId]: [] }));
             await carregarComandas(numero_mesa);
-            toast.success(`🍽️ Pedido enviado à cozinha com sucesso!`);
+            toast.success(`Pedido enviado à cozinha com sucesso!`);
             setComandaParaEnviar(null);
         } catch (error) { 
             toast.error("Erro ao confirmar o pedido."); 
@@ -305,7 +305,7 @@ export default function Mesas() {
         try {
             const res = await axios.post(`http://localhost:5000/api/salao/${expandedMesa}/comandas/${contaParaFechar.id}/fechar_comanda`, {}, { withCredentials: true });
             if (res.data.success) {
-                toast.success(`✅ Pagamento via ${metodoPagamento} processado! Conta fechada.`);
+                toast.success(`Pagamento via ${metodoPagamento} processado! Conta fechada.`);
                 setModalConta(null);
                 setContaParaFechar(null);
                 await carregarComandas(expandedMesa);

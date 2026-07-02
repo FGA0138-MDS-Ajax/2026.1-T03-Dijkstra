@@ -12,7 +12,7 @@ import { Toaster } from 'sonner';
 function App() {
   return (
     <>
-      <Toaster richColors position="top-right" />
+      <Toaster richColors position="top-center" />
       <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />

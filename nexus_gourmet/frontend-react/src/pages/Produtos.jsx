@@ -63,14 +63,14 @@ export default function Produtos() {
             });
 
             if (response.data.success) {
-                toast.success('✅ Produto cadastrado com sucesso!');
+                toast.success('Produto cadastrado com sucesso!');
                 setNome(''); setPreco(''); setCategoria('Bebida'); setPreparationTime(15); setFotoProduto(null);
                 fetchProdutos();
             } else {
                 toast.error(response.data.message || 'Erro ao cadastrar produto.');
             }
         } catch (err) {
-            toast.error('❌ Não foi possível concluir a ação.');
+            toast.error('Não foi possível concluir a ação.');
         } finally {
             setIsSubmitting(false);
         }
@@ -82,7 +82,7 @@ export default function Produtos() {
         try {
             const response = await axios.delete(`http://localhost:5000/api/produtos/deletar/${produtoParaDeletar.id}`, { withCredentials: true });
             if (response.data.success) {
-                toast.success('🗑️ Produto removido com sucesso.');
+                toast.success('Produto removido com sucesso.');
                 fetchProdutos();
                 setProdutoParaDeletar(null);
             } else {
@@ -130,14 +130,14 @@ export default function Produtos() {
             });
 
             if (response.data.success) {
-                toast.success('✏️ Produto atualizado com sucesso!');
+                toast.success('Produto atualizado com sucesso!');
                 setProdutoParaEditar(null);
                 fetchProdutos();
             } else {
                 toast.error(response.data.message || 'Erro ao editar produto.');
             }
         } catch (err) {
-            toast.error('❌ Não foi possível editar o produto.');
+            toast.error('Não foi possível editar o produto.');
         } finally {
             setIsEditing(false);
         }
