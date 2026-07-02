@@ -1,0 +1,1139 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../politica-commits/">
+      
+      
+        <link rel="next" href="../testes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Relatório de Métricas - Nexus Gourmet</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#relatorio-de-metricas" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Nexus Gourmet" class="md-header__button md-logo" aria-label="Nexus Gourmet" data-md-component="logo">
+      
+  <img src="../logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Nexus Gourmet
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Relatório de Métricas
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../vis%C3%A3o/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Documento de Visão
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../arquitetura/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Documento de Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../politica-commits/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Política de Branches e Commits
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Relatório de Métricas
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../testes/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Testes
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Nexus Gourmet" class="md-nav__button md-logo" aria-label="Nexus Gourmet" data-md-component="logo">
+      
+  <img src="../logo.png" alt="logo">
+
+    </a>
+    Nexus Gourmet
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vis%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Visão
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitetura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../politica-commits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Política de Branches e Commits
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relatório de Métricas
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relatório de Métricas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resumo-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resumo Geral
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metricas-detalhadas-gqm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métricas Detalhadas (GQM)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Métricas Detalhadas (GQM)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-validacao-da-sprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Validação da Sprint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-qualidade-de-implementacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Qualidade de Implementação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-obediencia-as-sprints-musts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Obediência às Sprints (Musts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-usabilidade-da-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Usabilidade da Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-utilidade-do-programa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Utilidade do Programa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-recomendacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Recomendação
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualizacao-das-metricas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualização das Métricas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acoes-recomendadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ações Recomendadas
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resumo-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resumo Geral
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metricas-detalhadas-gqm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métricas Detalhadas (GQM)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Métricas Detalhadas (GQM)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-validacao-da-sprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Validação da Sprint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-qualidade-de-implementacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Qualidade de Implementação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-obediencia-as-sprints-musts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Obediência às Sprints (Musts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-usabilidade-da-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Usabilidade da Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-utilidade-do-programa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Utilidade do Programa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-recomendacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Recomendação
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualizacao-das-metricas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualização das Métricas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acoes-recomendadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ações Recomendadas
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="relatorio-de-metricas">Relatório de Métricas</h1>
+<p>Este relatório consolida as métricas de acompanhamento do projeto Nexus Gourmet, baseado no <strong>Goal Question Metrics (GQM)</strong> definido no Documento de Visão (versão 1.4).</p>
+<p>As métricas foram definidas com base em:</p>
+<ol>
+<li><strong>Expectativas dos Stakeholders:</strong> Entrega de testes intermediários e produto funcional.</li>
+<li><strong>Riscos do projeto:</strong> Comunicação da equipe, cumprimento de prazos e qualidade do código.</li>
+</ol>
+<hr />
+<h2 id="resumo-geral">Resumo Geral</h2>
+<table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th>Valor Atual</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Obediência ao período das sprints</td>
+<td>2 sprints com atraso</td>
+<td>Atenção</td>
+</tr>
+<tr>
+<td>Densidade de commits de correção</td>
+<td>22%</td>
+<td>Atenção</td>
+</tr>
+<tr>
+<td>Densidade de prorrogações de musts</td>
+<td>Sprint 7: 16%</td>
+<td>Atenção</td>
+</tr>
+<tr>
+<td>Densidade de feedback negativo</td>
+<td>25%</td>
+<td>Melhorar</td>
+</tr>
+<tr>
+<td>Avaliação de utilidade</td>
+<td>8</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Taxa de recomendação</td>
+<td>100%</td>
+<td>Excelente</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="metricas-detalhadas-gqm">Métricas Detalhadas (GQM)</h2>
+<h3 id="1-validacao-da-sprint">1. Validação da Sprint</h3>
+<p><strong>Objetivo:</strong> Validar taxa de conclusão da sprint<br />
+<strong>Pergunta:</strong> A sprint foi finalizada no período previsto?<br />
+<strong>Métrica:</strong> Obediência ao período das sprints<br />
+<strong>Cálculo:</strong> Número de atraso da entrega de todo o planejado em relação à sprint<br />
+<strong>Escala:</strong> Unitária<br />
+<strong>Valor esperado:</strong> 0<br />
+<strong>Forma de análise:</strong> Implementação de Sprint Reviews e Sprint Meetings</p>
+<p><strong>Resultados:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Sprint 1</th>
+<th>Sprint 2</th>
+<th>Sprint 3</th>
+<th>Sprint 4</th>
+<th>Sprint 5</th>
+<th>Sprint 6</th>
+<th>Sprint 7</th>
+<th>Sprint 8</th>
+<th>Sprint 9</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Análise:</strong> As sprints 7 e 8 apresentaram atraso de 1 período cada.</p>
+</blockquote>
+<hr />
+<h3 id="2-qualidade-de-implementacao">2. Qualidade de Implementação</h3>
+<p><strong>Objetivo:</strong> Validar qualidade de implementação<br />
+<strong>Pergunta:</strong> O software está bem implementado?<br />
+<strong>Métrica:</strong> Densidade de commits de correção de erros<br />
+<strong>Cálculo:</strong> (Total de commits para correção) / (Total de commits) x 100%<br />
+<strong>Escala:</strong> Porcentagem<br />
+<strong>Valor esperado:</strong> 40%<br />
+<strong>Forma de análise:</strong> Realização de testes</p>
+<p><strong>Resultado:</strong> 22%</p>
+<blockquote>
+<p><strong>Análise:</strong> A densidade de commits de correção está abaixo do esperado (22% &lt; 40%). Isso indica que há espaço para melhorar a qualidade do código antes dos commits.</p>
+</blockquote>
+<hr />
+<h3 id="3-obediencia-as-sprints-musts">3. Obediência às Sprints (Musts)</h3>
+<p><strong>Objetivo:</strong> Obediência às sprints<br />
+<strong>Pergunta:</strong> Os sprints estão entregando todos os musts?<br />
+<strong>Métrica:</strong> Densidade de prorrogações de musts<br />
+<strong>Cálculo:</strong> (Quantidade de musts prorrogados) / (Total de Musts da Sprint) x 100%<br />
+<strong>Escala:</strong> Porcentagem<br />
+<strong>Valor esperado:</strong> ≤ 0%<br />
+<strong>Forma de análise:</strong> Realizada em Sprint Reviews e Sprint Meetings</p>
+<p><strong>Resultados:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Sprint 5</th>
+<th>Sprint 6</th>
+<th>Sprint 7</th>
+<th>Sprint 8</th>
+<th>Sprint 9</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0%</td>
+<td>0%</td>
+<td>16%</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Análise:</strong> A Sprint 7 teve 16% de musts prorrogados, o que indica necessidade de melhor planejamento para sprints futuras.</p>
+</blockquote>
+<hr />
+<h3 id="4-usabilidade-da-interface">4. Usabilidade da Interface</h3>
+<p><strong>Objetivo:</strong> Usabilidade da Interface de usuário<br />
+<strong>Pergunta:</strong> A interface é intuitiva e perfeitamente utilizável?<br />
+<strong>Métrica:</strong> Densidade de feedback negativo<br />
+<strong>Cálculo:</strong> (Reports negativos) / (Total de Reports) x 100%<br />
+<strong>Escala:</strong> Porcentagem<br />
+<strong>Valor esperado:</strong> ≤ 2%<br />
+<strong>Forma de análise:</strong> Reuniões de alinhamento de requisitos e avaliação do cliente</p>
+<p><strong>Resultado:</strong> 25%</p>
+<blockquote>
+<p><strong>Análise:</strong> A densidade de feedback negativo está muito acima do esperado (25% &gt; 2%). Isso indica problemas significativos de usabilidade que precisam ser corrigidos.</p>
+</blockquote>
+<hr />
+<h3 id="5-utilidade-do-programa">5. Utilidade do Programa</h3>
+<p><strong>Objetivo:</strong> Verificar usabilidade<br />
+<strong>Pergunta:</strong> O programa é útil?<br />
+<strong>Métrica:</strong> Avaliação de utilidade<br />
+<strong>Cálculo:</strong> Média aritmética de avaliações<br />
+<strong>Escala:</strong> -<br />
+<strong>Valor esperado:</strong> ≥ 8<br />
+<strong>Forma de análise:</strong> Demonstração e Feedback do cliente</p>
+<p><strong>Resultado:</strong> 8</p>
+<blockquote>
+<p><strong>Análise:</strong> A avaliação de utilidade atingiu a nota mínima esperada (8). Os usuários consideram o programa útil.</p>
+</blockquote>
+<hr />
+<h3 id="6-recomendacao">6. Recomendação</h3>
+<p><strong>Objetivo:</strong> Verificar possível recomendação<br />
+<strong>Pergunta:</strong> Recomendaria o software?<br />
+<strong>Métrica:</strong> Nível de recomendação binária (recomendo/não-recomendo)<br />
+<strong>Cálculo:</strong> Taxa de recomendações (%)<br />
+<strong>Escala:</strong> Porcentagem<br />
+<strong>Valor esperado:</strong> ≥ 80%<br />
+<strong>Forma de análise:</strong> Feedback do cliente</p>
+<p><strong>Resultado:</strong> 100%</p>
+<blockquote>
+<p><strong>Análise:</strong> Todos os usuários entrevistados recomendariam o software, o que é um excelente indicador de satisfação.</p>
+</blockquote>
+<hr />
+<h2 id="visualizacao-das-metricas">Visualização das Métricas</h2>
+<table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th>Valor Atual</th>
+<th>Meta</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Obediência ao período das sprints</td>
+<td>2 atrasos</td>
+<td>0</td>
+<td>Atenção</td>
+</tr>
+<tr>
+<td>Densidade de commits de correção</td>
+<td>22%</td>
+<td>≤ 40%</td>
+<td>Atenção</td>
+</tr>
+<tr>
+<td>Densidade de prorrogações de musts (Sprint 7)</td>
+<td>16%</td>
+<td>0%</td>
+<td>Melhorar</td>
+</tr>
+<tr>
+<td>Densidade de feedback negativo</td>
+<td>25%</td>
+<td>≤ 2%</td>
+<td>Melhorar</td>
+</tr>
+<tr>
+<td>Avaliação de utilidade</td>
+<td>8</td>
+<td>≥ 8</td>
+<td>Ok</td>
+</tr>
+<tr>
+<td>Taxa de recomendação</td>
+<td>100%</td>
+<td>≥ 80%</td>
+<td>Ok</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="acoes-recomendadas">Ações Recomendadas</h2>
+<p>Com base nos resultados das métricas, recomenda-se:</p>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th>Ação Sugerida</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Atraso nas Sprints 7 e 8</td>
+<td>Revisar planejamento e estimativas para sprints futuras</td>
+</tr>
+<tr>
+<td>Baixa qualidade de código (22%)</td>
+<td>Aumentar testes automatizados e revisões de código</td>
+</tr>
+<tr>
+<td>Musts prorrogados (16%)</td>
+<td>Priorizar melhor as funcionalidades Must em cada sprint</td>
+</tr>
+<tr>
+<td>Feedback negativo alto (25%)</td>
+<td>Realizar testes de usabilidade com usuários reais</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Última atualização: 01/07/2026</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
