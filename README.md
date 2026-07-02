@@ -43,8 +43,8 @@ A aplicação permite que funcionários registrem pedidos, acompanhem o status d
 </td>
 
 <td align="center">
-<a href="#">
-<img src="https://github.com/identicons/github.png" width="120px" alt="Jhonatan William"/><br>
+<a href="https://github.com/Jhon5tan">
+<img src=https://github.com/Jhon5tan.png?size=120" width="120px" alt="Jhonatan William"/><br>
 <sub><b>Jhonatan William</b></sub><br>
 <sub>Dev - Banco de Dados</sub>
 </a>
