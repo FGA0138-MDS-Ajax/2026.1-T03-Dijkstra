@@ -1,18 +1,14 @@
-<<<<<<< HEAD
-
+import os
+import uuid
 import re
-from models.models import db, User
-from models.enums import Role
-from models.error_message import UserErrorMessages
-from models.sucess_message import UserSuccessMessages
-=======
-from models import db, User
-from enums import Role
->>>>>>> developer
+from flask import current_app
+from werkzeug.utils import secure_filename
+from backend.models.models import db, User
+from backend.models.enums import Role
+from backend.models.error_message import UserErrorMessages
+from backend.models.sucess_message import UserSuccessMessages
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import session
  
-<<<<<<< HEAD
 class UserService:
     def login(self, cpf, senha):
         usuario = self.get_user_by_cpf(cpf)
@@ -28,29 +24,10 @@ class UserService:
             return False, UserErrorMessages.USUARIO_NAO_ENCONTRADO
         
         return True, UserSuccessMessages.LOGOUT_BEM_SUCEDIDO
-=======
- 
-class UsuarioService:
-
-    def login(self, id, senha):
-        usuario = self.get_by_user_id(id)
-        if not usuario:
-            return False, "Usuário não encontrado."
-        if not check_password_hash(usuario.senha, senha):
-            return False, "Senha incorreta."
-        return True, "Login bem-sucedido.", usuario
-    
-    def logout(self, id):
-        usuario = self.get_by_user_id(id)
-        if not usuario:
-            return False, "Usuário não encontrado."
-        return True, "Logout bem-sucedido."
->>>>>>> developer
     
     def listar_usuarios(self):
         return User.query.all()
     
-<<<<<<< HEAD
     def cadastrar_usuario(self, cpf_usuario_logado=None, senha_admin=None, nome=None, cpf_cadastrado=None, senha_cadastrada=None, cargo=None, foto_usuario=None):
         usuario_logado = self.get_user_by_cpf(cpf_usuario_logado)
         if not usuario_logado or usuario_logado.cargo != Role.ADMINISTRADOR:
@@ -117,29 +94,29 @@ class UsuarioService:
         if cargo == Role.ADMINISTRADOR:
             return False, UserErrorMessages.ADMIN_JA_EXISTENTE
         
-        # Validações da foto do usuário
-        foto_usuario = foto_usuario.strip() if isinstance(foto_usuario, str) else foto_usuario
-        
-        if foto_usuario:
+        # Validações e salvamento da foto do usuário
+        foto_url = None
+        if foto_usuario is not None:
             if hasattr(foto_usuario, 'filename') and foto_usuario.filename != '':
-                nome_arquivo = foto_usuario.filename
+                extensao = foto_usuario.filename.rsplit('.', 1)[-1].lower()
+                extensoes_permitidas = {'png', 'jpg', 'jpeg', 'webp'}
                 
-                if '.' in nome_arquivo:
-                    extensao = nome_arquivo.rsplit('.', 1)[1].lower()
-                    extensoes_permitidas = {'png', 'jpg', 'jpeg'}
-                    
-                    if extensao not in extensoes_permitidas:
-                        return False, UserErrorMessages.FOTO_FORMATO_INVALIDO
-                else:
+                if extensao not in extensoes_permitidas:
                     return False, UserErrorMessages.FOTO_FORMATO_INVALIDO
+                
+                novo_nome = f"{uuid.uuid4().hex}.{extensao}"
+                caminho_pasta = os.path.join(current_app.config['UPLOAD_FOLDER'], 'usuarios')
+                caminho = os.path.join(caminho_pasta, novo_nome)
+                foto_usuario.save(caminho)
+                foto_url = f"/static/uploads/usuarios/{novo_nome}"
             
-            elif isinstance(foto_usuario, str):
+            elif isinstance(foto_usuario, str) and foto_usuario.strip():
                 if len(foto_usuario) > 255:
                     return False, UserErrorMessages.FOTO_INVALIDA
+                foto_url = foto_usuario.strip()
 
-  
         senha_hash = generate_password_hash(senha_cadastrada)
-        novo_usuario = User(nome=nome, cpf=cpf_limpo, senha=senha_hash, cargo=cargo, foto_usuario=foto_usuario)
+        novo_usuario = User(nome=nome, cpf=cpf_limpo, senha=senha_hash, cargo=cargo, foto_usuario=foto_url)
 
         try:
             db.session.add(novo_usuario)
@@ -152,23 +129,6 @@ class UsuarioService:
     
     def visualizar_usuario(self, cpf):
         usuario = self.get_user_by_cpf(cpf)
-=======
-    def cadastrar_usuario(self, id, nome, senha, cargo):
-        if self.get_by_user_id(id):
-            return False, "ID de usuário já existe."
-        try:
-            cargo = Role(cargo)
-        except ValueError:
-            return False, f"Cargo inválido: {cargo}."
-        senha_hash = generate_password_hash(senha)
-        novo_usuario = User(id=id, nome=nome, senha=senha_hash, cargo=cargo)
-        db.session.add(novo_usuario)
-        db.session.commit()
-        return True, "Usuário cadastrado com sucesso."
-    
-    def visualizar_usuario(self, id):
-        usuario = self.get_by_user_id(id)
->>>>>>> developer
         if not usuario:
             return None, UserErrorMessages.USUARIO_NAO_ENCONTRADO
 
@@ -181,7 +141,6 @@ class UsuarioService:
 
         return dados_usuario, UserSuccessMessages.USUARIO_ENCONTRADO
  
-<<<<<<< HEAD
     def editar_usuario(self, cpf_usuario_logado, senha_admin, nome=None, cpf_atual=None, cargo=None, senha=None, novo_cpf=None, foto_usuario=None):
         usuario_logado = self.get_user_by_cpf(cpf_usuario_logado)
         if not usuario_logado or usuario_logado.cargo != Role.ADMINISTRADOR:
@@ -214,36 +173,31 @@ class UsuarioService:
             if not self.validar_cpf(cpf_limpo):
                 return False, UserErrorMessages.CPF_INVALIDO
             
-            # Verifica se o novo CPF já pertence a OUTRO usuário no sistema
             usuario_existente = User.query.filter_by(cpf=cpf_limpo).first()
             if usuario_existente and usuario_existente.cpf != usuario.cpf:
                 return False, UserErrorMessages.CPF_DUPLICADO
                 
             usuario.cpf = cpf_limpo
         
-        # Validação e edição da Senha do usuário que está sendo editado
+        # Validação e edição da Senha
         if senha is not None:
             senha = senha.strip()
             if not senha:
                 return False, UserErrorMessages.SENHA_OBRIGATORIA
             if len(senha) < 6 or len(senha) > 20:
                 return False, UserErrorMessages.SENHA_TAMANHO
-            
             if not re.search(r'[A-Z]', senha):           
                 return False, UserErrorMessages.SENHA_LETRA_MAISCUULA
-
             if not re.search(r'[a-z]', senha):           
                 return False, UserErrorMessages.SENHA_LETRA_MINUSCULA
-
             if not re.search(r'[0-9]', senha):           
                 return False, UserErrorMessages.SENHA_NUMERO
-
             if not re.search(r'[!@#$%^&*(),.?":{}|<>]', senha):
                 return False, UserErrorMessages.SENHA_CARACTERE_ESPECIAL
 
             usuario.senha = generate_password_hash(senha)
 
-        # Validação e edição do Cargo (CORRIGIDO)
+        # Validação e edição do Cargo
         if cargo is not None:
             cargo = cargo.strip() if isinstance(cargo, str) else cargo
 
@@ -264,25 +218,23 @@ class UsuarioService:
             
         # Validação e edição da foto do usuário
         if foto_usuario is not None:
-            foto_usuario = foto_usuario.strip() if isinstance(foto_usuario, str) else foto_usuario
-            
-            if foto_usuario:
-                if hasattr(foto_usuario, 'filename') and foto_usuario.filename != '':
-                    nome_arquivo = foto_usuario.filename
-                    
-                    if '.' in nome_arquivo:
-                        extensao = nome_arquivo.rsplit('.', 1)[1].lower()
-                        extensoes_permitidas = {'png', 'jpg', 'jpeg'}
-                        
-                        if extensao not in extensoes_permitidas:
-                            return False, UserErrorMessages.FOTO_FORMATO_INVALIDO
-                    else:
-                        return False, UserErrorMessages.FOTO_FORMATO_INVALIDO
+            if hasattr(foto_usuario, 'filename') and foto_usuario.filename != '':
+                extensao = foto_usuario.filename.rsplit('.', 1)[-1].lower()
+                extensoes_permitidas = {'png', 'jpg', 'jpeg', 'webp'}
                 
-                elif isinstance(foto_usuario, str):
-                    if len(foto_usuario) > 255:
-                        return False, UserErrorMessages.FOTO_INVALIDA  
-            usuario.foto_usuario = foto_usuario
+                if extensao not in extensoes_permitidas:
+                    return False, UserErrorMessages.FOTO_FORMATO_INVALIDO
+                
+                novo_nome = f"{uuid.uuid4().hex}.{extensao}"
+                caminho_pasta = os.path.join(current_app.config['UPLOAD_FOLDER'], 'usuarios')
+                caminho = os.path.join(caminho_pasta, novo_nome)
+                foto_usuario.save(caminho)
+                usuario.foto_usuario = f"/static/uploads/usuarios/{novo_nome}"
+            
+            elif isinstance(foto_usuario, str) and foto_usuario.strip():
+                if len(foto_usuario.strip()) > 255:
+                    return False, UserErrorMessages.FOTO_INVALIDA  
+                usuario.foto_usuario = foto_usuario.strip()
         
         db.session.commit()
         return True, UserSuccessMessages.USUARIO_EDITADO
@@ -305,42 +257,9 @@ class UsuarioService:
             return False, UserErrorMessages.ADMIN_AUTOEXCLUSAO_NAO_PERMITIDA
 
         db.session.delete(usuario_alvo)
-=======
-    def editar_usuario(self, id, nome=None, cargo=None):
-        usuario = self.get_by_user_id(id)
-        if not usuario:
-            return False, "Usuário não encontrado."
-        if nome:
-            usuario.nome = nome
-        if cargo:
-            try:
-                cargo = Role(cargo)
-            except ValueError:
-                return False, f"Cargo inválido: {cargo}."
-            usuario.cargo = cargo
-        db.session.commit()
-        return True, "Usuário editado com sucesso."    
-        
-    def deletar_usuario(self, id):
-        usuario = self.get_by_user_id(id)
-        if not usuario:
-            return False, "Usuário não encontrado."
-        db.session.delete(usuario)
-        db.session.commit()
-        return True, "Usuário excluído com sucesso."
- 
-    def alterar_senha(self, id, senha, nova_senha):
-        usuario = self.get_by_user_id(id)
-        if not usuario:
-            return False, "Usuário não encontrado."
-        if not check_password_hash(usuario.senha, senha):
-            return False, "Senha atual incorreta."
-        usuario.senha = generate_password_hash(nova_senha)
->>>>>>> developer
         db.session.commit()
         return True, UserSuccessMessages.USUARIO_EXCLUIDO
     
-<<<<<<< HEAD
     def validar_cpf(self, cpf: str) -> bool:
         cpf = re.sub(r'[^0-9]', '', cpf) 
 
@@ -364,31 +283,3 @@ class UsuarioService:
         cpf_limpo = re.sub(r'[^0-9]', '', str(cpf)) if cpf else ""
 
         return User.query.filter_by(cpf=cpf_limpo).first()
-=======
-    def mudar_cargo(self, id, cargo):
-        usuario = self.get_by_user_id(id)
-        if not usuario:
-            return False, "Usuário não encontrado."
-        try:
-            cargo = Role(cargo)
-        except ValueError:
-            return False, f"Cargo inválido: {cargo}."
-        usuario.cargo = cargo
-        db.session.commit()
-        return True, "Cargo alterado com sucesso."
-    
-    def transferir_posse(self, id_atual, id_novo):
-        usuario_atual = self.get_by_user_id(id_atual)
-        usuario_novo = self.get_by_user_id(id_novo)
-        if not usuario_atual or not usuario_novo:
-            return False, "Usuário não encontrado."
-        if usuario_atual.cargo != Role.ADMINISTRADOR:
-            return False, "Apenas administradores podem transferir posse."
-        usuario_atual.cargo = Role.USUARIO
-        usuario_novo.cargo = Role.ADMINISTRADOR
-        db.session.commit()
-        return True, "Posse transferida com sucesso."
-    
-    def get_by_user_id(self, id):
-        return User.query.get(id)
->>>>>>> developer

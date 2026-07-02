@@ -10,17 +10,24 @@ from backend.controllers import init_controllers
 
 def create_app():
     """Cria e configura a instância da aplicação Flask como API REST."""
-    app = Flask(__name__)
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    static_dir = os.path.join(base_dir, 'static')
+    
+    # Adicionamos a configuração para servir arquivos estáticos a partir da pasta 'static'
+    app = Flask(__name__, static_folder=static_dir, static_url_path='/static')
     
     # Habilita o CORS permitindo envio de cookies/sessões do React para o Flask
     CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://127.0.0.1:5173"])
 
     # Configurações do Banco de Dados
-    base_dir = os.path.abspath(os.path.dirname(__file__))
-    db_path = os.path.join(base_dir, 'backend', 'instance', 'nexus.db')
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:#Pr0j3to5MD5@127.0.0.1:3306/nexus_db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = 'nexus_super_secret_key_flask'
+    
+    # Configuração de Uploads de Imagens
+    app.config['UPLOAD_FOLDER'] = os.path.join(static_dir, 'uploads')
+    os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], 'usuarios'), exist_ok=True)
+    os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], 'produtos'), exist_ok=True)
 
     db.init_app(app)
 

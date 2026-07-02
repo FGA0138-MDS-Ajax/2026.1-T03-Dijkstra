@@ -1,11 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 
-<<<<<<< HEAD
-from models.enums import Role, TableStatus, ProductCategory, OrderStatus
-=======
-from nexus_gourmet.backend.models.enums import Role, TableStatus, ProductCategory, OrderStatus
->>>>>>> developer
+
+from backend.models.enums import Role, TableStatus, ProductCategory, OrderStatus
+
 
 db = SQLAlchemy()
 
@@ -69,22 +67,12 @@ class Order(db.Model):
     __tablename__ = 'orders'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-<<<<<<< HEAD
     numero_diario = db.Column(db.Integer, nullable=False)
     data_criacao = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     entrada_cozinha = db.Column(db.DateTime)
     saida_cozinha = db.Column(db.DateTime, nullable=True)
     status = db.Column(db.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDENTE)
     itens = db.relationship('ProductOrdered', backref='order', lazy=True, cascade="all, delete-orphan")
-=======
-    data_hora_abertura = db.Column(db.DateTime, default=datetime.utcnow)
-    status = db.Column(db.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDENTE)
-
-    mesa_id = db.Column(db.Integer, db.ForeignKey('tables.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-
-    itens = db.relationship('ItemOrdered', backref='order', lazy=True, cascade="all, delete-orphan")
->>>>>>> developer
 
     numero_mesa = db.Column(db.Integer, db.ForeignKey('tables.numero'), nullable=False)
     user_cpf = db.Column(db.String(11), db.ForeignKey('users.cpf'), nullable=False)

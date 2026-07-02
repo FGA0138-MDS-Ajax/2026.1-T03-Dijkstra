@@ -1,25 +1,16 @@
-<<<<<<< HEAD
 from datetime import datetime, time, timezone
-from models.models import db, Order, ProductOrdered, User, Table, Product
-from models.enums import Role, OrderStatus, TableStatus
-from models.error_message import UserErrorMessages, OrderErrorMessages, TableErrorMessages
-from models.sucess_message import OrderSuccessMessages
-=======
-from models import db, Order, ItemOrdered, Table
-from enums import Role, OrderStatus, TableStatus
-from services.mesa_service import MesaService
-
->>>>>>> developer
+from backend.models.models import db, Order, ProductOrdered, User, Table, Product
+from backend.models.enums import Role, OrderStatus, TableStatus
+from backend.models.error_message import UserErrorMessages, OrderErrorMessages, TableErrorMessages
+from backend.models.sucess_message import OrderSuccessMessages
 
 FLUXO = {
     OrderStatus.PENDENTE:   [OrderStatus.EM_PREPARO, OrderStatus.CANCELADO],
-    # Permite voltar de PREPARO para PENDENTE:
-    OrderStatus.EM_PREPARO: [OrderStatus.PRONTO, OrderStatus.PENDENTE, OrderStatus.CANCELADO], 
-    # Permite voltar de PRONTO para PREPARO:
+    # Adicionado OrderStatus.EM_PREPARO para permitir reenvios:
+    OrderStatus.EM_PREPARO: [OrderStatus.PRONTO, OrderStatus.PENDENTE, OrderStatus.CANCELADO, OrderStatus.EM_PREPARO], 
     OrderStatus.PRONTO:     [OrderStatus.ENTREGUE, OrderStatus.EM_PREPARO],
-    # Permite voltar de ENTREGUE para PRONTO:
-    OrderStatus.ENTREGUE:   [OrderStatus.PRONTO],
-    # Status finais onde o fluxo morre (não tem volta):
+    # Adicionado OrderStatus.EM_PREPARO para novos pedidos após entregas:
+    OrderStatus.ENTREGUE:   [OrderStatus.PRONTO, OrderStatus.EM_PREPARO],
     OrderStatus.FINALIZADO: [], 
     OrderStatus.CANCELADO:  [],
 }
@@ -35,12 +26,12 @@ PERMISSOES = {
     OrderStatus.CANCELADO:  [Role.ADMINISTRADOR, Role.GARCOM],
 }
 
-
 class OrderService:
+    def __init__(self, table_service):
+        self.table_service = table_service
 
     def listar_todas_comandas(self):
         comandas = Order.query.all()
-<<<<<<< HEAD
         return [self._formatar_comanda(comanda) for comanda in comandas]
 
     def listar_comandas_por_status(self, status_alvo):
@@ -73,11 +64,18 @@ class OrderService:
         }
     
     def abrir_comanda(self, numero_mesa, user_cpf):
-        ultima_comanda_geral = Order.query.order_by(Order.id.desc()).first()
-        proximo_numero = (ultima_comanda_geral.numero_diario + 1) if ultima_comanda_geral else 1
+        # CORREÇÃO: Busca apenas as comandas abertas HOJE para que o número reinicie amanhã
+        hoje = datetime.now(timezone.utc).replace(tzinfo=None).date()
+        inicio_do_dia = datetime.combine(hoje, time.min)
+        
+        ultima_comanda_hoje = Order.query.filter(
+            Order.data_criacao >= inicio_do_dia
+        ).order_by(Order.id.desc()).first()
+
+        proximo_numero = (ultima_comanda_hoje.numero_diario + 1) if ultima_comanda_hoje else 1
 
         user = db.session.get(User, user_cpf)
-        if not user or user.cargo != Role.GARCOM:
+        if not user or user.cargo not in [Role.GARCOM, Role.ADMINISTRADOR]:
             return None, OrderErrorMessages.SEM_PERMISSAO
             
         mesa = self.table_service.get_table_by_number(numero_mesa)
@@ -91,37 +89,6 @@ class OrderService:
             status=OrderStatus.PENDENTE,
             entrada_cozinha=None 
         )
-=======
-        return [
-            {
-                'id': comanda.id,
-                'status': comanda.status_pedido.value if comanda.status_pedido else None,
-                'mesa': {
-                    'id': comanda.mesa.id if comanda.mesa else None,
-                    'numero': comanda.mesa.numero if comanda.mesa else None,
-                    'status': comanda.mesa.status.value if comanda.mesa and comanda.mesa.status else None,
-                },
-                'itens': [
-                    {
-                        'id': item.id,
-                        'produto': item.produto.nome if item.produto else None,
-                        'quantidade': item.quantidade,
-                        'observacao': item.observacao,
-                    }
-                    for item in comanda.itens
-                ],
-            }
-            for comanda in comandas
-        ]
-
-    def abrir_comanda(self, mesa_id):
-        mesa = Table.query.get(mesa_id)
-        if not mesa:
-            return None, "Mesa não encontrada."
-        if mesa.status != TableStatus.LIVRE:
-            return None, f"Mesa {mesa.numero} não está livre."
-        nova_comanda = Order(mesa_id=mesa_id, status_pedido=OrderStatus.PENDENTE)
->>>>>>> developer
         db.session.add(nova_comanda)
         mesa.status = TableStatus.OCUPADA
         db.session.commit()
@@ -129,13 +96,12 @@ class OrderService:
         return nova_comanda.id, OrderSuccessMessages.COMANDA_ABERTA
 
     def visualizar_comanda(self, order_id):
-        comanda = self.get_by_order_id(order_id)
+        comanda = self.get_order_by_id(order_id)
         if not comanda:
             return None, OrderErrorMessages.COMANDA_NAO_ENCONTRADA
         return comanda
 
     def adicionar_item(self, order_id, product_id, quantidade, observacao, user):
-<<<<<<< HEAD
         if user.cargo != Role.GARCOM:
             return False, OrderErrorMessages.SEM_PERMISSAO
         pedido = self.get_order_by_id(order_id)
@@ -143,21 +109,11 @@ class OrderService:
             return False, OrderErrorMessages.COMANDA_NAO_ENCONTRADA
         if pedido.status == OrderStatus.CANCELADO:
             return False, OrderErrorMessages.COMANDA_JA_CANCELADA
-=======
-        if user.cargo not in [Role.GARCOM, Role.ADMINISTRADOR]:
-            return False, "Sem permissão para adicionar itens."
-        pedido = self.get_by_order_id(order_id)
-        if not pedido:
-            return False, "Pedido não encontrado."
-        if pedido.status_pedido != OrderStatus.PENDENTE:
-            return False, "Só é possível adicionar itens em pedidos com status Pendente."
->>>>>>> developer
         try:
             quantidade = int(quantidade)
         except (TypeError, ValueError):
             return False, OrderErrorMessages.QUANTIDADE_INVALIDA
         if quantidade <= 0:
-<<<<<<< HEAD
             return False, OrderErrorMessages.QUANTIDADE_MINIMA
         
         produto = db.session.get(Product, product_id)
@@ -165,11 +121,6 @@ class OrderService:
             return False, "Produto não encontrado."
         
         item = ProductOrdered(
-=======
-            return False, "Quantidade deve ser maior que zero."
-
-        item = ItemOrdered(
->>>>>>> developer
             order_id=order_id,
             product_id=product_id,
             quantidade=quantidade,
@@ -180,20 +131,40 @@ class OrderService:
         db.session.commit()
         return True, OrderSuccessMessages.ITEM_ADICIONADO
     
-<<<<<<< HEAD
     def editar_comanda(self, order_id, itens, user, cancelar=False):
         if user.cargo != Role.GARCOM:
             return False, OrderErrorMessages.SEM_PERMISSAO
-        
+            
         pedido = self.get_order_by_id(order_id)
         if not pedido:
             return False, OrderErrorMessages.COMANDA_NAO_ENCONTRADA
-        
+            
         if cancelar:
             if pedido.status not in [OrderStatus.PENDENTE, OrderStatus.EM_PREPARO]:
                 return False, OrderErrorMessages.COMANDA_NAO_PODE_SER_CANCELADA
+            
             pedido.status = OrderStatus.CANCELADO
             db.session.commit()
+            
+            # --- INÍCIO DA CORREÇÃO ---
+            # Verifica se era a última comanda da mesa. Se sim, libera a mesa.
+            mesa = self.table_service.get_table_by_number(pedido.numero_mesa)
+            if mesa:
+                comandas_ativas = Order.query.filter(
+                    Order.numero_mesa == mesa.numero,
+                    Order.status.in_([
+                        OrderStatus.PENDENTE, 
+                        OrderStatus.EM_PREPARO, 
+                        OrderStatus.PRONTO, 
+                        OrderStatus.ENTREGUE
+                    ])
+                ).count()
+                
+                if comandas_ativas == 0:
+                    mesa.status = TableStatus.LIVRE
+                    db.session.commit()
+            # --- FIM DA CORREÇÃO ---
+            
             return True, OrderSuccessMessages.COMANDA_CANCELADA
 
         if pedido.status == OrderStatus.CANCELADO:
@@ -205,32 +176,9 @@ class OrderService:
             
             try: 
                 quantidade = int(item_data.get('quantidade', 0))
-=======
-    def editar_comanda(self, order_id, itens, user):
-        if user.cargo not in [Role.GARCOM, Role.ADMINISTRADOR]:
-            return False, "Sem permissão para editar a comanda."
-        pedido = self.get_by_order_id(order_id)
-        if not pedido:
-            return False, "Pedido não encontrado."
-        if pedido.status_pedido != OrderStatus.PENDENTE:
-            return False, "Só é possível editar itens em pedidos com status Pendente."
-
-        for item_data in itens:
-            item_id = item_data.get('id')
-            item = ItemOrdered.query.get(item_id)
-            if not item or item.order_id != order_id:
-                continue  
-            try:
-                quantidade = int(item_data.get('quantidade', item.quantidade))
->>>>>>> developer
             except (TypeError, ValueError):
-                continue  
-            if quantidade <= 0:
-                continue  
-            item.quantidade = quantidade
-            item.observacao = item_data.get('observacao', item.observacao)
+                continue
 
-<<<<<<< HEAD
             if item_id:
                 if pedido.status != OrderStatus.PENDENTE:
                     continue 
@@ -267,59 +215,55 @@ class OrderService:
         if not pedido.itens:
             return False, OrderErrorMessages.COMANDA_SEM_ITENS
         
-        sucesso, mensagem = self.alterar_status(order_id, OrderStatus.EM_PREPARO, user)
+        # CORREÇÃO AQUI: Enviamos .value para evitar conflito de tipo ValueError no Python
+        sucesso, mensagem = self.alterar_status(order_id, OrderStatus.EM_PREPARO.value, user)
         if sucesso:
             return True, OrderSuccessMessages.COMANDA_ENVIADA
         
         return False, mensagem
-=======
-        db.session.commit()
-        return True, "Comanda editada com sucesso."
-    
-    def enviar_comanda(self, order_id):
-        pedido = self.get_by_order_id(order_id)
-        if not pedido:
-            return False, "Pedido não encontrado."
-        if pedido.status_pedido != OrderStatus.PENDENTE:
-            return False
-        if not pedido.itens:
-            return False, "Não é possível enviar um pedido sem itens."
-
-        pedido.status_pedido = OrderStatus.EM_PREPARO
-        db.session.commit()
-        return True, "Comanda enviada para a cozinha."
->>>>>>> developer
     
     def alterar_status(self, order_id, status, user):
-        comanda = self.get_by_order_id(order_id)
+        comanda = self.get_order_by_id(order_id)
         if not comanda:
             return False, OrderErrorMessages.COMANDA_NAO_ENCONTRADA
+            
         try:
-            novo_status = OrderStatus(status)
+            if isinstance(status, OrderStatus):
+                novo_status = status
+            else:
+                novo_status = OrderStatus(status)
         except ValueError:
             return False, f"Status inválido: {status}."
-<<<<<<< HEAD
             
         status_atual = comanda.status
-=======
-        status_atual = comanda.status_pedido
->>>>>>> developer
+        if isinstance(status_atual, str):
+            try:
+                status_atual = OrderStatus(status_atual)
+            except ValueError:
+                pass
+                
         if novo_status not in FLUXO.get(status_atual, []):
-            return False, f"Transição inválida: {status_atual.value} → {novo_status.value}."
-        
+            valor_atual = status_atual.value if hasattr(status_atual, 'value') else status_atual
+            return False, f"Transição inválida: {valor_atual} → {novo_status.value}."
+            
         if user.cargo not in PERMISSOES[novo_status]:
             return False, f"Perfil '{user.cargo.value}' não pode definir status '{novo_status.value}'."
-        
+            
         if status_atual == OrderStatus.PENDENTE and not comanda.itens:
             return False, OrderErrorMessages.COMANDA_SEM_ITENS
 
         agora = datetime.now(timezone.utc).replace(tzinfo=None)
         
         if novo_status == OrderStatus.EM_PREPARO:
-            comanda.entrada_cozinha = agora
+            tem_novo_item = False
             for item in comanda.itens:
                 if item.cozinha_status == 'PENDENTE':
                     item.cozinha_status = 'PREPARANDO'
+                    tem_novo_item = True
+            
+            # CORREÇÃO: Reseta o cronômetro se o garçom estiver mandando itens novos agora
+            if tem_novo_item or not comanda.entrada_cozinha:
+                comanda.entrada_cozinha = agora
 
         if novo_status == OrderStatus.PRONTO:
             comanda.saida_cozinha = agora
@@ -327,14 +271,13 @@ class OrderService:
                 if item.cozinha_status == 'PREPARANDO':
                     item.cozinha_status = 'PRONTO'
 
-        comanda.status_pedido = novo_status
+        comanda.status = novo_status
         db.session.commit()
         return True, f"Status updated para {novo_status.value}."
 
     def calcular_total(self, order_id):
-        comanda = self.get_by_order_id(order_id)
+        comanda = self.get_order_by_id(order_id)
         if not comanda:
-<<<<<<< HEAD
             return 0.0
         return round(float(sum(i.product.preco * i.quantidade for i in comanda.itens if i.product)), 2)
     
@@ -349,54 +292,21 @@ class OrderService:
         subtotal = 0.0
         
         for item in comanda.itens:
-            valor_item = float(item.preco_vendido) * item.quantidade # <--- AQUI
+            valor_item = float(item.preco_vendido) * item.quantidade 
             subtotal += valor_item
             itens_detalhados.append({
                 'produto': item.product.nome if item.product else 'Produto Removido',
                 'quantidade': item.quantidade,
-                'preco_unitario': float(item.preco_vendido), # <--- E AQUI
+                'preco_unitario': float(item.preco_vendido), 
                 'subtotal_item': round(valor_item, 2),
                 'observacao': item.observacao or ''
             })
-=======
-            return None, "Pedido não encontrado."
-        total = round(float(sum(i.produto.preco * i.quantidade for i in comanda.itens)), 2)
-        return total
-    
-    def gerar_conta(self, mesa_id):
-        mesa = self.get_by_table_number(mesa_id)
-        if not mesa:
-            return None, "Mesa não encontrada."
-
-        pedidos_entregues = [
-            p for p in mesa.pedidos
-            if p.status_pedido == OrderStatus.ENTREGUE
-        ]
-        if not pedidos_entregues:
-            return None, "Nenhum pedido entregue nesta mesa."
-
-        itens_detalhados = []
-        subtotal = 0.0
-        for pedido in pedidos_entregues:
-            for item in pedido.itens:
-                valor_item = float(item.produto.preco) * item.quantidade
-                subtotal += valor_item
-                itens_detalhados.append({
-                    'produto': item.produto.nome,
-                    'quantidade': item.quantidade,
-                    'preco_unitario': float(item.produto.preco),
-                    'subtotal_item': round(valor_item, 2),
-                    'observacao': item.observacao or ''
-                })
-
->>>>>>> developer
         conta = {
             'comanda_id': comanda.id,
             'mesa': comanda.numero_mesa,
             'itens': itens_detalhados,
             'total': round(subtotal, 2)
         }
-<<<<<<< HEAD
         return conta, OrderSuccessMessages.CONTA_GERADA
 
     def fechar_comanda(self, order_id, user):
@@ -412,23 +322,6 @@ class OrderService:
 
         conta, mensagem_conta = self.gerar_conta(comanda)
         if conta is None and comanda.status != OrderStatus.CANCELADO:
-=======
-        return conta, "Conta gerada."
-    
-    def fechar_comanda(self, order_id):
-        comanda = self.get_by_order_id(order_id)
-        if not comanda:
-            return False, "Pedido não encontrado."
-        if comanda.status_pedido != OrderStatus.ENTREGUE:
-            return False, "Só é possível fechar uma comanda com status Entregue."
-
-        total = self.calcular_total(order_id)
-        if isinstance(total, tuple):
-            return False, total[1]
-
-        conta, mensagem_conta = self.gerar_conta(comanda.mesa_id)
-        if conta is None:
->>>>>>> developer
             return False, mensagem_conta
 
         if comanda.status == OrderStatus.CANCELADO:
@@ -437,7 +330,6 @@ class OrderService:
         comanda.status = OrderStatus.FINALIZADO
         db.session.commit()
 
-<<<<<<< HEAD
         mesa = self.table_service.get_table_by_number(comanda.numero_mesa)
         if mesa:
             comandas_ativas = Order.query.filter(
@@ -460,7 +352,7 @@ class OrderService:
         hoje = datetime.now(timezone.utc).replace(tzinfo=None).date()
         inicio_do_dia = datetime.combine(hoje, time.min)
         fim_do_dia = datetime.combine(hoje, time.max)
-
+        
         comandas = Order.query.filter(
             Order.data_criacao >= inicio_do_dia,
             Order.data_criacao <= fim_do_dia
@@ -470,10 +362,15 @@ class OrderService:
         comandas_validas = [c for c in comandas if c.status != OrderStatus.CANCELADO]
         
         total_comandas = len(comandas)
-        total_itens = sum(len(c.itens) for c in comandas_validas)
         
+        # CORREÇÃO: Conta itens apenas se foram efetivamente enviados para a cozinha (não PENDENTE)
+        total_itens = sum(
+            1 for c in comandas_validas for i in c.itens if i.cozinha_status != 'PENDENTE'
+        )
+        
+        # CORREÇÃO: Faturamento soma apenas de comandas que já foram FINALIZADAS (Pagas)
         total_faturamento = round(
-            float(sum(i.preco_vendido * i.quantidade for c in comandas_validas for i in c.itens if i.product)), 
+            float(sum(i.preco_vendido * i.quantidade for c in comandas if c.status == OrderStatus.FINALIZADO for i in c.itens if i.product)), 
             2
         )
         
@@ -504,20 +401,9 @@ class OrderService:
         if numero_mesa is not None:
             query = query.filter(Order.numero_mesa == numero_mesa)
         return query.count()
-=======
-        mesa = Table.query.get(comanda.mesa_id)
-        if mesa:
-            mesa.status = TableStatus.LIVRE
-        db.session.commit()
-        return True, {"mensagem": "Comanda fechada e mesa liberada.", "conta": conta}
-    
-    def get_by_order_id(self, order_id):
-        return Order.query.get(order_id)
-    
-    def open_order_counter(self):
-        return Order.query.count()
->>>>>>> developer
 
     def order_per_table(self):
-        mesas = MesaService().listar_mesas()
-        return {mesa['numero']: len(mesa['pedidos']) for mesa in mesas}
+        mesas = Table.query.all()
+        return {mesa.numero: self.open_order_counter(mesa.numero) for mesa in mesas}
+
+    

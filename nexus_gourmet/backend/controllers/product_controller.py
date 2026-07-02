@@ -1,13 +1,6 @@
 from flask import request, session
 from .base_controller import BaseController
-<<<<<<< HEAD
 from models.enums import Role
-=======
-from models import Usuario, Product
-from enums import PerfilUsuario
-from services.product_service import ProductService
-from services.user_service import UserService
->>>>>>> developer
 
 class ProductController(BaseController):
     def __init__(self, app, user_service, product_service):
@@ -41,7 +34,8 @@ class ProductController(BaseController):
                 "nome": p.nome, 
                 "categoria": p.categoria.value, 
                 "preco": p.preco, 
-                "tempo_preparacao": p.tempo_preparacao
+                "tempo_preparacao": p.tempo_preparacao,
+                "foto_produto": p.foto_prato
             } for p in produtos
         ]
         return self.json_response(True, data=dados_produtos)
@@ -58,7 +52,8 @@ class ProductController(BaseController):
                 "nome": p.nome, 
                 "categoria": p.categoria.value, 
                 "preco": p.preco, 
-                "tempo_preparacao": p.tempo_preparacao
+                "tempo_preparacao": p.tempo_preparacao,
+                "foto_produto": p.foto_prato
             } for p in produtos
         ]
         return self.json_response(True, data=dados_produtos)
@@ -68,33 +63,47 @@ class ProductController(BaseController):
         if not usuario or usuario.cargo != Role.ADMINISTRADOR:
             return self.json_response(False, "Acesso negado", status=403)
         
-        dados = request.json or {}
+        foto = None
+        if request.files or request.form:
+            dados = request.form
+            foto = request.files.get('foto_produto')
+        else:
+            dados = request.json or {}
+
         success, message = self.product_service.cadastrar_produto(
             dados.get('nome'), 
             dados.get('categoria'), 
             dados.get('preco'),
             dados.get('tempo_preparacao', 15),
+            foto_produto=foto or dados.get('foto_produto'),
             user_role=usuario.cargo
         )
         return self.json_response(success, message, status=200 if success else 400)
 
-    def editar_produto(self):
+    def editar_produto(self, product_id):
         usuario = self._get_usuario_logado()
         if not usuario or usuario.cargo != Role.ADMINISTRADOR:
             return self.json_response(False, "Acesso negado", status=403)
         
-        dados = request.json or {}
+        foto = None
+        if request.files or request.form:
+            dados = request.form
+            foto = request.files.get('foto_produto')
+        else:
+            dados = request.json or {}
+
         success, message = self.product_service.editar_produto(
             product_id, 
             dados.get('nome'), 
             dados.get('categoria'), 
             dados.get('preco'),
             dados.get('tempo_preparacao', 15),
+            foto_produto=foto or dados.get('foto_produto'),
             user_role=usuario.cargo
         )
         return self.json_response(success, message, status=200 if success else 400)
 
-    def deletar_produto(self, produto_id):
+    def deletar_produto(self, product_id):
         usuario = self._get_usuario_logado()
         if not usuario or usuario.cargo != Role.ADMINISTRADOR:
             return self.json_response(False, "Acesso negado", status=403)

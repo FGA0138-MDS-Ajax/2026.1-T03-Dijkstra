@@ -1,8 +1,8 @@
-from models.models import db, Table
-from models.enums import Role, TableStatus, OrderStatus
-from models.sucess_message import TableSuccessMessages
-from models.error_message import UserErrorMessages, TableErrorMessages
-from services.user_service import UserService 
+from backend.models.models import db, Table
+from backend.models.enums import Role, TableStatus, OrderStatus
+from backend.models.sucess_message import TableSuccessMessages
+from backend.models.error_message import UserErrorMessages, TableErrorMessages
+from backend.services.user_service import UserService 
 
 class TableService:
     def criar_mesa(self, cpf_usuario_logado, capacidade):

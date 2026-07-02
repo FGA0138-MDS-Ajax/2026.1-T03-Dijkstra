@@ -1,0 +1,1071 @@
+/* admin.css — Nexus Gourmet Admin, estilo Site2 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg-dark:      #0d0d0f;
+    --card-bg:      #1a1a1d;
+    --card-hover:   #202024;
+    --border-color: #2a2a2e;
+    --primary-red:  #cc0000;
+    --red-dark:     #8b0000;
+    --text-light:   #ffffff;
+    --text-muted:   #9a9a9e;
+    --text-dim:     #cccccc;
+    --input-bg:     #131316;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Raleway', sans-serif;
+    min-height: 100vh;
+}
+
+/* =========================================
+   ── NAVBAR (Cabeçalho) ── 
+   ========================================= */
+.navbar {
+    background: #0a0a0c; /* Escuro profundo, conectando com a tela de login */
+    border-bottom: 1px solid #2a2a2e; /* Linha de separação muito sutil */
+    padding: 0 32px;
+    height: 72px; /* Um pouco mais de respiro vertical */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.logo {
+    font-weight: 900;
+    letter-spacing: 4px;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+/* --- ESTILO DOS BOTÕES DA NAVBAR --- */
+.navbar-links {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.navbar-links a, 
+.navbar-links button.logout {
+    padding: 10px 20px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #9a9a9e; /* Cinza claro elegante em repouso */
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    border-radius: 12px; /* Curvatura moderna, combina com os inputs */
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animação super suave */
+}
+
+/* Efeito ao passar o mouse (Hover) */
+.navbar-links a:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08); /* Fundo translúcido sutil */
+    transform: translateY(-2px); /* Botão "levanta" levemente */
+}
+
+/* Estado ativo (Caso a página seja a atual) */
+.navbar-links a.active {
+    color: #ffffff;
+    background: rgba(204, 0, 0, 0.15); /* Fundo avermelhado de destaque */
+    border: 1px solid rgba(204, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(204, 0, 0, 0.2);
+}
+
+/* --- BOTÃO DE SAIR (Destacado) --- */
+.navbar-links button.logout {
+    color: #ff6666; /* Tom avermelhado para indicar ação crítica */
+    background: rgba(204, 0, 0, 0.08);
+    border: 1px solid rgba(204, 0, 0, 0.15);
+    margin-left: 16px; /* Separa dos links de navegação */
+}
+
+/* Hover do botão de Sair */
+.navbar-links button.logout:hover {
+    background: #cc0000;
+    color: #ffffff;
+    border-color: #cc0000;
+    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.35);
+    transform: translateY(-2px);
+}
+
+/* ── NAV TABS ── */
+.nav-tabs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #0a0a0a; 
+    padding: 8px;
+    border-radius: 16px;
+    width: 90%; 
+    margin: 24px auto 32px auto; /* Centraliza horizontalmente e dá espaço */
+    border: 1px solid #222;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.4);
+    gap: 8px;
+}
+
+/* Estilo dos Botões/Links Inativos */
+.nav-tabs a,
+.nav-tabs button {
+    background: transparent;
+    color: #888888;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Efeito ao passar o mouse em botões inativos */
+.nav-tabs a:hover,
+.nav-tabs button:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Estilo da Aba Ativa (Brilhante e Vibrante) */
+.nav-tabs a.active,
+.nav-tabs button.active {
+    background: linear-gradient(90deg, #cc0000, #ff3333);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.4);
+    border: none;
+}
+
+/* ── CONTAINER ── */
+/* ── CONTAINER ── */
+.content-container {
+    padding: 32px;
+    margin: 0 auto; /* Centraliza o bloco na tela */
+    width: 100%;
+    max-width: 1300px; /* <-- ADICIONE ISSO: Limite confortável para telas grandes */
+    text-align: left;
+}
+
+/* ── PAGE TITLE ── */
+.page-title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+/* ── CARDS ── */
+.card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+/* ── GRID DE CARDS (mesas / usuários) ── */
+.grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.grid-cards .card {
+    margin-bottom: 0;
+    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.grid-cards .card:hover {
+    border-color: var(--primary-red);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(200,0,0,0.18);
+}
+
+.grid-cards .card h3 {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.grid-cards .card p {
+    font-family: 'Rubik', sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: #2a0000;
+    color: #ff6666;
+    margin-bottom: 12px;
+}
+
+/* ── FORMULÁRIOS ── */
+.form-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+select {
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-family: 'Rubik', sans-serif;
+    font-size: 13px;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+select:focus {
+    border-color: var(--primary-red);
+}
+
+input::placeholder { color: #555; }
+
+select option { background: #1c1c1c; }
+
+/* ── BOTÕES ── */
+button, .btn {
+    background: linear-gradient(90deg, var(--red-dark), var(--primary-red));
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: opacity 0.2s, transform 0.1s;
+    white-space: nowrap;
+}
+
+button:hover { opacity: 0.85; transform: scale(1.02); }
+button:active { transform: scale(0.97); }
+
+button.danger {
+    background: linear-gradient(90deg, #4a0000, #8b0000);
+}
+
+button.danger:hover { opacity: 0.85; }
+
+/* ── TABELA ── */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Rubik', sans-serif;
+}
+
+thead tr {
+    border-bottom: 2px solid var(--border-color);
+}
+
+thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+tbody tr {
+    border-bottom: 1px solid #2a2a2a;
+    transition: background 0.15s;
+}
+
+tbody tr:hover { background: var(--card-hover); }
+tbody tr:last-child { border-bottom: none; }
+
+tbody td {
+    padding: 14px;
+    font-size: 13px;
+    color: var(--text-dim);
+}
+
+.price-cell {
+    color: var(--primary-red);
+    font-weight: 700;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background: #440000; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #880000; }
+
+
+/* ==========================================================================
+   ── LAYOUT PDV (SALÃO) ── 
+   ========================================================================== */
+.pdv-container {
+    display: flex;
+    height: calc(100vh - 72px); /* Desconta o tamanho da navbar */
+    overflow: hidden;
+    text-align: left; 
+    
+    /* HACK FULL-BLEED: Força a div a ignorar o max-width e usar 100% da tela */
+    width: 100vw;
+    margin-top: -32px;
+    margin-bottom: -32px;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+}
+
+.left-sidebar {
+    width: 260px;
+    background: var(--card-bg);
+    border-right: 2px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.left-sidebar-header {
+    background: var(--input-bg);
+    padding: 12px 10px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #a3a3a3;
+    border-bottom: 1px solid #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    z-index: 2;
+}
+
+.mesas-list {
+    list-style: none;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.mesa-item {
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.mesa-btn {
+    width: 100%;
+    padding: 16px;
+    background: none;
+    border: none;
+    color: #ccc;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.mesa-btn:hover { background: var(--card-hover); color: #fff; }
+.mesa-btn.active { background: linear-gradient(90deg, #8b0000, #cc0000); color: #fff; }
+
+.pedidos-panel {
+    background: #111;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+}
+.pedidos-panel.open { 
+    max-height: 2000px; 
+}
+.pedidos-inner { padding: 10px; }
+
+.pedido-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid #222;
+}
+
+.menu-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-dark);
+}
+
+/* Estado vazio da área de comanda — antes era estilo inline no JSX,
+   agora vira classe pra poder ser controlada pela media query mobile */
+.menu-empty-state {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #666;
+    text-align: center;
+    padding: 24px;
+}
+
+.menu-empty-state__icon {
+    font-size: 40px;
+    opacity: 0.5;
+}
+
+.menu-empty-state__text {
+    margin-top: 10px;
+    font-size: 13px;
+    max-width: 260px;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.product-card {
+    background: linear-gradient(145deg, #1a1a1a, #111111);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #333;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.5), inset 1px 1px 2px rgba(255,255,255,0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: #cc0000;
+    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.25);
+}
+
+.product-card .product-name {
+    color: #fff;
+    font-weight: 800;
+    font-size: 14px;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+}
+
+.product-card .product-price {
+    color: #ff6666;
+    font-weight: 900;
+    font-size: 13px;
+    background: rgba(204, 0, 0, 0.1);
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(204,0,0,0.2);
+}
+
+
+
+/* Ocultar as setinhas nos navegadores Chrome, Safari, Edge e Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Ocultar as setinhas no Firefox e centralizar o texto */
+input[type="number"] {
+    -moz-appearance: textfield;
+    text-align: center; /* Deixa o número centralizado, dando um visual mais limpo */
+}
+
+/* ==========================================================================
+   FORMULÁRIO MODERNO DE ADICIONAR MESAS
+   ========================================================================== */
+
+.add-table-form {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(28, 28, 28, 0.4);
+}
+
+.table-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-label-hint {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    padding-left: 4px;
+}
+
+/* Container do seletor numérico */
+.modern-number-input {
+    display: flex;
+    align-items: center;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modern-number-input:focus-within {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.2);
+}
+
+/* Inputs internos */
+.modern-number-input input[type="number"] {
+    flex: 1;
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    padding: 10px 0 !important;
+    text-align: center;
+}
+
+/* Botões de + e - estilo premium */
+.modern-number-input .spin-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: none;
+    color: var(--text-dim);
+    font-size: 16px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+.modern-number-input .spin-btn:hover {
+    background: rgba(204, 0, 0, 0.1);
+    color: var(--primary-red);
+}
+
+.modern-number-input .spin-btn:active {
+    background: rgba(204, 0, 0, 0.2);
+}
+
+/* Botão de Criação de Mesa Centralizado/Destacado */
+.btn-create-table {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--red-dark) 100%) !important;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.2);
+    border-radius: 10px !important;
+    padding: 12px 20px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 2px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease !important;
+}
+
+.btn-create-table:hover {
+    opacity: 1 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(204, 0, 0, 0.35);
+}
+
+.btn-create-table:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px rgba(204, 0, 0, 0.2);
+}
+
+/* Container de edição da mesa */
+.edit-table-form {
+    padding: 12px;
+    background: #111;
+    border-top: 1px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.edit-table-form label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.edit-table-form button.save-btn {
+    background: linear-gradient(90deg, #008b00, #00cc66);
+    padding: 8px 16px;
+    margin: 0;
+}
+
+/* ==========================================
+   INPUTS E SELECTS MODERNOS (Formulários)
+   ========================================== */
+
+/* Estilo padrão dos campos */
+.card form input,
+.card form select,
+.form-row input,
+.form-row select {
+    background: var(--input-bg); /* Fundo neutro e profundo */
+    border: 1px solid var(--border-color);
+    color: #ffffff;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); /* Sombra interna para dar profundidade */
+}
+
+/* Efeito ao clicar/focar no campo */
+.card form input:focus,
+.card form select:focus,
+.form-row input:focus,
+.form-row select:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.15), inset 0 2px 4px rgba(0,0,0,0.5);
+    background: var(--card-hover); /* Fundo neutro, o destaque vem da borda/glow vermelho */
+}
+
+/* Cor do texto de dica (Placeholder) */
+.card form input::placeholder,
+.form-row input::placeholder {
+    color: #666666;
+    font-weight: 500;
+}
+
+/* Customização do Select (Menu Dropdown do Formulário) */
+.card form select,
+.form-row select {
+    appearance: none; /* Remove a seta padrão feia do navegador */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%23888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 14px;
+    padding-right: 40px; /* Espaço para a nova setinha customizada */
+    cursor: pointer;
+}
+
+.card form select:focus,
+.form-row select:focus {
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%23cc0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+}
+
+/* Remove as setinhas nativas feias de campos de número (como o campo de Preço/Tempo) */
+.card form input[type="number"]::-webkit-inner-spin-button, 
+.card form input[type="number"]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+
+/* ==========================================================================
+   RESPONSIVIDADE — PÁGINA DO SALÃO (PDV) E LAYOUT GERAL DO ADMIN
+   ========================================================================== */
+
+/* Botão da gaveta de mesas: só existe no mobile. Fica escondido por padrão
+   aqui (fora de qualquer media query) para que a regra "display: flex" lá
+   dentro do @media (max-width: 768px) sempre vença — se essa regra base
+   viesse DEPOIS do media query no arquivo, ela sobrescreveria o flex
+   mesmo em telas pequenas, e o botão nunca apareceria. */
+.mobile-sidebar-toggle {
+    display: none;
+}
+.sidebar-backdrop {
+    display: none;
+}
+
+/* ── Telas grandes / monitores wide (ajuste fino, opcional) ── */
+@media (min-width: 1600px) {
+    .content-container {
+        max-width: 1500px;
+    }
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}
+
+/* ── Laptops / telas médias ── */
+@media (max-width: 1024px) {
+    .content-container {
+        padding: 24px;
+    }
+
+    .pdv-container {
+        margin-top: -24px;
+        margin-bottom: -24px;
+    }
+
+    .left-sidebar {
+        width: 220px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+        gap: 14px;
+        padding: 20px;
+    }
+
+    .nav-tabs {
+        width: 100%;
+    }
+}
+
+/* ── Tablets ── */
+@media (max-width: 900px) {
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .navbar-links a,
+    .navbar-links button.logout {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}
+
+/* ── Tablets pequenos / celulares em paisagem ──
+   A partir daqui o layout do PDV (sidebar + cardápio lado a lado) deixa de
+   fazer sentido em telas estreitas: empilhamos a barra de mesas em cima do
+   cardápio, cada um com sua própria área de rolagem. */
+@media (max-width: 768px) {
+    .content-container {
+        padding: 16px;
+    }
+
+    .navbar {
+        height: auto;
+        flex-wrap: wrap;
+        row-gap: 8px;
+        padding: 10px 16px;
+    }
+
+    .logo {
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+
+    .navbar-links {
+        width: 100%;
+        max-width: 100%;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow-x: visible;
+    }
+
+    .navbar-links a,
+    .navbar-links button.logout {
+        padding: 7px 12px;
+        font-size: 11px;
+        white-space: nowrap;
+        margin-left: 0;
+    }
+    .navbar-links button.logout { margin-left: 0; }
+
+    .nav-tabs {
+        width: 100%;
+        margin: 16px auto 20px;
+        padding: 6px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        scrollbar-width: none;
+    }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+
+    .nav-tabs a,
+    .nav-tabs button {
+        padding: 10px 18px;
+        font-size: 11px;
+        letter-spacing: 1px;
+        white-space: nowrap;
+    }
+
+    .page-title {
+        font-size: 15px;
+        letter-spacing: 2px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+    }
+
+    /* Tabelas: em vez de espremer as colunas, deixamos rolar na horizontal */
+    table {
+        font-size: 12px;
+        min-width: 480px;
+    }
+    thead th,
+    tbody td {
+        padding: 8px 10px;
+    }
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* ── PDV do Salão: a barra de mesas vira uma gaveta (drawer) que desliza
+       por cima do cardápio. A gaveta e o fundo escurecido são
+       "position: fixed" ancorados na JANELA INTEIRA (top:0 / bottom:0),
+       cobrindo inclusive o header quando abertos — é o padrão comum de
+       menu lateral no mobile. Isso evita ficar tentando calcular "onde o
+       header termina" (o que causava a barra preta embaixo: antes a gaveta
+       ficava presa à altura do .pdv-container, que podia ser mais baixa
+       que a tela toda). */
+    .pdv-container {
+        height: auto;
+        min-height: 70vh;
+        margin-top: -16px;
+        margin-bottom: -16px;
+    }
+
+    .left-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 85vw;
+        max-width: 320px;
+        height: 100vh;
+        border-right: none;
+        border-bottom: none;
+        transform: translateX(-105%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+        z-index: 60;
+    }
+
+    .left-sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 55;
+        animation: fadeInBackdrop 0.2s ease;
+    }
+
+    @keyframes fadeInBackdrop {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .mobile-sidebar-toggle {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 12px;
+        padding: 12px 16px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        color: #fff;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 800;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .mobile-sidebar-toggle:active {
+        transform: scale(0.98);
+    }
+
+    .menu-area {
+        width: 100%;
+        min-height: 75vh;
+    }
+
+    .menu-empty-state {
+        min-height: 220px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+        gap: 10px;
+        padding: 14px;
+    }
+
+    .product-card {
+        padding: 12px;
+    }
+
+    .modern-number-input .spin-btn {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Em telas maiores que 768px o drawer não existe: o botão fica escondido
+   (a regra que garante isso está no topo do bloco, antes dos media queries) */
+
+/* ── Celulares ── */
+@media (max-width: 480px) {
+    .content-container {
+        padding: 12px;
+    }
+
+    .navbar {
+        padding: 8px 12px;
+    }
+
+    .logo {
+        font-size: 14px;
+        letter-spacing: 1.5px;
+    }
+
+    .navbar-links a,
+    .navbar-links button.logout {
+        padding: 6px 10px;
+        font-size: 10px;
+    }
+
+    .pdv-container {
+        margin-top: -12px;
+        margin-bottom: -12px;
+        min-height: 75vh;
+    }
+
+    .left-sidebar {
+        width: 88vw;
+        max-width: 300px;
+    }
+
+    .menu-area {
+        min-height: 75vh;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .product-card .product-name {
+        font-size: 12px;
+    }
+
+    .product-card .product-price {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+
+    .add-table-form {
+        padding: 12px;
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .card {
+        padding: 14px;
+    }
+
+    .page-title {
+        font-size: 13px;
+        letter-spacing: 1.5px;
+    }
+
+    button, .btn {
+        padding: 10px 16px;
+        font-size: 10px;
+    }
+
+    /* Formulários empilham em telas bem pequenas */
+    .form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .form-row > * {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+}
+
+/* ── Celulares bem pequenos ── */
+@media (max-width: 360px) {
+    .products-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+}
