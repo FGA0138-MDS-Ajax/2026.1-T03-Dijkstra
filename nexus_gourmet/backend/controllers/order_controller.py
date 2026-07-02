@@ -1,10 +1,6 @@
-from flask import request, redirect, session
+from flask import request, session
 from .base_controller import BaseController
-from models import Usuario
-from enums import StatusPedido, PerfilUsuario
-from services.user_service import UserService
-from services.order_service import OrderService
-from services.table_service import TableService
+from models.enums import Role
 
 class OrderController(BaseController):
     def __init__(self, app, user_service, order_service, table_service):
@@ -15,162 +11,122 @@ class OrderController(BaseController):
         self.setup_routes()
 
     def setup_routes(self):
-        #Rota para a fila de pedidos na cozinha
-        self.app.add_url_rule('/cozinha/fila',view_func=self.listar_todas_comandas, methods=['GET'])
+        #Rota para visualizar todas as comandas (cozinha)
+        self.app.add_url_rule('/api/cozinha/fila', view_func=self.listar_todas_comandas, methods=['GET'])
+        self.app.add_url_rule('/api/cozinha/<int:comanda_id>/alterar_status', view_func=self.alterar_status, methods=['PUT']) 
 
-        #Rota para visualizar mesas e comandas
-        self.app.add_url_rule('/mesas', view_func=self.listar_mesas, methods=['GET'])
-        self.app.add_url_rule('/mesas/<int:mesa_id>/comandas', view_func=self.listar_comandas_mesa, methods=['GET'])
-        self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/abrir_comanda', view_func=self.abrir_comanda, methods=['POST'])
-        self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/<int:comanda_id>/', view_func=self.visualizar_comanda, methods=['GET'])
-
-        #Rota para gerenciamento de comandas de uma mesa específica
-        self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/<int:comanda_id>/adicionar_item', view_func=self.adicionar_item, methods=['POST'])
-        self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/<int:comanda_id>/editar', view_func=self.editar_comanda, methods=['POST'])
-        self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/<int:comanda_id>/enviar', view_func=self.enviar_comanda, methods=['POST'])
-        self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/<int:comanda_id>/status:<string:status>', view_func=self.alterar_status, methods=['POST']) #Única rota que o cozinheiro terá acesso
-        self.app.add_url_rule('/mesas/<int:mesa_id>/comandas/<int:comanda_id>/fechar', view_func=self.fechar_comanda, methods=['GET'])
+        #Rotas para gerenciamento de comandas (garçom)
+        self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas', view_func=self.listar_comandas_mesa, methods=['GET'])
+        self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/abrir_comanda', view_func=self.abrir_comanda, methods=['POST'])
+        self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>', view_func=self.visualizar_comanda, methods=['GET'])
+        self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/adicionar_item', view_func=self.adicionar_item, methods=['POST'])
+        self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/editar_comanda', view_func=self.editar_comanda, methods=['PUT'])
+        self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/enviar_comanda', view_func=self.enviar_comanda, methods=['POST'])
+        self.app.add_url_rule('/api/salao/<int:numero_mesa>/comandas/<int:comanda_id>/fechar_comanda', view_func=self.fechar_comanda, methods=['POST'])
 
     def _get_usuario_logado(self):
-        user_id = session.get('user_id')
-        if not user_id:
+        user_cpf = session.get('user_cpf')
+        if not user_cpf: 
             return None
-        return self.user_service.get_user_by_id(user_id)
+        return self.user_service.get_user_by_cpf(user_cpf)
     
+    def alterar_status(self, comanda_id):
+        usuario = self._get_usuario_logado()
+        if not usuario:
+            return self.json_response(False, "Não autorizado", status=401)
+
+        dados = request.json or {}
+        status_input = dados.get('status')
+
+        success, message = self.order_service.alterar_status(comanda_id, status_input, usuario)
+        return self.json_response(success, message, status=200 if success else 400)
+
     def listar_todas_comandas(self):
         usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
+        if not usuario or usuario.cargo not in [Role.ADMINISTRADOR, Role.COZINHEIRO]:
+            return self.json_response(False, "Acesso negado", status=403)
+        
+        if not usuario: 
+            return self.json_response(False, "Não autorizado", status=401)
         
         pedidos = self.order_service.listar_todas_comandas()
-        return self.render('pedidos.html', pedidos=pedidos)
+        return self.json_response(True, data=pedidos)
     
-    def listar_mesas(self):
+    def listar_comandas_mesa(self, numero_mesa):
         usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
+        if not usuario or usuario.cargo != Role.GARCOM:
+            return self.json_response(False, "Acesso negado", status=403)
         
-        if usuario.perfil != PerfilUsuario.GARCOM:
-            return "Acesso negado", 403
-        
-        mesas = self.table_service.listar_mesas()
-        return self.render('mesas.html', mesas=mesas)
-    
-    def listar_comandas_mesa(self, mesa_id):
-        usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
-        
-        if usuario.perfil != PerfilUsuario.GARCOM:
-            return "Acesso negado", 403
-        
-        comandas = self.table_service.listar_comandas_mesa(mesa_id)
-        return self.render('comandas.html', comandas=comandas, mesa_id=mesa_id)
+        comandas, msg = self.table_service.listar_comandas_mesa(numero_mesa)
+        if comandas is False:
+            return self.json_response(False, msg, status=404)
+        return self.json_response(True, data=comandas)
 
-    def abrir_comanda(self):
+    def abrir_comanda(self, numero_mesa):
         usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
+        if not usuario or usuario.cargo != Role.GARCOM:
+            return self.json_response(False, "Acesso negado", status=403)
         
-        if usuario.perfil != PerfilUsuario.GARCOM:
-            return "Acesso negado", 403
-        
-        mesa_id = request.form.get('mesa_id')
-        success, message = self.order_service.abrir_comanda(mesa_id, user.cargo)
-        if not success:
-            return self.render('mesas.html', error=message)
-        return redirect(f'/mesas/{mesa_id}/comandas/<int:comanda_id>/adicionar_item')
+        comanda_id, message = self.order_service.abrir_comanda(numero_mesa, usuario.cpf)
+        if not comanda_id:
+            return self.json_response(False, message, status=400)
+        return self.json_response(True, message, data={"comanda_id": comanda_id})
     
-    def visualizar_comanda(self, mesa_id, comanda_id):
+    def visualizar_comanda(self, numero_mesa, comanda_id):
         usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
+        if not usuario or usuario.cargo != Role.GARCOM:
+            return self.json_response(False, "Acesso negado", status=403)
         
-        if usuario.perfil != PerfilUsuario.GARCOM:
-            return "Acesso negado", 403
+        comanda = self.order_service.visualizar_comanda(comanda_id)
+        if not comanda or comanda.numero_mesa != numero_mesa:
+            return self.json_response(False, "Comanda não encontrada", status=404)
         
-        comanda = self.order_service.get_comanda_by_id(comanda_id)
-        if not comanda or comanda.mesa_id != mesa_id:
-            return "Comanda não encontrada", 404
-        
-        return self.render('comanda.html', comanda=comanda)
+        dados_formatados = self.order_service._formatar_comanda(comanda)
+        return self.json_response(True, data=dados_formatados)
     
-    def adicionar_item(self, mesa_id, comanda_id):
+    def adicionar_item(self, numero_mesa, comanda_id):
         usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
+        if not usuario or usuario.cargo != Role.GARCOM:
+            return self.json_response(False, "Acesso negado", status=403)
         
-        if usuario.perfil != PerfilUsuario.GARCOM:
-            return "Acesso negado", 403
-        
-        item_id = request.form.get('item_id')
-        quantidade = request.form.get('quantidade')
-        observacao = request.form.get('observacao')
+        dados = request.json or {}
+        success, message = self.order_service.adicionar_item(
+            comanda_id, dados.get('product_id'), dados.get('quantidade'), dados.get('observacao'), usuario
+        )
+        return self.json_response(success, message, status=200 if success else 400)
 
-        success, message = self.order_service.adicionar_item(comanda_id, item_id, quantidade, observacao, usuario)
-        if not success:
-            return self.render('comanda.html', error=message)
-        return redirect(f'/mesas/{mesa_id}/comandas/{comanda_id}/')
-
-    def editar_comanda(self, mesa_id, comanda_id):
+    def editar_comanda(self, numero_mesa, comanda_id):
         usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
+        if not usuario or usuario.cargo != Role.GARCOM:
+            return self.json_response(False, "Acesso negado", status=403)
         
-        if usuario.perfil != PerfilUsuario.GARCOM:
-            return "Acesso negado", 403
+        dados = request.json or {}
+        itens_para_editar = dados.get('itens', [])
+        cancelar = dados.get('cancelar', False)
+
+        success, message = self.order_service.editar_comanda(comanda_id, itens_para_editar, usuario, cancelar=cancelar)
+        return self.json_response(success, message, status=200 if success else 400)
         
-        item_id = request.form.get('item_id')
-        nova_quantidade = request.form.get('nova_quantidade')
-        if not nova_quantidade or int(nova_quantidade) <= 0:
-            success, message = self.order_service.remover_item(comanda_id, item_id)
+    def enviar_comanda(self, numero_mesa, comanda_id):
+        usuario = self._get_usuario_logado()
+        if not usuario or usuario.cargo != Role.GARCOM:
+            return self.json_response(False, "Acesso negado", status=403)
+
+        success, message = self.order_service.enviar_comanda(comanda_id, usuario)
+        return self.json_response(success, message, status=200 if success else 400)  
+        
+    def fechar_comanda(self, numero_mesa, comanda_id):
+        usuario = self._get_usuario_logado()
+        if not usuario or usuario.cargo != Role.GARCOM:
+            return self.json_response(False, "Acesso negado", status=403)
+
+        success, resultado = self.order_service.fechar_comanda(comanda_id, usuario)
+        
+        if success:
+            return self.json_response(
+                True, 
+                message=resultado["mensagem"], 
+                data={"conta": resultado["conta"]}
+            )
         else:
-            success, message = self.order_service.editar_comanda(comanda_id, item_id, nova_quantidade, usuario)
-        if not success:
-            return self.render('comanda.html', error=message)
-        return redirect(f'/mesas/{mesa_id}/comandas/{comanda_id}/')
-        
-    def enviar_comanda(self, mesa_id, comanda_id):
-        usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
-        
-        if usuario.perfil != PerfilUsuario.GARCOM:
-            return "Acesso negado", 403
-
-        success, message = self.order_service.enviar_comanda(comanda_id)
-        if not success:
-            return self.render('comanda.html', error=message)
-        return redirect('/mesas')
-    
-    def alterar_status(self, mesa_id, comanda_id, status):
-        usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')
-        
-        success, message = self.order_service.alterar_status(comanda_id, status, usuario)        
-        if not success:
-            return self.render('pedidos.html', error=message)
-        return redirect('/cozinha/fila')
-        
-    def fechar_comanda(self, mesa_id, comanda_id):
-        usuario = self._get_usuario_logado()
-        if not usuario:
-            return redirect('/login')        
-    
-        if usuario.perfil != PerfilUsuario.GARCOM:
-            return "Acesso negado", 403
-        
-        try:
-            quantity = int(self.order_service.count_open_comandas(mesa_id))
-        except Exception:
-            quantity = None
-
-        success, message = self.order_service.fechar_comanda(comanda_id)
-        if not success:
-            return self.render('comanda.html', error=message)
-        
-        elif quantity is not None and quantity > 0:
-            return redirect(f'/mesas/{mesa_id}/comandas')
-        
-        return redirect('/mesas')
+            return self.json_response(False, message=resultado, status=400)
