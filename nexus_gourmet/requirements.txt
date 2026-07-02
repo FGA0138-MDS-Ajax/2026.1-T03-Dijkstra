@@ -1,0 +1,7 @@
+# Lista os pacotes e bibliotecas que o Python 
+# precisa baixar para rodar o seu código (como pylint, werkzeug, beaker, Flask-SQLAlchemy).
+
+# pylint
+# werkzeug
+# beaker
+# Flask-SQLAlchemy

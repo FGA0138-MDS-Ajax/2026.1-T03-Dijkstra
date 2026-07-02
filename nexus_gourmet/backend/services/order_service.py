@@ -4,20 +4,6 @@ from backend.models.enums import Role, OrderStatus, TableStatus
 from backend.models.error_message import UserErrorMessages, OrderErrorMessages, TableErrorMessages
 from backend.models.sucess_message import OrderSuccessMessages
 
-# backend/services/order_service.py
-
-#FLUXO = {
-#    OrderStatus.PENDENTE:   [OrderStatus.EM_PREPARO, OrderStatus.CANCELADO],
-#    # Permite voltar de PREPARO para PENDENTE, e adicionar novos itens (EM_PREPARO):
-#    OrderStatus.EM_PREPARO: [OrderStatus.PRONTO, OrderStatus.PENDENTE, OrderStatus.CANCELADO, OrderStatus.EM_PREPARO], 
-#    # Permite voltar de PRONTO para PREPARO:
-#    OrderStatus.PRONTO:     [OrderStatus.ENTREGUE, OrderStatus.EM_PREPARO],
-#    # Permite voltar de ENTREGUE para PRONTO:
-#    OrderStatus.ENTREGUE:   [OrderStatus.PRONTO],
-#    # Status finais onde o fluxo morre (não tem volta):
-#    OrderStatus.FINALIZADO: [], 
-#    OrderStatus.CANCELADO:  [],
-#}
 FLUXO = {
     OrderStatus.PENDENTE:   [OrderStatus.EM_PREPARO, OrderStatus.CANCELADO],
     # Adicionado OrderStatus.EM_PREPARO para permitir reenvios:
@@ -28,8 +14,6 @@ FLUXO = {
     OrderStatus.FINALIZADO: [], 
     OrderStatus.CANCELADO:  [],
 }
-
-
 
 PERMISSOES = {
     OrderStatus.PENDENTE:   [Role.GARCOM, Role.ADMINISTRADOR, Role.COZINHEIRO],

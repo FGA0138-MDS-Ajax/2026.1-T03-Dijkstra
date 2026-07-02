@@ -1,11 +1,31 @@
-# Um arquivo usado pelo Git para saber quais arquivos 
-# e pastas não devem ser enviados para o repositório
+# Ambientes Virtuais
+.venv/
+venv/
 
+# Caches do Python e Testes
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.pytest_cache/
+
+# Bancos de Dados
 *.db
+*.sqlite3
+
+# Variáveis de Ambiente
 .env
-.git/
-.venv
+
+# VSCodeCounter
+.vscodecounter/
+
+# Pasta de instância do Flask (geralmente contém o banco de dados)
+instance/
+
+# Arquivos de banco de dados específicos
+nexus_gourmet.db
+
+# Pastas de IDE e sistema
+.vscode/
+.idea/
+.DS_Store
