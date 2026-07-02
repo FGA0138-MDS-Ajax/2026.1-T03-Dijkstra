@@ -1,9 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 
-
 from backend.models.enums import Role, TableStatus, ProductCategory, OrderStatus
-
 
 db = SQLAlchemy()
 
@@ -29,8 +27,7 @@ class User(db.Model):
 class Table(db.Model):
     __tablename__ = 'tables'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    numero = db.Column(db.Integer, unique=True, nullable=False)
+    numero = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     capacidade = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Enum(TableStatus), nullable=False, default=TableStatus.LIVRE)
 
@@ -89,7 +86,7 @@ class Order(db.Model):
             "user_cpf": self.user_cpf            
         }
 
-class ItemOrdered(db.Model):
+class ProductOrdered(db.Model):
     __tablename__ = 'itens_ordered'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
