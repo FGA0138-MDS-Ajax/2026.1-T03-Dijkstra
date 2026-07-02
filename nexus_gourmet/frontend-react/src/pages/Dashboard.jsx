@@ -20,7 +20,7 @@ export default function Dashboard() {
             const response = await axios.get('http://localhost:5000/api/usuarios/finalizar_dia', { withCredentials: true });
             if (response.data.success) {
                 setStats(response.data.data);
-                if (isManual) toast.success('📊 Relatório atualizado!');
+                if (isManual) toast.success('Relatório atualizado!');
             }
         } catch (err) {
             toast.error('Erro ao carregar estatísticas do dia.');
@@ -39,7 +39,7 @@ export default function Dashboard() {
         // Exemplo de chamada para a rota (você precisará criar esta lógica no backend)
         await axios.post('http://localhost:5000/api/usuarios/encerrar_caixa', {}, { withCredentials: true });
         
-        toast.success('✨ Caixa fechado com sucesso!');
+        toast.success('Caixa fechado com sucesso!');
         setModalEncerrar(false);
         fetchStats(true); // Recarrega os dados via API em vez de dar reload na tela
     } catch (err) {

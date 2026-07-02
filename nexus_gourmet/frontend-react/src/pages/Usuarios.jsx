@@ -78,7 +78,7 @@ export default function Usuarios() {
             });
 
             if (response.data.success) {
-                toast.success('✅ Usuário cadastrado com sucesso!');
+                toast.success('Usuário cadastrado com sucesso!');
                 setNome(''); setCpf(''); setSenha(''); setCargo('Administrador'); setFotoUsuario(null);
                 setSenhaAdmin('');
                 setIsConfirmingCadastro(false);
@@ -87,7 +87,7 @@ export default function Usuarios() {
                 toast.error(response.data.message || 'Erro ao cadastrar usuário.');
             }
         } catch (err) { 
-            toast.error(err.response?.data?.message || '❌ Não foi possível cadastrar o usuário. Verifique seus dados.'); 
+            toast.error(err.response?.data?.message || 'Não foi possível cadastrar o usuário. Verifique seus dados.'); 
         } finally {
             setIsSubmittingCadastro(false);
         }
@@ -121,14 +121,14 @@ export default function Usuarios() {
             });
 
             if (response.data.success) {
-                toast.success('✏️ Usuário atualizado com sucesso!');
+                toast.success('Usuário atualizado com sucesso!');
                 setUsuarioParaEditar(null);
                 fetchUsuarios();
             } else {
                 toast.error(response.data.message || 'Erro ao editar usuário.');
             }
         } catch (err) {
-            toast.error(err.response?.data?.message || '❌ Não foi possível editar o usuário.');
+            toast.error(err.response?.data?.message || 'Não foi possível editar o usuário.');
         } finally {
             setIsEditing(false);
         }
@@ -147,7 +147,7 @@ export default function Usuarios() {
             });
 
             if (response.data.success) {
-                toast.success('🗑️ Usuário removido com sucesso.');
+                toast.success('Usuário removido com sucesso.');
                 setUsuarioParaDeletar(null);
                 setDeleteSenhaAdmin('');
                 fetchUsuarios();

@@ -46,7 +46,7 @@ export default function Comandas() {
         try {
             await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/adicionar_item`, 
                 { product_id: produtoId, quantidade, observacao }, { withCredentials: true });
-            toast.success('➕ Produto adicionado à comanda.');
+            toast.success('Produto adicionado à comanda.');
             setProdutoId(''); setQuantidade(1); setObservacao('');
             fetchData();
         } catch (err) { toast.error('Erro ao adicionar produto.'); }
@@ -56,7 +56,7 @@ export default function Comandas() {
         setIsProcessing(true);
         try {
             await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/enviar_comanda`, {}, { withCredentials: true });
-            toast.success('🍽️ Pedido enviado para a cozinha.');
+            toast.success('Pedido enviado para a cozinha.');
             setComandaParaEnviar(false);
             navigate('/salao');
         } catch (err) { 
@@ -70,7 +70,7 @@ export default function Comandas() {
         setIsProcessing(true);
         try {
             await axios.post(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/fechar_comanda`, {}, { withCredentials: true })
-            toast.success('✅ Conta fechada com sucesso.');
+            toast.success('Conta fechada com sucesso.');
             setContaParaFechar(false);
             navigate('/salao');
         } catch (err) { 
@@ -213,7 +213,7 @@ export default function Comandas() {
                     await axios.put(`http://localhost:5000/api/salao/${numero_mesa}/comandas/${comanda_id}/editar_comanda`, 
                         { cancelar: true }, { withCredentials: true });
                     
-                    toast.success('❌ Comanda cancelada.');
+                    toast.success('Comanda cancelada.');
                     setCancelarComanda(false);
                     navigate('/salao');
                 } catch (err) { 

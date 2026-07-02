@@ -655,12 +655,12 @@ input[type="number"] {
    INPUTS E SELECTS MODERNOS (Formulários)
    ========================================== */
 
-/* Estilo padrão dos campos */
-.card form input,
-.card form select,
+/* Estilos globais para inputs e selects dentro de cards e modais */
+.card input,
+.card select,
 .form-row input,
 .form-row select {
-    background: var(--input-bg); /* Fundo neutro e profundo */
+    background: var(--input-bg);
     border: 1px solid var(--border-color);
     color: #ffffff;
     padding: 12px 14px;
@@ -670,52 +670,120 @@ input[type="number"] {
     font-family: inherit;
     outline: none;
     transition: all 0.3s ease;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); /* Sombra interna para dar profundidade */
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Efeito ao clicar/focar no campo */
-.card form input:focus,
-.card form select:focus,
+/* Efeito ao focar no campo */
+/* Efeito ao focar no campo */
+.card input:focus,
+.card select:focus,
 .form-row input:focus,
 .form-row select:focus {
     border-color: var(--primary-red);
     box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.15), inset 0 2px 4px rgba(0,0,0,0.5);
-    background: var(--card-hover); /* Fundo neutro, o destaque vem da borda/glow vermelho */
+    background-color: var(--card-hover); /* A correção está aqui! */
 }
 
-/* Cor do texto de dica (Placeholder) */
-.card form input::placeholder,
+.card input::placeholder,
 .form-row input::placeholder {
     color: #666666;
     font-weight: 500;
 }
 
-/* Customização do Select (Menu Dropdown do Formulário) */
-.card form select,
+/* Customização Segura da Seta do Select */
+.card select,
 .form-row select {
-    appearance: none; /* Remove a seta padrão feia do navegador */
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%23888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    /* SVG com URL encoding para evitar bugs de glitch visual */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%23888888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 14px center;
     background-size: 14px;
-    padding-right: 40px; /* Espaço para a nova setinha customizada */
+    padding-right: 40px !important; /* Espaço vital para o texto não invadir a seta */
     cursor: pointer;
 }
 
-.card form select:focus,
-.form-row select:focus {
-    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%23cc0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+/* Força a ocultação da seta nativa (importante para evitar setas duplas) */
+.card select::-ms-expand,
+.form-row select::-ms-expand {
+    display: none;
 }
 
-/* Remove as setinhas nativas feias de campos de número (como o campo de Preço/Tempo) */
-.card form input[type="number"]::-webkit-inner-spin-button, 
-.card form input[type="number"]::-webkit-outer-spin-button { 
+/* Seta vermelha no foco */
+.card select:focus,
+.form-row select:focus {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%23cc0000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+/* Remove setinhas de inputs numéricos */
+.card input[type="number"]::-webkit-inner-spin-button, 
+.card input[type="number"]::-webkit-outer-spin-button,
+.form-row input[type="number"]::-webkit-inner-spin-button, 
+.form-row input[type="number"]::-webkit-outer-spin-button { 
     -webkit-appearance: none; 
     margin: 0; 
 }
 
+/* ==========================================
+   INPUT DE ARQUIVO (UPLOAD DE IMAGEM)
+   ========================================== */
+
+/* Estiliza o container do input */
+/* Estiliza o container do input */
+input[type="file"] {
+    background: var(--input-bg) !important;
+    border: 1px dashed #555 !important;
+    border-radius: 8px;
+    padding: 6px !important;
+    color: #999 !important;
+    font-family: inherit;
+    font-size: 12px !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: none !important;
+    
+    /* NOVAS REGRAS PARA ARRUMAR O TEXTO CORTADO: */
+    width: auto !important;           /* Quebra a trava dos 180px do HTML */
+    min-width: 280px !important;      /* Garante um espaço de respiro pro botão + texto */
+    white-space: nowrap;              /* Impede o texto de pular linha */
+    overflow: hidden;                 /* Esconde o que vazar da caixa */
+    text-overflow: ellipsis;          /* Coloca "..." se o texto for maior que o espaço */
+}
+
+/* Efeito ao passar o mouse na área de upload */
+input[type="file"]:hover {
+    border-color: var(--primary-red) !important;
+    background: rgba(204, 0, 0, 0.05) !important;
+    color: #fff !important;
+}
+
+/* O botão interno nativo ("Escolher arquivo") */
+input[type="file"]::file-selector-button {
+    background: #2a2a2e; /* Fundo escuro elegante */
+    color: #fff;
+    border: 1px solid #333;
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-right: 12px;
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Efeito ao passar o mouse sobre o botão interno */
+input[type="file"]:hover::file-selector-button {
+    background: linear-gradient(90deg, #cc0000, #ff3333);
+    border-color: #ff3333;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(204, 0, 0, 0.3);
+}
 
 /* ==========================================================================
    RESPONSIVIDADE — PÁGINA DO SALÃO (PDV) E LAYOUT GERAL DO ADMIN
@@ -1069,3 +1137,4 @@ input[type="number"] {
         gap: 6px;
     }
 }
+

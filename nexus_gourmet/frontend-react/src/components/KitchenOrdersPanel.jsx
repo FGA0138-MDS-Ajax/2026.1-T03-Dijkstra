@@ -45,11 +45,11 @@ export default function KitchenOrdersPanel({ onConcluirPedido }) {
         setIsProcessing(true);
         try {
             await onConcluirPedido(pedidoParaConcluir.numero_mesa, pedidoParaConcluir.comanda_id);
-            toast.success('🍽️ Pedido marcado como Pronto!');
+            toast.success('Pedido marcado como Pronto!');
             fetchPedidos();
             setPedidoParaConcluir(null);
         } catch (err) {
-            toast.error('❌ Não foi possível concluir a ação.');
+            toast.error('Não foi possível concluir a ação.');
         } finally {
             setIsProcessing(false);
         }

@@ -72,14 +72,18 @@ export default function ConfirmDialog({
                         </div>
                     )}
 
-                    <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '10px' }}>
+                    <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '20px', flexWrap: 'wrap' }}>
                         <button 
                             onClick={onCancel} 
                             disabled={isLoading}
                             style={{ 
                                 background: 'transparent', color: '#ccc', border: '1px solid #444',
                                 opacity: isLoading ? 0.5 : 1, cursor: isLoading ? 'not-allowed' : 'pointer',
-                                padding: '10px 16px'
+                                padding: '10px 16px',
+                                flex: '1 1 auto', /* Permite que o botão expanda/encolha sem quebrar */
+                                whiteSpace: 'normal', /* Sobrescreve o nowrap do CSS global */
+                                textAlign: 'center',
+                                minWidth: '120px'
                             }}
                         >
                             {cancelLabel}
@@ -93,7 +97,11 @@ export default function ConfirmDialog({
                                 ...confirmStyle, 
                                 border: 'none', fontWeight: 'bold',
                                 opacity: isLoading ? 0.7 : 1, cursor: isLoading ? 'wait' : 'pointer',
-                                padding: '10px 20px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                                padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                                flex: '1 1 auto', /* Adapta ao espaço restante */
+                                whiteSpace: 'normal', /* Sobrescreve o nowrap do CSS global */
+                                textAlign: 'center',
+                                minWidth: '120px'
                             }}
                         >
                             {isLoading && <span className="spinner" style={{ width: '14px', height: '14px', border: '2px solid currentColor', borderRightColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></span>}

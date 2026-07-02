@@ -87,13 +87,7 @@ export default function Login() {
                             </div>
                         </div>
 
-                        <div className="login-options">
-                            <label className="remember-me">
-                                <input type="checkbox" /> 
-                                <span>Lembrar de mim</span>
-                            </label>
-                            <a href="#" className="forgot-password">Esqueceu a senha?</a>
-                        </div>
+                        
                         
                         {error && <div className="error-message">{error}</div>}
 
