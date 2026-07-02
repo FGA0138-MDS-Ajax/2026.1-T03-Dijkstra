@@ -1,38 +1,44 @@
-# É responsável por criar e configurar a aplicação. 
-# Ele inicia os middlewares de sessão 
-# (para manter o usuário logado usando a biblioteca Beaker), 
-# configura as rotas iniciais e inicia os controladores.
+import os
+from flask import Flask
+from flask_cors import CORS
+from backend.models.models import db
+from backend.services.user_service import UserService
+from backend.services.product_service import ProductService
+from backend.services.order_service import OrderService
+from backend.services.table_service import TableService
+from backend.controllers import init_controllers
 
-
-# from bottle import Bottle, template, request, redirect
-# from beaker.middleware import SessionMiddleware
-# from config import Config
-# from controllers import init_controllers
-# from controllers.base_controller import BaseController
-# from services.livro_service import LivroService
-
-# session_opts = {
-#     'session.type': 'file',
-#     'session.cookie_expires': 3600,
-#     'session.data_dir': './.sessions',
-#     'session.auto': True,
-#     'session.secret': Config.SECRET_KEY
-# }
-
-# def create_app():
-#     """Cria e configura a instância da aplicação Bottle."""
-#     base_app = Bottle()
-
-#     @base_app.route('/')
-#     def home_page():
-#         livro_service = LivroService()
-#         livros_em_destaque = livro_service.get_all()[:3]        
-#         session = request.environ.get('beaker.session')
-#         return template('index', livros=livros_em_destaque, session=session)
-
-#     init_controllers(base_app)
-#     base_controller = BaseController(base_app)
-#     base_controller.setup_routes()
+def create_app():
+    """Cria e configura a instância da aplicação Flask como API REST."""
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    static_dir = os.path.join(base_dir, 'static')
     
-#     app_with_session = SessionMiddleware(base_app, session_opts)    
-#     return app_with_session
+    # Adicionamos a configuração para servir arquivos estáticos a partir da pasta 'static'
+    app = Flask(__name__, static_folder=static_dir, static_url_path='/static')
+    
+    # Habilita o CORS permitindo envio de cookies/sessões do React para o Flask
+    CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://127.0.0.1:5173"])
+
+    # Configurações do Banco de Dados
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:#Pr0j3to5MD5@127.0.0.1:3306/nexus_db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SECRET_KEY'] = 'nexus_super_secret_key_flask'
+    
+    # Configuração de Uploads de Imagens
+    app.config['UPLOAD_FOLDER'] = os.path.join(static_dir, 'uploads')
+    os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], 'usuarios'), exist_ok=True)
+    os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], 'produtos'), exist_ok=True)
+
+    db.init_app(app)
+
+    with app.app_context():
+        db.create_all()
+
+    user_service = UserService()
+    product_service = ProductService()
+    table_service = TableService()
+    order_service = OrderService(table_service) 
+
+    init_controllers(app, user_service, order_service, table_service, product_service)
+
+    return app

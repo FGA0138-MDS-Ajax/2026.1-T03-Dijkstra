@@ -1,0 +1,337 @@
+/* =========================================
+   RESET E FONTES
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================================
+   CONTAINER PRINCIPAL (Fundo da Tela)
+   ========================================= */
+.login-page-wrapper {
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Fundo escuro com um brilho radial vermelho super sutil no centro */
+    background: #000000;
+
+    padding: 20px;
+    font-family: 'Raleway', sans-serif;
+}
+
+/* =========================================
+   CARD DE LOGIN (A junção das duas partes)
+   ========================================= */
+.login-card {
+    display: flex;
+    width: 100%;
+    max-width: 70%;
+    min-height: 800px;
+    background-color: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0px 5px 110px rgb(255, 0, 0), 0 0 100px rgba(204, 0, 0, 0.1);
+    overflow: hidden; /* Garante que os cantos arredondados cortem o fundo */
+}
+
+/* ─── LADO ESQUERDO (Logo / Branding) ─── */
+.login-brand {
+    flex: 1;
+    background: #000000;
+    background: radial-gradient(circle,rgba(0, 0, 0, 1) 0%, rgba(250, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 82%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Detalhe de reflexo vermelho sutil no lado escuro */
+.brand-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at top right, rgba(204, 0, 0, 0.15) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.brand-logo {
+    width: 55%;
+    max-width: 250px;
+    z-index: 2;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+}
+
+/* ─── LADO DIREITO (Formulário) ─── */
+.login-form-container {
+    flex: 1.2; /* Um pouquinho mais largo que a imagem */
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgb(37, 37, 37);
+}
+
+/* =========================================
+   CABEÇALHO DOS TEXTOS
+   ========================================= */
+.login-header {
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.login-title {
+    color: #e4e0e0;
+    font-size: 60px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.login-subtitle {
+    color: #808080;
+    font-size: 20px;
+    font-weight: 600;
+    padding-top: 25px;
+    font-family: 'Raleway', sans-serif;
+}
+
+/* =========================================
+   FORMULÁRIO E INPUTS
+   ========================================= */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Ícones */
+.input-icon {
+    position: absolute;
+    left: 20px;
+    color: #999999;
+    display: flex;
+    pointer-events: none;
+    transition: color 0.3s;
+    z-index: 2;
+}
+
+.input-action-icon {
+    position: absolute;
+    right: 15px;
+    color: #999999;
+    display: flex;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.2s;
+    z-index: 2;
+}
+
+.input-action-icon:hover,
+.input-action-icon.active {
+    color: #cc0000;
+}
+
+/* Campo de Texto (Input) Claro para fundo Branco */
+.input-field {
+    width: 100%;
+    background-color: #f5f5f7;
+    color: #222222;
+    
+    /* CORREÇÃO DO SOBREPOSIÇÃO: Espaços forçados com !important */
+    padding-top: 18px;
+    padding-bottom: 18px;
+    padding-left: 55px !important;  /* Empurra o texto para longe do ícone esquerdo */
+    padding-right: 55px !important; /* Empurra o texto para longe do ícone direito */
+    box-sizing: border-box !important; /* Garante que o padding empurre para dentro e não cresça o input */
+    
+    border: 2px solid transparent;
+    border-radius: 14px;
+    font-size: 15px;
+    font-family: inherit;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.input-field::placeholder {
+    color: #5e5d5d;
+    font-weight: 500;
+}
+
+/* Efeito ao clicar no input (Foco) */
+.input-field:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #cc0000;
+    box-shadow: 0 8px 24px rgba(204, 0, 0, 0.08);
+    color: #000000;
+}
+
+/* Muda a cor do ícone da esquerda quando o input está focado */
+.input-field:focus ~ .input-icon,
+.input-wrapper:focus-within .input-icon {
+    color: #cc0000;
+}
+
+/* =========================================
+   OPÇÕES (Lembrar / Esqueci Senha)
+   ========================================= */
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #555555;
+    cursor: pointer;
+}
+
+.remember-me input[type="checkbox"] {
+    accent-color: #cc0000;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.forgot-password {
+    color: #cc0000;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.forgot-password:hover {
+    color: #8b0000;
+    text-decoration: underline;
+}
+
+/* =========================================
+   BOTÃO DE LOGIN
+   ========================================= */
+.login-button {
+    background: linear-gradient(90deg, #cc0000, #aa0000);
+    color: #ffffff;
+    border: none;
+    padding: 18px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 35px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(204, 0, 0, 0.25);
+    transition: all 0.3s ease;
+}
+
+.login-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(204, 0, 0, 0.35);
+    background: linear-gradient(90deg, #e60000, #cc0000);
+}
+
+.login-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 5px 10px rgba(204, 0, 0, 0.2);
+}
+
+/* =========================================
+   MENSAGEM DE ERRO
+   ========================================= */
+.error-message {
+    background-color: #fff0f0;
+    color: #cc0000;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #ffd6d6;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================
+   RESPONSIVIDADE (Telas menores)
+   ========================================= */
+
+@media (max-width: 900px) {
+    .login-form-container {
+        padding: 50px 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .login-page-wrapper {
+        padding: 15px;
+    }
+
+    /* Muda o layout do cartão para empilhado (coluna) */
+    .login-card {
+        flex-direction: column;
+        max-width: 500px;
+        min-height: auto;
+    }
+
+    /* O lado da imagem vira um cabeçalho menor */
+    .login-brand {
+        flex: none;
+        height: 180px;
+    }
+
+    .brand-logo {
+        width: 160px;
+    }
+
+    .login-form-container {
+        padding: 40px 30px;
+    }
+
+    .login-title {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-form-container {
+        padding: 30px 20px;
+    }
+    
+    .login-title {
+        font-size: 28px;
+    }
+    
+    .input-field {
+        padding-top: 16px;
+        padding-bottom: 16px;
+        padding-left: 50px !important;
+        padding-right: 50px !important;
+    }
+
+    .login-button {
+        padding: 16px;
+    }
+}
