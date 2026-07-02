@@ -1,0 +1,23 @@
+"filename", "language", "Markdown", "XML", "JSON", "JavaScript", "HTML", "PostCSS", "YAML", "comment", "blank", "total"
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\README.md", "Markdown", -17, 0, 0, 0, 0, 0, 0, 0, -8, -25
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\docs\doc_arquitetura.md", "Markdown", -342, 0, 0, 0, 0, 0, 0, 0, -58, -400
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\docs\index.md", "Markdown", -12, 0, 0, 0, 0, 0, 0, 0, -6, -18
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\mkdocs.yml", "YAML", 0, 0, 0, 0, 0, 0, -1, 0, -1, -2
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\404.html", "HTML", 0, 0, 0, 0, -128, 0, 0, -3, -14, -145
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\css\base.css", "PostCSS", 0, 0, 0, 0, 0, -296, 0, -16, -55, -367
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\css\bootstrap.min.css", "PostCSS", 0, 0, 0, 0, 0, -8, 0, -4, 0, -12
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\css\brands.min.css", "PostCSS", 0, 0, 0, 0, 0, -1, 0, -5, 0, -6
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\css\fontawesome.min.css", "PostCSS", 0, 0, 0, 0, 0, -3, 0, -5, -1, -9
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\css\solid.min.css", "PostCSS", 0, 0, 0, 0, 0, -1, 0, -5, 0, -6
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\css\v4-font-face.min.css", "PostCSS", 0, 0, 0, 0, 0, -1, 0, -5, 0, -6
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\doc_arquitetura\index.html", "HTML", 0, 0, 0, 0, -617, 0, 0, -3, -15, -635
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\index.html", "HTML", 0, 0, 0, 0, -172, 0, 0, -7, -15, -194
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\js\base.js", "JavaScript", 0, 0, 0, -252, 0, 0, 0, -12, -24, -288
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\js\bootstrap.bundle.min.js", "JavaScript", 0, 0, 0, -1, 0, 0, 0, -6, 0, -7
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\js\darkmode.js", "JavaScript", 0, 0, 0, -58, 0, 0, 0, -3, -5, -66
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\search\lunr.js", "JavaScript", 0, 0, 0, -1815, 0, 0, 0, -1205, -456, -3476
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\search\main.js", "JavaScript", 0, 0, 0, -96, 0, 0, 0, -5, -9, -110
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\search\search_index.json", "JSON", 0, 0, -1, 0, 0, 0, 0, 0, 0, -1
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\search\worker.js", "JavaScript", 0, 0, 0, -122, 0, 0, 0, 0, -12, -134
+"d:\Arquivos\UnB\4º Semestre (26.1)\MDS\2026.1-T03-Dijkstra\git pages\site\sitemap.xml", "XML", 0, -3, 0, 0, 0, 0, 0, 0, 0, -3
+"Total", "-", -371, -3, -1, -2344, -917, -310, -1, -1284, -679, -5910
