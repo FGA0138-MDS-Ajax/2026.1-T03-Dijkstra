@@ -1,7 +1,7 @@
 # Dijkstra - Sistema de Gerenciamento de Restaurantes
 
 <p align="center">
-  <img src="docs/assets/logo.png" alt="Logo Dijkstra" width="420">
+ <img src="git%20pages/docs/logo.png" alt="Logo Dijkstra" width="420">
 </p>
 
 O **Dijkstra** é um sistema web desenvolvido para auxiliar restaurantes no gerenciamento de mesas, pedidos, produtos e usuários, proporcionando uma plataforma moderna, intuitiva e eficiente para otimizar o atendimento e a administração do estabelecimento.
@@ -154,7 +154,7 @@ A arquitetura do **Dijkstra** segue o modelo cliente-servidor, utilizando uma AP
 A arquitetura do sistema foi projetada utilizando o modelo cliente-servidor, garantindo modularidade, escalabilidade e facilidade de manutenção.
 
 <p align="center">
-  <img src="docs/assets/arquitetura.png" width="900">
+  <img src="./git%20pages/docs/arquitetura.png" width="900">
 </p>
 
 ---
