@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 
 import re
 from models.models import db, User
 from models.enums import Role
 from models.error_message import UserErrorMessages
 from models.sucess_message import UserSuccessMessages
+=======
+from models import db, User
+from enums import Role
+>>>>>>> developer
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import session
  
+<<<<<<< HEAD
 class UserService:
     def login(self, cpf, senha):
         usuario = self.get_user_by_cpf(cpf)
@@ -21,10 +28,29 @@ class UserService:
             return False, UserErrorMessages.USUARIO_NAO_ENCONTRADO
         
         return True, UserSuccessMessages.LOGOUT_BEM_SUCEDIDO
+=======
+ 
+class UsuarioService:
+
+    def login(self, id, senha):
+        usuario = self.get_by_user_id(id)
+        if not usuario:
+            return False, "Usuário não encontrado."
+        if not check_password_hash(usuario.senha, senha):
+            return False, "Senha incorreta."
+        return True, "Login bem-sucedido.", usuario
+    
+    def logout(self, id):
+        usuario = self.get_by_user_id(id)
+        if not usuario:
+            return False, "Usuário não encontrado."
+        return True, "Logout bem-sucedido."
+>>>>>>> developer
     
     def listar_usuarios(self):
         return User.query.all()
     
+<<<<<<< HEAD
     def cadastrar_usuario(self, cpf_usuario_logado=None, senha_admin=None, nome=None, cpf_cadastrado=None, senha_cadastrada=None, cargo=None, foto_usuario=None):
         usuario_logado = self.get_user_by_cpf(cpf_usuario_logado)
         if not usuario_logado or usuario_logado.cargo != Role.ADMINISTRADOR:
@@ -126,6 +152,23 @@ class UserService:
     
     def visualizar_usuario(self, cpf):
         usuario = self.get_user_by_cpf(cpf)
+=======
+    def cadastrar_usuario(self, id, nome, senha, cargo):
+        if self.get_by_user_id(id):
+            return False, "ID de usuário já existe."
+        try:
+            cargo = Role(cargo)
+        except ValueError:
+            return False, f"Cargo inválido: {cargo}."
+        senha_hash = generate_password_hash(senha)
+        novo_usuario = User(id=id, nome=nome, senha=senha_hash, cargo=cargo)
+        db.session.add(novo_usuario)
+        db.session.commit()
+        return True, "Usuário cadastrado com sucesso."
+    
+    def visualizar_usuario(self, id):
+        usuario = self.get_by_user_id(id)
+>>>>>>> developer
         if not usuario:
             return None, UserErrorMessages.USUARIO_NAO_ENCONTRADO
 
@@ -138,6 +181,7 @@ class UserService:
 
         return dados_usuario, UserSuccessMessages.USUARIO_ENCONTRADO
  
+<<<<<<< HEAD
     def editar_usuario(self, cpf_usuario_logado, senha_admin, nome=None, cpf_atual=None, cargo=None, senha=None, novo_cpf=None, foto_usuario=None):
         usuario_logado = self.get_user_by_cpf(cpf_usuario_logado)
         if not usuario_logado or usuario_logado.cargo != Role.ADMINISTRADOR:
@@ -261,9 +305,42 @@ class UserService:
             return False, UserErrorMessages.ADMIN_AUTOEXCLUSAO_NAO_PERMITIDA
 
         db.session.delete(usuario_alvo)
+=======
+    def editar_usuario(self, id, nome=None, cargo=None):
+        usuario = self.get_by_user_id(id)
+        if not usuario:
+            return False, "Usuário não encontrado."
+        if nome:
+            usuario.nome = nome
+        if cargo:
+            try:
+                cargo = Role(cargo)
+            except ValueError:
+                return False, f"Cargo inválido: {cargo}."
+            usuario.cargo = cargo
+        db.session.commit()
+        return True, "Usuário editado com sucesso."    
+        
+    def deletar_usuario(self, id):
+        usuario = self.get_by_user_id(id)
+        if not usuario:
+            return False, "Usuário não encontrado."
+        db.session.delete(usuario)
+        db.session.commit()
+        return True, "Usuário excluído com sucesso."
+ 
+    def alterar_senha(self, id, senha, nova_senha):
+        usuario = self.get_by_user_id(id)
+        if not usuario:
+            return False, "Usuário não encontrado."
+        if not check_password_hash(usuario.senha, senha):
+            return False, "Senha atual incorreta."
+        usuario.senha = generate_password_hash(nova_senha)
+>>>>>>> developer
         db.session.commit()
         return True, UserSuccessMessages.USUARIO_EXCLUIDO
     
+<<<<<<< HEAD
     def validar_cpf(self, cpf: str) -> bool:
         cpf = re.sub(r'[^0-9]', '', cpf) 
 
@@ -287,3 +364,31 @@ class UserService:
         cpf_limpo = re.sub(r'[^0-9]', '', str(cpf)) if cpf else ""
 
         return User.query.filter_by(cpf=cpf_limpo).first()
+=======
+    def mudar_cargo(self, id, cargo):
+        usuario = self.get_by_user_id(id)
+        if not usuario:
+            return False, "Usuário não encontrado."
+        try:
+            cargo = Role(cargo)
+        except ValueError:
+            return False, f"Cargo inválido: {cargo}."
+        usuario.cargo = cargo
+        db.session.commit()
+        return True, "Cargo alterado com sucesso."
+    
+    def transferir_posse(self, id_atual, id_novo):
+        usuario_atual = self.get_by_user_id(id_atual)
+        usuario_novo = self.get_by_user_id(id_novo)
+        if not usuario_atual or not usuario_novo:
+            return False, "Usuário não encontrado."
+        if usuario_atual.cargo != Role.ADMINISTRADOR:
+            return False, "Apenas administradores podem transferir posse."
+        usuario_atual.cargo = Role.USUARIO
+        usuario_novo.cargo = Role.ADMINISTRADOR
+        db.session.commit()
+        return True, "Posse transferida com sucesso."
+    
+    def get_by_user_id(self, id):
+        return User.query.get(id)
+>>>>>>> developer

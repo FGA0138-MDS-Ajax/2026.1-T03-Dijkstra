@@ -1,7 +1,7 @@
 from flask import jsonify
 
 class BaseController:
-    def __init__(self, app):
+    def init(self, app):
         self.app = app
 
     def json_response(self, success=True, message=None, data=None, status=200):

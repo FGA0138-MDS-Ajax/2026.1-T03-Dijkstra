@@ -49,6 +49,8 @@ class UserController(BaseController):
             })
         return self.json_response(success=False, message=message, status=401)
         
+        return self.render('login.html')
+
     def logout(self):
         session.clear()
         return self.json_response(success=True, message="Deslogado com sucesso")
