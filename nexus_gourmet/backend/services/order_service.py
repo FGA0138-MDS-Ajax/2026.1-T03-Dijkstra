@@ -3,6 +3,7 @@ from backend.models.models import db, Order, ProductOrdered, User, Table, Produc
 from backend.models.enums import Role, OrderStatus, TableStatus
 from backend.models.error_message import UserErrorMessages, OrderErrorMessages, TableErrorMessages
 from backend.models.sucess_message import OrderSuccessMessages
+from sqlalchemy import text
 
 # backend/services/order_service.py
 
@@ -421,5 +422,43 @@ class OrderService:
     def order_per_table(self):
         mesas = Table.query.all()
         return {mesa.numero: self.open_order_counter(mesa.numero) for mesa in mesas}
+    
+    def encerrar_caixa(self, user):
+        # Apenas administradores podem fechar o caixa
+        if user.cargo != Role.ADMINISTRADOR:
+            return False, OrderErrorMessages.SEM_PERMISSAO
+            
+        # Verifica se há comandas em aberto (evita fechar o caixa com clientes consumindo)
+        comandas_abertas = Order.query.filter(
+            Order.status.in_([
+                OrderStatus.PENDENTE, 
+                OrderStatus.EM_PREPARO, 
+                OrderStatus.PRONTO, 
+                OrderStatus.ENTREGUE
+            ])
+        ).count()
+        
+        if comandas_abertas > 0:
+            return False, "Não é possível encerrar o caixa. Ainda há comandas abertas no salão."
+            
+        try:
+            # 1. Deleta todos os itens e comandas para zerar o histórico do dia
+            db.session.query(ProductOrdered).delete()
+            db.session.query(Order).delete()
+            
+            # 2. Garante que todas as mesas voltem para o status LIVRE preventivamente
+            db.session.query(Table).update({"status": TableStatus.LIVRE})
+            
+            db.session.commit()
+            
+            # 3. Reinicia o AUTO_INCREMENT no MySQL para que a próxima comanda seja a de ID 1
+            db.session.execute(text("ALTER TABLE orders AUTO_INCREMENT = 1;"))
+            db.session.execute(text("ALTER TABLE itens_ordered AUTO_INCREMENT = 1;"))
+            db.session.commit()
+            
+            return True, "Caixa encerrado com sucesso. Estatísticas e comandas foram zeradas!"
+        except Exception as e:
+            db.session.rollback()
+            return False, f"Erro ao encerrar o caixa: {str(e)}"
 
     
