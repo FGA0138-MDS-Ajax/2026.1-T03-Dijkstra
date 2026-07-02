@@ -49,6 +49,8 @@ class UserController(BaseController):
             })
         return self.json_response(success=False, message=message, status=401)
         
+        return self.render('login.html')
+
     def logout(self):
         session.clear()
         return self.json_response(success=True, message="Deslogado com sucesso")
@@ -115,6 +117,15 @@ class UserController(BaseController):
             cpf_alvo=cpf_alvo
         )
         return self.json_response(success, message, status=200 if success else 400)
+            
+    def finalizar_dia(self):
+        usuario = self._get_usuario_logado()
+        if not usuario or usuario.cargo != Role.ADMINISTRADOR:
+            return self.json_response(False, "Acesso negado", status=403)
+        
+        # O método estatisticas_diarias do service calcula os dados do dia corrente globalmente.
+        estatisticas = self.order_service.estatisticas_diarias()
+        return self.json_response(True, message="Estatísticas diárias geradas com sucesso", data=estatisticas)
     
     def editar_usuario(self, cpf_atual):
         usuario_logado = self._get_usuario_logado()

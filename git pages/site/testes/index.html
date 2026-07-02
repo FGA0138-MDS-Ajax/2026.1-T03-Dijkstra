@@ -1,0 +1,7520 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../metricas/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Testes - Nexus Gourmet</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#testes-de-software" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Nexus Gourmet" class="md-header__button md-logo" aria-label="Nexus Gourmet" data-md-component="logo">
+      
+  <img src="../logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Nexus Gourmet
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Testes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../vis%C3%A3o/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Documento de Visão
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../arquitetura/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Documento de Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../politica-commits/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Política de Branches e Commits
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../metricas/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Relatório de Métricas
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Testes
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Nexus Gourmet" class="md-nav__button md-logo" aria-label="Nexus Gourmet" data-md-component="logo">
+      
+  <img src="../logo.png" alt="logo">
+
+    </a>
+    Nexus Gourmet
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vis%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Visão
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitetura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../politica-commits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Política de Branches e Commits
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metricas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relatório de Métricas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#testes-unitarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testes Unitários
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testes Unitários">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tu01-editar-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU01 – Editar comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu02-abrir-comanda-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU02 – Abrir comanda com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu03-abrir-multiplas-comandas-na-mesma-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU03 – Abrir múltiplas comandas na mesma mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu04-listar-todas-as-comandas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU04 – Listar todas as comandas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu05-adicionar-item-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU05 – Adicionar item com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu06-adicionar-item-quantidade-invalida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU06 – Adicionar item - quantidade inválida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu07-calcular-total" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU07 – Calcular total
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu08-enviar-comanda-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU08 – Enviar comanda com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu09-enviar-comanda-sem-itens-falha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU09 – Enviar comanda sem itens falha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu10-fechar-comanda-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU10 – Fechar comanda - sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu11-alterar-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU11 – Alterar status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu12-cadastrar-produto-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU12 – Cadastrar produto com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu13-cadastrar-produto-campos-faltando" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU13 – Cadastrar produto - campos faltando
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu14-editar-produto-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU14 – Editar produto com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu15-deletar-produto-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU15 – Deletar produto com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu16-listar-produtos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU16 – Listar produtos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu17-listar-produtos-por-categoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU17 – Listar produtos por categoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu18-criar-mesa-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU18 – Criar mesa com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu19-editar-mesa-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU19 – Editar mesa com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu20-editar-mesa-com-capacidade-invalida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU20 – Editar mesa com capacidade inválida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu21-editar-mesa-usuario-comum-nao-pode-editar-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU21 – Editar mesa - usuário comum não pode editar mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu22-deletar-mesa-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU22 – Deletar mesa com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu23-deletar-mesa-usuario-comum-nao-pode-deletar-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU23 – Deletar mesa - usuário comum não pode deletar mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu24-listar-mesas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU24 – Listar mesas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu25-listar-comandas-mesa-com-comandas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU25 – Listar comandas - mesa com comandas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu26-listar-comandas-mesa-sem-comandas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU26 – Listar comandas - mesa sem comandas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu27-liberar-mesa-com-comandas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU27 – Liberar mesa - com comandas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu28-liberar-mesa-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU28 – Liberar mesa com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu29-cadastrar-usuario-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU29 – Cadastrar usuário com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu30-cadastrar-usuario-campos-invalidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU30 – Cadastrar usuário - campos inválidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu31-autenticar-login-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU31 – Autenticar login com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu32-autenticar-login-dados-incorretos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU32 – Autenticar login - dados incorretos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu33-logout-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU33 – Logout com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu34-editar-usuario-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU34 – Editar usuário com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu35-editar-usuario-campos-invalidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU35 – Editar usuário - campos inválidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu36-deletar-usuario-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU36 – Deletar usuário com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu37-listar-usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU37 – Listar usuários
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu38-visualizar-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU38 – Visualizar usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu39-listar-comandas-independentemente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU39 – Listar Comandas Independentemente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu40-listar-comandas-por-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU40 – Listar Comandas por Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu41-cadastro-de-segundo-administrador-impedido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU41 – Cadastro de segundo administrador impedido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu42-usuario-comum-impedido-de-cadastrar-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU42 – Usuário comum impedido de cadastrar usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu43-edicao-de-senha-de-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU43 – Edição de senha de usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu44-usuario-comum-impedido-de-editar-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU44 – Usuário comum impedido de editar usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu45-impedimento-que-usuario-comum-delete-outro-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU45 – Impedimento que usuário comum delete outro usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu46-tempo-decorrido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU46 – Tempo decorrido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu47-cancelar-comanda-via-edicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU47 – Cancelar comanda via edição
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu48-estatisticas-diarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU48 – Estatísticas diárias
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu49-comanda-cancelada-faturamento-zero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU49 – Comanda cancelada - faturamento zero
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu50-fechamento-de-muitas-comandas-na-mesma-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU50 – Fechamento de muitas comandas na mesma mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu51-abrir-comanda-por-cozinha-deve-falhar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU51 – Abrir comanda por cozinha deve falhar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu52-adicionar-item-por-cozinheiro-deve-falhar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU52 – Adicionar item por cozinheiro deve falhar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu53-editar-comanda-edicao-por-cozinheiro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU53 – Editar comanda - edição por cozinheiro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu54-enviar-comanda-por-cozinheiro-deve-falhar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU54 – Enviar comanda por cozinheiro deve falhar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu55-fechar-comanda-por-cozinheiro-deve-falhar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU55 – Fechar comanda por cozinheiro deve falhar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu56-status-finalizado-bloqueia-alteracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU56 – Status finalizado bloqueia alteração
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu57-cadastrar-produto-negado-para-garcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU57 – Cadastrar produto - negado para garçom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu58-cadastrar-produto-negado-para-cozinha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU58 – Cadastrar produto - negado para cozinha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu59-editar-produto-negado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU59 – Editar produto - negado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu60-deletar-produto-negado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU60 – Deletar produto - negado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu61-criar-mesa-com-capacidade-invalida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU61 – Criar mesa com capacidade inválida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu62-comanda-fantasma-inexistente-fechamento-zerado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU62 – Comanda fantasma (inexistente) - fechamento zerado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu63-usuario-comum-nao-pode-criar-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU63 – Usuário comum não pode criar mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu64-editar-usuario-promover-para-admin-nao-permitido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU64 – Editar usuário - promover para admin não permitido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu65-editar-proprio-admin-rebaixar-cargo-nao-permitido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU65 – Editar próprio admin - rebaixar cargo não permitido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu66-deletar-usuario-senha-admin-incorreta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU66 – Deletar usuário - senha admin incorreta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu67-usuario-comum-nao-pode-deletar-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU67 – Usuário comum não pode deletar usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu68-admin-tentar-se-auto-deletar-nao-permitido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU68 – Admin tentar se auto deletar - não permitido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu69-validar-cpf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU69 – Validar CPF
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu70-contra-fluxo-status-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU70 – Contra fluxo - status comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-integrados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testes Integrados
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testes Integrados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ti01-integracao-entre-backend-e-banco-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI01 – Integração entre backend e banco de dados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti02-integracao-entre-backend-e-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI02 – Integração entre backend e frontend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti03-integracao-entre-abertura-de-comanda-e-banco-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI03 – Integração entre abertura de comanda e banco de dados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti04-adicionar-item-na-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI04 – Adicionar Item na Comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti05-listar-a-fila-da-cozinha-com-o-cozinheiro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI05 – Listar a fila da cozinha com o cozinheiro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti06-listar-a-fila-da-cozinha-com-o-garcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI06 – Listar a fila da cozinha com o garçom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti07-fluxo-completo-da-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI07 – Fluxo completo da Comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti08-contrafluxo-status-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI08 – Contrafluxo Status Comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti09-tentar-alterar-status-apos-finalizado-falha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI09 – Tentar alterar status após finalizado (falha)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti10-banco-de-dados-fantasma-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI10 – Banco de Dados Fantasma - Comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti11-alteracao-do-preco-do-produto-com-comanda-aberta-mantem-o-preco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI11 – Alteração do Preço do Produto com Comanda Aberta mantém o preço
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti12-listar-produtos-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI12 – Listar Produtos com Sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti13-cadastrar-produto-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI13 – Cadastrar Produto como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti14-deletar-produto-como-garcom-acesso-negado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI14 – Deletar Produto como Garçom (Acesso Negado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti15-listar-produtos-por-categoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI15 – Listar Produtos por Categoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti16-editar-produto-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI16 – Editar Produto como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti17-deletar-produto-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI17 – Deletar Produto como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti18-listar-mesas-como-garcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI18 – Listar Mesas como Garçom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti19-criar-mesa-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI19 – Criar Mesa como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti20-criar-mesa-como-garcom-acesso-negado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI20 – Criar Mesa como Garçom (Acesso Negado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti21-editar-mesa-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI21 – Editar Mesa como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti22-deletar-mesa-com-comanda-ativa-deve-falhar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI22 – Deletar Mesa com Comanda Ativa Deve Falhar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti23-tolerancia-de-dados-invalidos-de-capacidade-da-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI23 – Tolerância de Dados Inválidos de Capacidade da Mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti24-login-bem-sucedido-retorna-dados-do-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI24 – Login Bem Sucedido Retorna Dados do Usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti25-acesso-negado-sem-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI25 – Acesso Negado Sem Login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti26-logout-limpa-sessao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI26 – Logout Limpa Sessão
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti27-listar-usuarios-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI27 – Listar Usuários como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti28-listar-usuarios-como-garcom-acesso-negado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI28 – Listar Usuários como Garçom (Acesso Negado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti29-cadastrar-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI29 – Cadastrar Usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti30-editar-usuario-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI30 – Editar Usuário como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti31-deletar-o-proprio-usuario-de-administrador-bloqueado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI31 – Deletar o Próprio Usuário de Administrador (Bloqueado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti32-finalizar-dia-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI32 – Finalizar Dia como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti33-banco-de-dados-fantasma-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI33 – Banco de Dados Fantasma - Usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#testes-unitarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testes Unitários
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testes Unitários">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tu01-editar-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU01 – Editar comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu02-abrir-comanda-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU02 – Abrir comanda com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu03-abrir-multiplas-comandas-na-mesma-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU03 – Abrir múltiplas comandas na mesma mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu04-listar-todas-as-comandas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU04 – Listar todas as comandas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu05-adicionar-item-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU05 – Adicionar item com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu06-adicionar-item-quantidade-invalida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU06 – Adicionar item - quantidade inválida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu07-calcular-total" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU07 – Calcular total
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu08-enviar-comanda-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU08 – Enviar comanda com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu09-enviar-comanda-sem-itens-falha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU09 – Enviar comanda sem itens falha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu10-fechar-comanda-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU10 – Fechar comanda - sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu11-alterar-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU11 – Alterar status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu12-cadastrar-produto-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU12 – Cadastrar produto com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu13-cadastrar-produto-campos-faltando" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU13 – Cadastrar produto - campos faltando
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu14-editar-produto-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU14 – Editar produto com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu15-deletar-produto-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU15 – Deletar produto com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu16-listar-produtos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU16 – Listar produtos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu17-listar-produtos-por-categoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU17 – Listar produtos por categoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu18-criar-mesa-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU18 – Criar mesa com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu19-editar-mesa-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU19 – Editar mesa com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu20-editar-mesa-com-capacidade-invalida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU20 – Editar mesa com capacidade inválida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu21-editar-mesa-usuario-comum-nao-pode-editar-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU21 – Editar mesa - usuário comum não pode editar mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu22-deletar-mesa-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU22 – Deletar mesa com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu23-deletar-mesa-usuario-comum-nao-pode-deletar-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU23 – Deletar mesa - usuário comum não pode deletar mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu24-listar-mesas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU24 – Listar mesas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu25-listar-comandas-mesa-com-comandas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU25 – Listar comandas - mesa com comandas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu26-listar-comandas-mesa-sem-comandas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU26 – Listar comandas - mesa sem comandas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu27-liberar-mesa-com-comandas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU27 – Liberar mesa - com comandas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu28-liberar-mesa-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU28 – Liberar mesa com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu29-cadastrar-usuario-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU29 – Cadastrar usuário com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu30-cadastrar-usuario-campos-invalidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU30 – Cadastrar usuário - campos inválidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu31-autenticar-login-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU31 – Autenticar login com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu32-autenticar-login-dados-incorretos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU32 – Autenticar login - dados incorretos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu33-logout-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU33 – Logout com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu34-editar-usuario-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU34 – Editar usuário com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu35-editar-usuario-campos-invalidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU35 – Editar usuário - campos inválidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu36-deletar-usuario-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU36 – Deletar usuário com sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu37-listar-usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU37 – Listar usuários
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu38-visualizar-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU38 – Visualizar usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu39-listar-comandas-independentemente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU39 – Listar Comandas Independentemente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu40-listar-comandas-por-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU40 – Listar Comandas por Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu41-cadastro-de-segundo-administrador-impedido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU41 – Cadastro de segundo administrador impedido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu42-usuario-comum-impedido-de-cadastrar-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU42 – Usuário comum impedido de cadastrar usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu43-edicao-de-senha-de-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU43 – Edição de senha de usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu44-usuario-comum-impedido-de-editar-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU44 – Usuário comum impedido de editar usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu45-impedimento-que-usuario-comum-delete-outro-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU45 – Impedimento que usuário comum delete outro usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu46-tempo-decorrido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU46 – Tempo decorrido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu47-cancelar-comanda-via-edicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU47 – Cancelar comanda via edição
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu48-estatisticas-diarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU48 – Estatísticas diárias
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu49-comanda-cancelada-faturamento-zero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU49 – Comanda cancelada - faturamento zero
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu50-fechamento-de-muitas-comandas-na-mesma-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU50 – Fechamento de muitas comandas na mesma mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu51-abrir-comanda-por-cozinha-deve-falhar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU51 – Abrir comanda por cozinha deve falhar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu52-adicionar-item-por-cozinheiro-deve-falhar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU52 – Adicionar item por cozinheiro deve falhar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu53-editar-comanda-edicao-por-cozinheiro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU53 – Editar comanda - edição por cozinheiro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu54-enviar-comanda-por-cozinheiro-deve-falhar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU54 – Enviar comanda por cozinheiro deve falhar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu55-fechar-comanda-por-cozinheiro-deve-falhar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU55 – Fechar comanda por cozinheiro deve falhar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu56-status-finalizado-bloqueia-alteracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU56 – Status finalizado bloqueia alteração
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu57-cadastrar-produto-negado-para-garcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU57 – Cadastrar produto - negado para garçom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu58-cadastrar-produto-negado-para-cozinha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU58 – Cadastrar produto - negado para cozinha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu59-editar-produto-negado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU59 – Editar produto - negado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu60-deletar-produto-negado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU60 – Deletar produto - negado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu61-criar-mesa-com-capacidade-invalida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU61 – Criar mesa com capacidade inválida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu62-comanda-fantasma-inexistente-fechamento-zerado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU62 – Comanda fantasma (inexistente) - fechamento zerado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu63-usuario-comum-nao-pode-criar-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU63 – Usuário comum não pode criar mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu64-editar-usuario-promover-para-admin-nao-permitido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU64 – Editar usuário - promover para admin não permitido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu65-editar-proprio-admin-rebaixar-cargo-nao-permitido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU65 – Editar próprio admin - rebaixar cargo não permitido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu66-deletar-usuario-senha-admin-incorreta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU66 – Deletar usuário - senha admin incorreta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu67-usuario-comum-nao-pode-deletar-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU67 – Usuário comum não pode deletar usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu68-admin-tentar-se-auto-deletar-nao-permitido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU68 – Admin tentar se auto deletar - não permitido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu69-validar-cpf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU69 – Validar CPF
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tu70-contra-fluxo-status-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TU70 – Contra fluxo - status comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-integrados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testes Integrados
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testes Integrados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ti01-integracao-entre-backend-e-banco-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI01 – Integração entre backend e banco de dados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti02-integracao-entre-backend-e-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI02 – Integração entre backend e frontend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti03-integracao-entre-abertura-de-comanda-e-banco-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI03 – Integração entre abertura de comanda e banco de dados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti04-adicionar-item-na-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI04 – Adicionar Item na Comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti05-listar-a-fila-da-cozinha-com-o-cozinheiro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI05 – Listar a fila da cozinha com o cozinheiro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti06-listar-a-fila-da-cozinha-com-o-garcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI06 – Listar a fila da cozinha com o garçom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti07-fluxo-completo-da-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI07 – Fluxo completo da Comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti08-contrafluxo-status-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI08 – Contrafluxo Status Comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti09-tentar-alterar-status-apos-finalizado-falha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI09 – Tentar alterar status após finalizado (falha)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti10-banco-de-dados-fantasma-comanda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI10 – Banco de Dados Fantasma - Comanda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti11-alteracao-do-preco-do-produto-com-comanda-aberta-mantem-o-preco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI11 – Alteração do Preço do Produto com Comanda Aberta mantém o preço
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti12-listar-produtos-com-sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI12 – Listar Produtos com Sucesso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti13-cadastrar-produto-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI13 – Cadastrar Produto como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti14-deletar-produto-como-garcom-acesso-negado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI14 – Deletar Produto como Garçom (Acesso Negado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti15-listar-produtos-por-categoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI15 – Listar Produtos por Categoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti16-editar-produto-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI16 – Editar Produto como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti17-deletar-produto-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI17 – Deletar Produto como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti18-listar-mesas-como-garcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI18 – Listar Mesas como Garçom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti19-criar-mesa-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI19 – Criar Mesa como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti20-criar-mesa-como-garcom-acesso-negado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI20 – Criar Mesa como Garçom (Acesso Negado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti21-editar-mesa-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI21 – Editar Mesa como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti22-deletar-mesa-com-comanda-ativa-deve-falhar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI22 – Deletar Mesa com Comanda Ativa Deve Falhar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti23-tolerancia-de-dados-invalidos-de-capacidade-da-mesa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI23 – Tolerância de Dados Inválidos de Capacidade da Mesa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti24-login-bem-sucedido-retorna-dados-do-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI24 – Login Bem Sucedido Retorna Dados do Usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti25-acesso-negado-sem-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI25 – Acesso Negado Sem Login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti26-logout-limpa-sessao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI26 – Logout Limpa Sessão
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti27-listar-usuarios-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI27 – Listar Usuários como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti28-listar-usuarios-como-garcom-acesso-negado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI28 – Listar Usuários como Garçom (Acesso Negado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti29-cadastrar-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI29 – Cadastrar Usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti30-editar-usuario-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI30 – Editar Usuário como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti31-deletar-o-proprio-usuario-de-administrador-bloqueado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI31 – Deletar o Próprio Usuário de Administrador (Bloqueado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti32-finalizar-dia-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI32 – Finalizar Dia como Administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ti33-banco-de-dados-fantasma-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TI33 – Banco de Dados Fantasma - Usuário
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="testes-de-software">Testes de Software</h1>
+<p>Este documento consolida todos os testes unitários e integrados realizados no sistema Nexus Gourmet, conforme documentado no Documento de Visão (versão 1.4).</p>
+<hr />
+<h2 id="testes-unitarios">Testes Unitários</h2>
+<h3 id="tu01-editar-comanda">TU01 – Editar comanda</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU01</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar comanda</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Remover e adicionar itens</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Método de comanda criado</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Autenticação bem-sucedida / Realizado: Autenticação bem-sucedida</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu02-abrir-comanda-com-sucesso">TU02 – Abrir comanda com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU02</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Abrir comanda com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a função abrir comanda está funcionando como o esperado</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Método de abrir comanda implementado</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Abertura da comanda / Realizado: -</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu03-abrir-multiplas-comandas-na-mesma-mesa">TU03 – Abrir múltiplas comandas na mesma mesa</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU03</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Abrir múltiplas comandas na mesma mesa</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se é possível abrir múltiplas comandas na mesma mesa</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Abrir diferentes comandas em uma mesma mesa / Realizado: Abre diferentes comandas em uma mesma mesa</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu04-listar-todas-as-comandas">TU04 – Listar todas as comandas</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU04</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar todas as comandas</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a função de listar todas as comandas dá os dados das comandas abertas</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de listar todas as comandas</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Fornecer os dados das comandas abertas / Realizado: Fornecer os dados das comandas abertas</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu05-adicionar-item-com-sucesso">TU05 – Adicionar item com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU05</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Adicionar item com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a função adicionar item à comanda está funcionando</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de adicionar item na comanda implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Adicionar item na comanda / Realizado: Adiciona item na comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu06-adicionar-item-quantidade-invalida">TU06 – Adicionar item - quantidade inválida</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU06</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Adicionar item - quantidade inválida</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar o bloqueio de entrada de dados incorretos (quantidades menores ou iguais a zero)</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de adicionar item na comanda implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não permitir adicionar item se a quantidade não existir / Realizado: Não permite realizar item se a quantidade não existe</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu07-calcular-total">TU07 – Calcular total</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU07</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Calcular total</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a função calcular total fornece o valor total da comanda</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação de itens na comanda</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Fornecer o valor da comanda / Realizado: Fornece o valor da comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu08-enviar-comanda-com-sucesso">TU08 – Enviar comanda com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU08</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Enviar comanda com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se é possível enviar comanda</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função de enviar comanda</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Enviar comanda para a cozinha / Realizado: Envia comanda para a cozinha</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu09-enviar-comanda-sem-itens-falha">TU09 – Enviar comanda sem itens falha</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU09</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Enviar comanda sem itens falha</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se dá falha ao tentar enviar uma comanda vazia</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de enviar comanda</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Falhar ao enviar comanda vazia / Realizado: Falhar ao enviar comanda vazia</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu10-fechar-comanda-sucesso">TU10 – Fechar comanda - sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU10</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Fechar comanda - sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a função de fechar comanda cumpre seu papel de fechar a comanda</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de fechar comanda</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Fechar comanda / Realizado: Fecha a comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu11-alterar-status">TU11 – Alterar status</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU11</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Alterar status</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se os status da comanda são alterados ao utilizar a função de alterar status</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função de alterar status</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Alterar os dados de status da comanda / Realizado: Altera o dado de status da comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu12-cadastrar-produto-com-sucesso">TU12 – Cadastrar produto com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU12</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Cadastrar produto com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se é possível cadastrar produtos</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de cadastrar produto</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Cadastrar um produto / Realizado: Cadastra produto</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu13-cadastrar-produto-campos-faltando">TU13 – Cadastrar produto - campos faltando</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU13</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Cadastrar produto - campos faltando</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se há dados faltando no produto</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de cadastrar produto</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não permitir o cadastro de produtos com dados faltando / Realizado: Não permitir o cadastro de produtos com dados faltando</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu14-editar-produto-com-sucesso">TU14 – Editar produto com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU14</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar produto com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se os dados do produto são alterados ao usar a função de editar produto</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Existência da função de editar produto</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Alterar dados do produto / Realizado: Altera dados do produto</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu15-deletar-produto-com-sucesso">TU15 – Deletar produto com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU15</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Deletar produto com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se os dados do produto são excluídos ao usar a função de excluir produto</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de excluir produto</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Excluir dados do produto / Realizado: Excluir dados do produto</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu16-listar-produtos">TU16 – Listar produtos</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU16</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar produtos</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a função de listar produtos retorna os dados de todos os produtos</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de listar produtos</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Listar os dados de todos os produtos / Realizado: Lista os dados de todos os produtos</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu17-listar-produtos-por-categoria">TU17 – Listar produtos por categoria</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU17</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar produtos por categoria</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a função de listar por categoria retorna os dados dos produtos da categoria desejada</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de listar por categoria</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Listar os dados dos produtos da categoria / Realizado: Lista os dados dos produtos da categoria</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu18-criar-mesa-com-sucesso">TU18 – Criar mesa com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU18</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Criar mesa com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a mesa foi criada corretamente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função criar mesa</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Criar uma mesa com número de capacidade determinado / Realizado: Criar uma mesa com número de capacidade determinado</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu19-editar-mesa-com-sucesso">TU19 – Editar mesa com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU19</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar mesa com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se as características da mesa estão sendo editadas</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função editar mesa</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Permitir a alteração das características da mesa / Realizado: Permitir a alteração das características da mesa</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu20-editar-mesa-com-capacidade-invalida">TU20 – Editar mesa com capacidade inválida</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU20</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar mesa com capacidade inválida</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema reconhece que a capacidade da mesa não é válida</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função editar mesa</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Falhar ao adicionar um valor inválido ao campo capacidade / Realizado: Falhar ao adicionar um valor inválido ao campo capacidade</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu21-editar-mesa-usuario-comum-nao-pode-editar-mesa">TU21 – Editar mesa - usuário comum não pode editar mesa</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU21</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar mesa - usuário comum não pode editar mesa</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema impede a edição de uma mesa feita por um usuário comum</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função editar mesa</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não permitir que uma mesa seja editada por um usuário comum / Realizado: Não permitir que uma mesa seja editada por um usuário comum</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu22-deletar-mesa-com-sucesso">TU22 – Deletar mesa com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU22</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Deletar mesa com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o programa deleta as mesas quando requisitado</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função deletar mesa</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Permitir que uma mesa seja deletada / Realizado: Permitir que uma mesa seja deletada</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu23-deletar-mesa-usuario-comum-nao-pode-deletar-mesa">TU23 – Deletar mesa - usuário comum não pode deletar mesa</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU23</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Deletar mesa - usuário comum não pode deletar mesa</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema impede que um usuário comum delete uma mesa</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função deletar mesa</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Falha quando um usuário comum tenta deletar uma mesa / Realizado: Falha quando um usuário comum tenta deletar uma mesa</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu24-listar-mesas">TU24 – Listar mesas</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU24</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar mesas</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema lista as mesas ativas no salão</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função listar mesas</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: As mesas criadas devem aparecer na tela / Realizado: As mesas criadas devem aparecer na tela</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu25-listar-comandas-mesa-com-comandas">TU25 – Listar comandas - mesa com comandas</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU25</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar comandas - mesa com comandas</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o programa consegue listar mesas com comandas ativas</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função listar mesas</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: As mesas com comandas abertas são listadas para o usuário / Realizado: As mesas com comandas abertas são listadas para o usuário</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu26-listar-comandas-mesa-sem-comandas">TU26 – Listar comandas - mesa sem comandas</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU26</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar comandas - mesa sem comandas</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o programa consegue listar mesas sem comandas ativas</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função listar mesas</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: As mesas sem comandas abertas são listadas para o usuário / Realizado: As mesas sem comandas abertas são listadas para o usuário</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu27-liberar-mesa-com-comandas">TU27 – Liberar mesa - com comandas</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU27</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Liberar mesa - com comandas</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o programa impede a liberação de uma mesa com comandas abertas</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função liberar mesa</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Se a mesa possui comandas abertas ela não é liberada / Realizado: Se a mesa possui comandas abertas ela não é liberada</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu28-liberar-mesa-com-sucesso">TU28 – Liberar mesa com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU28</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Liberar mesa com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema consegue liberar mesas com sucesso</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função liberar mesa</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Se a mesa não possui comandas abertas ela é liberada / Realizado: Se a mesa não possui comandas abertas ela é liberada</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu29-cadastrar-usuario-com-sucesso">TU29 – Cadastrar usuário com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU29</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Cadastrar usuário com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema pode cadastrar um usuário</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função cadastrar usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Cadastrar um usuário com sucesso / Realizado: Cadastrar um usuário com sucesso</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu30-cadastrar-usuario-campos-invalidos">TU30 – Cadastrar usuário - campos inválidos</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU30</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Cadastrar usuário - campos inválidos</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema pode determinar se os campos foram preenchidos corretamente, enviando mensagem de aviso ao usuário</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função cadastrar usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Falha ao cadastrar um usuário / Realizado: Falha ao cadastrar um usuário</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu31-autenticar-login-com-sucesso">TU31 – Autenticar login com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU31</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Autenticar login com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se os dados inseridos correspondem aos dados cadastrados, direcionando o usuário à página desejada</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função autenticar usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Autentique os dados do usuário / Realizado: Autentique os dados do usuário</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu32-autenticar-login-dados-incorretos">TU32 – Autenticar login - dados incorretos</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU32</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Autenticar login - dados incorretos</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar que os dados inseridos não correspondem aos dados cadastrados, enviando mensagem de erro ao usuário</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função autenticar usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Falha ao autenticar / Realizado: Falha ao autenticar</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu33-logout-com-sucesso">TU33 – Logout com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU33</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Logout com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar que o logout pode ser realizado pelo usuário</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função logout do usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Usuário pode logout de seu perfil / Realizado: Usuário pode logout de seu perfil</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu34-editar-usuario-com-sucesso">TU34 – Editar usuário com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU34</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar usuário com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o usuário pode ser editado</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função editar usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Dados do usuário foram editados / Realizado: Dados do usuário foram editados</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu35-editar-usuario-campos-invalidos">TU35 – Editar usuário - campos inválidos</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU35</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar usuário - campos inválidos</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema pode determinar se os campos editados foram preenchidos corretamente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função editar usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Dados do usuário não puderam ser editados / Realizado: Dados do usuário não puderam ser editados</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu36-deletar-usuario-com-sucesso">TU36 – Deletar usuário com sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU36</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Deletar usuário com sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema pode deletar um usuário quando solicitado</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função deletar usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: O usuário foi deletado / Realizado: O usuário foi deletado</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu37-listar-usuarios">TU37 – Listar usuários</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU37</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar usuários</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema consegue listar os usuários</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função listar usuários</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Listar usuários / Realizado: Lista usuários</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu38-visualizar-usuario">TU38 – Visualizar usuário</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU38</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Visualizar usuário</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema pode visualizar o usuário</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função visualizar usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Visualização do usuário / Realizado: Visualização do usuário</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu39-listar-comandas-independentemente">TU39 – Listar Comandas Independentemente</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU39</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar Comandas Independentemente</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Listar comandas independentemente da situação de status da comanda</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Método de criação de comandas</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Lista todas as comandas independente de status / Realizado: Lista todas as comandas independente de status</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu40-listar-comandas-por-status">TU40 – Listar Comandas por Status</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU40</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar Comandas por Status</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Listar comandas por sua situação de status da comanda</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Método de criação de comandas</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Lista todas as comandas por seus status / Realizado: Lista todas as comandas por seus status</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu41-cadastro-de-segundo-administrador-impedido">TU41 – Cadastro de segundo administrador impedido</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU41</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Cadastro de segundo administrador impedido</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Impede a criação de um segundo administrador</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da criação do tipo “administrador”</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Impedir a criação de um segundo administrador / Realizado: Impedir a criação de um segundo administrador</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu42-usuario-comum-impedido-de-cadastrar-usuario">TU42 – Usuário comum impedido de cadastrar usuário</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU42</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Usuário comum impedido de cadastrar usuário</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Impedir que um usuário comum cadastre um novo usuário válido</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação de função para cadastro de novo usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Impedir a criação de um novo usuário por um usuário não administrador/comum / Realizado: Impedir a criação de um novo usuário</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu43-edicao-de-senha-de-usuario">TU43 – Edição de senha de usuário</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU43</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Edição de senha de usuário</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Permite que usuário edite senha quando senha der como “incorreta”</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação de função para cadastro de novo usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Permite a possibilidade da edição de senha para um usuário / Realizado: Permite a possibilidade da edição de senha para um usuário</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu44-usuario-comum-impedido-de-editar-usuario">TU44 – Usuário comum impedido de editar usuário</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU44</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Usuário comum impedido de editar usuário</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Impede que um usuário comum edite informações de um outro usuário</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação de função para cadastro de novo usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Impede que um usuário comum edite informações de outro usuário / Realizado: Impede que um usuário comum edite informações de outro usuário</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu45-impedimento-que-usuario-comum-delete-outro-usuario">TU45 – Impedimento que usuário comum delete outro usuário</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU45</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Impedimento que usuário comum delete outro usuário</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Negar a permissão de um usuário comum para deletar qualquer outro usuário</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação de função para cadastro de novo usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Impede que um usuário comum delete outro usuário / Realizado: Impede que um usuário comum delete outro usuário</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu46-tempo-decorrido">TU46 – Tempo decorrido</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU46</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Tempo decorrido</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar a precisão do cálculo cronológico (subtração e fuso horário) do tempo de cozinha</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Comanda com registro de tempo de entrada (timezone-aware/naive)</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Diferença temporal calculada e formatada corretamente em minutos e segundos / Realizado: Conforme previsto</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu47-cancelar-comanda-via-edicao">TU47 – Cancelar comanda via edição</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU47</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Cancelar comanda via edição</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Cancelar comanda por edição dela</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função de editar comanda</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Conseguir cancelar comanda na edição / Realizado: Consegue cancelar comanda na edição</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu48-estatisticas-diarias">TU48 – Estatísticas diárias</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU48</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Estatísticas diárias</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar a filtragem precisa de dados financeiros e operacionais isolados para o dia atual</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Existência de comandas ativas, canceladas e de datas anteriores para contraste</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Cálculo exato ignorando dias anteriores e isolando itens não cancelados no faturamento / Realizado: Conforme previsto</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu49-comanda-cancelada-faturamento-zero">TU49 – Comanda cancelada - faturamento zero</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU49</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Comanda cancelada - faturamento zero</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Não gerar fatura ao cancelar comanda</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação de cancelar comanda</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não gerar fatura ao cancelar comanda / Realizado: Não gera fatura ao cancelar comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu50-fechamento-de-muitas-comandas-na-mesma-mesa">TU50 – Fechamento de muitas comandas na mesma mesa</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU50</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Fechamento de muitas comandas na mesma mesa</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Conseguir fechar diversas comandas na mesma mesa</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função de fechar comanda</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Conseguir fechar diversas comandas na mesma mesa / Realizado: Consegue fechar diversas comandas na mesma mesa</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu51-abrir-comanda-por-cozinha-deve-falhar">TU51 – Abrir comanda por cozinha deve falhar</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU51</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Abrir comanda por cozinha deve falhar</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Não permitir que a cozinha consiga gerar uma comanda</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de abrir comanda devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Cozinha não consegue abrir comanda / Realizado: Cozinha não consegue abrir comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu52-adicionar-item-por-cozinheiro-deve-falhar">TU52 – Adicionar item por cozinheiro deve falhar</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU52</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Adicionar item por cozinheiro deve falhar</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Não permitir que o usuário cozinha não consiga adicionar itens na comanda</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de adicionar item devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Cozinha não conseguir adicionar item / Realizado: Cozinha não consegue adicionar item</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu53-editar-comanda-edicao-por-cozinheiro">TU53 – Editar comanda - edição por cozinheiro</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU53</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar comanda - edição por cozinheiro</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o programa impede que o cozinheiro edite uma comanda</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função editar comanda</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Usuário cozinha não conseguiria editar uma comanda / Realizado: Usuário cozinha não consegue editar uma comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu54-enviar-comanda-por-cozinheiro-deve-falhar">TU54 – Enviar comanda por cozinheiro deve falhar</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU54</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Enviar comanda por cozinheiro deve falhar</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Cozinha não consegue enviar comanda</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de enviar comanda bem implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Cozinha não conseguir enviar comanda / Realizado: Cozinha não consegue enviar comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu55-fechar-comanda-por-cozinheiro-deve-falhar">TU55 – Fechar comanda por cozinheiro deve falhar</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU55</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Fechar comanda por cozinheiro deve falhar</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Cozinha não consegue fechar comanda</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de fechar comanda devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Cozinha não consegue fechar comanda / Realizado: Cozinha não consegue fechar comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu56-status-finalizado-bloqueia-alteracao">TU56 – Status finalizado bloqueia alteração</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU56</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Status finalizado bloqueia alteração</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Não permitir alteração na comanda com status finalizado</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação do status finalizado</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Bloquear alteração de comanda finalizada / Realizado: Bloqueia alteração de comanda finalizada</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu57-cadastrar-produto-negado-para-garcom">TU57 – Cadastrar produto - negado para garçom</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU57</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Cadastrar produto - negado para garçom</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Garçom não consegue cadastrar produto</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de cadastrar produto devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não permitir que garçom cadastre produto / Realizado: Não permite que garçom cadastre produto</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu58-cadastrar-produto-negado-para-cozinha">TU58 – Cadastrar produto - negado para cozinha</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU58</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Cadastrar produto - negado para cozinha</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Cozinha não consegue cadastrar produto</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de cadastrar produto devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não permitir que cozinha cadastre produto / Realizado: Não permite que cozinha cadastre produto</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu59-editar-produto-negado">TU59 – Editar produto - negado</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU59</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar produto - negado</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Negar edição do produto por usuários diferentes do administrador</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de editar produto devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Negar edição de produto por usuários que não sejam administradores / Realizado: Nega edição de produto por usuários que não são administradores</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu60-deletar-produto-negado">TU60 – Deletar produto - negado</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU60</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Deletar produto - negado</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Não permitir que usuários que não são administradores consigam deletar produtos</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de deletar produto devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não permitir que usuários que não são administradores deletem produtos / Realizado: Não permite que usuários que não são administradores deletem produtos</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu61-criar-mesa-com-capacidade-invalida">TU61 – Criar mesa com capacidade inválida</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU61</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Criar mesa com capacidade inválida</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Não permitir a criação de uma mesa com capacidade inválida</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de criar mesa devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não permitir criar mesas com capacidade inválida / Realizado: Não permite criar mesas com capacidade inválida</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu62-comanda-fantasma-inexistente-fechamento-zerado">TU62 – Comanda fantasma (inexistente) - fechamento zerado</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU62</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Comanda fantasma (inexistente) - fechamento zerado</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Ignorar comandas canceladas nas estatísticas diárias</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de estatísticas diárias devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Ignorar comandas canceladas no cálculo de estatísticas diárias / Realizado: Ignora comandas canceladas no cálculo de estatísticas diárias</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu63-usuario-comum-nao-pode-criar-mesa">TU63 – Usuário comum não pode criar mesa</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU63</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Usuário comum não pode criar mesa</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Não permitir que usuários que não sejam administradores criem mesa</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de criar mesa devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não permitir criação de mesa por usuário diferente de administrador / Realizado: Não permite criação de mesa por usuário diferente de administrador</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu64-editar-usuario-promover-para-admin-nao-permitido">TU64 – Editar usuário - promover para admin não permitido</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU64</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar usuário - promover para admin não permitido</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Não permite promover usuário à administrador</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação de verificação de usuário</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não ter como promover usuários comuns como admins / Realizado:</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu65-editar-proprio-admin-rebaixar-cargo-nao-permitido">TU65 – Editar próprio admin - rebaixar cargo não permitido</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU65</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar próprio admin - rebaixar cargo não permitido</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Não é permitido rebaixar o cargo de administrador</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de editar usuário devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não permitir rebaixar cargo de administrador / Realizado: Não permite rebaixar cargo de administrador</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu66-deletar-usuario-senha-admin-incorreta">TU66 – Deletar usuário - senha admin incorreta</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU66</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Deletar usuário - senha admin incorreta</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Não permitir administrador deletar usuário se a senha estiver incorreta</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de deletar usuário devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Administrador não conseguir deletar usuário se a senha estiver incorreta / Realizado: Administrador não consegue deletar usuário se a senha está incorreta</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu67-usuario-comum-nao-pode-deletar-usuario">TU67 – Usuário comum não pode deletar usuário</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU67</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Usuário comum não pode deletar usuário</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se um usuário comum não pode deletar outros</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Função de deletar usuário devidamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Usuário comum não conseguir deletar usuário / Realizado: Usuário comum não deleta usuário</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu68-admin-tentar-se-auto-deletar-nao-permitido">TU68 – Admin tentar se auto deletar - não permitido</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU68</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Admin tentar se auto deletar - não permitido</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Não permitir que administrador se delete</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica do administrador bem implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Não permitir que administrador se delete / Realizado: Não permite que administrador se delete</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu69-validar-cpf">TU69 – Validar CPF</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU69</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Validar CPF</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se é possível validar o CPF</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Implementação da função de validar CPF</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Consegui validar CPF / Realizado: Consegue validar CPF</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="tu70-contra-fluxo-status-comanda">TU70 – Contra fluxo - status comanda</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TU70</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Contra fluxo - status comanda</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se é possível voltar o status de um pedido</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Unitário</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica de fluxo bem implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Consegui voltar status do pedido / Realizado: Consegue voltar status do pedido</td>
+</tr>
+<tr>
+<td>---</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="testes-integrados">Testes Integrados</h2>
+<h3 id="ti01-integracao-entre-backend-e-banco-de-dados">TI01 – Integração entre backend e banco de dados</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI01</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Integração entre backend e banco de dados</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o sistema armazena corretamente dados do banco</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Banco de dados ativo e conexão configurada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: autenticação bem-sucedida / Realizado: autenticação foi bem-sucedida</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti02-integracao-entre-backend-e-frontend">TI02 – Integração entre backend e frontend</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI02</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Integração entre backend e frontend</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a interface consegue enviar e receber dados do programa</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Interface funcional e conectado à lógica do programa</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: autenticação bem-sucedida / Realizado: autenticação foi bem-sucedida</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti03-integracao-entre-abertura-de-comanda-e-banco-de-dados">TI03 – Integração entre abertura de comanda e banco de dados</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI03</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Integração entre abertura de comanda e banco de dados</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o ato de abrir a comanda está integrado com o banco de dados</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao abrir comanda / Realizado: Sucesso ao abrir comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti04-adicionar-item-na-comanda">TI04 – Adicionar Item na Comanda</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI04</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Adicionar Item na Comanda</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a função de adicionar item à comanda está de acordo</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao adicionar um item à comanda / Realizado: Sucesso ao adicionar um item à comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti05-listar-a-fila-da-cozinha-com-o-cozinheiro">TI05 – Listar a fila da cozinha com o cozinheiro</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI05</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar a fila da cozinha com o cozinheiro</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o cozinheiro consegue listar a fila da cozinha</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao listar a fila da cozinha como cozinheiro / Realizado: Sucesso ao listar a fila da cozinha como cozinheiro</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti06-listar-a-fila-da-cozinha-com-o-garcom">TI06 – Listar a fila da cozinha com o garçom</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI06</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar a fila da cozinha com o garçom</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o garçom consegue listar a fila da cozinha</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao listar a fila da cozinha como garçom / Realizado: Sucesso ao listar a fila da cozinha como garçom</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti07-fluxo-completo-da-comanda">TI07 – Fluxo completo da Comanda</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI07</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Fluxo completo da Comanda</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se todas as funções que abrangem a comanda estão integradas e funcionando</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Todas as lógicas necessárias perfeitamente implementadas</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso na depuração das funções / Realizado: Sucesso na depuração das funções</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti08-contrafluxo-status-comanda">TI08 – Contrafluxo Status Comanda</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI08</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Contrafluxo Status Comanda</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verifica se o garçom consegue restaurar um status acidentalmente alterado</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao restaurar status / Realizado: Sucesso ao restaurar status</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti09-tentar-alterar-status-apos-finalizado-falha">TI09 – Tentar alterar status após finalizado (falha)</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI09</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Tentar alterar status após finalizado (falha)</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se após a comanda estar com status de finalizada, é possível alterar o status ainda (esperado é não conseguir)</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao não conseguir alterar o status da comanda finalizada / Realizado: Sucesso ao não conseguir alterar o status da comanda finalizada</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti10-banco-de-dados-fantasma-comanda">TI10 – Banco de Dados Fantasma - Comanda</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI10</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Banco de Dados Fantasma - Comanda</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se é possível modificar as informações de uma comanda fantasma</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao modificar as informações de uma comanda fantasma / Realizado: Sucesso ao modificar as informações de uma comanda fantasma</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti11-alteracao-do-preco-do-produto-com-comanda-aberta-mantem-o-preco">TI11 – Alteração do Preço do Produto com Comanda Aberta mantém o preço</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI11</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Alteração do Preço do Produto com Comanda Aberta mantém o preço</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o preço do produto na comanda aberta não é alterado quando o preço do produto é modificado</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Preço mantido na comanda / Realizado: Preço mantido na comanda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti12-listar-produtos-com-sucesso">TI12 – Listar Produtos com Sucesso</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI12</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar Produtos com Sucesso</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a função de listar todos os produtos está funcionando perfeitamente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao listar os produtos / Realizado: Sucesso ao listar os produtos</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti13-cadastrar-produto-como-administrador">TI13 – Cadastrar Produto como Administrador</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI13</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Cadastrar Produto como Administrador</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o administrador consegue cadastrar um produto normalmente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao cadastrar um produto como administrador / Realizado: Sucesso ao cadastrar um produto como administrador</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti14-deletar-produto-como-garcom-acesso-negado">TI14 – Deletar Produto como Garçom (Acesso Negado)</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI14</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Deletar Produto como Garçom (Acesso Negado)</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se um garçom é capaz de deletar um produto (o esperado é não conseguir)</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao não conseguir deletar um produto como garçom / Realizado: Sucesso ao não conseguir deletar um produto como garçom</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti15-listar-produtos-por-categoria">TI15 – Listar Produtos por Categoria</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI15</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar Produtos por Categoria</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a função de listar produtos por categoria está funcionando normalmente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao listar produtos por categoria / Realizado: Sucesso ao listar produtos por categoria</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti16-editar-produto-como-administrador">TI16 – Editar Produto como Administrador</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI16</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar Produto como Administrador</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o administrador consegue editar um produto normalmente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao editar um produto como administrador / Realizado: Sucesso ao editar um produto como administrador</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti17-deletar-produto-como-administrador">TI17 – Deletar Produto como Administrador</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI17</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Deletar Produto como Administrador</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o administrador consegue deletar um produto normalmente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao deletar um produto como administrador / Realizado: Sucesso ao deletar um produto como administrador</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti18-listar-mesas-como-garcom">TI18 – Listar Mesas como Garçom</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI18</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar Mesas como Garçom</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o garçom é capaz de listar as mesas</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao listar mesas como garçom / Realizado: Sucesso ao listar mesas como garçom</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti19-criar-mesa-como-administrador">TI19 – Criar Mesa como Administrador</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI19</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Criar Mesa como Administrador</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o administrador consegue criar mesas normalmente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao criar mesa como administrador / Realizado: Sucesso ao criar mesa como administrador</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti20-criar-mesa-como-garcom-acesso-negado">TI20 – Criar Mesa como Garçom (Acesso Negado)</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI20</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Criar Mesa como Garçom (Acesso Negado)</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o garçom consegue criar mesas (o esperado é não conseguir)</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao não conseguir criar uma mesa como garçom / Realizado: Sucesso ao não conseguir criar uma mesa como garçom</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti21-editar-mesa-como-administrador">TI21 – Editar Mesa como Administrador</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI21</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar Mesa como Administrador</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o administrador consegue editar mesas normalmente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao editar mesa como administrador / Realizado: Sucesso ao editar mesa como administrador</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti22-deletar-mesa-com-comanda-ativa-deve-falhar">TI22 – Deletar Mesa com Comanda Ativa Deve Falhar</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI22</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Deletar Mesa com Comanda Ativa Deve Falhar</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se é possível deletar uma mesa com comanda ativa (o esperado é não conseguir)</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao não conseguir deletar uma mesa com comanda ativa / Realizado: Sucesso ao não conseguir deletar uma mesa com comanda ativa</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti23-tolerancia-de-dados-invalidos-de-capacidade-da-mesa">TI23 – Tolerância de Dados Inválidos de Capacidade da Mesa</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI23</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Tolerância de Dados Inválidos de Capacidade da Mesa</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a tolerância de dados inválidos atribuídos à capacidade de uma mesa está sendo atendida</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao atender a tolerância de dados inválidos de uma mesa / Realizado: Sucesso ao atender a tolerância de dados inválidos de uma mesa</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti24-login-bem-sucedido-retorna-dados-do-usuario">TI24 – Login Bem Sucedido Retorna Dados do Usuário</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI24</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Login Bem Sucedido Retorna Dados do Usuário</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se os dados do usuário estão retornando corretamente após um login bem sucedido</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso retornar os dados do usuário após um login bem-sucedido / Realizado: Sucesso retornar os dados do usuário após um login</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti25-acesso-negado-sem-login">TI25 – Acesso Negado Sem Login</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI25</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Acesso Negado Sem Login</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se caso o login não seja bem sucedido, o acesso será negado</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao não conseguir acessar o sistema após um login falho / Realizado: Sucesso ao não conseguir acessar o sistema após um login falho</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti26-logout-limpa-sessao">TI26 – Logout Limpa Sessão</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI26</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Logout Limpa Sessão</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se após um logout, a sessão é automaticamente limpa</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sessão limpa após logout / Realizado: Sessão limpa após logout</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti27-listar-usuarios-como-administrador">TI27 – Listar Usuários como Administrador</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI27</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar Usuários como Administrador</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o administrador consegue listar todos os usuários do sistema normalmente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao listar usuários como administrador / Realizado: Sucesso ao listar usuários como administrador</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti28-listar-usuarios-como-garcom-acesso-negado">TI28 – Listar Usuários como Garçom (Acesso Negado)</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI28</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Listar Usuários como Garçom (Acesso Negado)</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o garçom consegue listar os usuários do sistema (o esperado é não conseguir)</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao não conseguir listar usuários como garçom / Realizado: Sucesso ao não conseguir listar usuários como garçom</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti29-cadastrar-usuario">TI29 – Cadastrar Usuário</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI29</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Cadastrar Usuário</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se a função de cadastro de usuário está funcionando normalmente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao cadastrar um usuário / Realizado: Sucesso ao cadastrar um usuário</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti30-editar-usuario-como-administrador">TI30 – Editar Usuário como Administrador</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI30</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Editar Usuário como Administrador</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o administrador consegue editar um usuário normalmente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao editar um usuário como administrador / Realizado: Sucesso ao editar um usuário como administrador</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti31-deletar-o-proprio-usuario-de-administrador-bloqueado">TI31 – Deletar o Próprio Usuário de Administrador (Bloqueado)</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI31</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Deletar o Próprio Usuário de Administrador (Bloqueado)</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o administrador consegue deletar a si mesmo do sistema (o esperado é não conseguir)</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao não conseguir deletar a si mesmo / Realizado: Sucesso ao não conseguir deletar a si mesmo</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti32-finalizar-dia-como-administrador">TI32 – Finalizar Dia como Administrador</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI32</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Finalizar Dia como Administrador</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o administrador é capaz de encerrar o fluxo diário normalmente</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao finalizar o dia como administrador / Realizado: Sucesso ao finalizar o dia como administrador</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="ti33-banco-de-dados-fantasma-usuario">TI33 – Banco de Dados Fantasma - Usuário</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td>TI33</td>
+</tr>
+<tr>
+<td>Nome</td>
+<td>Banco de Dados Fantasma - Usuário</td>
+</tr>
+<tr>
+<td>Objetivo</td>
+<td>Verificar se o usuário consegue operar com um banco de dados fantasma</td>
+</tr>
+<tr>
+<td>Nível</td>
+<td>Integração</td>
+</tr>
+<tr>
+<td>Tipo</td>
+<td>Funcional</td>
+</tr>
+<tr>
+<td>Precondições</td>
+<td>Lógica perfeitamente implementada</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Aprovado</td>
+</tr>
+<tr>
+<td>Resultados</td>
+<td>Previsto: Sucesso ao conseguir operar um usuário com um banco de dados fantasma / Realizado: Sucesso ao conseguir operar um usuário com um banco de dados fantasma</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
