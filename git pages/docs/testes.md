@@ -591,71 +591,101 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU40 – Cadastro de segundo administrador impedido
+### TU40 – Listar Comandas por Status
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
 | Código         | TU40                                                                      |
+| Nome           | Listar Comandas por Status                                                |
+| Objetivo       | Listar comandas por sua situação de status da comanda                     |
+| Nível          | Unitário                                                                  |
+| Tipo           | Funcional                                                                 |
+| Precondições   | Método de criação de comandas                                             |
+| Estado         | Aprovado                                                                  |
+| Resultados     | Previsto: Lista todas as comandas por seus status / Realizado: Lista todas as comandas por seus status |
+
+---
+
+### TU41 – Cadastro de segundo administrador impedido
+
+| Campo          | Conteúdo                                                                  |
+|----------------|---------------------------------------------------------------------------|
+| Código         | TU41                                                                      |
 | Nome           | Cadastro de segundo administrador impedido                                |
 | Objetivo       | Impede a criação de um segundo administrador                              |
 | Nível          | Unitário                                                                  |
 | Tipo           | Funcional                                                                 |
-| Precondições   | Implementação da criação do tipo "administrador"                          |
+| Precondições   | Implementação da criação do tipo “administrador”                          |
 | Estado         | Aprovado                                                                  |
 | Resultados     | Previsto: Impedir a criação de um segundo administrador / Realizado: Impedir a criação de um segundo administrador |
 
 ---
 
-### TU41 – Usuário comum impedido de cadastrar usuário
+### TU42 – Usuário comum impedido de cadastrar usuário
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU41                                                                      |
+| Código         | TU42                                                                      |
 | Nome           | Usuário comum impedido de cadastrar usuário                               |
 | Objetivo       | Impedir que um usuário comum cadastre um novo usuário válido              |
 | Nível          | Unitário                                                                  |
 | Tipo           | Funcional                                                                 |
 | Precondições   | Implementação de função para cadastro de novo usuário                     |
 | Estado         | Aprovado                                                                  |
-| Resultados     | Previsto: Impedir a criação de um novo usuário por um usuário não administrador / Realizado: Impedir a criação de um novo usuário |
+| Resultados     | Previsto: Impedir a criação de um novo usuário por um usuário não administrador/comum / Realizado: Impedir a criação de um novo usuário |
 
 ---
 
-### TU42 – Editar usuário - promoção para admin não permitida
-
-*(Nota: TU42 foi renomeado no PDF, mas mantive a sequência conforme documento)*
-
----
-
-### TU43 – Editar próprio admin - rebaixar cargo não permitido
-
----
-
-### TU44 – Deletar usuário - senha admin incorreta
-
----
-
-### TU45 – Usuário comum não pode deletar usuário
-
----
-
-### TU46 – Admin tentar se auto deletar - não permitido
-
----
-
-### TU47 – Validar CPF
-
----
-
-### TU48 – Contra fluxo - status comanda
-
----
-
-### TU49 – Tempo decorrido
+### TU43 – Edição de senha de usuário
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU49                                                                      |
+| Código         | TU43                                                                      |
+| Nome           | Edição de senha de usuário                                                |
+| Objetivo       | Permite que usuário edite senha quando senha der como “incorreta”         |
+| Nível          | Unitário                                                                  |
+| Tipo           | Funcional                                                                 |
+| Precondições   | Implementação de função para cadastro de novo usuário                     |
+| Estado         | Aprovado                                                                  |
+| Resultados     | Previsto: Permite a possibilidade da edição de senha para um usuário / Realizado: Permite a possibilidade da edição de senha para um usuário |
+
+---
+
+### TU44 – Usuário comum impedido de editar usuário
+
+| Campo          | Conteúdo                                                                  |
+|----------------|---------------------------------------------------------------------------|
+| Código         | TU44                                                                      |
+| Nome           | Usuário comum impedido de editar usuário                                  |
+| Objetivo       | Impede que um usuário comum edite informações de um outro usuário         |
+| Nível          | Unitário                                                                  |
+| Tipo           | Funcional                                                                 |
+| Precondições   | Implementação de função para cadastro de novo usuário                     |
+| Estado         | Aprovado                                                                  |
+| Resultados     | Previsto: Impede que um usuário comum edite informações de outro usuário / Realizado: Impede que um usuário comum edite informações de outro usuário |
+
+---
+
+### TU45 – Impedimento que usuário comum delete outro usuário
+
+| Campo          | Conteúdo                                                                  |
+|----------------|---------------------------------------------------------------------------|
+| Código         | TU45                                                                      |
+| Nome           | Impedimento que usuário comum delete outro usuário                        |
+| Objetivo       | Negar a permissão de um usuário comum para deletar qualquer outro usuário |
+| Nível          | Unitário                                                                  |
+| Tipo           | Funcional                                                                 |
+| Precondições   | Implementação de função para cadastro de novo usuário                     |
+| Estado         | Aprovado                                                                  |
+| Resultados     | Previsto: Impede que um usuário comum delete outro usuário / Realizado: Impede que um usuário comum delete outro usuário |
+
+---
+
+### TU46 – Tempo decorrido
+
+| Campo          | Conteúdo                                                                  |
+|----------------|---------------------------------------------------------------------------|
+| Código         | TU46                                                                      |
 | Nome           | Tempo decorrido                                                           |
 | Objetivo       | Verificar a precisão do cálculo cronológico (subtração e fuso horário) do tempo de cozinha |
 | Nível          | Unitário                                                                  |
@@ -666,26 +696,26 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU50 – Cancelar comanda via edição
+### TU47 – Cancelar comanda via edição
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU50                                                                      |
+| Código         | TU47                                                                      |
 | Nome           | Cancelar comanda via edição                                               |
 | Objetivo       | Cancelar comanda por edição dela                                          |
 | Nível          | Unitário                                                                  |
 | Tipo           | Funcional                                                                 |
 | Precondições   | Implementação da função de editar comanda                                 |
 | Estado         | Aprovado                                                                  |
-| Resultados     | Previsto: Conseguir cancelar comanda na edição / Realizado: Consegue      |
+| Resultados     | Previsto: Conseguir cancelar comanda na edição / Realizado: Consegue cancelar comanda na edição |
 
 ---
 
-### TU51 – Estatísticas diárias
+### TU48 – Estatísticas diárias
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU51                                                                      |
+| Código         | TU48                                                                      |
 | Nome           | Estatísticas diárias                                                      |
 | Objetivo       | Verificar a filtragem precisa de dados financeiros e operacionais isolados para o dia atual |
 | Nível          | Unitário                                                                  |
@@ -696,11 +726,11 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU52 – Comanda cancelada - faturamento zero
+### TU49 – Comanda cancelada - faturamento zero
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU52                                                                      |
+| Código         | TU49                                                                      |
 | Nome           | Comanda cancelada - faturamento zero                                      |
 | Objetivo       | Não gerar fatura ao cancelar comanda                                      |
 | Nível          | Unitário                                                                  |
@@ -711,11 +741,11 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU53 – Fechamento de muitas comandas na mesma mesa
+### TU50 – Fechamento de muitas comandas na mesma mesa
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU53                                                                      |
+| Código         | TU50                                                                      |
 | Nome           | Fechamento de muitas comandas na mesma mesa                               |
 | Objetivo       | Conseguir fechar diversas comandas na mesma mesa                          |
 | Nível          | Unitário                                                                  |
@@ -726,11 +756,11 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU54 – Abrir comanda por cozinha deve falhar
+### TU51 – Abrir comanda por cozinha deve falhar
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU54                                                                      |
+| Código         | TU51                                                                      |
 | Nome           | Abrir comanda por cozinha deve falhar                                     |
 | Objetivo       | Não permitir que a cozinha consiga gerar uma comanda                      |
 | Nível          | Unitário                                                                  |
@@ -741,26 +771,26 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU55 – Adicionar item por cozinheiro deve falhar
+### TU52 – Adicionar item por cozinheiro deve falhar
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU55                                                                      |
+| Código         | TU52                                                                      |
 | Nome           | Adicionar item por cozinheiro deve falhar                                 |
 | Objetivo       | Não permitir que o usuário cozinha não consiga adicionar itens na comanda |
 | Nível          | Unitário                                                                  |
 | Tipo           | Funcional                                                                 |
 | Precondições   | Função de adicionar item devidamente implementada                         |
 | Estado         | Aprovado                                                                  |
-| Resultados     | Previsto: Cozinha não consegue adicionar item / Realizado: Cozinha não consegue adicionar item |
+| Resultados     | Previsto: Cozinha não conseguir adicionar item / Realizado: Cozinha não consegue adicionar item |
 
 ---
 
-### TU56 – Editar comanda - edição por cozinheiro
+### TU53 – Editar comanda - edição por cozinheiro
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU56                                                                      |
+| Código         | TU53                                                                      |
 | Nome           | Editar comanda - edição por cozinheiro                                    |
 | Objetivo       | Verificar se o programa impede que o cozinheiro edite uma comanda         |
 | Nível          | Unitário                                                                  |
@@ -771,11 +801,11 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU57 – Enviar comanda por cozinheiro deve falhar
+### TU54 – Enviar comanda por cozinheiro deve falhar
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU57                                                                      |
+| Código         | TU54                                                                      |
 | Nome           | Enviar comanda por cozinheiro deve falhar                                 |
 | Objetivo       | Cozinha não consegue enviar comanda                                       |
 | Nível          | Unitário                                                                  |
@@ -786,26 +816,26 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU58 – Fechar comanda por cozinheiro deve falhar
+### TU55 – Fechar comanda por cozinheiro deve falhar
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU58                                                                      |
+| Código         | TU55                                                                      |
 | Nome           | Fechar comanda por cozinheiro deve falhar                                 |
 | Objetivo       | Cozinha não consegue fechar comanda                                       |
 | Nível          | Unitário                                                                  |
 | Tipo           | Funcional                                                                 |
 | Precondições   | Função de fechar comanda devidamente implementada                         |
 | Estado         | Aprovado                                                                  |
-| Resultados     | Previsto: Cozinha não conseguir fechar comanda / Realizado: Cozinha não consegue fechar comanda |
+| Resultados     | Previsto: Cozinha não consegue fechar comanda / Realizado: Cozinha não consegue fechar comanda |
 
 ---
 
-### TU59 – Status finalizado bloqueia alteração
+### TU56 – Status finalizado bloqueia alteração
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU59                                                                      |
+| Código         | TU56                                                                      |
 | Nome           | Status finalizado bloqueia alteração                                      |
 | Objetivo       | Não permitir alteração na comanda com status finalizado                   |
 | Nível          | Unitário                                                                  |
@@ -816,11 +846,11 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU60 – Cadastrar produto - negado para garçom
+### TU57 – Cadastrar produto - negado para garçom
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU60                                                                      |
+| Código         | TU57                                                                      |
 | Nome           | Cadastrar produto - negado para garçom                                    |
 | Objetivo       | Garçom não consegue cadastrar produto                                     |
 | Nível          | Unitário                                                                  |
@@ -831,11 +861,11 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU61 – Cadastrar produto - negado para cozinha
+### TU58 – Cadastrar produto - negado para cozinha
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU61                                                                      |
+| Código         | TU58                                                                      |
 | Nome           | Cadastrar produto - negado para cozinha                                   |
 | Objetivo       | Cozinha não consegue cadastrar produto                                    |
 | Nível          | Unitário                                                                  |
@@ -846,11 +876,11 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU62 – Editar produto - negado
+### TU59 – Editar produto - negado
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU62                                                                      |
+| Código         | TU59                                                                      |
 | Nome           | Editar produto - negado                                                   |
 | Objetivo       | Negar edição do produto por usuários diferentes do administrador          |
 | Nível          | Unitário                                                                  |
@@ -861,26 +891,26 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU63 – Deletar produto - negado
+### TU60 – Deletar produto - negado
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU63                                                                      |
+| Código         | TU60                                                                      |
 | Nome           | Deletar produto - negado                                                  |
 | Objetivo       | Não permitir que usuários que não são administradores consigam deletar produtos |
 | Nível          | Unitário                                                                  |
 | Tipo           | Funcional                                                                 |
 | Precondições   | Função de deletar produto devidamente implementada                        |
 | Estado         | Aprovado                                                                  |
-| Resultados     | Previsto: Negar deletar produto para não administradores / Realizado: Nega deletar produto para não administradores |
+| Resultados     | Previsto: Não permitir que usuários que não são administradores deletem produtos / Realizado: Não permite que usuários que não são administradores deletem produtos |
 
 ---
 
-### TU64 – Criar mesa com capacidade inválida
+### TU61 – Criar mesa com capacidade inválida
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU64                                                                      |
+| Código         | TU61                                                                      |
 | Nome           | Criar mesa com capacidade inválida                                        |
 | Objetivo       | Não permitir a criação de uma mesa com capacidade inválida                |
 | Nível          | Unitário                                                                  |
@@ -891,11 +921,11 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU65 – Comanda fantasma (inexistente) - fechamento zerado
+### TU62 – Comanda fantasma (inexistente) - fechamento zerado
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU65                                                                      |
+| Código         | TU62                                                                      |
 | Nome           | Comanda fantasma (inexistente) - fechamento zerado                        |
 | Objetivo       | Ignorar comandas canceladas nas estatísticas diárias                      |
 | Nível          | Unitário                                                                  |
@@ -906,11 +936,26 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU66 – Editar usuário - promover para admin não permitido
+### TU63 – Usuário comum não pode criar mesa
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU66                                                                      |
+| Código         | TU63                                                                      |
+| Nome           | Usuário comum não pode criar mesa                                         |
+| Objetivo       | Não permitir que usuários que não sejam administradores criem mesa        |
+| Nível          | Unitário                                                                  |
+| Tipo           | Funcional                                                                 |
+| Precondições   | Função de criar mesa devidamente implementada                             |
+| Estado         | Aprovado                                                                  |
+| Resultados     | Previsto: Não permitir criação de mesa por usuário diferente de administrador / Realizado: Não permite criação de mesa por usuário diferente de administrador |
+
+---
+
+### TU64 – Editar usuário - promover para admin não permitido
+
+| Campo          | Conteúdo                                                                  |
+|----------------|---------------------------------------------------------------------------|
+| Código         | TU64                                                                      |
 | Nome           | Editar usuário - promover para admin não permitido                        |
 | Objetivo       | Não permite promover usuário à administrador                              |
 | Nível          | Unitário                                                                  |
@@ -921,26 +966,26 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU67 – Editar próprio admin - rebaixar cargo não permitido
+### TU65 – Editar próprio admin - rebaixar cargo não permitido
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU67                                                                      |
+| Código         | TU65                                                                      |
 | Nome           | Editar próprio admin - rebaixar cargo não permitido                       |
 | Objetivo       | Não é permitido rebaixar o cargo de administrador                         |
 | Nível          | Unitário                                                                  |
 | Tipo           | Funcional                                                                 |
 | Precondições   | Função de editar usuário devidamente implementada                         |
 | Estado         | Aprovado                                                                  |
-| Resultados     | Previsto: Não permitir rebaixar admin / Realizado: Não permite rebaixar admin |
+| Resultados     | Previsto: Não permitir rebaixar cargo de administrador / Realizado: Não permite rebaixar cargo de administrador |
 
 ---
 
-### TU68 – Deletar usuário - senha admin incorreta
+### TU66 – Deletar usuário - senha admin incorreta
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU68                                                                      |
+| Código         | TU66                                                                      |
 | Nome           | Deletar usuário - senha admin incorreta                                   |
 | Objetivo       | Não permitir administrador deletar usuário se a senha estiver incorreta   |
 | Nível          | Unitário                                                                  |
@@ -951,11 +996,11 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU69 – Usuário comum não pode deletar usuário
+### TU67 – Usuário comum não pode deletar usuário
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU69                                                                      |
+| Código         | TU67                                                                      |
 | Nome           | Usuário comum não pode deletar usuário                                    |
 | Objetivo       | Verificar se um usuário comum não pode deletar outros                     |
 | Nível          | Unitário                                                                  |
@@ -966,11 +1011,11 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU70 – Admin tentar se auto deletar - não permitido
+### TU68 – Admin tentar se auto deletar - não permitido
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU70                                                                      |
+| Código         | TU68                                                                      |
 | Nome           | Admin tentar se auto deletar - não permitido                              |
 | Objetivo       | Não permitir que administrador se delete                                  |
 | Nível          | Unitário                                                                  |
@@ -981,34 +1026,33 @@ Este documento consolida todos os testes unitários e integrados realizados no s
 
 ---
 
-### TU71 – Validar CPF
+### TU69 – Validar CPF
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU71                                                                      |
+| Código         | TU69                                                                      |
 | Nome           | Validar CPF                                                               |
 | Objetivo       | Verificar se é possível validar o CPF                                     |
 | Nível          | Unitário                                                                  |
 | Tipo           | Funcional                                                                 |
 | Precondições   | Implementação da função de validar CPF                                    |
 | Estado         | Aprovado                                                                  |
-| Resultados     | Previsto: Conseguir validar CPF / Realizado: Consegue validar CPF         |
+| Resultados     | Previsto: Consegui validar CPF / Realizado: Consegue validar CPF          |
 
 ---
 
-### TU72 – Contra fluxo - status comanda
+### TU70 – Contra fluxo - status comanda
 
 | Campo          | Conteúdo                                                                  |
 |----------------|---------------------------------------------------------------------------|
-| Código         | TU72                                                                      |
+| Código         | TU70                                                                      |
 | Nome           | Contra fluxo - status comanda                                             |
 | Objetivo       | Verificar se é possível voltar o status de um pedido                      |
 | Nível          | Unitário                                                                  |
 | Tipo           | Funcional                                                                 |
 | Precondições   | Lógica de fluxo bem implementada                                          |
 | Estado         | Aprovado                                                                  |
-| Resultados     | Previsto: Conseguir voltar status do pedido / Realizado: Consegue voltar status do pedido |
-
+| Resultados     | Previsto: Consegui voltar status do pedido / Realizado: Consegue voltar status do pedido |
 ---
 
 ## Testes Integrados
